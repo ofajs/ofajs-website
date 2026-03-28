@@ -49,6 +49,7 @@
       animation: fadein 0.1s ease-in-out;
     }
   </style>
+  <script type="module" src="../../js/util.js"></script>
 </head>
 
 <body>
@@ -71,16 +72,16 @@
       <article class="markdown-body">
         <h1>スクリプトの導入</h1>
         <p>ofa.jsは、scriptタグを通じて直接導入して使用することができます。HTMLファイルの<code>&lt;head&gt;</code>または<code>&lt;body&gt;</code>部分に以下のコードを追加するだけです：</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <h2>基本使用</h2>
         <p>スクリプトを導入すると、ofa.jsはグローバルスコープに<code>$</code>変数を作成し、すべてのコア機能はこのオブジェクトを通じて提供されます。このオブジェクトを通じてofa.jsの様々なメソッドやプロパティにアクセスできます。今後のチュートリアルでは、その具体的な使用方法について詳しく説明します。</p>
         <h2>デバッグモード</h2>
         <p>開発中、スクリプト URL の後に <code>#debug</code> パラメータを追加することで、デバッグモードを有効にできます：</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs#debug&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs#debug&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <p>デバッグモードはソースマップ機能を有効にし、ブラウザの開発者ツールでファイルの元のソースコードを直接表示およびデバッグできるようにし、開発効率を大幅に向上させます。</p>
         <h2>ESMモジュール</h2>
         <p>ofa.jsはESMモジュールでのインポートもサポートしています。プロジェクト内で<code>import</code>文を使ってofa.jsをインポートできます：</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&#x27;</span>;</code></pre>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&#x27;</span>;</code></pre>
         <p>ESM モジュールを使用する場合、コード内で <code>$</code> 変数を直接使用でき、グローバルスコープを介してアクセスする必要はありません。</p>
       </article>
       <div class="footer"></div>

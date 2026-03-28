@@ -72,16 +72,16 @@
       <article class="markdown-body">
         <h1>脚本引入</h1>
         <p>ofa.js 支持通过 script 标签直接引入使用。只需在 HTML 文件的 <code>&lt;head&gt;</code> 或 <code>&lt;body&gt;</code> 部分添加以下代码：</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <h2>基本使用</h2>
         <p>引入脚本后，ofa.js 会在全局作用域创建一个 <code>$</code> 变量，所有核心功能都通过该对象提供。您可以通过这个对象访问 ofa.js 的各种方法和属性。后续教程将详细介绍其具体用法。</p>
         <h2>调试模式</h2>
         <p>在开发过程中，您可以通过在脚本 URL 后添加 <code>#debug</code> 参数来启用调试模式：</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs#debug&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs#debug&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <p>调试模式会启用 source map 功能，使您能够在浏览器开发者工具中，直接查看和调试文件的原始源代码，从而大幅提升开发效率。</p>
         <h2>ESM 模块</h2>
         <p>ofa.js 还支持通过 ESM 模块引入。您可以在您的项目中使用 <code>import</code> 语句来引入 ofa.js：</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&#x27;</span>;</code></pre>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&#x27;</span>;</code></pre>
         <p>使用 ESM 模块时，您可以直接在代码中使用 <code>$</code> 变量，无需通过全局作用域访问。</p>
       </article>
       <div class="footer"></div>
