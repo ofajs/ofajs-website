@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Component</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Create Component</h1>
+        <p>In ofa.js, components are the core mechanism for achieving page reuse and modularity. A component is essentially a custom Web Component that defines its own template, styles, and logic, enabling the creation of reusable UI elements.</p>
+        <h2>Basic Component Structure</h2>
+        <p>Unlike page modules, component modules use the <code>component</code> attribute in the <code>&lt;template&gt;</code> element and declare a <code>tag</code> attribute to specify the component tag name.</p>
+        <p>At the location where a component needs to be used, asynchronously load the component module through the <code>l-m</code> tag, and the system will automatically complete the registration; you can then use the component directly like a regular HTML tag.</p>
+        <o-playground name="Component Basic Example" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 10px;
+        }
+      </style>
+      <h3>{{title}}</h3>
+      <script>
+        export default async () => {
+          return {
+            tag: "demo-comp",
+            data: {
+              title: "OFAJS Component Example",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Component Core Concepts</h2>
+        <h3>tag - Component tag name</h3>
+        <p><code>tag</code> is the component&#39;s tag name, <strong>which must be consistent with the tag name used in the component</strong>. For example, if your component&#39;s <code>tag</code> is defined as <code>&quot;demo-comp&quot;</code>, then when used in HTML, you must write <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>.</p>
+        <h3>Component Module Reference</h3>
+        <p>Use the <code>l-m</code> tag to import a component module; the component will be auto-registered. It works like a <code>script</code> tag but is dedicated to loading and registering component modules.</p>
+        <blockquote>
+          <p>Note: The <code>l-m</code> reference tag is an <strong>asynchronous reference</strong>, suitable for loading components on demand when the page loads.</p>
+        </blockquote>
+        <h2>Sync Quote Component</h2>
+        <p>In some scenarios, you may need to load a component synchronously (e.g., to ensure it is fully registered before use). Use the <code>load</code> method with the <code>await</code> keyword to achieve synchronous referencing.</p>
+        <p>In both component modules and page modules, the <code>load</code> function is automatically injected to allow developers to synchronously load required resources.</p>
+        <o-playground name="Synchronous Component Reference Example" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <div>
+        <demo-comp></demo-comp>
+      </div>
+      <script>
+        // eslint-disable-next-line
+        export default async ({ load }) => {
+          await load("./demo-comp.html");
+          return {
+            data: {},
+            proto: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 10px;
+        }
+      </style>
+      <h3>{{title}}</h3>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            data: {
+              title: "OFAJS Component Example",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Asynchronous Reference vs Synchronous Reference</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Quotation Method</th>
+              <th>Keywords</th>
+              <th>Characteristics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Asynchronous Reference</td>
+              <td><code>l-m</code> tag</td>
+              <td>Non-blocking loading, suitable for on-demand component loading</td>
+            </tr>
+            <tr>
+              <td>Synchronous Reference</td>
+              <td><code>load</code> method with <code>await</code> keyword</td>
+              <td>Blocking loading, ensures components are registered before use</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

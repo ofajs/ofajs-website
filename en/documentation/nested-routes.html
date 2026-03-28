@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nested Pages/Routes</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Nested Pages/Routes</h1>
+        <p>In ofa.js, nested pages (also known as nested routes) are a powerful feature that allows you to create page structures with parent-child hierarchies. The parent page acts as a layout container, rendering the child page&#39;s content through a <code>&lt;slot&gt;</code> element.</p>
+        <h2>Basic Concepts</h2>
+        <ul>
+          <li><strong>Parent page (Layout)</strong>: A page that acts as a layout container, including shared UI elements such as navigation bars and sidebars.</li>
+          <li><strong>Child page</strong>: The actual business page content, rendered into the <code>&lt;slot&gt;</code> of the parent page.</li>
+        </ul>
+        <h2>How to Write a Parent Page</h2>
+        <p>The parent page needs to use the <code>&lt;slot&gt;&lt;/slot&gt;</code> tag to reserve a rendering position for the child page.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- layout.html --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+    ...
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>How to Write Sub-pages</h2>
+        <p>Sub-pages specify the parent page path by exporting the <code>parent</code> property.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{val}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;layout.html&#x27;</span>; <span class="hljs-comment">// ⚠️ Key code</span>
+
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hello ofa.js Demo Code&quot;</span>,
+        },
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>Nested Page Example</h2>
+        <p>Below is a complete nested-routing example that includes a root layout, a parent page, and a child page:</p>
+        <o-playground name="Nested Pages Example" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-app src="./app-config.js" style="height:96%;"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js" unimportant>
+    // Application home page URL
+    export const home = "./sub-page01.html";
+    // Page transition animation configuration
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="layout.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px dashed green;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          min-height: 200px;
+        }
+        header {
+          padding: 10px;
+        }
+        nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+        nav li {
+          display: inline-block;
+          padding: 5px 10px;
+          margin-right: 20px;
+          border-radius: 4px;
+        }
+        nav li.active {
+          background-color: rgb(158, 4, 4);
+        }
+        nav li a {
+          text-decoration: none;
+        }
+        .main {
+          flex: 1;
+          padding: 20px;
+        }
+      </style>
+      <div class="container">
+        <header>
+          <nav>
+            <ul>
+              <li class:active="active1">
+                <a href="./sub-page01.html" olink>Page 1</a>
+              </li>
+              <li class:active="active2">
+                <a href="./sub-page02.html" olink>Page 2</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <div class="main">
+          <slot></slot>
+        </div>
+      </div>
+      <script>
+        export default () => {
+          return {
+            data: {
+              active1: false,
+              active2: false,
+            },
+            routerChange() {
+              this.refreshActive();
+            },
+            ready() {
+              this.refreshActive();
+            },
+            proto: {
+              refreshActive() {
+                const { current } = this.app;
+                const path = new URL(current.src).pathname;
+                this.active1 = path.includes('sub-page01');
+                this.active2 = path.includes('sub-page02');
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page01.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid pink;
+          padding: 10px;
+        }
+      </style>
+      <h1>I am Sub Page 1</h1>
+      <p>Current Route: {{src}}</p>
+      <a href="./sub-page02.html" olink>Go to Page 2</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page02.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h1>I am Sub Page 2</h1>
+      <p>Current Route: {{src}}</p>
+      <a href="./sub-page01.html" olink>Go to Page 1</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Parent Page Route Listener</h2>
+        <p>The parent page can listen for route changes via the <code>routerChange</code> lifecycle hook, which is useful when you need to update navigation state based on the current route.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">active1</span>: <span class="hljs-literal">false</span>,
+          <span class="hljs-attr">active2</span>: <span class="hljs-literal">false</span>,
+        },
+        <span class="hljs-title function_">routerChange</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">refreshActive</span>();
+        },
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">refreshActive</span>();
+        },
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">refreshActive</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-keyword">const</span> { current } = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>;
+            <span class="hljs-keyword">const</span> path = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(current.<span class="hljs-property">src</span>).<span class="hljs-property">pathname</span>;
+            
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">active1</span> = path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;page1&#x27;</span>);
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">active2</span> = path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;page2&#x27;</span>);
+          },
+        },
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>Notes</h2>
+        <ul>
+          <li>The <code>parent</code> attribute value can be a relative path (e.g., <code>./layout.html</code>) or an absolute path (e.g., <code>/pages/layout.html</code>)</li>
+          <li>The parent page must contain a <code>&lt;slot&gt;&lt;/slot&gt;</code> tag, otherwise the child page content will not be displayed</li>
+          <li>Styles from the parent page will be inherited by the child page, and the child page can also define its own styles</li>
+          <li>Using the <code>routerChange</code> hook allows you to listen for route changes and implement features like navigation highlighting</li>
+        </ul>
+        <h2>Multi-level nesting</h2>
+        <p>A parent page can also have its own parent page, forming a multi-level nested structure.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Child Page --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Child page content<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;./parent.html&#x27;</span>;
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+      <span class="hljs-keyword">return</span> { <span class="hljs-attr">data</span>: {} };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Parent Page --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;layout&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>Navigation Bar<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;./root-layout.html&#x27;</span>;
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+      <span class="hljs-keyword">return</span> { <span class="hljs-attr">data</span>: {} };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>Multi-level Nested Example</h2>
+        <o-playground name="Complete Nested Routing Example" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-app src="./app-config.js" style="height:96%;"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js" unimportant>
+    // Application home page address
+    export const home = "./sub-page01.html";
+    // Page transition animation configuration
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="root-layout.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          border: 1px dashed gray;
+        }
+        .root {
+          height: 100%;
+          word-break: break-word;
+          padding: 10px;
+        }
+      </style>
+      <div style="text-align: center;font-weight: bold;">Root Layout</div>
+      <div class="root">
+        <slot></slot>
+      </div>
+      <script>
+        export default () => {
+          return { data: {} };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="layout.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px dashed green;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          min-height: 200px;
+        }
+        header {
+          padding: 10px;
+        }
+        nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+        nav li {
+          display: inline-block;
+          padding: 5px 10px;
+          margin-right: 20px;
+          border-radius: 4px;
+        }
+        nav li.active {
+          background-color: rgb(158, 4, 4);
+        }
+        nav li a {
+          text-decoration: none;
+        }
+        .main {
+          flex: 1;
+          padding: 20px;
+        }
+      </style>
+      <div class="container">
+        <header>
+          <nav>
+            <ul>
+              <li class:active="active1">
+                <a href="./sub-page01.html" olink>Page 1</a>
+              </li>
+              <li class:active="active2">
+                <a href="./sub-page02.html" olink>Page 2</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <div class="main">
+          <slot></slot>
+        </div>
+      </div>
+      <script>
+        export const parent = "./root-layout.html";
+        export default () => {
+          return {
+            data: {
+              active1: false,
+              active2: false,
+            },
+            routerChange() {
+              this.refreshActive();
+            },
+            ready() {
+              this.refreshActive();
+            },
+            proto: {
+              refreshActive() {
+                const { current } = this.app;
+                const path = new URL(current.src).pathname;
+                this.active1 = path.includes('sub-page01');
+                this.active2 = path.includes('sub-page02');
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page01.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid pink;
+          padding: 10px;
+        }
+      </style>
+      <h1>This is Sub-Page 1</h1>
+      <p>Current Route: {{src}}</p>
+      <a href="./sub-page02.html" olink>Go to Page 2</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page02.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h1>This is Sub-Page 2</h1>
+      <p>Current Route: {{src}}</p>
+      <a href="./sub-page01.html" olink>Go to Page 1</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>extend</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>extend</h1>
+        <p><code>extend</code> 是一个高阶方法，用于扩展实例的属性或方法。</p>
+        <blockquote>
+          <p>通常情况下，不建议用户扩展实例的属性或方法，因为这会增加学习成本。除非团队内有特殊场景需要自定义实例的行为，否则不建议这样做。</p>
+        </blockquote>
+        <o-playground name="extend - 扩展实例" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
+      </ul>
+      <div id="logger">logger</div>
+      <script>
+        const target = $("#target");
+        target.extend({
+          get good(){
+            return "ofa.js is good";
+          },
+          say(){
+            return 'hello';
+          }
+        });
+        setTimeout(() => {
+          const target = $("#target");
+          \$("#logger").html = `
+          good : ${target.good} <br>
+          say() : ${target.say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>扩展 $ 底层</h2>
+        <p>和 jQuery 类似，你也可以通过 fn.extend 扩展底层实例的属性或方法；从 fn 扩展的属性或方法会应用到所有实例上。</p>
+        <o-playground name="extend - 扩展底层" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
+      </ul>
+      <div id="logger">logger</div>
+      <script>
+        \$.fn.extend({
+          get good(){
+            return "ofa.js is good";
+          },
+          say(){
+            return 'hello';
+          }
+        });
+        setTimeout(() => {
+          \$("#logger").html = `
+          target good : ${$("#target").good} <br>
+          logger say() : ${$("#logger").say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>扩展模板语法</h2>
+        <p>通过 <code>extend</code> 扩展属性或函数，可以增加模板语法的功能，甚至为组件提供专属的模板语法糖。但需要注意的是，尽量<strong>不要使用</strong>非官方的模板语法，因为它们会给使用者带来一定的学习成本，并且大量非官方模板语法糖会降低开发体验。</p>
+        <h3>扩展属性</h3>
+        <p>你可以通过扩展属性，在模板中使用 <code>:</code> 来进行设置。下面我们将扩展一个 <code>red</code> 属性，当 <code>red</code> 为 <code>true</code> 时，字体颜色变为红色：</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;red&quot;</span>;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});</code></pre><o-playground name="extend - 扩展属性" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-one.html"></l-m>
+      <temp-one></temp-one>
+      <script>
+        \$.fn.extend({
+          set red(bool){
+            if(bool){
+              this.css.color = "red";
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+          <code path="temp-one.html">
+    <template component>
+      <button on:click="addCount">Add Count</button>
+      <div :red="count % 3">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-one",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在这个示例中，我们为模板语法添加了一个 <code>red</code> 属性，当 <code>count % 3</code> 不为 0 时，字体颜色将变为红色。</p>
+        <h3>扩展方法</h3>
+        <p>你还可以通过 <code>extend</code> 扩展方法，使其在模板语法中可用。方法名称就是冒号前的部分。在这里，我们扩展了一个 <code>color</code> 模板语法，后面跟着的参数将被传递给定义的扩展方法。</p>
+        <p>此处设置了 <code>always</code> 属性为 <code>true</code>，表示在组件每次需要刷新界面的时机时，都会调用这个定义好的方法。如果不设置 <code>always</code>，那么这个模板语法函数只会运行一次。</p>
+        <p>其中，<code>options</code> 提供了更多的参数，可以帮助你开发更具定制性的模板语法：</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
+    <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = value;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});
+
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - 扩展方法" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-two.html"></l-m>
+      <temp-two></temp-two>
+      <script>
+        \$.fn.extend({
+          color(color, func, options){
+            const bool = func();
+            if(bool){
+              this.css.color = color;
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+        \$.fn.color.always = true;
+      </script>
+    </template>
+  </code>
+          <code path="temp-two.html">
+    <template component>
+      <button on:click="addCount" color:blue="count % 3">Add Count</button>
+      <div color:red="!(count % 3)">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-two",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>模板语法原理</h2>
+        <p>到目前为止，你应该已经能够理解，ofa.js 上的许多模板语法实际上是通过 <code>extend</code> 扩展出来的：</p>
+        <ul>
+          <li><code>class</code>、<code>attr</code> 方法每次刷新视图都会运行</li>
+          <li><code>on</code>、<code>one</code> 这种函数绑定只会运行一次</li>
+        </ul>
+        <p>你可以查看下面的示例来更好地理解 ofa.js 的模板渲染原理：</p>
+        <o-playground name="extend - 模板语法原理" style="--editor-height: 480px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./temp-three.html"></l-m>
+      <temp-three></temp-three>
+    </template>
+  </code>
+          <code path="temp-three.html" active>
+    <template component>
+      <div>class always => {{classalways}}</div>
+      <div>attr always => {{attralways}}</div>
+      <div>on always => {{onalways}}</div>
+      <script>
+        export default {
+          tag: "temp-three",
+          data: {
+            classalways:"",
+            attralways:"",
+            onalways:""
+          },
+          ready(){
+            this.classalways = $.fn.class.always;
+            this.attralways = $.fn.attr.always;
+            this.onalways = !!$.fn.on.always;
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

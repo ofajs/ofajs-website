@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crear componente</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Crear componente</h1>
+        <p>En ofa.js, los componentes son el mecanismo central para lograr la reutilización de páginas y la modularidad. Un componente esencialmente es un Web Component personalizado; mediante la definición de plantillas, estilos y lógica, se pueden crear elementos de interfaz de usuario reutilizables.</p>
+        <h2>Estructura básica del componente</h2>
+        <p>A diferencia de los módulos de página, los módulos de componentes utilizan el atributo <code>component</code> en el elemento <code>&lt;template&gt;</code>, y declaran el atributo <code>tag</code> para especificar el nombre de la etiqueta del componente.</p>
+        <p>En la posición donde se necesite usar el componente, a través de la etiqueta <code>l-m</code> se carga asincrónicamente el módulo del componente, y el sistema completará automáticamente el registro; posteriormente se podrá usar directamente el componente de la misma manera que una etiqueta HTML común.</p>
+        <o-playground name="Ejemplo Básico de Componente" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 10px;
+        }
+      </style>
+      <h3>{{title}}</h3>
+      <script>
+        export default async () => {
+          return {
+            tag: "demo-comp",
+            data: {
+              title: "Ejemplo de Componente OFAJS",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Conceptos centrales de componentes</h2>
+        <h3>tag - Nombre de etiqueta del componente</h3>
+        <p><code>tag</code> es el nombre de etiqueta del componente, <strong>debe coincidir exactamente con la etiqueta usada al emplear el componente</strong>. Por ejemplo, si el <code>tag</code> de tu componente se define como <code>&quot;demo-comp&quot;</code>, entonces al usarlo en HTML deberás escribir <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>.</p>
+        <h3>Referencia del Módulo de Componentes</h3>
+        <p>Introduce módulos de componentes a través de la etiqueta <code>l-m</code>, y los módulos de componentes se registrarán automáticamente. Esto es similar a usar la etiqueta <code>script</code> para importar scripts, pero <code>l-m</code> está dedicado específicamente a la carga y registro de módulos de componentes.</p>
+        <blockquote>
+          <p>Nota: la etiqueta de referencia <code>l-m</code> es una <strong>referencia asíncrona</strong>, adecuada para cargar componentes bajo demanda durante la carga de la página.</p>
+        </blockquote>
+        <h2>Componente de Referencia Sincronizada</h2>
+        <p>En ciertos escenarios, es posible que necesites cargar componentes de manera síncrona (por ejemplo, para asegurarte de que un componente esté registrado antes de usarlo). En estos casos, puedes utilizar el método <code>load</code> junto con la palabra clave <code>await</code> para lograr una referencia síncrona.</p>
+        <p>En los módulos de componentes y los módulos de página, la función <code>load</code> se inyecta automáticamente para que los desarrolladores puedan cargar sincrónicamente los recursos necesarios.</p>
+        <o-playground name="Ejemplo de componente de referencia síncrona" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <div>
+        <demo-comp></demo-comp>
+      </div>
+      <script>
+        // eslint-disable-next-line
+        export default async ({ load }) => {
+          await load("./demo-comp.html");
+          return {
+            data: {},
+            proto: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 10px;
+        }
+      </style>
+      <h3>{{title}}</h3>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            data: {
+              title: "Ejemplo de componente OFAJS",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Referencia asíncrona vs referencia síncrona</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Método de referencia</th>
+              <th>Palabra clave</th>
+              <th>Características</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Referencia asíncrona</td>
+              <td>Etiqueta <code>l-m</code></td>
+              <td>Carga no bloqueante, adecuada para componentes de carga bajo demanda</td>
+            </tr>
+            <tr>
+              <td>Referencia síncrona</td>
+              <td>Método <code>load</code> con palabra clave <code>await</code></td>
+              <td>Carga bloqueante, asegura que el componente esté registrado antes de su uso</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

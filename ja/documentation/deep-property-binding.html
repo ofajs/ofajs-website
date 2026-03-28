@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>属性バインディングの理解</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>属性バインディングの理解</h1>
+        <p>前の内容では、<a href="./property-binding.html" olink="">属性バインディング</a>の基本的な使い方についてすでに初步的に紹介しました。前のケースでは、ブラウザのネイティブ要素（例： <code>textarea</code>）の <code>value</code> 属性をバインドするものでしたが、本節では属性バインディングの本質を深く探ります——それは実際にはコンポーネントインスタンス化後の JavaScript プロパティにバインドされるものであり、HTML 属性ではありません。</p>
+        <h2>コンポーネントプロパティバインディングメカニズム</h2>
+        <p>ofa.jsにおいて、親コンポーネントで<code>:toProp="fromProp"</code>構文を使用する場合、私たちは子コンポーネントインスタンスのJavaScriptプロパティを設定しており、HTML属性を設定しているわけではありません。これは、HTML属性（例：<code>attr:toKey="fromKey"</code>）を直接設定するのとは重要な違いがあります。</p>
+        <p>以下の例は、属性バインディングを通じてカスタムコンポーネントにデータを渡す方法を示しています：</p>
+        <o-playground name="属性バインディングを理解する" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active="">
+    <template page="">
+      <l-m src="./demo-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h3 style="color:blue;">{{val}}</h3>
+      <demo-comp :full-name="val"></demo-comp>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "ofajs",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin: 8px;
+        }
+      </style>
+      <p>フルネーム: {{fullName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            data: {
+              fullName: ""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>この例では：- 親コンポーネントの <code>val</code> データが子コンポーネント <code>&lt;demo-comp&gt;</code> の <code>fullName</code> プロパティにバインドされる</p>
+        <ul>
+          <li><code>:full-name="val"</code> という構文を使って親コンポーネントの <code>val</code> 値を子コンポーネントの <code>fullName</code> プロパティに渡す</li>
+          <li>子コンポーネントはその値を受け取った後、テンプレート内で <code>{{fullName}}</code> によって表示する</li>
+        </ul>
+        <h2>属性バインディング vs 特徴プロパティ継承</h2>
+        <p>需要注意的是，属性绑定（<code>:</code>）与特征属性继承（<code>attr:</code>）有以下关键差异：</p>
+        <h3>属性バインディング (<code>:</code>)</h3>
+        <ul>
+          <li>コンポーネントインスタンスにバインドされる JavaScript プロパティ</li>
+          <li>渡されるデータは元の型（文字列、数値、ブール値など）を保持する</li>
+          <li>コンポーネント内部で直接アクセスおよび変更可能で、コンポーネント内部で事前に <code>data</code> を定義する必要さえない</li>
+        </ul>
+        <h3>特徴属性の継承 (<code>attr:</code>)</h3>
+        <ul>
+          <li>HTML属性を設定する</li>
+          <li>すべての値は文字列に変換される</li>
+          <li>主に下層のDOM要素へ属性を渡すために使う</li>
+          <li>複雑なデータを解釈するには特別な処理が必要</li>
+          <li>属性値を受け取るには、あらかじめコンポーネント内部で <code>attrs</code> を定義しておく必要がある</li>
+        </ul>
+        <p>文法対比：```html</p>
+        <!-- 属性バインディング：JavaScriptの値を渡し、データ型を保持 -->
+        <p><my-component :data-value="complexObject"></my-component>
+          <my-component :count="42"></my-component>
+          <my-component :is-active="true"></my-component>
+        </p>
+        <!-- 属性継承：HTML属性を設定し、すべての値を文字列に変換 -->
+        <p><my-component attr:data-value="simpleString"></my-component>
+          <my-component attr:count="42"></my-component> <!-- 実際には文字列 "42" が渡される -->
+        </p>
+        <pre><code class="hljs"><span class="language-xml">
+## 事例対比差異
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"ケース比較差分"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"page1.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./demo-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+        <span class="hljs-selector-attr">[vone]</span>{
+            <span class="hljs-attribute">color</span>: red;
+        }
+        <span class="hljs-selector-attr">[vtwo]</span>{
+            <span class="hljs-attribute">color</span>: green;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">:vone</span>=<span class="hljs-string">"valOne"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">attr:vtwo</span>=<span class="hljs-string">"valTwo"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">valOne</span>: <span class="hljs-string">"I am One"</span>,
+              <span class="hljs-attr">valTwo</span>: <span class="hljs-string">"I am Two"</span>,
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo-comp.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid gray;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">8px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>(1: </span><span class="hljs-template-variable">{{<span class="hljs-name">vone</span>}}</span><span class="language-xml">) --- (2: </span><span class="hljs-template-variable">{{<span class="hljs-name">vtwo</span>}}</span><span class="language-xml">)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">tag</span>: <span class="hljs-string">"demo-comp"</span>,
+            <span class="hljs-attr">attrs</span>:{
+              <span class="hljs-attr">vtwo</span>: <span class="hljs-literal">null</span>,
+            },
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">vone</span>: <span class="hljs-literal">null</span>
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
+
+ここで、`vone` はコンポーネントインスタンスのプロパティであり、`vtwo` は HTML の attribute プロパティです。attribute プロパティの値は `[vtwo]` セレクタによって選択され、スタイルが適用されます。一方、`vone` はコンポーネントインスタンスのプロパティであり、`[vone]` セレクタによって選択されることはありません。
+
+## 双方向データバインディング
+
+インスタンス化されたコンポーネントも、双方向データバインディングをサポートしており、`sync:toProp="fromProp"` という構文を使用します。双方向バインディングは、親コンポーネントと子コンポーネント間でデータを同期させ、いずれかの側のデータが変更されると、もう一方もそれに応じて更新されます。
+
+AngularやVueとは異なり、ofa.jsはコンポーネントに特別な設定や追加の操作を加えることなく、ネイティブで双方向データバインディング構文をサポートします。
+
+### 双方向バインディングの例
+
+以下の例は、親コンポーネントと子コンポーネントの間で双方向データバインディングを確立する方法を示しています：
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"双方向バインディング例"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 600px"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"page1.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./demo-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:blue;"</span>&gt;</span>親コンポーネントの値: </span><span class="hljs-template-variable">{{<span class="hljs-name">val</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>入力欄から親コンポーネントの値を変更：<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"入力欄にテキストを入力..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>子コンポーネントから親コンポーネントの値を変更：<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">sync:full-name</span>=<span class="hljs-string">"val"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">val</span>: <span class="hljs-string">"ofajs"</span>,
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo-comp.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid green;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">8px</span>;
+          <span class="hljs-attribute">margin</span>: <span class="hljs-number">8px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>子コンポーネントに表示される値: </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"子コンポーネントの入力欄に入力..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">tag</span>: <span class="hljs-string">"demo-comp"</span>,
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">fullName</span>: <span class="hljs-string">""</span>
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
+
+この例では：- 親コンポーネントの `val` と子コンポーネントの `fullName` は `sync:full-name="val"` によって双方向バインディングが実現されています
+- 親コンポーネントの入力ボックスに内容を入力すると、子コンポーネントは即座に新しい値を表示します
+- 子コンポーネントの入力ボックスに内容を入力すると、親コンポーネントも即座に表示を更新します
+
+### 双方向バインディングと通常のプロパティバインディングの違い
+
+| 特性 | 普通属性绑定 (`:`) | 双向绑定 (`sync:`) |
+|------|-------------------|-------------------|
+| データの流れ | 一方向：親 → 子 | 双方向：親 ↔ 子 |
+| 構文 | `:prop="value"` | `sync:prop="value"` |
+| 子コンポーネントでの変更 | 親コンポーネントに影響しない | 親コンポーネントに影響する |
+| 適用シナリオ | 親コンポーネントから子コンポーネントへの設定の受け渡し | 親子コンポーネント間でのデータ同期が必要な場合 |### 注意事項
+
+1. **パフォーマンスの考慮**：双方向バインディングはデータが変化した際に再レンダリングを引き起こすため、複雑なシナリオでは慎重に使用すべきである
+2. **データフローの制御**：双方向バインディングが多すぎるとデータフローの追跡が困難になるため、コンポーネント間の通信方法を合理的に設計することを推奨する
+3. **コンポーネントの互換性**：すべてのコンポーネントが双方向バインディングに適しているわけではなく、コンポーネントの設計目的を考慮する必要がある</span></code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

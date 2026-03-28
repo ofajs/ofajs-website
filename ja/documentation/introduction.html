@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>紹介</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>紹介</h1>
+        <h2>ofa.jsとは何ですか？</h2>
+        <p>ofa.js は非常に使いやすい Web フロントエンドフレームワークで、Web アプリケーションを構築するために設計されており、開発効率を向上させ、開発のハードルを下げることを目的としています。</p>
+        <blockquote>
+          <p>HTML、CSS、そして JavaScript に <strong>すでに基本的に慣れている</strong> なら、ofa.js はとても良い選択です。</p>
+        </blockquote>
+        <h2>なぜ私は ofa.js を開発するのか？</h2>
+        <p>ReactやVueなどのフロントエンドフレームワークは既に存在しますが、どれも習得のハードルが高いです。開発者はまず、Node.jsのインストール、npmを使ったパッケージのインストール、スキャフォールディングの構築など、一連の前提知識を学ぶ必要があります。</p>
+        <p>これらの初期ステップは、実際の開発において不可欠なものではなく、むしろプロジェクトの立ち上げ段階における「ブラックボックス」となり、アプリケーションを最初から不必要な複雑さを背負わせています。ofa.js の誕生は、まさにこのジレンマを打破するためなのです。</p>
+        <h2>ofa.jsが存在する目的</h2>
+        <h3>フロントエンド開発プロセスの簡素化</h3>
+        <p>ofa.jsは、従来のフロントエンド開発における煩雑な手順を簡素化します。開発者はNode.js、npm、スキャフォールドなどのツールを学ぶことなく、フロントエンドアプリケーションを素早く構築できます。ブラウザで公式が提供するビルドプログラム（Web版）を開き、ローカルディレクトリを選択するだけで、開発を開始できます。</p>
+        <h3>開発のハードルを下げる</h3>
+        <p>多くの人々は自分自身のアプリケーションを開発したい、または開発者になりたいと考えていますが、従来のWeb（Android、iOSなどを含む）開発ルートに直面すると、開発環境のインストールやスキャフォールディングの設定など、多くの前提知識を学ぶ必要があるため、多くの初心者が困難を感じて諦めてしまいます。</p>
+        <p>ofa.jsは、すべてをシンプルにすることを目指しています。Chromeブラウザーひとつあれば、ウェブページを開くだけでアプリケーションを構築でき、ローカルディレクトリを直接選択して開くため、開発前の準備作業が不要です。すべての計算・データ・ストレージ処理はユーザーのローカル環境で実行され、クラウドサービスへの依存はありません。</p>
+        <h3>マイクロフロントエンドの究極のソリューションへ</h3>
+        <p>ofa.js は、Webフロントエンド開発をマイクロサービスのように細分化し、各モジュールを独立して開発・デプロイ可能にします。従来のWebフロントエンドの境界が打破されると、フロントエンド技術は徐々にサーバー技術の境界を突破していくでしょう。</p>
+        <blockquote>
+          <p>マイクロサービス（Microservices）は、大規模で複雑なアプリケーションを、細かい粒度で独立してデプロイ・実行可能な複数の小さなサービスに分割するソフトウェアアーキテクチャスタイルです。</p>
+        </blockquote>
+        <h2>使い始める</h2>
+        <ul>
+          <li>もし開発の基礎知識がある場合は、<a href="./script-reference.html" olink="">スクリプトの導入</a>から始めてください。</li>
+          <li>初心者の方は、<a href="./create-first-app.html" olink="">最初のアプリケーションを作成する</a>から始めることをお勧めします。</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

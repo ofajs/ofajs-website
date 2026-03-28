@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSR y Renderizado Isomórfico</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>SSR y Renderizado Isomórfico</h1>
+        <p>Si no tienes claro qué es el SSR, significa que actualmente no lo necesitas, así que puedes saltarte este capítulo y volver a él cuando lo necesites en el futuro.</p>
+        <h2>Renderizado isomórfico</h2>
+        <p>Para mantener la experiencia fluida de CSR, una mejor identificación por parte de los rastreadores web (SEO) y una mayor libertad en la elección del lenguaje de desarrollo del backend, ofa.js ofrece un modo único de renderizado isomórfico (Symphony Client-Server Rendering).</p>
+        <p>Si desea conocer las definiciones específicas y las diferencias de CSR / SSR / SSG, lea directamente la sección al final de este artículo.</p>
+        <p>El concepto central del renderizado isomórfico es:- Renderizar el contenido inicial de la página en el servidor para garantizar SEO y velocidad de carga de la primera pantalla</p>
+        <ul>
+          <li>Gestionar el enrutamiento en el lado del cliente para mantener una experiencia de usuario fluida como en CSR</li>
+          <li>Aplicable a cualquier entorno de servidor, logrando una renderización isomórfica real</li>
+        </ul>
+        <h3>Principio de implementación del renderizado isomórfico</h3>
+        <p>El modo de renderizado isomórfico de ofa.js se basa en los siguientes mecanismos:</p>
+        <ol>
+          <li>El lado del servidor genera una página HTML completa con una estructura de ejecución universal</li>
+          <li>El lado del cliente carga el motor de ejecución CSR</li>
+          <li>Identifica automáticamente el entorno de ejecución actual y decide la estrategia de renderizado</li>
+        </ol>
+        <h3>Estructura del código de renderizado isomórfico</h3>
+        <p><strong>Módulo de página CSR original:</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Soy Page<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {},
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {},
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p><strong>Página completa después del renderizado isomórfico encapsulado:</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Título de la Página<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.mjs#debug"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/libs/scsr/dist/scsr.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-tag">html</span>,
+    <span class="hljs-selector-tag">body</span> {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">overflow</span>: hidden;
+    }
+
+    o-app {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/app-config.js"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- 页面模块内容插入位置 ⬇️ --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Soy la Página<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {},
+            <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {},
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <p>Por lo tanto, puedes utilizar cualquier lenguaje de desarrollo (Go, Java, PHP, Nodejs, Python, etc.) y cualquier motor de renderizado de plantillas backend (como <code>html/template</code> de Go, Smarty/Twig/Blade de PHP, etc.) para incrustar la estructura de código de renderizado isomórfico de ofa.js en la plantilla y así lograr SSR.</p>
+        <ul>
+          <li><a href="https://github.com/kirakiray/ofa.js/tree/main/test/ssr-case/node" target="_blank">Caso de SSR con Nodejs</a></li>
+          <li><a href="https://github.com/kirakiray/ofa.js/tree/main/test/ssr-case/php" target="_blank">Caso de SSR con PHP</a></li>
+          <li><a href="https://github.com/kirakiray/ofa.js/tree/main/test/ssr-case/go" target="_blank">Caso de SSR con Go</a></li>
+        </ul>
+        <h3>Estructura de la plantilla de renderizado isomórfico</h3>
+        <p>Para implementar el modo de renderizado isomórfico, solo necesitas usar la siguiente estructura de plantilla genérica en el lado del servidor:</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Page Title<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.mjs#debug"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/libs/scsr/dist/scsr.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-tag">html</span>,
+    <span class="hljs-selector-tag">body</span> {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">overflow</span>: hidden;
+    }
+
+    o-app {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/app-config.js"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Insertar dinámicamente el contenido del módulo de página correspondiente --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <p><strong>Nota:</strong> El HTML devuelto por el servidor debe establecer las cabeceras HTTP correctas: <code>Content-Type: text/html; charset=UTF-8</code></p>
+        <p><code>scsr.mjs</code> es el motor de renderizado isomórfico proporcionado por ofa.js. Determina automáticamente la estrategia de renderizado según el estado de ejecución de la página actual, garantizando la mejor experiencia de usuario en cualquier entorno.</p>
+        <p>Del mismo modo, SSG también puede aplicar esta estructura para lograr la generación de sitios estáticos.</p>
+        <h2>ofa.js y SSR y las diferencias con otros frameworks de frontend</h2>
+        <p>La representación Cliente-Servidor de Symphony de ofa.js (en adelante, SCSR) es esencialmente también un modo SSR.</p>
+        <p>Comparado con las soluciones SSR de frameworks frontend existentes como Vue, React y Angular, la mayor ventaja de ofa.js radica en que <strong>no requiere un acoplamiento obligatorio con Node.js</strong>. Esto significa que cualquier motor de renderizado de plantillas backend (como Smarty de PHP, Jinja2 de Python, Thymeleaf de Java, etc.) puede integrar fácilmente ofa.js para implementar SSR.</p>
+        <h2>Descripción general de los métodos de renderizado de páginas web</h2>
+        <p>Las aplicaciones web modernas principalmente utilizan cuatro métodos de renderizado: renderizado tradicional con motor de plantillas del lado del servidor, CSR (Client Side Rendering, renderizado del lado del cliente), SSR (Server Side Rendering, renderizado del lado del servidor) y SSG (Static Site Generation, generación de sitios estáticos). Cada método tiene sus ventajas y escenarios de aplicación.</p>
+        <h3>Renderizado tradicional de motor de plantillas del lado del servidor</h3>
+        <p>En numerosos productos web, los motores de plantillas del lado del servidor siguen siendo el método principal de renderizado de páginas. Lenguajes de backend como Go, PHP, entre otros, utilizan motores de plantillas integrados o de terceros (como <code>html/template</code> de Go, o Smarty/Twig/Blade de PHP, etc.) para inyectar datos dinámicos en plantillas HTML, generando así una página HTML completa de una sola vez y enviándola al cliente.</p>
+        <p><strong>Ventajas:</strong>- Amigable con SEO, carga rápida en la primera pantalla</p>
+        <ul>
+          <li>Control del lado del servidor, mayor seguridad</li>
+          <li>Requisitos bajos para el stack tecnológico del equipo; los desarrolladores backend pueden completar el desarrollo por sí solos</li>
+        </ul>
+        <p><strong>Desventaja:</strong>- La experiencia de usuario es deficiente, cada interacción requiere una actualización de la página</p>
+        <ul>
+          <li>El servidor está bajo mucha presión</li>
+          <li>El frontend y el backend tienen un alto acoplamiento, lo que no favorece la colaboración en la división del trabajo</li>
+        </ul>
+        <h3>CSR (Renderizado del lado del cliente)</h3>
+        <p>En el modo CSR, el contenido de la página se renderiza completamente mediante JavaScript del lado del navegador; la <a href="./routes.html" olink="">aplicación de página única</a> de ofa.js es un ejemplo típico de implementación CSR. Este enfoque ofrece una experiencia de usuario fluida, permitiendo completar todas las interacciones sin necesidad de saltos de página. Las aplicaciones de página única (SPA) desarrolladas con React o Vue junto con sus respectivas bibliotecas de enrutamiento (como React Router o Vue Router) son implementaciones CSR típicas.</p>
+        <p><strong>Ventajas:</strong>- Experiencia de usuario fluida, cambio de páginas sin recarga</p>
+        <ul>
+          <li>Alta capacidad de procesamiento del cliente, respuesta rápida</li>
+        </ul>
+        <p><strong>Desventaja:</strong>- No es favorable para el SEO, los motores de búsqueda tienen dificultades para indexar el contenido</p>
+        <h3>SSR (Renderizado del lado del servidor)</h3>
+        <p>Al mismo tiempo que se mantiene la experiencia fluida de CSR, cambiar para que el servidor renderice las páginas en tiempo real: cuando el usuario realiza una solicitud, el servidor genera inmediatamente el HTML completo y lo devuelve, logrando una verdadera renderización del lado del servidor.</p>
+        <p><strong>Ventajas:</strong>- Amigable con SEO, carga rápida en la primera pantalla</p>
+        <ul>
+          <li>Admite contenido dinámico</li>
+        </ul>
+        <p><strong>Desventaja:</strong>- Alta carga en el servidor</p>
+        <ul>
+          <li>Generalmente requiere un entorno Node.js como entorno de ejecución, o al menos una capa intermedia Node.js</li>
+          <li>Todavía se requiere la activación del cliente posterior para lograr una interacción completa</li>
+        </ul>
+        <h3>SSG (Generación de Sitios Estáticos)</h3>
+        <p>Durante la fase de construcción, pre-renderiza todas las páginas en archivos HTML estáticos; después del despliegue, el servidor puede devolverlos directamente al usuario.</p>
+        <p><strong>Ventajas:</strong>- Carga rápida en la primera visita, amigable con SEO</p>
+        <ul>
+          <li>Baja carga del servidor, rendimiento estable</li>
+          <li>Alta seguridad</li>
+        </ul>
+        <p><strong>Desventaja:</strong>- Dificultad para actualizar contenido dinámico</p>
+        <ul>
+          <li>El tiempo de compilación aumenta con el número de páginas</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

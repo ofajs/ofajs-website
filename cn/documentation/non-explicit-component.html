@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>非显式组件</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>非显式组件</h1>
+        <p>ofa.js 内置包含两种非显式组件：</p>
+        <ul>
+          <li>条件渲染组件：<code>x-if</code>、<code>x-else-if</code>、<code>x-else</code></li>
+          <li>填充组件：<code>x-fill</code></li>
+        </ul>
+        <p>这两种组件的功能分别与 <code>o-if</code> 和 <code>o-fill</code> 组件相同，但它们本身不会真实渲染到 DOM 中，而是将其内部元素直接渲染到对应的区域。</p>
+        <p>例如：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-class">.container</span> &gt; <span class="hljs-selector-class">.item</span>{
+        <span class="hljs-attribute">color</span>:red;
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">o-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- 样式不为红色，因为 o-if 组件本身存在于 DOM 中 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">o-if</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- 样式为红色，因为 x-if 组件不会渲染到 DOM 中 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="非显式组件" style="--editor-height: 500px">
+          <code>
+    <template page="">
+        <style>
+        :host {
+            display: block;
+            border: 1px solid red;
+            padding: 10px;
+        }
+        .container > .item {
+            /* 选择子一级 .item 元素为红色 */
+            color:red;
+        }
+        /* 需要选择 o-if 组件内部的 .item 元素 */
+        /* .container > o-if > .item {
+            color:green;
+        } */
+        </style>
+        <div class="container">
+            <o-if :value="true">
+                <!-- 样式不为红色，因为 o-if 组件本身存在于 DOM 中 -->
+                <div class="item">不会显示为红色</div>
+            </o-if>
+            <x-if :value="true">
+                <!-- 样式为红色，因为 x-if 组件不会渲染到 DOM 中 -->
+                <div class="item">显示为红色</div>
+            </x-if>
+        </div>
+        <script>
+        export default async () => {
+            return {
+            data: {},
+            };
+        };
+        </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>x-if 条件渲染组件</h2>
+        <p><code>x-if</code> 与 <a href="./conditional-rendering.html" olink="">o-if</a> 的功能完全相同，用于根据条件表达式的真假值决定是否渲染内容。区别在于 <code>x-if</code> 本身不会作为 DOM 元素存在，其内部内容会直接渲染到父级容器中。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"isLoggedIn"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>欢迎回来，用户！<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <p><code>x-if</code> 也可以配合 <code>x-else-if</code> 和 <code>x-else</code> 使用：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"role === 'admin'"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>管理员面板<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-else-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"role === 'user'"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>用户中心<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-else-if</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-else</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>请登录<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-else</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>x-fill 填充组件</h2>
+        <p><code>x-fill</code> 与 <a href="./list-rendering.html" olink="">o-fill</a> 的功能完全相同，用于将数组数据渲染为多个 DOM 元素。与 <code>x-if</code> 类似，<code>x-fill</code> 本身不会渲染到 DOM 中，其内部模板会直接渲染到父级容器。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-fill</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+        <p>使用命名模板的示例：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"li"</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">x-fill</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"li"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class:active</span>=<span class="hljs-string">"$data.active"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">attr:href</span>=<span class="hljs-string">"$data.href"</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>性能说明</h2>
+        <p>除了功能上的区别外，非显式组件的渲染性能会比显式组件（<code>o-if</code>、<code>o-fill</code>）<strong>差很多</strong>。这是因为非显式组件不会真实渲染到 DOM 中，需要额外的模拟渲染逻辑来处理内部元素的定位和更新。</p>
+        <p>此外，非显式组件可能引发一些难以察觉的 bug：由于它们不会真正进入 DOM，依赖 DOM 结构的操作（如事件绑定、样式计算或第三方库查询）可能失效或表现异常。</p>
+        <p>因此，建议<strong>优先使用显式组件</strong>（<code>o-if</code>、<code>o-else-if</code>、<code>o-else</code>、<code>o-fill</code>），仅在特定场景下使用非显式组件。</p>
+        <h2>使用场景</h2>
+        <p>虽然非显式组件性能较差，但在以下场景中可能会用到：</p>
+        <ol>
+          <li><strong>避免额外的 DOM 层级</strong>：当你不想让 <code>o-if</code> 或 <code>o-fill</code> 元素成为 DOM 结构的一部分时</li>
+          <li><strong>样式继承</strong>：当你需要让内部元素直接继承父容器的样式，而不受中间组件元素的影响时</li>
+          <li><strong>CSS 选择器限制</strong>：当你需要使用父级直接子选择器（如 <code>.container &gt; .item</code>）来精确控制样式，但不希望中间有额外的包装元素时</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

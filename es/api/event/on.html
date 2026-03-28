@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>on</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>on</h1>
+        <p>Con el método <code>on</code>, puedes registrar manejadores de eventos para elementos objetivo. Esto te permite capturar y responder fácilmente a las interacciones del usuario.</p>
+        <p>Aquí hay un ejemplo que demuestra cómo usar el método <code>on</code> para registrar un controlador de eventos de clic para un elemento de botón:</p>
+        <o-playground name="evento on - click" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <button id="target">añadir contador</button>
+      <br>
+      <br>
+      <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$("#target").on("click", ()=> {
+          \$("#logger").text = count++;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>En este ejemplo, usamos el método <code>on</code> para agregar un controlador de eventos de clic a un elemento de botón. Cuando el usuario hace clic en el botón, se activa el controlador de eventos, el contador se incrementará y el resultado se mostrará en la página.</p>
+        <h2>Uso mediante sintaxis de plantilla</h2>
+        <p>También puedes utilizar la sintaxis de plantilla para enlazar métodos al elemento objetivo.</p>
+        <o-playground name="on - Sintaxis de plantillas" style="--editor-height: 400px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./on-demo.html"></l-m>
+      <on-demo></on-demo>
+    </template>
+  </code>
+          <code path="on-demo.html" active>
+    <template component>
+      <button on:click="addCount">Add Count</button>
+      <div>{{count}}</div>
+      <script>
+        export default {
+          tag: "on-demo",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            }
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>En este ejemplo, usamos <code>on:click</code> en el elemento del botón para enlazar un método llamado <code>addCount</code>. Cuando el usuario hace clic en el botón, se invoca este método, el valor del contador se incrementa y se muestra en la página. De esta manera puedes asociar manejadores de eventos con métodos del componente y lograr interacciones más complejas.</p>
+        <h2>event</h2>
+        <p>Después de registrar un evento, la función activada incluirá event, manteniendo la consistencia con el nativo:</p>
+        <o-playground name="on - parámetro event" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <button id="target">add count</button>
+      <br>
+      <br>
+      <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$("#target").on("click", (event)=> {
+          \$("#logger").text = event.type;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

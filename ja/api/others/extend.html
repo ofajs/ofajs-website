@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>extend</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>extend</h1>
+        <p><code>extend</code> はインスタンスのプロパティやメソッドを拡張するための高階メソッドです。</p>
+        <blockquote>
+          <p>通常、ユーザーがインスタンスのプロパティやメソッドを拡張することは推奨されません。これは学習コストを増加させるためです。チーム内でインスタンスの動作をカスタマイズする特別なシナリオがある場合を除き、このような行為は推奨されません。</p>
+        </blockquote>
+        <o-playground name="extend - 拡張インスタンス" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>私は1です</li>
+        <li id="target">私はターゲットです</li>
+        <li>私は3です</li>
+      </ul>
+      <div id="logger">ロガー</div>
+      <script>
+        const target = $("#target");
+        target.extend({
+          get good(){
+            return "ofa.jsは良いです";
+          },
+          say(){
+            return 'こんにちは';
+          }
+        });
+        setTimeout(() => {
+          const target = $("#target");
+          \$("#logger").html = `
+          good : ${target.good} <br>
+          say() : ${target.say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>拡張 $ レイヤー</h2>
+        <p>jQueryと同様に、fn.extendを使って基盤となるインスタンスのプロパティやメソッドを拡張することもできます；fnから拡張されたプロパティやメソッドはすべてのインスタンスに適用されます。</p>
+        <o-playground name="extend - 拡張レイヤー" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
+      </ul>
+      <div id="logger">logger</div>
+      <script>
+        \$.fn.extend({
+          get good(){
+            return "ofa.js is good";
+          },
+          say(){
+            return 'hello';
+          }
+        });
+        setTimeout(() => {
+          \$("#logger").html = `
+          target good : ${$("#target").good} <br>
+          logger say() : ${$("#logger").say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>拡張テンプレート構文</h2>
+        <p><code>extend</code> を使用してプロパティや関数を拡張することで、テンプレート構文の機能を増やしたり、コンポーネント専用のテンプレート構文糖衣構文を提供したりできます。ただし、非公式のテンプレート構文は<strong>できるだけ使用しない</strong>ように注意してください。なぜなら、それらは使用者に一定の学習コストをもたらし、大量の非公式テンプレート構文糖衣構文は開発体験を低下させるからです。</p>
+        <h3>拡張属性</h3>
+        <p>拡張属性を使うと、テンプレート内で <code>:</code> を用いて設定できます。以下では <code>red</code> 属性を拡張し、<code>red</code> が <code>true</code> のときにフォントの色を赤くします：</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;red&quot;</span>;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});</code></pre><o-playground name="extend - 拡張プロパティ" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-one.html"></l-m>
+      <temp-one></temp-one>
+      <script>
+        \$.fn.extend({
+          set red(bool){
+            if(bool){
+              this.css.color = "red";
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+          <code path="temp-one.html">
+    <template component>
+      <button on:click="addCount">カウントを追加</button>
+      <div :red="count % 3">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-one",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>この例では、テンプレート構文に <code>red</code> 属性を追加し、<code>count % 3</code> が 0 ではない場合、文字色が赤色になります。</p>
+        <h3>拡張メソッド</h3>
+        <p><code>extend</code> を使う拡張メソッドにより、テンプレート構文内で利用できるようになります。メソッド名はコロンの前の部分です。ここでは <code>color</code> というテンプレート構文を拡張しており、後に続く引数は定義された拡張メソッドに渡されます。</p>
+        <p>ここでは <code>always</code> 属性を <code>true</code> に設定しており、コンポーネントがインターフェースを更新する必要があるたびに、この定義済みメソッドが呼び出されることを示しています。<code>always</code> を設定しない場合、このテンプレート構文関数は一度しか実行されません。</p>
+        <p>その中で、<code>options</code> はより多くのパラメータを提供し、よりカスタマイズ可能なテンプレート構文の開発を支援します：</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
+    <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = value;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});
+
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - 拡張メソッド" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-two.html"></l-m>
+      <temp-two></temp-two>
+      <script>
+        \$.fn.extend({
+          color(color, func, options){
+            const bool = func();
+            if(bool){
+              this.css.color = color;
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+        \$.fn.color.always = true;
+      </script>
+    </template>
+  </code>
+          <code path="temp-two.html">
+    <template component>
+      <button on:click="addCount" color:blue="count % 3">カウント追加</button>
+      <div color:red="!(count % 3)">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-two",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>テンプレート構文の原理</h2>
+        <p>ここまでで、ofa.js の多くのテンプレート構文が実際には <code>extend</code> によって拡張されていることを理解しているはずです：</p>
+        <ul>
+          <li><code>class</code>、<code>attr</code> メソッドはビューが更新されるたびに実行される</li>
+          <li><code>on</code>、<code>one</code> のような関数バインドは一度しか実行されない</li>
+        </ul>
+        <p>以下の例を見れば、ofa.js のテンプレートレンダリングの仕組みがよりよく理解できます：</p>
+        <o-playground name="extend - テンプレート構文の原理" style="--editor-height: 480px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./temp-three.html"></l-m>
+      <temp-three></temp-three>
+    </template>
+  </code>
+          <code path="temp-three.html" active>
+    <template component>
+      <div>class always => {{classalways}}</div>
+      <div>attr always => {{attralways}}</div>
+      <div>on always => {{onalways}}</div>
+      <script>
+        export default {
+          tag: "temp-three",
+          data: {
+            classalways:"",
+            attralways:"",
+            onalways:""
+          },
+          ready(){
+            this.classalways = $.fn.class.always;
+            this.attralways = $.fn.attr.always;
+            this.onalways = !!$.fn.on.always;
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

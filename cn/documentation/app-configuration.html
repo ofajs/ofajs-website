@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>应用配置</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>应用配置</h1>
+        <p><code>app-config.js</code> 配置文件除了首页地址和页面切换动画外，还支持更多的配置选项，用于控制应用的加载状态、错误处理、初始化逻辑和导航功能。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+<span class="hljs-comment">// 加载中显示的内容</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;Loading...&lt;/div&gt;&quot;</span>;
+
+<span class="hljs-comment">// 页面加载失败时显示的组件</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
+
+<span class="hljs-comment">// 应用初始化完成后的回调</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;App is ready!&quot;</span>);
+}
+
+<span class="hljs-comment">// 添加到应用原型的方法和属性</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Custom method called&quot;</span>);
+  },
+};</code></pre><o-playground name="应用配置示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 应用首页地址
+    export const home = "./home.html";
+    // 页面切换动画配置
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const loading = () => {
+  const loadingEl = $({
+    tag: "div",
+    css: {
+      width: "100%",
+      height: "100%",
+      position: "absolute",
+      zIndex: 1000,
+    },
+    html: `
+      <div style="transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);"></div>
+    `,
+  });
+  setTimeout(() => (loadingEl[0].style.width = "98%"));
+  loadingEl.remove = () => {
+    loadingEl[0].style["transition-duration"] = "0.1s";
+    loadingEl[0].style.width = "100%";
+    setTimeout(() => {
+      \$.fn.remove.call(loadingEl);
+    }, 200);
+  };
+  return loadingEl;
+};
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <br>
+      <br>
+      <button on:click="gotoAbout">Go to About Button</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+            proto:{
+                gotoAbout(){
+                    this.goto("./about.html");
+                }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>loading - 加载状态</h2>
+        <p>在页面加载过程中显示的组件，可以是字符串模板或返回模板的函数。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 简单字符串模板</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Loading...&lt;/div&gt;&quot;</span>;
+
+<span class="hljs-comment">// 使用函数动态生成</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;loading&#x27;&gt;
+    &lt;span&gt;加载中...&lt;/span&gt;
+  &lt;/div&gt;`</span>;
+};</code></pre>
+        <p>下面是一个美观且可直接复制到项目中使用的 loading 实现：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">const</span> loadingEl = $({
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
+    <span class="hljs-attr">css</span>: {
+      <span class="hljs-attr">width</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+      <span class="hljs-attr">height</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+      <span class="hljs-attr">position</span>: <span class="hljs-string">&quot;absolute&quot;</span>,
+      <span class="hljs-attr">zIndex</span>: <span class="hljs-number">1000</span>,
+    },
+    <span class="hljs-attr">html</span>: <span class="hljs-string">`
+      &lt;div style=&quot;transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);&quot;&gt;&lt;/div&gt;
+    `</span>,
+  });
+
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> (loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;98%&quot;</span>));
+
+  loadingEl.<span class="hljs-property">remove</span> = <span class="hljs-function">() =&gt;</span> {
+    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>[<span class="hljs-string">&quot;transition-duration&quot;</span>] = <span class="hljs-string">&quot;0.1s&quot;</span>;
+    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;100%&quot;</span>;
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      $.fn.<span class="hljs-property">remove</span>.<span class="hljs-title function_">call</span>(loadingEl);
+    }, <span class="hljs-number">200</span>);
+  };
+
+  <span class="hljs-keyword">return</span> loadingEl;
+};</code></pre>
+        <h2>fail - 错误处理</h2>
+        <p>页面加载失败时显示的组件，函数接收一个对象参数，包含 <code>src</code>（失败页面的地址）和 <code>error</code>（错误信息）。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{src, error}</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
+    &lt;p&gt;页面加载失败&lt;/p&gt;
+    &lt;p&gt;地址: <span class="hljs-subst">${src}</span>&lt;/p&gt;
+    &lt;button on:click=&quot;back()&quot;&gt;返回&lt;/button&gt;
+  &lt;/div&gt;`</span>;
+};</code></pre>
+        <h2>proto - 原型扩展</h2>
+        <p>向应用实例添加自定义方法和计算属性，这些方法可以在页面组件中通过 <code>this.app</code> 访问。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 自定义方法</span>
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+  <span class="hljs-comment">// 计算属性</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+};</code></pre>
+        <p>在页面中调用：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>返回首页<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>是否在首页: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>ready - 初始化回调</h2>
+        <p>应用配置加载完成后执行的回调函数，可以在这里进行初始化操作。可以通过 <code>this</code> 访问应用实例的方法和属性。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;应用已初始化&quot;</span>);
+  <span class="hljs-comment">// 可以访问 this (o-app 元素实例)</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// 获取当前页面 o-page 元素实例</span>
+  <span class="hljs-comment">// this.someMethod();</span>
+}</code></pre>
+        <h2>allowForward - 前进功能</h2>
+        <p>控制是否启用浏览器前进功能。设置为 <code>true</code> 后，可以使用浏览器的后退和前进按钮进行导航。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <p>当启用后，用户可以通过浏览器的前进/后退按钮导航，应用的导航方法 <code>forward()</code> 也会生效。</p>
+        <h2>编程式导航</h2>
+        <p>除了使用 <code>olink</code> 链接，还可以在 JavaScript 中调用导航方法：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 跳转到指定页面（添加到历史记录）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 替换当前页面（不添加到历史记录）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 后退到上一页</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();
+
+<span class="hljs-comment">// 前进到下一页（需要设置 allowForward: true）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">forward</span>();</code></pre>
+        <h2>路由历史</h2>
+        <p>通过 <code>routers</code> 属性可以获取浏览历史记录：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 获取所有路由历史</span>
+<span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
+<span class="hljs-comment">// 返回格式: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span>
+
+<span class="hljs-comment">// 获取当前页面</span>
+<span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
+        <h2>监听路由变化</h2>
+        <p>可以通过监听 <code>router-change</code> 事件来响应路由变化：</p>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> { data } = e;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;路由变化:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;页面地址:&quot;</span>, data.<span class="hljs-property">src</span>);
+});</code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

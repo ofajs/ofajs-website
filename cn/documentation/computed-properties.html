@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>计算属性</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>计算属性</h1>
+        <p>计算属性是基于响应式数据派生出新数据的一种方式，它会根据依赖的数据变化而自动更新。在 ofa.js 中，计算属性是定义在 <code>proto</code> 对象中的特殊方法，使用 JavaScript 的 <code>get</code> 或 <code>set</code> 关键字来定义。</p>
+        <h2>特性与优势</h2>
+        <ul>
+          <li><strong>缓存性</strong>：计算属性的结果会被缓存，只有当其依赖的数据发生变化时才会重新计算</li>
+          <li><strong>响应式</strong>：当依赖的数据更新时，计算属性会自动更新</li>
+          <li><strong>声明式</strong>：以声明的方式创建依赖关系，代码更加清晰易懂</li>
+        </ul>
+        <h2>get 计算属性</h2>
+        <p>get 计算属性用于从响应式数据中派生出新的值，它不接受参数，只返回基于其他数据计算得出的值。</p>
+        <o-playground name="get 计算属性示例" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="clickMe">Click Me - {{count}} - {{countDouble}}</button>
+      <p>计算属性 countDouble 的值为：{{countDouble}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            },
+            proto: {
+              get countDouble() {
+                console.log('countDouble 被访问');
+                return this.count * 2;
+              },
+              clickMe() {
+                this.count++;
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>实际应用场景示例</h3>
+        <p>计算属性常用于处理复杂的数据转换逻辑，例如过滤数组、格式化显示文本等：</p>
+        <o-playground name="计算属性示例" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+        ul {
+          list-style-type: none;
+          padding: 0;
+        }
+        li {
+          padding: 5px;
+          margin: 3px 0;
+          background-color: #838383ff;
+        }
+      </style>
+      <input type="text" sync:value="filterText" placeholder="过滤姓名...">
+      <ul>
+        <o-fill :value="filteredNames">
+          <li>{{$data}}</li>
+        </o-fill>
+      </ul>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              filterText: '',
+              names: ['张3', '李4', '王54']
+            },
+            proto: {
+              get filteredNames() {
+                if (!this.filterText) {
+                  return this.names;
+                }
+                return this.names.filter(name => 
+                  name.includes(this.filterText)
+                );
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>set 计算属性</h2>
+        <p>set 计算属性允许你通过赋值操作来修改底层的数据状态。它接收一个参数，通常用于反向更新依赖它的原始数据。</p>
+        <o-playground name="set 计算属性示例" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        button {
+          margin: 5px;
+          padding: 8px 12px;
+        }
+      </style>
+      <div>
+        <p>基础数值: {{count}}</p>
+        <p>双倍数值: {{countDouble}}</p>
+        <button on:click="resetCount">重置计数</button>
+        <button on:click="setCountDouble">设置双倍值为 10</button>
+        <button on:click="incrementCount">增加基础值</button>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            },
+            proto: {
+              get countDouble() {
+                return this.count * 2;
+              },
+              set countDouble(val) {
+                this.count = Math.max(0, val / 2); // 确保 count 不为负数
+              },
+              resetCount() {
+                this.count = 0;
+              },
+              setCountDouble() {
+                this.countDouble = 10;
+              },
+              incrementCount() {
+                this.count++;
+              }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>计算属性 vs 方法</h2>
+        <p>虽然方法也可以实现类似的功能，但计算属性具有缓存特性，只有在其依赖的数据发生变化时才会重新求值，这使得性能更优。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 使用计算属性（推荐）- 有缓存</span>
+<span class="hljs-keyword">get</span> <span class="hljs-title function_">fullName</span>() {
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
+}
+
+<span class="hljs-comment">// 使用方法 - 每次调用都会执行</span>
+<span class="hljs-title function_">fullName</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
+}</code></pre>
+        <h2>注意事项</h2>
+        <ol>
+          <li><strong>避免异步操作</strong>：计算属性应保持同步且无副作用，禁止在其中进行异步调用或直接修改组件状态。 </li>
+          <li><strong>依赖追踪</strong>：务必仅依赖响应式数据，否则更新将不可预期。 </li>
+          <li><strong>错误防护</strong>：若计算属性内部出现循环依赖或异常赋值，可能导致渲染失败甚至死循环，务必提前设定边界条件并做好异常处理。</li>
+        </ol>
+        <h2>实际应用示例</h2>
+        <p>以下是一个简单的表单验证示例，展示了计算属性的实用性：</p>
+        <o-playground name="表单验证示例" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 15px;
+          font-family: Arial, sans-serif;
+        }
+        input {
+          margin: 5px 0;
+          padding: 8px;
+          width: 200px;
+        }
+        .status {
+          margin-top: 10px;
+          padding: 8px;
+          border-radius: 4px;
+        }
+        .valid {
+          background-color: #d4edda;
+          color: green;
+        }
+        .invalid {
+          background-color: #f8d7da;
+          color: red;
+        }
+      </style>
+      <h3>简单验证示例</h3>
+      <input type="text" sync:value="username" placeholder="输入用户名(至少3字符)">
+      <p class="status" class:valid="isValid" class:invalid="!isValid">
+        状态: {{statusMessage}}
+      </p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              username: ''
+            },
+            proto: {
+              get isValid() {
+                return this.username.length >= 3;
+              },
+              get statusMessage() {
+                return this.isValid ? '用户名有效' : '用户名长度不足';
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

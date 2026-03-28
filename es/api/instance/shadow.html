@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shadow</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>shadow</h1>
+        <p>Con la propiedad <code>shadow</code>, puedes obtener la instancia del nodo raíz de sombra de un elemento.</p>
+        <o-playground name="shadow - Nodo Sombra" style="--editor-height: 400px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./test-shadow.html"></l-m>
+      <test-shadow></test-shadow>
+    </template>
+  </code>
+          <code path="test-shadow.html" active>
+    <template component>
+      <ul>
+        <li>item 1</li>
+        <li id="target">item 2</li>
+        <li>item 3</li>
+      </ul>
+      <script>
+        export default {
+          tag:"test-shadow",
+          ready(){
+            setTimeout(()=>{
+              this.shadow.$("#target").text = 'change target';
+            },500);
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Es importante evitar modificar directamente los elementos dentro del nodo sombra dentro de elementos con sintaxis de plantilla, para garantizar la coherencia y mantenibilidad de las operaciones.</p>
+        <h2>Obtener la instancia de un elemento dentro del elemento sombra de un componente desde el exterior</h2>
+        <p>También puede obtener una instancia de elemento personalizado desde el exterior y luego acceder a los elementos dentro del nodo de sombra a través de la propiedad <code>shadow</code>, como se muestra a continuación:</p>
+        <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="shadow - Acceso externo" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./test-shadow.html"></l-m>
+      <test-shadow></test-shadow>
+      <script>
+        setTimeout(()=>{
+          $("test-shadow").shadow.$("#target").text = 'cambiar objetivo desde fuera - ' + new Date();
+        },1000);
+      </script>
+    </template>
+  </code>
+          <code path="test-shadow.html">
+    <template component>
+      <ul>
+        <li>elemento 1</li>
+        <li id="target">elemento 2</li>
+        <li>elemento 3</li>
+      </ul>
+      <script>
+        export default {
+          tag:"test-shadow",
+          ready(){
+            setTimeout(()=>{
+              this.shadow.$("#target").text = 'cambiar objetivo';
+            },500);
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

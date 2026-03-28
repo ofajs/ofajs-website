@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini App</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Mini App</h1>
+        <p>Use <code>o-app</code> for application encapsulation; this tag represents a micro-app. It will load the <code>app-config.js</code> configuration file, which defines the app&#39;s home page URL and page transition animation settings.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+<span class="hljs-comment">// Application home page URL</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./home.html&quot;</span>;
+
+<span class="hljs-comment">// Page transition animation configuration</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre><o-playground name="Micro App Example" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // Home page URL of the app
+    export const home = "./home.html";
+    // Page transition animation configuration
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html?id=10010" olink>Go to About (10010)</a>
+      <br>
+      <br>
+      <a href="./about.html?id=10030" olink>Go to About (10030)</a>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p>{{val}}</p>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async ({query}) => {
+          return {
+            data: {
+              val: `Hello ofa.js App Demo (from ${query.id})`,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>home - Homepage address</h2>
+        <p>Specifies the path to the home page module loaded when the app starts; both relative and absolute paths are supported.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
+        <h2>pageAnime - Page Transition Animation</h2>
+        <p>Control the transition animation effects when switching pages, including three states:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>The style after the current page animation ends</td>
+            </tr>
+            <tr>
+              <td><code>next</code></td>
+              <td>The starting style when the new page enters</td>
+            </tr>
+            <tr>
+              <td><code>previous</code></td>
+              <td>The target style when the old page leaves</td>
+            </tr>
+            <tr>
+              <td>export const pageAnime = {</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>current: {</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs"><span class="hljs-symbol">opacity:</span> <span class="hljs-number">1</span>,
+<span class="hljs-symbol">transform:</span> <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,</code></pre>
+        <p> }, next: { opacity: 0, transform: &quot;translate(30px, 0)&quot;, }, previous: { opacity: 0, transform: &quot;translate(-30px, 0)&quot;, }, };</p>
+        <pre><code class="hljs">
+## Parameter passing methods
+
+In `o-app`, page navigation supports passing parameters through URL Query, <span class="hljs-literal">and</span> the target page receives them through the `query` parameter of the module function.
+
+## Page Navigation
+
+Within the o-app, each page module can use an `&lt;a&gt;` tag with the `olink` attribute for page navigation. This tag triggers the application&#x27;s route switching, includes transition animations, <span class="hljs-literal">and</span> does <span class="hljs-literal">not</span> refresh the entire page.
+
+```html
+&lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;Go to About page&lt;/a&gt;</code></pre>
+        <p>In page components, you can use the <code>back()</code> method to return to the previous page:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;back()&quot;</span>&gt;</span>Back<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

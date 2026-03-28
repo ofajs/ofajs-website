@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>本番とデプロイ</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>本番とデプロイ</h1>
+        <p>ofa.js で開発されたプロジェクトは、静的サーバーに直接デプロイして使用できます。</p>
+        <h2>開発環境</h2>
+        <p>あなたは公式の <a href="https://core.noneos.com/?redirect=studio" target="_blank">ofa Studio</a> を使用して開発することができ、ワンクリックでのプロジェクト作成とプレビューを提供します。</p>
+        <p>、静的サーバーを自作することもできます：</p>
+        <ul>
+          <li>Nginx や Apache などの静的サーバーソフトウェアを使用する</li>
+          <li>Node.js の <a href="https://www.npmjs.com/package/http-server" target="_blank">http-server</a> モジュールを使用する</li>
+          <li>直接エディターの静的サーバープラグインを使用してプレビューする</li>
+        </ul>
+        <h2>本番環境</h2>
+        <h3>プロジェクトのエクスポート</h3>
+        <p>もし <a href="https://core.noneos.com/?redirect=studio" target="_blank">ofa Studio</a> を使用してプロジェクトを構築している場合は、ツールに組み込まれているエクスポート機能を直接使用できます。</p>
+        <p>手動でビルドしたプロジェクトの場合、プロジェクトフォルダを静的サーバーに直接デプロイするだけでよく、開発環境のモードと同じように保てます。</p>
+        <h3>圧縮と難読化</h3>
+        <p>本番環境では通常、ファイルサイズを削減し読み込み速度を向上させるために圧縮・難読化ツールを使用します。<a href="https://terser.org/docs/cli-usage/" target="_blank">Terser CLI</a> を使用して圧縮・難読化を行うことができます。</p>
+        <p>もしコマンドラインツールを使用したくない場合は、<a href="https://builder.ofajs.com/" target="_blank">ofa build</a> をオンラインで使用してファイルの圧縮と難読化を行うことができます。このツールは現在ベータ版であり、後期には ofa Studio に統合される予定です。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

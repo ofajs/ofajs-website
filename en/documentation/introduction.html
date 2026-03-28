@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Introduction</h1>
+        <h2>What is ofa.js?</h2>
+        <p>ofa.js is an easy-to-use front-end framework for building web applications, designed to boost development efficiency and lower the barrier to entry.</p>
+        <p>If you are already basically familiar with HTML, CSS, and JavaScript, then ofa.js is an excellent choice.</p>
+        <h2>Why am I developing ofa.js？</h2>
+        <p>Although front-end frameworks like React and Vue exist, they come with a steep learning curve. Developers need to first acquire a series of prerequisite knowledge, such as installing Node.js, using npm to install packages, setting up scaffolding, and more.</p>
+        <p>These initial steps are not essential for actual development but instead become a "black box" in the project startup phase, burdening applications with unnecessary complexity from the very beginning. The birth of ofa.js is precisely to break this predicament.</p>
+        <h2>Purpose of ofa.js</h2>
+        <h3>Streamline Front-End Development Workflow</h3>
+        <p>ofa.js simplifies the cumbersome process of traditional front-end development. Developers can quickly build front-end applications without needing to learn tools like Node.js, npm, and scaffolding. Simply open the officially provided build program (web version) in a browser, select a local directory, and start developing.</p>
+        <h3>Lowering the Development Threshold</h3>
+        <p>Many people dream of building their own app or becoming a developer, yet the traditional web (including Android, iOS, etc.) path demands so much up-front knowledge—installing dev environments, configuring boilerplates—that most beginners give up before they start.</p>
+        <p>ofa.js is dedicated to making everything simple. With just a Chrome browser, you can open a webpage and start building apps—select and open a local folder directly, skipping all pre-development setup. All computation, data, and storage run locally on the user’s machine, with no reliance on cloud services.</p>
+        <h3>The Ultimate Solution for Micro-Frontends</h3>
+        <p>ofa.js enables Web frontend development to be subdivided into multiple independent modules, similar to microservices, where each module can be independently developed and deployed. Once the boundaries of traditional Web frontend are broken, frontend technology will gradually expand beyond the boundaries of server-side technology.</p>
+        <p>Microservices is a software architectural style that breaks down large, complex applications into multiple fine-grained, independently deployable, and runnable small services.</p>
+        <h2>Getting Started</h2>
+        <ul>
+          <li>If you have some development experience, you can start from <a href="./script-reference.html" olink="">Script Reference</a>.</li>
+          <li>If you are a beginner, it is recommended to start from <a href="./create-first-app.html" olink="">Creating Your First App</a>.</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

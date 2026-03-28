@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Estado</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Gestión de Estado</h1>
+        <h2>¿Qué es el estado?</h2>
+        <p>En ofa.js, <strong>estado</strong> se refiere a la propiedad <code>data</code> propia del componente o módulo de página. Este estado solo se puede usar en el componente actual y sirve para almacenar y gestionar los datos internos de ese componente.</p>
+        <p>Cuando varios componentes o páginas necesitan compartir los mismos datos, la práctica tradicional consiste en pasarlos a través de eventos o mediante props capa por capa, lo cual en aplicaciones complejas hace que el código sea difícil de mantener. Por lo tanto, se necesita la <strong>gestión del estado</strong>—mediante la definición de un objeto de estado compartido, se permite que varios componentes o módulos de página accedan y modifiquen estos datos, logrando así la compartición del estado.</p>
+        <blockquote>
+          <p><strong>Consejo</strong>: La gestión del estado es adecuada para escenarios que requieren compartir datos entre componentes y páginas, como información del usuario, carrito de compras, configuración de temas, configuración global, etc.</p>
+        </blockquote>
+        <h2>Generar objeto de estado</h2>
+        <p>Crea un objeto de estado reactivo mediante <code>$.stanz({})</code>. Este método recibe un objeto común como datos iniciales y devuelve un proxy de estado reactivo.</p>
+        <h3>Uso básico</h3>
+        <o-playground name="Ejemplo de Gestión de Estado" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js" unimportant>
+    // Dirección de la página de inicio de la aplicación
+    export const home = "./list.html";
+    // Configuración de animación de cambio de página
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="data.js">
+  export const contacts = $.stanz({
+    list: [{
+        id: 10010,
+        name: "Peter",
+        info: "Cada día es un nuevo comienzo, el sol siempre sale después de la tormenta.",
+    },{
+        id: 10020,
+        name: "Mike",
+        info: "La vida es como un océano, solo los de voluntad fuerte pueden llegar a la otra orilla.",
+    },{
+        id: 10030,
+        name: "John",
+        info: "El secreto del éxito es persistir en tus sueños y nunca rendirse.",
+    }]
+  });
+  // await fetch("/list.api").then(e=>e.json()).then(list=>data.list = list)
+  </code>
+          <code path="list.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <h2>Directorio de Contactos</h2>
+      <ul>
+        <o-fill :value="list">
+          <li>
+          Nombre: {{$data.name}} <button on:click="$host.gotoDetail($data)">Detalles</button>
+          </li>
+        </o-fill>
+      </ul>
+      <script>
+        export default async ({load}) => {
+          const { contacts } = await load("./data.js");
+          return {
+            data: {
+              list:[]
+            },
+            proto:{
+                gotoDetail(user){
+                    this.goto(`./detail.html?id=${user.id}`);
+                }
+            },
+            attached(){
+              this.list = contacts.list;
+            },
+            detached(){
+              this.list = []; // Al destruir el componente, vaciar los datos de estado montados
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="detail.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+        .avatar{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(204, 204, 204, 1);
+            color: rgba(58, 58, 58, 1);
+        }
+        .user-info{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Atrás</button> </div>
+      <div class="user-info">
+        <div class="avatar">Avatar</div>
+        <div style="font-size: 24px;">
+        Nombre de Usuario: 
+          <o-if :value="editorMode">
+            <input type="text" sync:value="userData.name"/>
+            <button on:click="editorMode = false">✅</button>
+          </o-if>
+          <o-else>
+            <span>{{userData.name}}</span>
+            <button on:click="editorMode = true">🖊️</button>
+          </o-else>
+        </div>
+        <div style="font-size: 16px;">ID de Usuario: {{userData.id}}</div>
+        <p style="font-size: 14px;">{{userData.info}}</p>
+      </div>
+      <script>
+        export default async ({ load,query }) => {
+          const { contacts } = await load("./data.js");
+          return {
+            data: {
+              userData:{},
+              editorMode:false
+            },
+            attached(){
+              this.userData = contacts.list.find(e=>e.id == query.id);
+            },
+            detached(){
+              this.userData = {}; // Al destruir el componente, vaciar los datos de estado montados
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Características del objeto de estado</h2>
+        <h3>1. Actualización responsiva</h3>
+        <p>El objeto de estado creado por <code>$.stanz()</code> es reactivo. Cuando los datos del estado cambian, todos los componentes que hacen referencia a esos datos se actualizarán automáticamente.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
+
+<span class="hljs-comment">// 在组件中</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">store</span>: {}
+  },
+  <span class="hljs-attr">proto</span>:{
+    <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// 所有引用了 store.count 的组件都会自动更新</span>
+    }
+  },
+  <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// 直接引用状态对象的属性</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
+  },
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// 组件销毁时，清空挂载的状态数据</span>
+  }
+};</code></pre>
+        <h3>2. Reactividad profunda</h3>
+        <p>Los objetos de estado admiten reactividad profunda; los cambios en objetos y arrays anidados también son escuchados.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
+  <span class="hljs-attr">user</span>: {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>,
+    <span class="hljs-attr">settings</span>: {
+      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
+    }
+  },
+  <span class="hljs-attr">list</span>: []
+});
+
+<span class="hljs-comment">// 修改嵌套属性也会触发更新</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;李四&quot;</span>;
+store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
+store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新任务&quot;</span> });</code></pre>
+        <h2>Mejores prácticas</h2>
+        <h3>1. Montar estado en la etapa attached del componente</h3>
+        <p>Se recomienda montar el estado compartido en el ciclo de vida <code>attached</code> del componente:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">list</span>: []
+  },
+  <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// Montar el estado compartido en el data del componente</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
+  },
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// Cuando el componente se destruye, vaciar los datos de estado montados para evitar fugas de memoria</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
+  }
+};</code></pre>
+        <h3>2. Gestionar adecuadamente el ámbito del estado</h3>
+        <ul>
+          <li><strong>Estado global</strong>: adecuado para datos a los que toda la aplicación necesita acceder (como información del usuario, configuración global)</li>
+          <li><strong>Estado del módulo</strong>: adecuado para datos compartidos dentro de un módulo de funcionalidad específico</li>
+        </ul>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Estado de llamada global</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
+
+<span class="hljs-comment">// Estado utilizado dentro del módulo</span>
+<span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
+        <h2>Gestión del estado dentro del módulo</h2>
+        <o-playground name="Ejemplo de gestión de estado dentro del módulo" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <l-m src="./demo-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          padding: 8px;
+        }
+      </style>
+      <button on:click="addItem">Add Item</button>
+      <o-fill :value="list">
+        <div>{{$index}} - <demo-comp :val="$data.val"></demo-comp></div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+                list:[{
+                    val:Math.random().toString(36).slice(2, 6)
+                }]
+            },
+            proto:{
+                addItem(item){
+                    this.list.push({
+                        val:Math.random().toString(36).slice(2, 6)
+                    });
+                }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host{
+            display: inline-block;
+        }
+      </style>
+      {{val}} - {{cartStore.total}} <button on:click="addStoreTotal">Add Store Total</button>
+      <script>
+        const cartStore = $.stanz({ total: 0 });
+        export default async () => {
+          return {
+            tag: "demo-comp",
+            data: {
+                val:"",
+                cartStore:{}
+            },
+            proto:{
+                addStoreTotal(){
+                    this.cartStore.total++;
+                }
+            },
+            attached(){
+                this.cartStore = cartStore;
+            },
+            detached(){
+                this.cartStore = {}; // 组件销毁时，清空挂载的状态数据
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Precauciones</h2>
+        <ol>
+          <li>
+            <p><strong>Limpieza de estado</strong>: en el ciclo de vida <code>detached</code> del componente, limpia de forma oportuna las referencias a los datos de estado para evitar pérdidas de memoria.</p>
+          </li>
+          <li>
+            <p><strong>Evita dependencias cíclicas</strong>: los objetos de estado no deben formar referencias cíclicas, ya que podrían causar problemas en el sistema reactivo.</p>
+          </li>
+          <li>
+            <p><strong>Estructuras de datos grandes</strong>: para estructuras de datos grandes, considera usar propiedades computadas o gestión por fragmentos para evitar costes de rendimiento innecesarios.</p>
+          </li>
+          <li>
+            <p><strong>Consistencia del estado</strong>: en operaciones asíncronas, presta atención a la consistencia del estado; puedes usar transacciones o actualizaciones por lotes para garantizar la integridad de los datos.</p>
+          </li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

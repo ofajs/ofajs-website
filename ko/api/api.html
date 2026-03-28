@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API 문서</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <l-m src="./_comps/api-container.html"></l-m>
+      <style>
+        article a {
+          color: var(--md-sys-color-primary);
+          text-decoration: none;
+          align-items: center !important;
+        }
+      </style>
+      <article>
+        <h1>API 문서</h1>
+        <p> ofa.js는 템플릿 문법뿐만 아니라 풍부한 API를 제공하여 DOM을 직접 조작할 수 있습니다. <a href="https://jquery.com/" target="_blank">jQuery</a>처럼 복잡한 네이티브 JavaScript를 간결한 ofa.js 문법으로 대체하여 쉽게 DOM 조작을 할 수 있습니다. </p>
+        <p> 컴포넌트 또는 페이지 모듈의 라이프사이클 함수 및 사용자 정의 메서드에서 언제든지 ofa.js가 제공하는 API를 호출하여 DOM 요소를 유연하고 효율적으로 조작할 수 있습니다. </p>
+        <api-container>
+          <api-list>
+            <h3>인스턴스 관련</h3>
+            <api-item>
+              <a href="./instance/dollar.html" olink="">$(selector)</a>
+              <p>ofa.js의 핵심 함수로, DOM 요소 인스턴스를 가져오고 조작하는 데 사용됩니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/all.html" olink="">all</a>
+              <p>현재 요소의 모든 자식 요소 인스턴스를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/shadow.html" olink="">shadow</a>
+              <p>현재 요소의 shadow root를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prev.html" olink="">prev</a>
+              <p>현재 요소의 이전 형제 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prevs.html" olink="">prevs</a>
+              <p>현재 요소 이전의 모든 형제 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/next.html" olink="">next</a>
+              <p>현재 요소의 다음 형제 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/nexts.html" olink="">nexts</a>
+              <p>현재 요소 이후의 모든 형제 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/siblings.html" olink="">siblings</a>
+              <p>현재 요소의 모든 형제 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parent.html" olink="">parent</a>
+              <p>현재 요소의 부모 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parents.html" olink="">parents</a>
+              <p>현재 요소의 모든 조상 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/clone.html" olink="">clone</a>
+              <p>현재 요소와 그 자식 요소를 복사합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/ele.html" olink="">ele</a>
+              <p>현재 요소의 자식 요소 인스턴스를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/root.html" olink="">root</a>
+              <p>현재 요소가 속한 루트 인스턴스를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/children.html" olink="">자식 요소</a>
+              <p>현재 요소의 모든 자식 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/host.html" olink="">host</a>
+              <p>현재 요소가 속한 웹 컴포넌트 호스트 요소를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/app.html" olink="">app</a>
+              <p>현재 요소가 속한 o-app 컴포넌트 인스턴스를 가져옵니다.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>노드 조작</h3>
+            <api-item>
+              <a href="./operation/array-like.html" olink="">push</a>
+              <p>현재 요소에 자식 요소를 추가합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=11" olink="">pop</a>
+              <p>현재 요소의 마지막 자식 요소를 삭제합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=14" olink="">shift</a>
+              <p>현재 요소의 첫 번째 자식 요소를 삭제합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=8" olink="">unshift</a>
+              <p>현재 요소의 첫 번째 자식 요소를 추가합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=17" olink="">splice</a>
+              <p>현재 요소의 자식 요소를 추가하거나 삭제합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/before.html" olink="">before</a>
+              <p>현재 요소 이전에 자식 요소를 추가합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/after.html" olink="">after</a>
+              <p>현재 요소 이후에 자식 요소를 추가합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/remove.html" olink="">remove</a>
+              <p>현재 요소를 제거합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/wrap.html" olink="">wrap</a>
+              <p>현재 요소를 지정된 요소로 감쌉니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/unwrap.html" olink="">unwrap</a>
+              <p>현재 요소의 부모 요소 감싸기를 제거합니다.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>속성 조작</h3>
+            <api-item>
+              <a href="./props/text.html" olink="">text</a>
+              <p>요소의 텍스트 내용을 가져오거나 설정합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/html.html" olink="">html</a>
+              <p>요소의 HTML 내용을 가져오거나 설정합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/attr.html" olink="">attr</a>
+              <p>요소의 속성을 가져오거나 설정합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/css.html" olink="">css</a>
+              <p>요소의 스타일을 가져오거나 설정합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/style.html" olink="">style</a>
+              <p>요소의 style 객체를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/class-list.html" olink="">classList</a>
+              <p>요소의 클래스 이름 목록을 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/data.html" olink="">data</a>
+              <p>요소의 data 속성을 가져오거나 설정합니다.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>이벤트 관련</h3>
+            <api-item>
+              <a href="./event/on.html" olink="">on</a>
+              <p>요소에 이벤트 리스너를 추가합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./event/one.html" olink="">one</a>
+              <p>요소에 한 번만 실행되는 이벤트 리스너를 추가합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./event/emit.html" olink="">emit</a>
+              <p>요소의 커스텀 이벤트를 트리거합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./event/off.html" olink="">off</a>
+              <p>요소의 이벤트 리스너를 제거합니다.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>기타</h3>
+            <api-item>
+              <a href="./others/app.html" olink="">o-app 컴포넌트</a>
+              <p>ofa.js 애플리케이션의 루트 컴포넌트로, 애플리케이션 상태와 라우팅을 관리합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/page.html" olink="">o-page 컴포넌트</a>
+              <p>ofa.js의 페이지 컴포넌트로, 싱글 페이지 애플리케이션 페이지를 생성하는 데 사용됩니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/form-data.html" olink="">formData</a>
+              <p>폼 데이터를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/tag.html" olink="">tag</a>
+              <p>요소의 태그 이름을 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/index.html" olink="">index</a>
+              <p>요소가 부모 요소에서 가지는 인덱스를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/is.html" olink="">is</a>
+              <p>요소가 지정된 선택자와 일치하는지 판단합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/refresh.html" olink="">refresh</a>
+              <p>현재 컴포넌트 또는 페이지를 새로 고칩니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/path.html" olink="">PATH</a>
+              <p>현재 페이지의 경로를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/extend.html" olink="">extend</a>
+              <p>ofa.js의 기능을 확장합니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/version.html" olink="">version</a>
+              <p>ofa.js의 버전 번호를 가져옵니다.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/stanz.html" olink="">인스턴스 데이터 특성</a>
+              <p>Stanz는 ofa.js의 반응형 데이터 특성으로, 데이터의 자동 업데이트를 지원합니다.</p>
+            </api-item>
+          </api-list>
+        </api-container>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

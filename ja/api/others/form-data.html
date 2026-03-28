@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>formData</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>formData</h1>
+        <p><code>formData</code> メソッドは、フォーム要素にバインドされたオブジェクトデータを生成するために使用され、フォーム要素の処理をより簡単かつ効率的にします。このメソッドは、ターゲット要素内のすべてのフォーム要素の値を含むオブジェクトを生成し、そのオブジェクトはフォーム要素の変更をリアルタイムに反映します。</p>
+        <p>以下の例では、<code>formData</code> メソッドを使用してフォーム要素にバインドされたオブジェクトデータを生成する方法を示します：</p>
+        <o-playground name="formData - 基本使用" style="--editor-height: 500px">
+          <code path="demo.html">
+    <template>
+      <form id="myForm">
+        <input type="text" name="username" value="John Doe" />
+        <div>
+          性別:
+          <label>
+            男性
+            <input type="radio" name="sex" value="man" />
+          </label>
+          <label>
+            女性
+            <input type="radio" name="sex" value="woman" />
+          </label>
+        </div>
+        <textarea name="message">Hello World!</textarea>
+      </form>
+      <br />
+      <div id="logger"></div>
+      <script>
+        const data = $("#myForm").formData();
+        \$("#logger").text = data;
+        data.watch(() => {
+          \$("#logger").text = data;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>この例では、テキスト入力フィールド、ラジオボタン、テキストエリアを含むフォームを作成し、<code>formData</code>メソッドを使用してオブジェクト<code>data</code>を作成しました。このオブジェクトには、これらのフォーム要素の値が含まれています。また、<code>watch</code>メソッドを使用してデータの変化を監視し、データをページ上にリアルタイムで表示します。ユーザーがフォーム要素の値を変更すると、<code>data</code>オブジェクトがそれに応じて更新され、データ処理が非常にシンプルかつ効率的になります。</p>
+        <h2>双方向データバインディング</h2>
+        <p>生成されたオブジェクトデータは同様に逆方向のバインド能力を持っており、これはオブジェクトのプロパティを変更すると、関連するフォーム要素の値も自動的に更新されることを意味します。これはフォームデータを処理する際に非常に便利で、双方向データバインディングを簡単に実装できます。</p>
+        <p>以下の例では、<code>formData</code> メソッドによって生成されたオブジェクトデータの使い方と、逆方向のデータバインディングの方法を示します：</p>
+        <o-playground name="formData - 双方向バインディング" style="--editor-height: 500px">
+          <code path="demo.html">
+    <template>
+      <form id="myForm">
+        <input type="text" name="username" value="John Doe" />
+        <div>
+          性別:
+          <label>
+            男性
+            <input type="radio" name="sex" value="man" />
+          </label>
+          <label>
+            女性
+            <input type="radio" name="sex" value="woman" />
+          </label>
+        </div>
+        <textarea name="message">Hello World!</textarea>
+      </form>
+      <br />
+      <div id="logger"></div>
+      <script>
+        const data = $("#myForm").formData();
+        setTimeout(()=>{
+          data.username = "Yao";
+          data.sex = "man";
+          data.message = "ofa.js is good!";
+        },1000);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>この例では、まずテキスト入力欄、ラジオボタン、テキストエリアを含むフォームを作成し、<code>formData</code> メソッドを使用してデータオブジェクト <code>data</code> を生成しました。その後、<code>data</code> オブジェクトのプロパティを変更することで、逆方向のデータバインディング、つまりオブジェクトプロパティの変更に伴ってフォーム要素の値が自動的に更新されることを実現しました。この双方向データバインディング機能により、フォームデータとのやり取りがより便利になります。</p>
+        <h2>特定のフォームをリッスンする</h2>
+        <p>デフォルトでは、<code>formData()</code> メソッドはターゲット要素内のすべての <code>input</code>、<code>select</code>、<code>textarea</code> 要素を監視します。ただし、特定のフォーム要素のみを監視したい場合は、CSS セレクターを渡すことで実現できます。</p>
+        <p>以下の例では、CSSセレクタを渡して特定のフォーム要素をリッスンする方法を示します：</p>
+        <o-playground name="formData - 特定フォーム" style="--editor-height: 500px">
+          <code path="demo.html">
+    <template>
+      <form id="myForm">
+        <input type="text" name="username" value="John Doe" class="use-it" />
+        <div>
+          sex:
+          <label>
+            man
+            <input type="radio" name="sex" value="man" class="use-it" />
+          </label>
+          <label>
+            woman
+            <input type="radio" name="sex" value="woman" class="use-it" />
+          </label>
+        </div>
+        <textarea name="message">このフォーム要素はバインドされていません</textarea>
+      </form>
+      <br />
+      <div id="logger"></div>
+      <script>
+        const data = $("#myForm").formData(".use-it");
+        \$("#logger").text = data;
+        data.watch(() => {
+          \$("#logger").text = data;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>この例では、<code>class</code> が &quot;use-it&quot; であるフォーム要素だけを監視したいため、<code>formData()</code> メソッドに引数として <code>&quot;.use-it&quot;</code> を渡しています。これにより、そのクラス名を持つフォーム要素のみが監視され、生成されるデータオブジェクトに含まれます。これは、フォーム要素を選択的に監視し、フォームデータをより正確に管理するのに役立ちます。</p>
+        <h2>カスタムフォーム</h2>
+        <p>カスタムフォームコンポーネントの使用は非常に簡単で、カスタムコンポーネントに <strong>value 属性</strong> を追加し、<strong>name 特性</strong> を設定するだけです。</p>
+        <o-playground name="formData - カスタムフォーム" style="--editor-height: 500px">
+          <code path="demo.html" preview active>
+    <template>
+      <div id="myForm">
+        <input type="text" name="username" value="John Doe" />
+        <l-m src="./custom-input.html"></l-m>
+        <custom-input name="message"></custom-input>
+        <div id="logger"></div>
+      </div>
+      <script>
+        const data = $("#myForm").formData("input,custom-input");
+        \$("#logger").text = data;
+        data.watch(() => {
+          \$("#logger").text = data;
+        });
+      </script>
+    </template>
+  </code>
+          <code path="custom-input.html">
+    <template component>
+      <style>
+        :host{
+          display: block;
+        }
+        .editor {
+          display: inline-block;
+          min-width: 200px;
+          line-height: 30px;
+          height: 30px;
+          border: #aaa solid 1px;
+          border-radius: 4px;
+          padding: 4px;
+          font-size: 14px;
+        }
+      </style>
+      <div
+        class="editor"
+        contenteditable="plaintext-only"
+        :text="value"
+        on:input="changeText"
+      ></div>
+      <script>
+        export default {
+          tag:"custom-input",
+          attrs: {
+            name: "",
+          },
+          data: {
+            value: "デフォルトテキスト",
+          },
+          proto: {
+            changeText(e) {
+              this.value = $(e.target).text;
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>カスタムフォームコンポーネントを使用する際は、それをフォームに追加し、必要な <code>name</code> 属性を設定するだけです。上記の例では、<code>&lt;custom-input&gt;</code> 要素を追加し <code>name</code> 属性を設定することで、カスタムフォームコンポーネントを使用しています。その後、<code>formData()</code> メソッドを使って入力要素やカスタムコンポーネントの値を監視し、リアルタイムでフォームデータを取得・処理します。この方法により、特定のニーズに応じてカスタムフォームコンポーネントを含める形で、非常に簡単にフォームを拡張できます。</p>
+        <h2>コンポーネントまたはページ内でフォームデータを使用する</h2>
+        <p>時には、コンポーネントやページ内でフォームデータを使用する必要があり、<code>attached</code> ライフサイクルでデータを生成してコンポーネントにバインドする必要がある場合があります。</p>
+        <o-playground name="formData - コンポーネント内での使用" style="--editor-height: 600px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./form-data-demo.html"></l-m>
+      <form-data-demo></form-data-demo>
+    </template>
+  </code>
+          <code path="form-data-demo.html" active>
+    <template component>
+      <style>
+        :host{
+          display: block;
+        }
+      </style>
+      <input type="text" name="username" value="John Doe" />
+      <div>{{logtext}}</div>
+      <script>
+        export default {
+          tag:"form-data-demo",
+          data: {
+            fdata:{},
+            logtext: ""
+          },
+          watch:{
+            fdata(data){
+              if(data){
+                this.logtext = JSON.stringify(data);
+              }
+            }
+          },
+          attached(){
+            this.fdata = this.shadow.formData();
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p><code>attached</code> ライフサイクルにより、コンポーネントの準備が整った後、<code>this.shadow.formData()</code> メソッドを使用してフォームデータオブジェクト <code>fdata</code> を生成しました。</p>
+        <p><code>formData()</code> は、インタラクションロジックが比較的シンプルなフォームシナリオにより適しています。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

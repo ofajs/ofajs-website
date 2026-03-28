@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>중첩 페이지/라우트</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>중첩 페이지/라우트</h1>
+        <p>ofa.js에서 중첩 페이지(중첩 라우트라고도 함)는 강력한 기능으로, 부모-자식 계층 관계를 가진 페이지 구조를 만들 수 있게 해줍니다. 부모 페이지는 레이아웃 컨테이너 역할을 하며, <code>&lt;slot&gt;</code> 슬롯을 통해 자식 페이지의 콘텐츠를 렌더링합니다.</p>
+        <h2>기본 개념</h2>
+        <ul>
+          <li><strong>부모 페이지(Layout)</strong> : 레이아웃 컨테이너 역할을 하는 페이지로, 네비게이션 바, 사이드바 등 공통 UI 요소를 포함합니다</li>
+          <li><strong>자식 페이지</strong> : 구체적인 비즈니스 페이지 콘텐츠로, 부모 페이지의 <code>&lt;slot&gt;</code> 슬롯 위치에 렌더링됩니다</li>
+        </ul>
+        <h2>상위 페이지 작성 방법</h2>
+        <p>부모 페이지는 <code>&lt;slot&gt;&lt;/slot&gt;</code> 태그를 사용하여 자식 페이지에 렌더링할 위치를 예약해야 합니다.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- layout.html --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+    ...
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;content&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>하위 페이지의 작성법</h2>
+        <p>하위 페이지는 <code>parent</code> 속성을 내보내 상위 페이지 경로를 지정합니다.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{val}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;layout.html&#x27;</span>; <span class="hljs-comment">// ⚠️ 关键代码</span>
+
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hello ofa.js Demo Code&quot;</span>,
+        },
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>중첩 페이지 예시</h2>
+        <p>다음은 루트 레이아웃, 부모 페이지 및 자식 페이지를 포함하는 완전한 중첩 라우팅 예시입니다:</p>
+        <o-playground name="중첩 페이지 예제" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-app src="./app-config.js" style="height:96%;"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js" unimportant>
+    // 앱 홈페이지 주소
+    export const home = "./sub-page01.html";
+    // 페이지 전환 애니메이션 설정
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="layout.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px dashed green;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          min-height: 200px;
+        }
+        header {
+          padding: 10px;
+        }
+        nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+        nav li {
+          display: inline-block;
+          padding: 5px 10px;
+          margin-right: 20px;
+          border-radius: 4px;
+        }
+        nav li.active {
+          background-color: rgb(158, 4, 4);
+        }
+        nav li a {
+          text-decoration: none;
+        }
+        .main {
+          flex: 1;
+          padding: 20px;
+        }
+      </style>
+      <div class="container">
+        <header>
+          <nav>
+            <ul>
+              <li class:active="active1">
+                <a href="./sub-page01.html" olink>페이지1</a>
+              </li>
+              <li class:active="active2">
+                <a href="./sub-page02.html" olink>페이지2</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <div class="main">
+          <slot></slot>
+        </div>
+      </div>
+      <script>
+        export default () => {
+          return {
+            data: {
+              active1: false,
+              active2: false,
+            },
+            routerChange() {
+              this.refreshActive();
+            },
+            ready() {
+              this.refreshActive();
+            },
+            proto: {
+              refreshActive() {
+                const { current } = this.app;
+                const path = new URL(current.src).pathname;
+                this.active1 = path.includes('sub-page01');
+                this.active2 = path.includes('sub-page02');
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page01.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid pink;
+          padding: 10px;
+        }
+      </style>
+      <h1>나는 하위 페이지 1</h1>
+      <p>현재 라우트：{{src}}</p>
+      <a href="./sub-page02.html" olink>페이지2로 이동</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page02.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h1>나는 하위 페이지 2</h1>
+      <p>현재 라우트：{{src}}</p>
+      <a href="./sub-page01.html" olink>페이지1로 이동</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>부모 페이지의 라우트 감시</h2>
+        <p>부모 페이지는 <code>routerChange</code> 라이프사이클 훅을 통해 라우팅 변경을 감지할 수 있으며, 이는 현재 라우트에 따라 네비게이션 상태를 업데이트해야 할 때 매우 유용합니다.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">active1</span>: <span class="hljs-literal">false</span>,
+          <span class="hljs-attr">active2</span>: <span class="hljs-literal">false</span>,
+        },
+        <span class="hljs-title function_">routerChange</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">refreshActive</span>();
+        },
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">refreshActive</span>();
+        },
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">refreshActive</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-keyword">const</span> { current } = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>;
+            <span class="hljs-keyword">const</span> path = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(current.<span class="hljs-property">src</span>).<span class="hljs-property">pathname</span>;
+            
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">active1</span> = path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;page1&#x27;</span>);
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">active2</span> = path.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;page2&#x27;</span>);
+          },
+        },
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>주의사항</h2>
+        <ul>
+          <li><code>parent</code> 속성값은 상대 경로(예: <code>./layout.html</code>) 또는 절대 경로(예: <code>/pages/layout.html</code>)일 수 있습니다.</li>
+          <li>부모 페이지는 반드시 <code>&lt;slot&gt;&lt;/slot&gt;</code> 태그를 포함해야 하며, 그렇지 않으면 자식 페이지 콘텐츠가 표시되지 않습니다.</li>
+          <li>부모 페이지의 스타일이 자식 페이지에 상속되며, 자식 페이지도 자체 스타일을 정의할 수 있습니다.</li>
+          <li><code>routerChange</code> 훅을 사용하면 라우트 변경을 감지하여 내비게이션 하이라이트 등의 기능을 구현할 수 있습니다.</li>
+        </ul>
+        <h2>다단계 중첩</h2>
+        <p>부모 페이지는 자체적으로 또 다른 부모 페이지를 가질 수 있어, 다단계 중첩 구조를 형성한다.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 하위 페이지 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>하위 페이지 내용<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;./parent.html&#x27;</span>;
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+      <span class="hljs-keyword">return</span> { <span class="hljs-attr">data</span>: {} };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 부모 페이지 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;layout&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>내비게이션 바<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;./root-layout.html&#x27;</span>;
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
+      <span class="hljs-keyword">return</span> { <span class="hljs-attr">data</span>: {} };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>다단 중첩 예시</h2>
+        <o-playground name="중첩 라우트 완전한 예제" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-app src="./app-config.js" style="height:96%;"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js" unimportant>
+    // 애플리케이션 홈 페이지 주소
+    export const home = "./sub-page01.html";
+    // 페이지 전환 애니메이션 설정
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="root-layout.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          border: 1px dashed gray;
+        }
+        .root {
+          height: 100%;
+          word-break: break-word;
+          padding: 10px;
+        }
+      </style>
+      <div style="text-align: center;font-weight: bold;">루트 레이아웃</div>
+      <div class="root">
+        <slot></slot>
+      </div>
+      <script>
+        export default () => {
+          return { data: {} };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="layout.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px dashed green;
+        }
+        .container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          min-height: 200px;
+        }
+        header {
+          padding: 10px;
+        }
+        nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+        nav li {
+          display: inline-block;
+          padding: 5px 10px;
+          margin-right: 20px;
+          border-radius: 4px;
+        }
+        nav li.active {
+          background-color: rgb(158, 4, 4);
+        }
+        nav li a {
+          text-decoration: none;
+        }
+        .main {
+          flex: 1;
+          padding: 20px;
+        }
+      </style>
+      <div class="container">
+        <header>
+          <nav>
+            <ul>
+              <li class:active="active1">
+                <a href="./sub-page01.html" olink>페이지 1</a>
+              </li>
+              <li class:active="active2">
+                <a href="./sub-page02.html" olink>페이지 2</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <div class="main">
+          <slot></slot>
+        </div>
+      </div>
+      <script>
+        export const parent = "./root-layout.html";
+        export default () => {
+          return {
+            data: {
+              active1: false,
+              active2: false,
+            },
+            routerChange() {
+              this.refreshActive();
+            },
+            ready() {
+              this.refreshActive();
+            },
+            proto: {
+              refreshActive() {
+                const { current } = this.app;
+                const path = new URL(current.src).pathname;
+                this.active1 = path.includes('sub-page01');
+                this.active2 = path.includes('sub-page02');
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page01.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid pink;
+          padding: 10px;
+        }
+      </style>
+      <h1>하위 페이지 1</h1>
+      <p>현재 라우트：{{src}}</p>
+      <a href="./sub-page02.html" olink>페이지 2로 이동</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="sub-page02.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h1>하위 페이지 2</h1>
+      <p>현재 라우트：{{src}}</p>
+      <a href="./sub-page01.html" olink>페이지 1로 이동</a>
+      <script>
+        export const parent = "./layout.html";
+        export default async () => {
+          return {
+            data: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

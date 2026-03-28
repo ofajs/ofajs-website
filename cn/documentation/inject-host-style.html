@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>注入宿主样式</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>注入宿主样式</h1>
+        <p>在 Web Components 中，由于 <code>slot</code> 插槽的限制，无法直接设置插槽内多层级元素的样式。为了解决这个问题，ofa.js 提供了 <code>&lt;inject-host&gt;</code> 组件，允许在组件内部向宿主元素注入样式，从而实现对插槽内容中多层级元素的样式控制。</p>
+        <blockquote>
+          <p>注意，建议优先使用 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 选择器来设置插槽内容的样式。只有在无法满足需求时，才使用 <code>&lt;inject-host&gt;</code> 组件。</p>
+        </blockquote>
+        <h2>基本用法</h2>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+            <span class="hljs-attribute">display</span>: block;
+            <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#007acc</span>;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+        <span class="hljs-comment">/* 设置直接子一级元素的样式 */</span>
+        <span class="hljs-comment">/* ::slotted(user-list-item) {
+            background-color: aqua;
+        } */</span>
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+            user-list user-list-item {
+                <span class="hljs-attribute">background-color</span>: aqua;
+            }
+            <span class="hljs-comment">/* 还可以设置多层级嵌套的样式 */</span>
+            user-list user-list-item <span class="hljs-selector-class">.user-list-item-content</span> {
+                <span class="hljs-attribute">color</span>: red;
+            }
+        </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">tag</span>: <span class="hljs-string">"user-list"</span>,
+                <span class="hljs-comment">// ...</span>
+            };
+        };
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>案例</h2>
+        <p>下面的示例展示了如何使用 <code>&lt;inject-host&gt;</code> 设置插槽内嵌套元素的样式。我们创建两个组件：<code>user-list</code> 组件作为列表容器，<code>user-list-item</code> 组件作为列表项。通过 <code>&lt;inject-host&gt;</code>，我们可以在 <code>user-list</code> 组件中设置 <code>user-list-item</code> 及其内部元素的样式。</p>
+        <o-playground name="注入宿主样式" style="--editor-height: 500px">
+          <code path="index.html" preview="">
+    <template>
+      <l-m src="./user-list.html"></l-m>
+      <l-m src="./user-list-item.html"></l-m>
+      <user-list>
+        <user-list-item>
+          <span>张三</span>
+          <span slot="age">25</span>
+        </user-list-item>
+        <user-list-item>
+          <span class="item-name">李四</span>
+          <span slot="age">30</span>
+        </user-list-item>
+      </user-list>
+    </template>
+  </code>
+          <code path="user-list.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid gray;
+          padding: 10px;
+        }
+      </style>
+      <inject-host>
+        <style>
+          user-list user-list-item {
+            background-color: blue;
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+          }
+          user-list user-list-item .item-name {
+            color: red;
+            font-weight: bold;
+          }
+        </style>
+      </inject-host>
+      <slot></slot>
+      <script>
+        export default async () => {
+          return {
+            tag: "user-list",
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="user-list-item.html">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+        }
+      </style>
+      <slot></slot>
+      <div class="item-age">
+        年龄: <slot name="age"></slot>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            tag: "user-list-item",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>运行结果中可以看到：</p>
+        <ul>
+          <li><code>user-list-item</code> 组件的背景色为 aqua（通过 <code>user-list</code> 组件的 <code>&lt;inject-host&gt;</code> 设置）</li>
+          <li>姓名的文字颜色为红色（通过 <code>user-list</code> 组件的 <code>&lt;inject-host&gt;</code> 设置 <code>user-list-item .item-name</code> 样式）</li>
+        </ul>
+        <h2>工作原理</h2>
+        <p><code>&lt;inject-host&gt;</code> 组件会将内部包含的 <code>&lt;style&gt;</code> 标签内容注入到组件的宿主元素中。这样，注入的样式规则可以穿透组件边界，作用于 slot 插槽内的元素。</p>
+        <p>通过这种方式，你可以：</p>
+        <ul>
+          <li>设置插槽内容中任意深度的元素样式</li>
+          <li>使用完整的选择器路径确保样式只作用于目标元素</li>
+          <li>保持组件样式的封装性，同时实现灵活的样式穿透</li>
+        </ul>
+        <h2>注意事项</h2>
+        <p>⚠️ <strong>样式污染风险</strong>：由于注入的样式会作用到宿主元素所在的作用域，可能会影响到其他组件内的元素。在使用时务必遵循以下原则：</p>
+        <ol>
+          <li><strong>使用具体的选择器</strong>：尽量使用完整的组件标签路径，避免使用过于宽泛的选择器</li>
+          <li><strong>添加命名空间前缀</strong>：为你的样式类添加独特的前缀，减少与其他组件冲突的可能</li>
+          <li><strong>避免使用通用标签选择器</strong>：尽量使用类名或属性选择器代替标签选择器</li>
+          <li><strong>反思组件设计</strong>：考虑是否可以通过优化组件设计来避免使用 <code>&lt;inject-host&gt;</code>。例如，在子组件上配合使用 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 选择器往往更为优雅。</li>
+        </ol>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 推荐 ✅：使用具体的选择器 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        user-list <span class="hljs-selector-class">.list-item-content</span> {
+            <span class="hljs-attribute">color</span>: red;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 不推荐 ❌：使用过于通用的选择器 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* 容易与其他组件冲突 */</span>
+            <span class="hljs-attribute">color</span>: red;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span></code></pre>
+        <h3>性能提示</h3>
+        <p>由于 <code>&lt;inject-host&gt;</code> 会触发宿主样式重新注入，进而可能导致组件重排或重绘，请谨慎在频繁更新的场景中使用。<br>若仅需为插槽内第一级元素设置样式，优先使用 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 伪类选择器，可避免穿透式注入带来的额外渲染开销，从而获得更佳性能。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

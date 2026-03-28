@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attribute Response</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Attribute Response</h1>
+        <p>In the previous <a href="./property-binding.html" olink="">Property Binding</a>, we introduced the simple property response mechanism, which explains how to render a component's property values into text display.</p>
+        <p>ofa.js not only supports reactivity to basic property values, but also supports reactive rendering for internal property values of multi-level nested objects.</p>
+        <o-playground name="Non-reactive Data Example" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{obj.count2}}</p>
+      <button on:click="handleAddCount">Increase</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              obj: {
+                count2: 100,
+              },
+            },
+            proto:{
+              handleAddCount(){
+                this.count++;
+                this.obj.count2++;
+              }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>All data bound to an ofa.js instance object is automatically converted to reactive data. Reactive data supports only basic data types such as strings, numbers, booleans, arrays, and objects. Complex data types such as functions and class instances must be stored as <strong>non-reactive properties</strong>; changes to these properties will not trigger a re-render of the component.</p>
+        <h2>Non-reactive Data</h2>
+        <p>Sometimes we need to store data that doesn't require reactive updates, such as Promise instances, RegExp objects, or other complex objects. In these cases, non-reactive properties are needed. Changes to these properties won't trigger component re-rendering, making them suitable for storing data that doesn't need to be linked with the view.</p>
+        <p>Non-reactive properties are typically prefixed with an underscore <code>_</code> to distinguish them from reactive ones.</p>
+        <o-playground name="Non-reactive data example" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{_count2}}</p>
+      <button on:click="count++">Increment Blue</button>
+      <button on:click="_count2++">Increment Green</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              _count2: 100,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>When clicking the "Green Increase" button, although the <code>_count2</code> value has actually increased, since it is a non-reactive property, it does not trigger a view update, so the display on the interface remains unchanged. When clicking the "Blue Increase" button, since <code>count</code> is a reactive property, it triggers a re-render of the entire component, and only then does the Green display content get synchronized and updated.</p>
+        <p>Non-reactive object data performs better than reactive data because it does not trigger component re-renders.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

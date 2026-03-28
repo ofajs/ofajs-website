@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>コンテキスト状態</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>コンテキスト状態</h1>
+        <p>コンテキスト状態は、ofa.jsにおけるコンポーネント間データ共有のメカニズムです。プロバイダー（Provider）とコンシューマー（Consumer）のパターンを通じて、親子コンポーネントや階層をまたがるコンポーネント間でのデータ受け渡しを実現でき、propsを介した階層的な受け渡しの必要がなくなります。</p>
+        <h2>核心概念</h2>
+        <ul>
+          <li><strong>o-provider</strong>: データプロバイダー、共有が必要なデータを定義する</li>
+          <li><strong>o-consumer</strong>: データコンシューマー、最も近いプロバイダーからデータを取得する</li>
+          <li><strong>watch:xxx</strong>: コンシューマーのデータ変更を監視し、コンポーネントまたはページモジュールのプロパティにバインドする</li>
+        </ul>
+        <h2>o-provider 提供者</h2>
+        <p><code>o-provider</code> コンポーネントは共有データのプロバイダーを定義するために使用されます。<code>name</code> 属性を通じて自身の名前を識別し、属性（例：<code>custom-a=&quot;value&quot;</code>）を通じて共有する必要のあるデータを定義します。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">custom-name</span>=<span class="hljs-string">&quot;张三&quot;</span> <span class="hljs-attr">custom-age</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
+  ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span></code></pre>
+        <h3>属性</h3>
+        <ul>
+          <li><code>name</code>: プロバイダーの一意の識別名。消費者が対応するプロバイダーを検索するために使用されます。</li>
+        </ul>
+        <h3>特徴</h3>
+        <ol>
+          <li><strong>自動属性伝達</strong>: provider 上のすべての非予約属性は共有データとして渡される</li>
+          <li><strong>リアクティブ更新</strong>: provider のデータが変化すると、その provider を name 指定で消費している consumer が自動的に更新される</li>
+          <li><strong>階層検索</strong>: コンシューマーは最も近い上位の provider から対応する name のデータを検索する</li>
+        </ol>
+        <h2>o-consumer 消費者</h2>
+        <p><code>o-consumer</code> コンポーネントは、プロバイダーのデータを消費（使用）するために使われます。<code>name</code> 属性によって消費するプロバイダーの名前を指定します。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
+        <h3>属性</h3>
+        <ul>
+          <li><code>name</code>: 消費するプロバイダ名</li>
+        </ul>
+        <h3>特徴</h3>
+        <ol>
+          <li><strong>自動データ取得</strong>: consumerは最近の上位provider内の対応するnameのデータを自動的に取得します </li>
+          <li><strong>属性マージ</strong>: 複数の同じnameを持つproviderが同じ属性を持つ場合、consumerに最も近いproviderの属性が優先されます </li>
+          <li><strong>属性監視</strong>: <code>watch:xxx</code>を使って特定の属性の変化を監視できます</li>
+        </ol>
+        <h2>データ変更の監視</h2>
+        <p><code>watch:xxx</code> を使用してプロバイダーデータの変更を監視できます：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">watch:custom-age</span>=<span class="hljs-string">&quot;age&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">data</span>:{
+    <span class="hljs-attr">age</span>: <span class="hljs-number">0</span>,
+  },
+};
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <h2>基本の例</h2>
+        <o-playground name="基礎例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-provider name="userInfo" user-id="9527">
+        <o-page src="page1.html"></o-page>
+      </o-provider>
+    </template>
+  </code>
+          <code path="page1.html" active>
+    <template page>
+      <l-m src="./user-avatar.html"></l-m>
+      <l-m src="./user-name.html"></l-m>
+      <style>
+        :host {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border: 1px solid #007acc;
+          padding: 10px;
+        }
+      </style>
+      <user-avatar></user-avatar>
+      <div>ユーザーID: {{userId}}</div>
+      <user-name></user-name>
+      <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
+      <script>
+        export default {
+          data:{
+            userId: 0,
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="user-avatar.html">
+    <template component>
+      <style>
+        :host {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(68, 107, 133, 1);
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+      </style>
+      {{userId}}アバター
+      <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
+      <script>
+        export default async ()=>{
+            return {
+                tag:"user-avatar",
+                data:{
+                    userId: null,
+                }
+            };
+        }
+      </script>
+    </template>
+  </code>
+          <code path="user-name.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          color: rgba(204, 153, 0, 1);
+        }
+      </style>
+      User-{{userId}}
+      <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
+      <script>
+        export default async ()=>{
+            return {
+                tag:"user-name",
+                data:{
+                    userId: null,
+                }
+            };
+        }
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>o-root-provider ルートプロバイダー</h2>
+        <p><code>o-root-provider</code> はルートレベルのグローバルプロバイダーであり、そのスコープはドキュメント全体です。親プロバイダーが存在しない場合でも、コンシューマーはルートプロバイダーのデータを取得できます。</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- グローバルルートプロバイダーを定義 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">custom-theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">custom-language</span>=<span class="hljs-string">&quot;zh-CN&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- ページのどこでも消費可能 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">watch:custom-theme</span>=<span class="hljs-string">&quot;theme&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
+        <h3>特徴</h3>
+        <ol>
+          <li><strong>グローバルスコープ</strong>: ルートプロバイダーのデータはページ全体で利用可能</li>
+          <li><strong>優先順位</strong>: 同じ name を持つ provider と root-provider が同時に存在する場合、コンシューマーに最も近い provider が優先される</li>
+          <li><strong>削除可能</strong>: root-provider を削除すると、コンシューマーは他の provider を探すようにフォールバックする</li>
+        </ol>
+        <h2>root-provider の例</h2>
+        <o-playground name="root-provider サンプル" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-root-provider name="globalConfig" custom-theme="dark" custom-language="zh-CN"></o-root-provider>
+      <o-page src="page.html"></o-page>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <l-m src="./header.html"></l-m>
+      <l-m src="./content.html"></l-m>
+      <style>
+        :host {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .info {
+          padding: 10px;
+          border: 1px solid #007acc;
+        }
+      </style>
+      <div class="info">
+        <div>テーマ: {{theme}}</div>
+        <div>言語: {{language}}</div>
+      </div>
+      <header-com></header-com>
+      <content-com></content-com>
+      <o-consumer name="globalConfig" watch:custom-theme="theme" watch:custom-language="language"></o-consumer>
+      <script>
+        export default {
+          data: {
+            theme: "",
+            language: "",
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="header.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+          background-color: #333;
+          color: white;
+        }
+      </style>
+      ヘッダー - テーマ: {{theme}}
+      <o-consumer name="globalConfig" watch:custom-theme="theme"></o-consumer>
+      <script>
+        export default {
+          tag:"header-com",
+          data: {
+            theme: "",
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="content.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+          background-color: rgba(137, 133, 133, 1);
+        }
+      </style>
+      コンテンツ - 言語: {{language}}
+      <o-consumer name="globalConfig" watch:custom-language="language"></o-consumer>
+      <script>
+        export default {
+          tag:"content-com",
+          data: {
+            language: "",
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>優先順位の例</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;parent&quot;</span>&gt;</span>
+ ...
+ <span class="hljs-comment">&lt;!-- ここ👇で取得されるcustom-valueは &quot;parent&quot; --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+ ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- ここ👇で取得されるcustom-valueは &quot;root&quot; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+</code></pre>
+        <h3>優先度の例示デモ</h3>
+        <o-playground name="優先度サンプルデモ" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-root-provider name="test" custom-value="root"></o-root-provider>
+      <o-page src="page.html"></o-page>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <l-m src="./child.html"></l-m>
+      <o-provider name="test" custom-value="parent">
+        <div style="padding: 10px; border: 1px solid #007acc;">
+          <p>親 Provider の値: {{parentValue}}</p>
+          <child-com></child-com>
+        </div>
+        <o-consumer name="test" watch:custom-value="parentValue"></o-consumer>
+      </o-provider>
+      <div style="padding: 10px; border: 1px solid #cc6600; margin-top: 10px;">
+        <p>ルート Provider の値: {{rootValue}}</p>
+      </div>
+      <child-com></child-com>
+      <o-consumer name="test" watch:custom-value="rootValue"></o-consumer>
+      <script>
+        export default () => ({
+          data: {
+            parentValue: "",
+            rootValue: "",
+          },
+        });
+      </script>
+    </template>
+  </code>
+          <code path="child.html">
+    <template component>
+      <div style="padding: 10px;  border: 1px dashed gray;">
+        子コンポーネントの値: {{customValue}} (最も近いのは {{customValue}} provider)
+      </div>
+      <o-consumer name="test" watch:custom-value="customValue"></o-consumer>
+      <script>
+        export default () => ({
+          tag:"child-com",
+          data: {
+            customValue: "",
+          },
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>getProvider(name) メソッド</h2>
+        <p><code>getProvider(name)</code> はインスタンスメソッドで、対応する name のプロバイダー要素を取得するために使用されます。DOM 上を遡って最も近い上位の provider を探し、見つからなければ root-provider を返します。</p>
+        <h3>コンポーネントまたはページモジュール内で getProvider(name) メソッドを使用する</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+...
+<span class="hljs-attr">proto</span>:{
+  <span class="hljs-title function_">changeValue</span>(<span class="hljs-params"></span>){
+    <span class="hljs-keyword">const</span> provider = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;name&quot;</span>);
+    provider.<span class="hljs-property">customValue</span> = <span class="hljs-string">&quot;新しい値&quot;</span>;
+  }
+}
+...
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <h2>getProvider 例</h2>
+        <o-playground name="getProvider 示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-provider name="userInfo" custom-name="张三" custom-age="25">
+        <o-page src="page.html"></o-page>
+      </o-provider>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <button on:click="getProviderData">Provider データを取得</button>
+      <div>現在の名前: {{currentName}}</div>
+      <div>現在の年齢: {{currentAge}}</div>
+      <div style="margin-top: 10px;">
+        <button on:click="updateProvider">Provider データを更新</button>
+      </div>
+      <o-consumer name="userInfo" watch:custom-name="currentName" watch:custom-age="currentAge"></o-consumer>
+      <script>
+        export default {
+          data: {
+            currentName: "",
+            currentAge: 0,
+          },
+          proto: {
+            getProviderData() {
+              const provider = this.getProvider("userInfo");
+              if (provider) {
+                console.log("Provider が見つかりました:", provider);
+                console.log("名前:", provider.customName);
+                console.log("年齢:", provider.customAge);
+                alert(`Provider データ: ${provider.customName}, ${provider.customAge}歳`);
+              }
+            },
+            updateProvider() {
+              const provider = this.getProvider("userInfo");
+              if (provider) {
+                provider.customName = "李四";
+                provider.customAge = 30;
+              }
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>要素からプロバイダーを取得する</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 現在の要素の上位のプロバイダーを取得</span>
+<span class="hljs-keyword">const</span> provider = $(<span class="hljs-string">&quot;.my-element&quot;</span>).<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;userInfo&quot;</span>);
+
+<span class="hljs-keyword">if</span> (provider) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;プロバイダーを見つけました:&quot;</span>, provider.<span class="hljs-property">customName</span>);
+}
+
+<span class="hljs-comment">// グローバル root-provider を直接取得</span>
+<span class="hljs-keyword">const</span> globalProvider = $.<span class="hljs-title function_">getRootProvider</span>(<span class="hljs-string">&quot;globalConfig&quot;</span>);</code></pre>
+        <h3>使用シーン</h3>
+        <ol>
+          <li><strong>手動でデータを取得</strong>: プロバイダーのデータに直接アクセスする必要があるシナリオで使用</li>
+          <li><strong>Shadow DOM を横断</strong>: Shadow DOM 内で上位のプロバイダーを探す</li>
+          <li><strong>イベント処理</strong>: イベントコールバックで対応するプロバイダーを取得</li>
+        </ol>
+        <h2>dispatch イベントディスパッチ</h2>
+        <p>provider は、それを消費するすべての consumer にイベントを配信できます：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myProvider&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;Hello&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">&quot;handleEvent&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{customValue}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-comment">// イベントをディスパッチ</span>
+$(<span class="hljs-string">&quot;#myProvider&quot;</span>).<span class="hljs-title function_">dispatch</span>(<span class="hljs-string">&quot;custom-event&quot;</span>, {
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Hello World&quot;</span> }
+});
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <h2>イベントディスパッチの例</h2>
+        <o-playground name="イベントディスパッチ例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-provider name="chat" custom-messages='["チャットルームへようこそ"]' id="chatProvider">
+        <o-page src="page.html"></o-page>
+      </o-provider>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <l-m src="./chat-list.html"></l-m>
+      <l-m src="./chat-input.html"></l-m>
+      <style>
+        :host {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
+        }
+      </style>
+      <h3>チャットルーム</h3>
+      <chat-list></chat-list>
+      <chat-input></chat-input>
+    </template>
+  </code>
+          <code path="chat-list.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid #007acc;
+          padding: 10px;
+          max-height: 200px;
+          overflow-y: auto;
+        }
+        .message {
+          padding: 5px;
+          margin: 5px 0;
+          background: gray;
+          border-radius: 4px;
+        }
+      </style>
+      <div class="messages">
+        <o-fill :value="messages">
+          <div class="message">{{$data}}</div>
+        </o-fill>
+      </div>
+      <o-consumer name="chat" on:new-message="addMessage"></o-consumer>
+      <script>
+        export default {
+          tag:"chat-list",
+          data: {
+            messages: [],
+          },
+          proto: {
+            addMessage(event) {
+              this.messages.push(event.data.text);
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="chat-input.html">
+    <template component>
+      <style>
+        :host {
+          display: flex;
+          gap: 10px;
+        }
+        input {
+          flex: 1;
+          padding: 8px;
+        }
+        button {
+          padding: 8px 16px;
+          background: #007acc;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+      </style>
+      <input type="text" sync:value="inputText" placeholder="メッセージを入力...">
+      <button on:click="sendMessage">送信</button>
+      <script>
+        export default {
+          tag:"chat-input",
+          data: {
+            inputText: "",
+          },
+          proto: {
+            sendMessage() {
+              const provider = this.getProvider("chat");
+              if (provider && this.inputText.trim()) {
+                provider.dispatch("new-message", {
+                  data: { text: this.inputText }
+                });
+                this.inputText = "";
+              }
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>ベストプラクティス</h2>
+        <ol>
+          <li><strong>合理的な命名</strong>: provider と consumer に意味のある name を付け、追跡と保守を容易にする </li>
+          <li><strong>過度な使用を避ける</strong>: コンテキスト状態はコンポーネント間でデータを共有する場合に適しており、通常の親子コンポーネントには props の使用を推奨 </li>
+          <li><strong>ルートプロバイダーはグローバル設定に使用</strong>: テーマ、言語、グローバル状態などは root-provider に適している </li>
+          <li><strong>タイムリーなクリーンアップ</strong>: provider が削除されると、consumer はデータを自動的にクリアするため、手動での処理は不要</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

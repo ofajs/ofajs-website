@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>生产与部署</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>生产与部署</h1>
+        <p>使用 ofa.js 开发的项目，直接部署到静态服务器上即可使用。</p>
+        <h2>开发环境</h2>
+        <p>你可以使用官方的 <a href="https://core.noneos.com/?redirect=studio" target="_blank">ofa Studio</a> 进行开发，它提供了一键式的项目创建和预览。</p>
+        <p>你还可以自建静态服务器：</p>
+        <ul>
+          <li>使用 Nginx 或 Apache 等静态服务器软件</li>
+          <li>使用 Node.js 的 <a href="https://www.npmjs.com/package/http-server" target="_blank">http-server</a> 模块</li>
+          <li>直接使用编辑器的静态服务器插件来预览</li>
+        </ul>
+        <h2>生产环境</h2>
+        <h3>导出项目</h3>
+        <p>如果你使用的是 <a href="https://core.noneos.com/?redirect=studio" target="_blank">ofa Studio</a> 构建的项目，直接使用工具自带的导出功能即可。</p>
+        <p>如果是手动构建的项目，你可以直接将项目文件夹部署到静态服务器上即可，保持和开发环境的模式一致。</p>
+        <h3>压缩混淆</h3>
+        <p>生产环境通常需要使用压缩混淆工具来减小文件体积，提高加载速度。你可以使用 <a href="https://terser.org/docs/cli-usage/" target="_blank">Terser CLI</a> 进行压缩混淆。</p>
+        <p>如果你不想使用命令行工具，可以使用 <a href="https://builder.ofajs.com/" target="_blank">ofa build</a> 在线进行文件压缩混淆。该工具目前为测试版，后期会合并到 ofa Studio 中。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

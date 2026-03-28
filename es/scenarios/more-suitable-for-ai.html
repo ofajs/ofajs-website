@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ventajas del uso de ofa.js en IA</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Ventajas del uso de ofa.js en IA</h1>
+        <p>ofa.js simplifica la pila tecnológica y elimina la etapa de compilación, ofreciendo un camino más ligero y eficiente para la generación de proyectos frontend mediante IA.</p>
+        <p>Esto no solo reduce los costos del servidor, sino que, lo que es más importante, disminuye la complejidad del proyecto, permitiendo que la IA se concentre más en la implementación de la lógica empresarial, en lugar de en la configuración del entorno y los procesos de construcción.</p>
+        <h2>Frameworks de Frontend Tradicionales vs ofa.js</h2>
+        <p>En la era de la IA, utilizar frameworks frontend tradicionales para generar proyectos frontend suele requerir el siguiente proceso tedioso:</p>
+        <h3>1. Fase de inicialización del proyecto</h3>
+        <ul>
+          <li>Código de línea de comandos generado por IA para crear un proyecto frontend</li>
+          <li>Invocar un proceso de servidor dinámico para crear un contenedor independiente para el frontend</li>
+          <li>Inicializar el código frontend dentro del contenedor (instalar dependencias, configurar herramientas de construcción, etc.)</li>
+        </ul>
+        <h3>2. Fase de Desarrollo y Construcción</h3>
+        <ul>
+          <li>Generación de código frontend con IA, desplegado dentro de un contenedor</li>
+          <li>Compilación del código frontend en el contenedor (procesado con herramientas de construcción como Webpack, Vite, etc.)</li>
+        </ul>
+        <h3>3. Fase de previsualización</h3>
+        <ul>
+          <li>El usuario previsualiza el efecto del proyecto frontend a través del navegador</li>
+        </ul>
+        <p>Todo el proceso implica <strong>6 pasos</strong>, requiere soporte de servidor dinámico, depende del entorno Node.js y debe pasar por la etapa de compilación y construcción.</p>
+        <h2>Flujo simplificado de ofa.js</h2>
+        <p>Con ofa.js, el proceso se simplifica a <strong>3 pasos</strong>:</p>
+        <h3>1. Preparación del entorno</h3>
+        <ul>
+          <li>Crear un contenedor de servidor estático o generar un directorio con nombre aleatorio en el directorio raíz de un servidor estático público</li>
+        </ul>
+        <h3>2. Generación de código</h3>
+        <ul>
+          <li>AI genera código frontend ofa.js, despliega directamente el código en el directorio del servidor estático</li>
+        </ul>
+        <h3>3. Vista previa instantánea</h3>
+        <ul>
+          <li>El usuario previsualiza directamente el efecto del proyecto frontend a través del navegador</li>
+        </ul>
+        <h2>Ventajas principales</h2>
+        <h3>1. Ventaja de costos</h3>
+        <p>Debido a la ausencia de la sobrecarga de procesos dinámicos, el costo del servidor se reducirá significativamente. El costo de desplegar y mantener un servidor estático es mucho menor que el de un servidor dinámico que requiere ejecutar procesos de Node.js.</p>
+        <h3>2. Cero dependencias, cero compilación</h3>
+        <p>ofa.js no depende de Node.js, ni pasa por el proceso de compilación. El código entra en vigor simplemente desplegándolo directamente en un servidor estático, logrando un verdadero &quot;lo que ves es lo que obtienes&quot;. Esto reduce en gran medida la carga de configuración del entorno cuando la IA genera código.</p>
+        <h3>3. Reducir la complejidad del proyecto</h3>
+        <p>La simplificación del proceso significa una reducción en el coeficiente de dificultad del proyecto. Esto trae dos beneficios clave:</p>
+        <ul>
+          <li><strong>Inicio rápido</strong>: no se requiere una configuración ni preparación del entorno compleja al inicio del proyecto </li>
+          <li><strong>Expansión fluida</strong>: facilita la ampliación de la dificultad de los requisitos en las fases posteriores del proyecto, evitando alcanzar prematuramente el techo de complejidad del proyecto</li>
+        </ul>
+        <h3>4. Características del contenedor de Microfrontend</h3>
+        <p>Las características del contenedor de micro-frontends de ofa.js aportan ventajas únicas para el desarrollo de IA:</p>
+        <ul>
+          <li><strong>Desarrollo modular</strong>: La IA puede crear de forma independiente cada módulo, cada uno de los cuales es completo y autónomo</li>
+          <li><strong>Seguridad del módulo</strong>: La creación independiente de cada módulo alcanza una integridad de módulo más segura</li>
+          <li><strong>Ensamblaje de módulos</strong>: Finalmente, la IA ensambla e integra los diversos módulos, mejorando la seguridad general y la estabilidad del proyecto</li>
+        </ul>
+        <p>Este enfoque de &quot;divide y vencerás&quot; permite que la IA gestione mejor proyectos complejos, ya que cada módulo puede verificarse de forma independiente, reduciendo el riesgo del proyecto en su conjunto.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

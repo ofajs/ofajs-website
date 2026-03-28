@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自定义事件</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>自定义事件</h1>
+        <p>在 ofa.js 中，除了内置的 DOM 事件外，还可以创建和使用自定义事件来实现组件间的通信。自定义事件是组件化开发中的重要机制，它允许组件向上广播消息或状态变化。</p>
+        <h2>emit 方法 - 触发自定义事件</h2>
+        <p><code>emit</code> 方法用于触发自定义事件，将组件内部的状态变化或用户操作通知给外部监听者。</p>
+        <h3>基本用法</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 触发一个简单的自定义事件</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'custom-event'</span>);
+
+<span class="hljs-comment">// 触发带数据的自定义事件</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'data-changed'</span>, {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-comment">// 自定义数据，可根据需求任意结构</span>
+    <span class="hljs-attr">newValue</span>: <span class="hljs-number">100</span>,
+    <span class="hljs-attr">oldValue</span>: <span class="hljs-number">50</span>
+  }
+});</code></pre>
+        <h3>emit 方法参数</h3>
+        <p><code>emit</code> 方法接受两个参数：</p>
+        <ol>
+          <li><strong>事件名称</strong>：字符串，表示要触发的事件名称</li>
+          <li><strong>选项对象</strong>（可选）：包含事件配置选项<ul>
+              <li><code>data</code>：要传递的数据</li>
+              <li><code>bubbles</code>：布尔值，控制事件是否冒泡（默认为 true）</li>
+              <li><code>composed</code>：布尔值，控制事件是否能穿过 Shadow DOM 边界</li>
+              <li><code>cancelable</code>：布尔值，控制事件是否可以被取消</li>
+            </ul>
+          </li>
+        </ol>
+        <p>然后上层元素就可以使用<code>on</code>方法 <a href="./event-binding.html" olink="">（事件绑定）</a> 监听这个自定义事件。</p>
+        <h3>emit 使用示例</h3>
+        <o-playground name="emit 使用示例" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page="">
+      <l-m src="./my-component.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h3 style="color:blue;">{{val}}</h3>
+      <my-component on:button-clicked="handleButtonClick"></my-component>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "ofajs",
+            },
+            proto: {
+              handleButtonClick(event) {
+                this.val = JSON.stringify(event.data);
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="my-component.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      </style>
+      <button on:click="handleClick">点击触发事件</button>
+      <script>
+        export default async () => {
+          return {
+            tag: "my-component",
+            proto: {
+              handleClick() {
+                this.emit('button-clicked', {
+                  data: {
+                    message: '按钮被点击了',
+                    timestamp: Date.now()
+                  },
+                });
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>bubbles - 事件冒泡机制</h2>
+        <p><code>bubbles</code> 属性控制事件是否会向上冒泡到父元素。当设置为 <code>true</code> 时，事件会沿着 DOM 树向上传播。默认值为 <code>true</code>。如果设置为 <code>false</code>，事件将不会冒泡。</p>
+        <h3>冒泡机制详解</h3>
+        <ul>
+          <li><strong>默认行为</strong>：使用 <code>emit</code> 发出的事件默认开启冒泡（<code>bubbles: true</code>）</li>
+          <li><strong>冒泡路径</strong>：事件从触发元素开始，逐级向上传播</li>
+          <li><strong>阻止冒泡</strong>：在事件处理器中调用 <code>event.stopPropagation()</code> 可阻止冒泡</li>
+        </ul>
+        <h3>冒泡示例</h3>
+        <o-playground name="自定义事件示例" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page="">
+      <l-m src="./bubble-component.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          padding: 20px;
+          border: 1px solid blue;
+        }
+      </style>
+      <div on:child-event="handleChildEventFromComponent">
+        <bubble-component on:child-event="handleDirectChildEvent"></bubble-component>
+      </div>
+      <p>外层容器（监听冒泡事件）: {{bubbledEventCount}} 次</p>
+      <p>内层组件（监听直接事件）: {{directEventCount}} 次</p>
+      <p>接受到的数据: <span style="color:red;">{{result}}</span></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              result:"-",
+              bubbledEventCount: 0,
+              directEventCount: 0
+            },
+            proto: {
+              handleDirectChildEvent(event) {
+                this.directEventCount++;
+                this.result = event.data;
+              },
+              handleChildEventFromComponent(event) {
+                this.bubbledEventCount++;
+                this.result = event.data;
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="bubble-component.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          padding: 15px;
+          border: 1px solid green;
+        }
+      </style>
+      <button on:click="triggerNonBubblingEvent">触发非冒泡事件</button>
+      <button on:click="triggerBubblingEvent">触发冒泡事件</button>
+      <script>
+        export default async () => {
+          return {
+            tag: "bubble-component",
+            proto: {
+              triggerNonBubblingEvent() {
+                // 非冒泡事件，只会被直接监听者捕获
+                this.emit('child-event', {
+                  data: { type: 'non-bubbling', message: '非冒泡事件触发', timestamp: Date.now() },
+                  bubbles: false
+                });
+              },
+              triggerBubblingEvent() {
+                // 冒泡事件，会向上传播到父元素
+                this.emit('child-event', {
+                  data: { type: 'bubbling', message: '冒泡事件触发', timestamp: Date.now() },
+                  bubbles: true
+                });
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>composed - 穿透 Shadow DOM 边界</h2>
+        <p><code>composed</code> 属性控制事件是否能够穿过 Shadow DOM 边界。这对于 Web Components 开发特别重要，默认值为 <code>false</code>。</p>
+        <h3>穿透机制详解</h3>
+        <ul>
+          <li><strong>Shadow DOM 隔离</strong>：默认情况下，事件无法跨越 Shadow DOM 边界</li>
+          <li><strong>启用穿透</strong>：设置 <code>composed: true</code> 允许事件穿越 Shadow DOM 边界</li>
+          <li><strong>使用场景</strong>：当组件需要向宿主环境发送事件时，必须设置 <code>composed: true</code></li>
+        </ul>
+        <h3>穿透示例</h3>
+        <o-playground name="自定义事件带数据示例" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page="">
+      <l-m src="./bubble-component.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          padding: 20px;
+          border: 1px solid blue;
+        }
+      </style>
+      <div on:child-event="handleChildEventFromComponent">
+        <bubble-component></bubble-component>
+      </div>
+      <p>监听事件: {{bubbledEventCount}} 次</p>
+      <p>接受到的数据: <span style="color:red;">{{result}}</span></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              result:"-",
+              bubbledEventCount: 0,
+            },
+            proto: {
+              handleChildEventFromComponent(event) {
+                this.bubbledEventCount++;
+                this.result = event.data;
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="bubble-component.html">
+    <template component="">
+      <l-m src="./child-component.html"></l-m>
+      <style>
+        :host{
+          display: block;
+          padding: 15px;
+          border: 1px solid gray;
+        }
+      </style>
+      <child-component on:child-event="handleChildEventFromComponent"></child-component>
+      <p>监听事件: {{bubbledEventCount}} 次</p>
+      <p>接受到的数据: <span style="color:pink;">{{result}}</span></p>
+      <script>
+        export default async () => {
+          return {
+            tag: "bubble-component",
+            data: {
+              result:"-",
+              bubbledEventCount: 0,
+            },
+            proto: {
+              handleChildEventFromComponent(event) {
+                this.bubbledEventCount++;
+                this.result = event.data;
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="child-component.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          padding: 15px;
+          border: 1px solid green;
+        }
+      </style>
+      <button on:click="triggerNonComposedEvent">触发非穿透事件</button>
+      <button on:click="triggerComposedEvent">触发穿透事件</button>
+      <script>
+        export default async () => {
+          return {
+            tag: "child-component",
+            proto: {
+              triggerNonComposedEvent() {
+                // 非穿透事件，只会被直接监听者捕获
+                this.emit('child-event', {
+                  data: { type: 'non-composed', message: '非穿透事件触发', timestamp: Date.now() },
+                  composed: false
+                });
+              },
+              triggerComposedEvent() {
+                // 穿透事件，会跨越 Shadow DOM 边界
+                this.emit('child-event', {
+                  data: { type: 'composed', message: '穿透事件触发', timestamp: Date.now() },
+                  composed: true
+                });
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>특성 속성 전달</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>특성 속성 전달</h1>
+        <p>ofa.js에서 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/attributes" target="_blank">특성 속성(Attribute)</a>은 컴포넌트 간 데이터 전달에 가장 많이 사용되는 방식 중 하나입니다. 컴포넌트의 <code>attrs</code> 객체에 필요한 속성을 선언하기만 하면, 컴포넌트를 사용할 때 외부 데이터를 컴포넌트 내부로 전달할 수 있습니다.</p>
+        <h2>기본 사용법</h2>
+        <h3>속성 정의</h3>
+        <p>컴포넌트를 사용하기 전에 먼저 컴포넌트의 <code>attrs</code> 객체에서 수신해야 하는 속성을 선언해야 합니다. 속성은 기본값을 설정할 수 있습니다.</p>
+        <o-playground name="기본 사용법 예제" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp first="OFA" full-name="OFA 컴포넌트 예제"></demo-comp>
+      <br>
+      <demo-comp first="NoneOS" full-name="NoneOS 사용 사례"></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>
+      <p>First: {{first}}</p>
+      <p>Full Name: {{fullName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            attrs: {
+              first: null,
+              fullName:""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>중요한 규칙</h3>
+        <ol>
+          <li>
+            <p><strong>타입 제한</strong>: 전달하는 attribute 값은 반드시 문자열이어야 하며, 다른 타입은 자동으로 문자열로 변환됩니다.</p>
+          </li>
+          <li>
+            <p><strong>네이밍 변환</strong>: HTML 속성은 대소문자를 구분하지 않으므로, 대문자를 포함한 속성을 전달할 때는 <code>-</code>로 구분하는 kebab-case 형식을 사용해야 합니다.</p>
+            <ul>
+              <li>예: <code>fullName</code> → <code>full-name</code></li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>정의 필수</strong>: 컴포넌트가 <code>attrs</code> 객체에 해당 속성을 정의하지 않으면 해당 attribute를 받을 수 없습니다. 설정한 값은 기본값이며, 기본값을 원하지 않으면 <code>null</code>로 설정하세요.</p>
+          </li>
+        </ol>
+        <o-playground name="중요 규칙 예시" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp></demo-comp>
+      <demo-comp user-name="장삼" age="25"></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>
+      <p>사용자 이름: {{userName}}</p>
+      <p>나이: {{age}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            attrs: {
+              userName: "기본 이름",
+              age: "0"
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>템플릿 구문으로 Attribute 전달</h2>
+        <p>컴포넌트 템플릿에서는 <code>attr:toKey="fromKey"</code> 구문을 사용해 현재 컴포넌트의 <code>fromKey</code> 데이터를 자식 컴포넌트의 <code>toKey</code> 속성으로 전달할 수 있습니다.</p>
+        <o-playground name="속성 전달 예제" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active="">
+    <template page="">
+      <l-m src="./demo-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <textarea sync:value="val"></textarea>
+      <br>
+      👇
+      <demo-comp attr:full-name="val"></demo-comp>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>
+      <p>Full Name: {{fullName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            attrs: {
+              fullName:""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>다중 레벨 전달</h2>
+        <p>여러 계층의 중첩된 컴포넌트를 통해 속성을 계층별로 전달할 수 있습니다.</p>
+        <p>컴포넌트가 다른 컴포넌트에 의존해야 하는 경우, 해당 컴포넌트에서 다른 컴포넌트의 모듈을 불러와야 합니다.</p>
+        <o-playground name="다중 레벨 전달 예시" style="--editor-height: 700px">
+          <code path="demo.html" preview="">
+    <template>
+      <l-m src="./outer-comp.html"></l-m>
+      <outer-comp user-name="최상위 데이터"></outer-comp>
+    </template>
+  </code>
+          <code path="outer-comp.html" active="">
+    <template component="">
+      <l-m src="./inner-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid blue;
+          padding: 8px;
+          margin-bottom: 8px;
+        }
+      </style>
+      <p>외부 컴포넌트 수신: {{userName}}</p>
+      <inner-comp attr:user-name="userName"></inner-comp>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "outer-comp",
+            attrs: {
+              userName: ""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="inner-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin-left: 20px;
+        }
+      </style>
+      <p>내부 컴포넌트 수신: {{userName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "inner-comp",
+            attrs: {
+              userName: ""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

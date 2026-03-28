@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>css</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>css</h1>
+        <p><code>css</code> 方法用于获取或设置目标元素的样式。</p>
+        <h2>直接使用</h2>
+        <p>你可以直接使用 <code>css</code> 方法来获取或设置元素的样式。</p>
+        <o-playground name="css - 直接使用" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <div id="target">origin text</div>
+      <br>
+      <h4>logger</h4>
+      <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
+      <script>
+        $("#logger").text = $("#target").css.color;
+        setTimeout(()=> {
+          $('#target').css.color = 'red';
+          $("#logger").text = $("#target").css.color;
+        }, 1000);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>全量设置</h2>
+        <p>通过获取的 <code>css</code> 对象，你可以直接设置在元素上的 style 值。</p>
+        <o-playground name="css - 全量设置" style="--editor-height: 400px">
+          <code path="demo.html">
+    <template>
+      <div id="target" style="color:red">origin text</div>
+      <br>
+      <h4>logger</h4>
+      <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
+      <script>
+        $("#logger").text = Object.keys($("#target").css);
+        setTimeout(()=>{
+          \$("#target").css = {
+            color: "blue",
+            lineHeight: "5em"
+          };
+          \$("#logger").text = Object.keys($("#target").css);
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>使用 <code>css</code> 对象的特性，你可以快速地调整目标元素的样式。</p>
+        <h2>模板语法方式使用</h2>
+        <p>你还可以通过模板语法来设置目标元素的样式。</p>
+        <o-playground name="css - 模板语法" style="--editor-height: 400px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./css-demo.html"></l-m>
+      <css-demo></css-demo>
+      <script>
+        setTimeout(()=>{
+          \$("css-demo").txt = "blue";
+        },1000);
+      </script>
+    </template>
+  </code>
+          <code path="css-demo.html" active>
+    <template component>
+      <div :css.color="txt">I am target</div>
+      <script>
+        export default {
+          tag: "css-demo",
+          data: {
+            txt: "red"
+          },
+          ready(){
+            setTimeout(()=>{
+              this.txt = "blue";
+            }, 500);
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>设置 css 的技巧</h2>
+        <p>你可以通过 <code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> 的方式来修改元素的某个样式属性，而不影响其他样式属性。这种方式可以在不重写整个样式的情况下，只修改其中一个属性。</p>
+        <h3>示例</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> myElement = $(<span class="hljs-string">&quot;#myElement&quot;</span>);
+
+myElement.<span class="hljs-property">css</span> = { ...myElement.<span class="hljs-property">css</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> };</code></pre>
+        <p>在上面的示例中，通过使用 <code>{ ...myElement.css, color: &#39;red&#39; }</code>，我们只修改了元素的颜色样式，而将其他样式属性保持不变。这是一个很方便的技巧，可以灵活地修改元素的样式。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

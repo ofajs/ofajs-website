@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introducción</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Introducción</h1>
+        <h2>¿Qué es ofa.js?</h2>
+        <p>ofa.js es un marco de trabajo de front-end web muy fácil de usar, diseñado para construir aplicaciones web, con el objetivo de mejorar la eficiencia del desarrollo y reducir el umbral de entrada.</p>
+        <blockquote>
+          <p>Si ya estás <strong>bastante familiarizado</strong> con HTML, CSS y JavaScript, entonces ofa.js es una excelente opción.</p>
+        </blockquote>
+        <h2>¿Por qué desarrollé ofa.js?</h2>
+        <p>Aunque ya existen frameworks frontend como React y Vue, todos ellos presentan una barrera de entrada relativamente alta. Los desarrolladores deben aprender primero una serie de conocimientos previos, como instalar Node.js, utilizar npm para instalar paquetes y configurar un entorno de scaffolding.</p>
+        <p>Estos pasos iniciales no son indispensables para el desarrollo real, sino que se convierten en una "caja negra" durante la fase de inicio del proyecto, cargando la aplicación con una complejidad innecesaria desde el principio. El nacimiento de ofa.js tiene como objetivo precisamente romper este dilema.</p>
+        <h2>Propósito de ofa.js</h2>
+        <h3>Simplificar el flujo de trabajo del desarrollo frontend</h3>
+        <p>ofa.js simplifica el tedioso proceso del desarrollo frontend tradicional. Los desarrolladores no necesitan aprender Node.js, npm ni herramientas de andamiaje para crear rápidamente aplicaciones frontend. Solo tienen que abrir el programa de construcción oficial (versión web) en el navegador, seleccionar un directorio local y comenzar a desarrollar.</p>
+        <h3>Reducir el umbral de desarrollo</h3>
+        <p>Muchas personas desean desarrollar sus propias aplicaciones o convertirse en desarrolladores, pero al enfrentarse a la ruta tradicional de desarrollo web (incluyendo Android, iOS, etc.), se desaniman al tener que aprender una gran cantidad de conocimientos previos, como instalar el entorno de desarrollo y configurar el andamiaje.</p>
+        <p>ofa.js se dedica a hacer que todo sea sencillo. Solo necesitas un navegador Chrome, abre una página web y podrás construir aplicaciones, selecciona y abre directamente un directorio local, ahorrando los preparativos previos al desarrollo. Todos los cálculos, operaciones de datos y almacenamiento se ejecutan localmente en el usuario, sin necesidad de depender de servicios en la nube.</p>
+        <h3>La solución definitiva para convertirse en micro-frontends</h3>
+        <p>ofa.js permite que el desarrollo frontend web se subdivida, al igual que los microservicios, en varios módulos independientes, cada uno de los cuales puede ser desarrollado y desplegado por separado. Cuando los límites tradicionales del frontend web se rompen, la tecnología frontend irá traspasando gradualmente las fronteras de la tecnología del servidor.</p>
+        <blockquote>
+          <p>Los microservicios (Microservices) son un estilo de arquitectura de software que divide una aplicación grande y compleja en varios servicios pequeños, de granularidad fina, desplegados y ejecutados de forma independiente.</p>
+        </blockquote>
+        <h2>Comenzar a usar</h2>
+        <ul>
+          <li>Si tienes cierta experiencia en desarrollo, puedes comenzar desde <a href="./script-reference.html" olink="">Introducción a Scripts</a>.</li>
+          <li>Si eres principiante, te recomiendo comenzar desde <a href="./create-first-app.html" olink="">Crear tu primera aplicación</a>.</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

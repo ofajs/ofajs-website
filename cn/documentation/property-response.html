@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>属性响应</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>属性响应</h1>
+        <p>在前面的 <a href="./property-binding.html" olink="">属性绑定</a> 中我们介绍了简单的属性响应机制，即如何将组件的属性值渲染到文本展示上。</p>
+        <p>ofa.js 不仅支持对基本属性值的响应，还支持对多层嵌套对象内部属性值的响应式渲染。</p>
+        <o-playground name="非响应式数据示例" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{obj.count2}}</p>
+      <button on:click="handleAddCount">增加</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              obj: {
+                count2: 100,
+              },
+            },
+            proto:{
+              handleAddCount(){
+                this.count++;
+                this.obj.count2++;
+              }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>所有绑定到 ofa.js 实例对象上的数据都会自动转换为响应式数据。响应式数据仅支持字符串、数字、布尔值、数组、对象等基本数据类型。对于函数、类实例等复杂数据类型，则需要作为<strong>非响应式属性</strong>进行存储，这些属性的变化不会触发组件的重新渲染。</p>
+        <h2>非响应式数据</h2>
+        <p>有时我们需要存储一些不需要响应式更新的数据，例如 Promise 实例、正则表达式对象或其他复杂对象，这时就需要使用非响应式属性。这些属性的变化不会触发组件的重新渲染，适用于存储不需要视图联动的数据。</p>
+        <p>非响应式属性的命名通常在属性名前添加下划线 <code>_</code> 作为前缀，以示与响应式属性的区分。</p>
+        <o-playground name="非响应式数据示例" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{_count2}}</p>
+      <button on:click="count++">Blue增加</button>
+      <button on:click="_count2++">Green增加</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              _count2: 100,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在点击<code>Green增加</code>按钮时，虽然 <code>_count2</code> 的数值实际上已经增加了，但由于它是非响应式属性，不会触发视图更新，因此界面上的显示并未改变。当点击<code>Blue增加</code>按钮时，由于 <code>count</code> 是响应式属性，会触发整个组件的重新渲染，这时才会同步更新Green的显示内容。</p>
+        <p>非响应式的对象数据，性能会比响应式的对象数据性能更好，因为非响应式数据不会触发组件的重新渲染。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

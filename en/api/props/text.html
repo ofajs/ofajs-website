@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>text</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>text</h1>
+        <p>The <code>text</code> method is used to get or set the text content of an element.</p>
+        <h2>Direct Use</h2>
+        <p>You can directly get or set the text content of an element.</p>
+        <o-playground name="text - direct usage" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <div id="target1">target 1</div>
+      <div id="target2">origin text</div>
+      <br>
+      <div id="logger" style="color:red;"></div>
+      <script>
+        setTimeout(()=> {
+          \$('#target2').text = `<b style="color:blue;">new text</b>`;
+          \$("#logger").text = $("#target1").text;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Template Syntax Usage</h2>
+        <p>You can also use the <code>:text</code> attribute to set the corresponding text value for the target element. This is particularly useful in component rendering.</p>
+        <o-playground name="text - Template Syntax" style="--editor-height: 450px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./text-demo.html"></l-m>
+      <text-demo></text-demo>
+      <script>
+        setTimeout(()=>{
+          \$("text-demo").txt = "change txt from outside";
+        },1000);
+      </script>
+    </template>
+  </code>
+          <code path="text-demo.html" active>
+    <template component>
+      <div>Rendered text:
+        <span :text="txt" style="color:red;"></span>
+      </div>
+      <script>
+        export default {
+          tag: "text-demo",
+          data: {
+            txt: "I am txt"
+          },
+          ready(){
+            setTimeout(()=>{
+              this.txt = "change txt";
+            }, 500);
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

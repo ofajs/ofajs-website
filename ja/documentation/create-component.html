@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>コンポーネントの作成</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>コンポーネントの作成</h1>
+        <p>ofa.jsにおいて、コンポーネントはページの再利用とモジュール化を実現するための中核的なメカニズムです。コンポーネントは本質的にはカスタムWeb Componentであり、テンプレート、スタイル、ロジックを定義することで、再利用可能なUI要素を作成できます。</p>
+        <h2>コンポーネントの基本構造</h2>
+        <p>ページモジュールとは異なり、コンポーネントモジュールの <code>&lt;template&gt;</code> 要素は <code>component</code> 属性を使用し、<code>tag</code> 属性を宣言してコンポーネントのタグ名を指定します。</p>
+        <p>コンポーネントを使用する必要がある場所では、<code>l-m</code> タグを使用してコンポーネントモジュールを非同期にロードします。システムは自動的に登録を完了します。その後、通常のHTMLタグのように直接そのコンポーネントを使用できます。</p>
+        <o-playground name="コンポーネント基本例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 10px;
+        }
+      </style>
+      <h3>{{title}}</h3>
+      <script>
+        export default async () => {
+          return {
+            tag: "demo-comp",
+            data: {
+              title: "OFAJS コンポーネント例",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>コンポーネントの核心概念</h2>
+        <h3>tag - コンポーネントタグ名</h3>
+        <p><code>tag</code> はコンポーネントのタグ名であり、<strong>必ずコンポーネントの使用タグ名と一致させる必要がある</strong>。例えば、コンポーネントの <code>tag</code> を <code>&quot;demo-comp&quot;</code> と定義した場合、HTML で使用する際は必ず <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> と記述しなければならない。</p>
+        <h3>コンポーネントモジュールの参照</h3>
+        <p><code>l-m</code> タグを使用してコンポーネントモジュールを導入すると、コンポーネントモジュールは自動的にコンポーネントを登録します。これは <code>script</code> タグを使用してスクリプトを導入するのと似ていますが、<code>l-m</code> は特にコンポーネントモジュールのロードと登録に使用されます。</p>
+        <blockquote>
+          <p>注意：<code>l-m</code> 参照タグは<strong>非同期参照</strong>であり、ページ読み込み時に必要に応じてコンポーネントを読み込むのに適しています。</p>
+        </blockquote>
+        <h2>同期参照コンポーネント</h2>
+        <p>特定のシナリオでは、コンポーネントを同期的にロードする必要があるかもしれません（例えば、コンポーネントが使用される前に登録が完了していることを保証する場合）。この場合、<code>load</code> メソッドと <code>await</code> キーワードを組み合わせて、同期的な参照を実現できます。</p>
+        <p>コンポーネントモジュールとページモジュールでは、開発者が必要なリソースを同期的に読み込むための <code>load</code> 関数が自動的に注入されます。</p>
+        <o-playground name="同期参照コンポーネントの例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <div>
+        <demo-comp></demo-comp>
+      </div>
+      <script>
+        // eslint-disable-next-line
+        export default async ({ load }) => {
+          await load("./demo-comp.html");
+          return {
+            data: {},
+            proto: {},
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 10px;
+        }
+      </style>
+      <h3>{{title}}</h3>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            data: {
+              title: "OFAJS コンポーネントの例",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>非同期参照 vs 同期参照</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>引用方式</th>
+              <th>关键词</th>
+              <th>特徴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>非同期参照</td>
+              <td><code>l-m</code> タグ</td>
+              <td>ノンブロッキングロード、オンデマンドコンポーネントのロードに適している</td>
+            </tr>
+            <tr>
+              <td>同期参照</td>
+              <td><code>load</code> メソッドと <code>await</code> キーワードの組み合わせ</td>
+              <td>ブロッキングロード、コンポーネントの使用前に登録されていることを保証する</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>スタイルクエリ</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>スタイルクエリ</h1>
+        <p><code>match-var</code> は、ofa.js においてCSS変数に基づいてスタイルをマッチングする機能コンポーネントです。<code>match-var</code> を使うことで、現在のコンポーネントのCSS変数の値に応じて動的に異なるスタイルをマッチングし適用できます。この特性は、スタイル関連のコンテキスト状態の受け渡し専用で、JavaScriptを使用する必要がなく、より便利に使用でき、テーマカラーなどのスタイルの受け渡しニーズに適しています。</p>
+        <h2>核心概念</h2>
+        <ul>
+          <li><strong>match-var</strong>: スタイルマッチングコンポーネント。CSS変数の値に基づいて内部スタイルを適用するかどうかを決定します</li>
+          <li><strong>属性マッチング</strong>: コンポーネント属性を通じて、マッチングが必要なCSS変数と期待値を定義します</li>
+          <li><strong>スタイル適用</strong>: マッチングが成功した場合、内部の<code>&lt;style&gt;</code>タグのスタイルがコンポーネントに適用されます</li>
+        </ul>
+        <h2>基本的な使い方</h2>
+        <p><code>match-var</code> コンポーネントは、属性を通して一致させるCSS変数と期待値を定義します。コンポーネントのCSS変数値が指定された属性値と一致した場合、内部で定義されたスタイルが適用されます。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#333</span>;
+      <span class="hljs-attribute">color</span>: white;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
+        <h3>属性</h3>
+        <p><code>match-var</code> コンポーネントは任意の属性を使用して、CSS変数のマッチングルールを定義します。属性名はCSS変数名（<code>--</code> プレフィックスを除く）に対応し、属性値は期待されるマッチング値です。</p>
+        <h3>動作原理</h3>
+        <ol>
+          <li><strong>ブラウザサポート</strong>: ブラウザが <code>@container style()</code> クエリをサポートしている場合、CSSのネイティブ機能を直接使用します</li>
+          <li><strong>フォールバック処理</strong>: サポートされていない場合は、CSS変数値の変化をポーリング検出し、一致した後に動的にスタイルを注入します</li>
+          <li><strong>手動更新</strong>: <code>$.checkMatch()</code> メソッドを使用してスタイル検出を手動でトリガーできます</li>
+        </ol>
+        <h2>基本の例</h2>
+        <o-playground name="基本例" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="./page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <l-m src="./theme-box.html"></l-m>
+      <style>
+        :host{
+            display: block;
+        }
+      </style>
+      <style>
+        .container{
+           --theme: data(currentTheme);
+        }
+      </style>
+      <button on:click="changeTheme">テーマ切り替え</button> - テーマ:{{currentTheme}}
+      <div class="container">
+        <theme-box>
+          CSS変数で異なるスタイルを表示
+        </theme-box>
+      </div>
+        <theme-box style="--theme: light;">
+          ライトテーマを表示
+        </theme-box>
+        <theme-box style="--theme: dark;">
+          ダークテーマを表示
+        </theme-box>
+      </div>
+      <script>
+        export default async ()=>{
+          return {
+            data: {
+                currentTheme: "light",
+            },
+            proto:{
+                changeTheme(){
+                    this.currentTheme = this.currentTheme === "light" ? "dark" : "light";
+                }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="theme-box.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          margin: 8px 0;
+        }
+        .content {
+          padding: 20px;
+          border-radius: 4px;
+        }
+      </style>
+      <match-var theme="light">
+        <style>
+          .content {
+            background-color: #f5f5f5;
+            color: #333;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark">
+        <style>
+          .content {
+            background-color: #333;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <div class="content">
+        <slot></slot>
+      </div>
+      <script>
+        export default {
+          tag: "theme-box",
+          data: {
+            theme: "light",
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>複数条件マッチング</h2>
+        <p>複数の属性を同時に使用して、より複雑な一致条件を定義することができ、すべてのCSS変数が一致した場合にのみスタイルが適用されます。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;large&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>;
+      <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
+        <h2>複数条件マッチングの例</h2>
+        <o-playground name="属性マッチング例" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="./page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <style>
+        :host {
+            display: block;
+        }
+      </style>
+      <style>
+        .content{
+            --theme: data(theme);
+            --size: data(size);
+        }
+      </style>
+      <l-m src="./test-card.html"></l-m>
+      <div>テーマ: {{theme}} <button on:click="changeTheme">テーマ切り替え</button></div>
+      <div>サイズ: {{size}} <button on:click="changeSize">サイズ切り替え</button></div>
+      <div class="content">
+        <test-card>
+          <div>複数条件スタイルマッチング例</div>
+        </test-card>
+      </div>
+      <script>
+        export default async ()=>{
+            return {
+                data:{
+                    theme:"light",
+                    size:"small"
+                },
+                proto:{
+                    changeTheme(){
+                        this.theme = this.theme === "light" ? "dark" : "light";
+                    },
+                    changeSize(){
+                        this.size = this.size === "small" ? "large" : "small";
+                    }
+                }
+            };
+        }
+      </script>
+    </template>
+  </code>
+          <code path="test-card.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          padding: 20px;
+          margin: 10px;
+        }
+      </style>
+      <match-var theme="light" size="small">
+        <style>
+          :host {
+            background-color: #e3f2fd;
+            border: 1px solid #2196f3;
+          }
+        </style>
+      </match-var>
+      <match-var theme="light" size="large">
+        <style>
+          :host {
+            background-color: #bbdefb;
+            border: 2px solid #1976d2;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark" size="small">
+        <style>
+          :host {
+            background-color: #424242;
+            border: 1px solid #757575;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark" size="large">
+        <style>
+          :host {
+            background-color: #212121;
+            border: 2px solid #616161;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <slot></slot>
+      <script>
+        export default {
+          tag: "test-card",
+          data: {},
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>checkMatch 手動更新</h2>
+        <p>一部の場合、CSS変数の変更が自動的に検出されないことがあります。その場合は、手動で <code>$.checkMatch()</code> メソッドを呼び出してスタイルの検出をトリガーできます。</p>
+        <blockquote>
+          <p>現在の Firefox は <code>@container style()</code> クエリをまだサポートしていないため、手動で <code>$.checkMatch()</code> を呼び出す必要があります。将来的にブラウザがネイティブサポートした後は、システムが自動的に変数の変化を検出し、手動でのトリガーは不要になります。</p>
+        </blockquote>
+        <pre><code class="hljs language-javascript"><span class="hljs-attr">proto</span>: {
+  <span class="hljs-title function_">updateTheme</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&#x27;dark&#x27;</span>;
+    <span class="hljs-comment">// 手動でスタイルの検出をトリガー</span>
+    $.<span class="hljs-title function_">checkMatch</span>();
+  }
+}</code></pre>
+        <h2>ベストプラクティス</h2>
+        <ol>
+          <li><strong>CSSネイティブ機能の優先使用</strong>: <code>match-var</code> はブラウザのネイティブな <code>@container style()</code> クエリを優先的に使用し、モダンブラウザではパフォーマンスが向上します</li>
+          <li><strong>スタイルの適切な整理</strong>: 関連するマッチングスタイルをまとめて配置し、保守性と理解しやすさを向上させます</li>
+          <li><strong>data() バインディングの使用</strong>: <code>data()</code> ディレクティブと組み合わせることで、レスポンシブなスタイル切り替えを実現できます</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

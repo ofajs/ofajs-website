@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ホストスタイルの注入</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>ホストスタイルの注入</h1>
+        <p>Web Components では、<code>slot</code> スロットの制限により、スロット内の多階層要素のスタイルを直接設定することができません。この問題を解決するために、ofa.js は <code>&lt;inject-host&gt;</code> コンポーネントを提供しており、コンポーネント内部からホスト要素にスタイルを注入することができ、これによりスロット内容内の多階層要素のスタイル制御を実現します。</p>
+        <blockquote>
+          <p>注意、優先的に <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> セレクタを使用してスロットコンテンツのスタイルを設定することを推奨します。ニーズを満たせない場合にのみ、<code>&lt;inject-host&gt;</code> コンポーネントを使用してください。</p>
+        </blockquote>
+        <h2>基本的な使い方</h2>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+            <span class="hljs-attribute">display</span>: block;
+            <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#007acc</span>;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+        <span class="hljs-comment">/* 直接の子要素（第一階層）のスタイルを設定 */</span>
+        <span class="hljs-comment">/* ::slotted(user-list-item) {
+            background-color: aqua;
+        } */</span>
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+            user-list user-list-item {
+                <span class="hljs-attribute">background-color</span>: aqua;
+            }
+            <span class="hljs-comment">/* 多階層ネストのスタイルも設定可能 */</span>
+            user-list user-list-item <span class="hljs-selector-class">.user-list-item-content</span> {
+                <span class="hljs-attribute">color</span>: red;
+            }
+        </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+            <span class="hljs-keyword">return</span> {
+                <span class="hljs-attr">tag</span>: <span class="hljs-string">"user-list"</span>,
+                <span class="hljs-comment">// ...</span>
+            };
+        };
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>ケーススタディ</h2>
+        <p>以下の例では、<code>&lt;inject-host&gt;</code> を使ってスロット内のネストされた要素のスタイルを設定する方法を示します。ここでは 2 つのコンポーネントを作成します：<code>user-list</code> コンポーネントをリストコンテナとして、<code>user-list-item</code> コンポーネントをリスト項目として。<code>&lt;inject-host&gt;</code> によって、<code>user-list</code> コンポーネント内で <code>user-list-item</code> およびその内部要素のスタイルを設定できます。</p>
+        <o-playground name="ホストスタイルの注入" style="--editor-height: 500px">
+          <code path="index.html" preview="">
+    <template>
+      <l-m src="./user-list.html"></l-m>
+      <l-m src="./user-list-item.html"></l-m>
+      <user-list>
+        <user-list-item>
+          <span>張三</span>
+          <span slot="age">25</span>
+        </user-list-item>
+        <user-list-item>
+          <span class="item-name">李四</span>
+          <span slot="age">30</span>
+        </user-list-item>
+      </user-list>
+    </template>
+  </code>
+          <code path="user-list.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid gray;
+          padding: 10px;
+        }
+      </style>
+      <inject-host>
+        <style>
+          user-list user-list-item {
+            background-color: blue;
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+          }
+          user-list user-list-item .item-name {
+            color: red;
+            font-weight: bold;
+          }
+        </style>
+      </inject-host>
+      <slot></slot>
+      <script>
+        export default async () => {
+          return {
+            tag: "user-list",
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="user-list-item.html">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+        }
+      </style>
+      <slot></slot>
+      <div class="item-age">
+        年齢: <slot name="age"></slot>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            tag: "user-list-item",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>実行結果から以下のことが確認できます：- <code>user-list-item</code> コンポーネントの背景色は aqua（<code>user-list</code> コンポーネントの <code>&lt;inject-host&gt;</code> による設定）</p>
+        <ul>
+          <li>名前の文字色は赤（<code>user-list</code> コンポーネントの <code>&lt;inject-host&gt;</code> による <code>user-list-item .item-name</code> スタイルの設定）</li>
+        </ul>
+        <h2>動作原理</h2>
+        <p><code>&lt;inject-host&gt;</code> コンポーネントは、内部に含まれる <code>&lt;style&gt;</code> タグの内容をコンポーネントのホスト要素に注入します。これにより、注入されたスタイルルールはコンポーネントの境界を貫通し、slot スロット内の要素に作用します。</p>
+        <p>この方法で、あなたは：- スロットの内容内の任意の深さにある要素のスタイルを設定する</p>
+        <ul>
+          <li>完全なセレクタパスを使用して、スタイルが対象の要素にのみ作用することを確実にする</li>
+          <li>コンポーネントのスタイルのカプセル化を維持しながら、柔軟なスタイルの浸透を実現する</li>
+        </ul>
+        <h2>注意事項</h2>
+        <p>⚠️ <strong>スタイル汚染リスク</strong>：注入されたスタイルはホスト要素のスコープに作用するため、他のコンポーネント内の要素に影響を与える可能性があります。使用時は以下の原則に必ず従ってください：</p>
+        <ol>
+          <li><strong>具体的なセレクタを使用する</strong>：可能な限り完全なコンポーネントタグパスを使用し、過度に広範なセレクタの使用を避ける</li>
+          <li><strong>名前空間プレフィックスを追加する</strong>：スタイルクラスにユニークなプレフィックスを追加し、他のコンポーネントとの衝突の可能性を減らす</li>
+          <li><strong>汎用タグセレクタの使用を避ける</strong>：可能な限りクラス名または属性セレクタをタグセレクタの代わりに使用する</li>
+          <li><strong>コンポーネント設計を再考する</strong>：<code>&lt;inject-host&gt;</code>の使用を避けるためにコンポーネント設計を最適化できるかどうかを検討する。例えば、子コンポーネントで<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a>セレクタを組み合わせて使用する方が、多くの場合よりエレガントである。</li>
+        </ol>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 推奨 ✅：具体的なセレクタを使用 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        user-list <span class="hljs-selector-class">.list-item-content</span> {
+            <span class="hljs-attribute">color</span>: red;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 推奨されません ❌：あまりに汎用的なセレクタを使用 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* 他のコンポーネントと衝突しやすい */</span>
+            <span class="hljs-attribute">color</span>: red;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span></code></pre>
+        <h3>パフォーマンスのヒント</h3>
+        <p><code>&lt;inject-host&gt;</code> はホストスタイルの再注入を引き起こし、結果としてコンポーネントのリフローやリペイントを引き起こす可能性があるため、頻繁に更新されるシーンでは慎重に使用してください。<br>スロット内の第1レベル要素にのみスタイルを設定する場合は、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 擬似クラスセレクタを優先的に使用すると、透過的な注入による追加のレンダリングオーバーヘッドを回避でき、より良いパフォーマンスを得られます。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enlace de Clases y Estilos</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Enlace de Clases y Estilos</h1>
+        <p>En ofa.js, puedes lograr una gestión flexible del estado de la UI mediante el enlace dinámico de nombres de clase, estilos y atributos. Esto permite que la interfaz se ajuste automáticamente a los cambios en los datos.</p>
+        <h2>Enlace de Clases</h2>
+        <p>El enlace de clases te permite agregar o eliminar clases CSS dinámicamente según el estado de los datos. Puedes usar la sintaxis <code>class:className=&quot;booleanExpression&quot;</code> para enlazar una clase específica.</p>
+        <p>Cuando <code>booleanExpression</code> es <code>true</code>, el nombre de la clase se agrega al elemento; cuando es <code>false</code>, el nombre de la clase se elimina.</p>
+        <h3>Enlace de clases básicas</h3>
+        <o-playground name="Clase de enlace básica" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .hide {
+          display: none;
+        }
+      </style>
+      <button on:click="isHide = !isHide">Alternar visualización</button>
+      <p class="green" class:hide="isHide">{{val}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isHide: false,
+              val: "Hola, código de demostración de ofa.js",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Enlace de múltiples clases</h3>
+        <p>También puedes vincular múltiples clases simultáneamente, permitiendo que el elemento tenga diferentes estados de apariencia según distintas condiciones.</p>
+        <o-playground name="Múltiples enlaces de clases" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .active {
+          background-color: #e6f7ff;
+          border: 2px solid #1890ff;
+        }
+        .disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+        .highlight {
+          font-weight: bold;
+          color: #52c41a;
+        }
+      </style>
+      <button on:click="toggleStates">Alternar Estados</button>
+      <p class:active="isActive" class:disabled="isDisabled" class:highlight="isHighlighted">
+        Estado Actual - Activo: {{isActive}}, Deshabilitado: {{isDisabled}}, Resaltado: {{isHighlighted}}
+      </p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isActive: false,
+              isDisabled: false,
+              isHighlighted: false,
+            },
+            proto: {
+              toggleStates() {
+                this.isActive = !this.isActive;
+                this.isDisabled = !this.isDisabled;
+                this.isHighlighted = !this.isHighlighted;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Enlace de estilos</h2>
+        <p>La vinculación de estilos te permite establecer directamente los valores de estilos en línea, admitiendo actualizaciones dinámicas. ofa.js proporciona dos métodos de vinculación de estilos:</p>
+        <h3>Enlace de un solo atributo de estilo</h3>
+        <p>Utiliza la sintaxis <code>:style.propertyName</code> para enlazar propiedades de estilo específicas.</p>
+        <o-playground name="Enlace de atributo de estilo único" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p class="green" :style.color="isGreen ? 'green' : 'red'">{{val}}</p>
+      <button on:click="isGreen = !isGreen">Cambiar Color</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isGreen: false,
+              val: "Hola de Demo Code ofa.js",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Vinculación de atributos de múltiples estilos</h3>
+        <p>También puedes enlazar varias propiedades de estilo a la vez:</p>
+        <o-playground name="Vinculación de atributos de estilo múltiple" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p :style.color="textColor" :style.fontSize="fontSize + 'px'" :style.backgroundColor="bgColor">
+        Ejemplo de Estilos Dinámicos
+      </p>
+      <button on:click="changeStyles">Cambiar Estilos</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              textColor: 'blue',
+              fontSize: 16,
+              bgColor: '#f0f0f0'
+            },
+            proto: {
+              changeStyles() {
+                this.textColor = this.textColor === 'blue' ? 'red' : 'blue';
+                this.fontSize = this.fontSize === 16 ? 20 : 16;
+                this.bgColor = this.bgColor === '#f0f0f0' ? '#ffffcc' : '#f0f0f0';
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Enlace de atributos</h2>
+        <p>Además de la vinculación de clases y estilos, también puedes vincular dinámicamente otros atributos HTML. ofa.js utiliza la sintaxis <code>attr:attributeName</code> para realizar la vinculación de atributos.</p>
+        <h3>Enlace de atributos básicos</h3>
+        <o-playground name="Enlace de atributos básicos" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        [bg-color="red"]{
+            background-color: red;
+        }
+        [bg-color="green"]{
+            background-color: green;
+        }
+      </style>
+      <p attr:bg-color="bgColor" attr:title="tooltipText">{{val}}</p>
+      <button on:click="changeColor">Change Color</button>  
+      <script>
+        export default async () => {
+          return {
+            data: {
+              bgColor: "green",
+              tooltipText: "Esta es un mensaje de información",
+              val: "Pasa el cursor sobre mí para ver el título",
+            },
+            proto: {
+              changeColor() {
+                this.bgColor = this.bgColor === "green" ? "red" : "green";
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Manejo de atributos booleanos</h3>
+        <p>Para atributos de tipo booleano (como <code>disabled</code>, <code>hidden</code>), ofa.js decide si añadir el atributo según el valor verdadero o falso del dato enlazado.</p>
+        <o-playground name="Manejo de atributos booleanos" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <input type="text" attr:disabled="isDisabled" placeholder="Escriba aquí..." />
+      <br /><br />
+      <button attr:disabled="isButtonDisabled" on:click="handleButtonClick">Haz clic en mí</button>
+      <br /><br />
+      <label>
+        <input type="checkbox" on:change="toggleAll" /> Alternar todos los estados
+      </label>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isDisabled: false,
+              isChecked: true,
+              isButtonDisabled: false,
+            },
+            proto: {
+              handleButtonClick() {
+                alert('¡Botón pulsado!');
+              },
+              toggleAll(event) {
+                const checked = event.target.checked;
+                this.isDisabled = checked;
+                this.isChecked = checked;
+                this.isButtonDisabled = checked;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>datos en estilo</h2>
+        <p>Puedes usar <code>data(xxx)</code> en los estilos para enlazar datos del componente. Esto es muy adecuado para escenarios en los que los estilos deben cambiar dinámicamente según los datos del componente.</p>
+        <o-playground name="data in style" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        p:hover{
+          color:red;
+        }
+      </style>
+      <style>
+        p {
+          font-size: data(size);
+          color:green;
+          transition: all data(time)s ease;
+        }
+      </style>
+      Tamaño de fuente: <input type="number" sync:value="size" placeholder="Este es un cuadro de entrada con enlace bidireccional" />
+      <br />
+      Tiempo de transición: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Este es un cuadro de entrada con enlace bidireccional" />
+      <p>{{val}} - tamaño: {{size}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              size: 16,
+              time: 0.3,
+              val: "Hello ofa.js Demo Code",
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Precauciones</h2>
+        <p>Lo que está dentro de <code>style</code> en <code>data(xxx)</code> técnicamente reemplaza todo el contenido de style, por lo que es mejor escribir solo los estilos relacionados con data dentro de style, y poner los que no necesitan data en otro style, así el rendimiento es mejor.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ El p:hover sin data(xxx) también será actualizado --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-tag">p</span> {
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);
+    <span class="hljs-attribute">color</span>: green;
+    <span class="hljs-attribute">transition</span>: all <span class="hljs-built_in">data</span>(time)s ease;
+  }
+  <span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:hover</span> {
+    <span class="hljs-attribute">color</span>: red;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+``````html
+<span class="hljs-comment">&lt;!-- ✅ Solo los estilos que contienen data(xxx) serán re-renderizados --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-tag">p</span> {
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);
+    <span class="hljs-attribute">color</span>:green;
+    <span class="hljs-attribute">transition</span>: all <span class="hljs-built_in">data</span>(time)s ease;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:hover</span>{
+    <span class="hljs-attribute">color</span>:red;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

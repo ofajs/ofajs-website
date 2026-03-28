@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>one</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>one</h1>
+        <p>使用 <code>one</code> 方法，你可以为目标元素注册一次性事件处理程序，这意味着事件处理程序将在第一次触发后自动解除绑定，不会再次触发。</p>
+        <p>下面是一个示例，演示如何使用 <code>one</code> 方法为按钮元素注册点击事件处理程序：</p>
+        <o-playground name="one - click 一次性事件" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <button id="target">add count</button>
+      <br>
+      <br>
+      <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$("#target").one("click", ()=> {
+          \$("#logger").text = count++;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在这个示例中，我们使用 <code>one</code> 方法为按钮元素添加了一个点击事件处理程序。当用户点击按钮时，事件处理程序会触发，但之后不会再次触发，因为它已被解除绑定。</p>
+        <h2>模板语法方式使用</h2>
+        <p>你还可以使用模板语法来为目标元素绑定一次性事件处理程序。</p>
+        <o-playground name="one - 模板语法" style="--editor-height: 400px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./one-demo.html"></l-m>
+      <one-demo></one-demo>
+    </template>
+  </code>
+          <code path="one-demo.html" active>
+    <template component>
+      <button one:click="addCount">Add Count</button>
+      <div>{{count}}</div>
+      <script>
+        export default {
+          tag: "one-demo",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            }
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在这个示例中，我们在按钮元素上使用 <code>one:click</code> 绑定了一个名为 <code>addCount</code> 的方法。当用户点击按钮时，这个方法将被调用，但之后不会再次触发，因为它是一次性事件处理程序。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

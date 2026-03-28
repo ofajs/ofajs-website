@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Documentation</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <l-m src="./_comps/api-container.html"></l-m>
+      <style>
+        article a {
+          color: var(--md-sys-color-primary);
+          text-decoration: none;
+          align-items: center !important;
+        }
+      </style>
+      <article>
+        <h1>API Documentation</h1>
+        <p> ofa.js not only supports template syntax but also provides a rich API for direct DOM manipulation. Just like <a href="https://jquery.com/" target="_blank">jQuery</a>, you can replace verbose native JavaScript with concise ofa.js syntax to handle DOM operations effortlessly. </p>
+        <p> In the lifecycle functions and custom methods of a component or page module, you can call the APIs provided by ofa.js at any time to manipulate DOM elements flexibly and efficiently. </p>
+        <api-container>
+          <api-list>
+            <h3>Instance Related</h3>
+            <api-item>
+              <a href="./instance/dollar.html" olink="">$(selector)</a>
+              <p>The core function in ofa.js, used to obtain and manipulate DOM element instances.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/all.html" olink="">all</a>
+              <p>Get all child element instances of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/shadow.html" olink="">shadow</a>
+              <p>Get the shadow root of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prev.html" olink="">prev</a>
+              <p>Get the previous sibling element of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prevs.html" olink="">prevs</a>
+              <p>Get all sibling elements before the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/next.html" olink="">next</a>
+              <p>Get the next sibling element of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/nexts.html" olink="">nexts</a>
+              <p>Get all sibling elements after the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/siblings.html" olink="">siblings</a>
+              <p>Get all sibling elements of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parent.html" olink="">parent</a>
+              <p>Get the parent element of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parents.html" olink="">parents</a>
+              <p>Get all ancestor elements of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/clone.html" olink="">clone</a>
+              <p>Clone the current element and its child elements.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/ele.html" olink="">ele</a>
+              <p>Get the child element instance of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/root.html" olink="">root</a>
+              <p>Get the root instance to which the current element belongs.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/children.html" olink="">Children</a>
+              <p>Get all child elements of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/host.html" olink="">host</a>
+              <p>Get the web component host element to which the current element belongs.</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/app.html" olink="">app</a>
+              <p>Get the o-app component instance to which the current element belongs.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Node Operations</h3>
+            <api-item>
+              <a href="./operation/array-like.html" olink="">push</a>
+              <p>Add a child element to the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=11" olink="">pop</a>
+              <p>Remove the last child element of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=14" olink="">shift</a>
+              <p>Remove the first child element of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=8" olink="">unshift</a>
+              <p>Add the first child element to the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=17" olink="">splice</a>
+              <p>Add or remove child elements of the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/before.html" olink="">before</a>
+              <p>Add a child element before the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/after.html" olink="">after</a>
+              <p>Add a child element after the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/remove.html" olink="">remove</a>
+              <p>Remove the current element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/wrap.html" olink="">wrap</a>
+              <p>Wrap the current element inside a specified element.</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/unwrap.html" olink="">unwrap</a>
+              <p>Remove the parent element wrapping the current element.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Attribute Operations</h3>
+            <api-item>
+              <a href="./props/text.html" olink="">text</a>
+              <p>Get or set the text content of an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/html.html" olink="">html</a>
+              <p>Get or set the HTML content of an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/attr.html" olink="">attr</a>
+              <p>Get or set the attributes of an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/css.html" olink="">css</a>
+              <p>Get or set the styles of an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/style.html" olink="">style</a>
+              <p>Get the style object of an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/class-list.html" olink="">classList</a>
+              <p>Get the class list of an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./props/data.html" olink="">data</a>
+              <p>Get or set the data attributes of an element.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Event Related</h3>
+            <api-item>
+              <a href="./event/on.html" olink="">on</a>
+              <p>Add an event listener to an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./event/one.html" olink="">one</a>
+              <p>Add a one-time event listener to an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./event/emit.html" olink="">emit</a>
+              <p>Trigger a custom event on an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./event/off.html" olink="">off</a>
+              <p>Remove an event listener from an element.</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Others</h3>
+            <api-item>
+              <a href="./others/app.html" olink="">o-app Component</a>
+              <p>The root component of an ofa.js application, used to manage application state and routing.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/page.html" olink="">o-page Component</a>
+              <p>The page component of ofa.js, used to create single-page application pages.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/form-data.html" olink="">formData</a>
+              <p>Get form data.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/tag.html" olink="">tag</a>
+              <p>Get the tag name of an element.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/index.html" olink="">index</a>
+              <p>Get the index of an element within its parent element.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/is.html" olink="">is</a>
+              <p>Check if an element matches a specified selector.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/refresh.html" olink="">refresh</a>
+              <p>Refresh the current component or page.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/path.html" olink="">PATH</a>
+              <p>Get the path of the current page.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/extend.html" olink="">extend</a>
+              <p>Extend the functionality of ofa.js.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/version.html" olink="">version</a>
+              <p>Get the version number of ofa.js.</p>
+            </api-item>
+            <api-item>
+              <a href="./others/stanz.html" olink="">Instance Data Feature</a>
+              <p>Stanz is the reactive data feature of ofa.js, supporting automatic data updates.</p>
+            </api-item>
+          </api-list>
+        </api-container>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

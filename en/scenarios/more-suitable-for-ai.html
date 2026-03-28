@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advantages of Using ofa.js in AI</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Advantages of Using ofa.js in AI</h1>
+        <p>ofa.js provides a lighter and more efficient path for AI-generated frontend projects by simplifying the tech stack and eliminating the compilation step.</p>
+        <p>This not only reduces server costs but, more importantly, lowers project complexity, allowing AI to focus on implementing business logic rather than environment configuration and build processes.</p>
+        <h2>Traditional Frontend Frameworks vs ofa.js</h2>
+        <p>In the AI era, using traditional frontend frameworks to generate frontend projects typically requires going through the following cumbersome process:</p>
+        <h3>1. Project Initialization Phase</h3>
+        <ul>
+          <li>AI generates CLI commands to create a frontend project </li>
+          <li>Spawns a dynamic server process to spin up an isolated frontend container </li>
+          <li>Initializes the frontend code inside the container (install dependencies, configure build tools, etc.)</li>
+        </ul>
+        <h3>2. Development and Build Phase</h3>
+        <ul>
+          <li>AI generates frontend code and deploys it into a container </li>
+          <li>The container compiles the frontend code (via build tools like Webpack or Vite)</li>
+        </ul>
+        <h3>3. Preview Phase</h3>
+        <p>The user previews the frontend project effect through the browser</p>
+        <p>The entire process involves <strong>6 steps</strong>, requires dynamic server support, depends on a Node.js environment, and must go through a compilation and build phase.</p>
+        <h2>Simplified ofa.js Flow</h2>
+        <p>Using ofa.js, the process is simplified into <strong>3 steps</strong>:</p>
+        <h3>1. Environment Preparation</h3>
+        <ul>
+          <li>Create a static server container or generate a directory with a random name in the root of a public static server.</li>
+        </ul>
+        <h3>2. Code Generation</h3>
+        <ul>
+          <li>AI generates front-end code for ofa.js, directly deploying the code into the static server directory.</li>
+        </ul>
+        <h3>3. Instant Preview</h3>
+        <ul>
+          <li>Users preview the frontend project directly through the browser</li>
+        </ul>
+        <h2>Core Strengths</h2>
+        <h3>1. Cost Advantage</h3>
+        <p>Due to the absence of dynamic process overhead, server costs will be significantly reduced. The deployment and maintenance costs of static servers are much lower than those of dynamic servers that require running Node.js processes.</p>
+        <h3>2. Zero dependencies, zero compilation</h3>
+        <p>ofa.js doesn’t depend on Node.js and skips any build step; you just upload the code to a static server and it works instantly, giving true WYSIWYG. This slashes the environment-setup burden when AI generates code.</p>
+        <h3>3. Reduce Project Complexity</h3>
+        <p>The simplification of processes means a reduction in the project difficulty coefficient. This brings two key benefits:</p>
+        <ul>
+          <li>Quick start: no complex environment setup or configuration at project kickoff </li>
+          <li>Smooth scaling: easier to handle growing requirements later without hitting a complexity ceiling too early</li>
+        </ul>
+        <h3>4. Micro-Frontend Container Features</h3>
+        <p>ofa.js&#39;s micro-frontend container capabilities bring unique advantages to AI development:</p>
+        <ul>
+          <li><strong>Modular Development</strong>: AI can independently create various modules, with each module being complete and self-consistent</li>
+          <li><strong>Module Security</strong>: Creating independent modules separately achieves a higher level of module completeness and security</li>
+          <li><strong>Module Integration</strong>: Finally, AI integrates and assembles the various modules, improving the overall security and stability of the project</li>
+        </ul>
+        <p>This &quot;divide and conquer&quot; approach allows AI to better manage complex projects, with each module independently verifiable, thereby reducing the overall project risk.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

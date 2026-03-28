@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conditional Rendering</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Conditional Rendering</h1>
+        <p>In ofa.js, conditional rendering is an important feature that allows deciding whether to render a certain element or component based on the data state. ofa.js provides a component-based conditional rendering solution, implemented through the <code>o-if</code>, <code>o-else-if</code>, and <code>o-else</code> components.</p>
+        <h2>o-if Component</h2>
+        <p>The <code>o-if</code> component is used to conditionally render its content based on the truthiness of an expression. When the bound <code>value</code> attribute is a truthy value, the content inside the component will be rendered; otherwise, the content will not appear in the DOM.</p>
+        <o-playground name="o-if Work Principle Demo" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="isHide = !isHide">Toggle Display</button>
+      <o-if :value="!isHide">
+        <p>{{val}}</p>
+      </o-if>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isHide: false,
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>How o-if Works</h3>
+        <p><code>o-if</code> renders content into the DOM only when the condition is true. When the condition is false, the DOM elements inside <code>o-if</code> are completely removed. This implementation is suitable for situations where conditions do not change frequently, as it involves the creation and destruction of DOM elements.</p>
+        <h2>o-else-if and o-else Components</h2>
+        <p>When multiple conditional branches are needed, you can use the <code>o-else-if</code> and <code>o-else</code> components together with <code>o-if</code> to implement multi-branch conditional rendering.</p>
+        <ul>
+          <li><code>o-if</code>: The mandatory first conditional component</li>
+          <li><code>o-else-if</code>: Optional intermediate conditional components, which can be multiple</li>
+          <li><code>o-else</code>: Optional default conditional component, placed at the end</li>
+        </ul>
+        <o-playground name="Multi-Branch Conditional Rendering Example" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="num++">Toggle Display - {{num}}</button>
+      <!-- Switch between different content based on the remainder of num divided by 3 -->
+      <o-if :value="num % 3 === 0">
+        <p>❤️ 0 / 3</p>
+      </o-if>
+      <o-else-if :value="num % 3 === 1">
+        <p>😊 1 / 3</p>
+      </o-else-if>
+      <o-else>
+        <p>😭 2 / 3</p>
+      </o-else>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              num: 0,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Real-world Application Scenarios</h2>
+        <h3>User Permission Control</h3>
+        <o-playground name="User Permission Control Example" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .admin-panel {
+          background-color: #813b3bff;
+          padding: 10px;
+          margin: 10px 0;
+        }
+        .user-info {
+          background-color: #3f6e86ff;
+          padding: 10px;
+          margin: 10px 0;
+        }
+      </style>
+      <div>
+        <button on:click="toggleUserRole">Switch User Role</button>
+        <p>Current Role: {{role}}</p>
+        <o-if :value="role === 'admin'">
+          <div class="admin-panel">
+            <h3>Admin Panel</h3>
+            <button>Manage Users</button>
+            <button>System Settings</button>
+          </div>
+        </o-if>
+        <o-else-if :value="role === 'user'">
+          <div class="user-info">
+            <h3>User Info</h3>
+            <p>Welcome {{userName}}!</p>
+          </div>
+        </o-else-if>
+        <o-else>
+          <p>Please login to view content</p>
+        </o-else>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              role: 'guest',
+              userName: 'Guest'
+            },
+            proto: {
+              toggleUserRole() {
+                if (this.role === 'guest') {
+                  this.role = 'user';
+                  this.userName = 'John';
+                } else if (this.role === 'user') {
+                  this.role = 'admin';
+                } else {
+                  this.role = 'guest';
+                  this.userName = '';
+                }
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Form Validation Status Display</h3>
+        <o-playground name="Form Validation Status Display Example" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        input {
+          margin: 5px;
+          padding: 5px;
+        }
+      </style>
+      <div>
+        <h3>Email Validation Example</h3>
+        <input type="email" :value="email" on:input="email = $event.target.value" placeholder="Enter email address">
+        <o-if :value="email && isValidEmail(email)">
+          <p style="color:green;">✓ Email format is correct</p>
+        </o-if>
+        <o-else-if :value="email && !isValidEmail(email) && email.length > 0">
+          <p style="color:red;">✗ Email format is incorrect</p>
+        </o-else-if>
+        <o-else>
+          <p style="color:orange;">Please enter an email address for validation</p>
+        </o-else>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              email: ''
+            },
+            proto: {
+              isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Best Practices for Conditional Rendering</h2>
+        <ol>
+          <li>
+            <p><strong>Use case</strong>: Use <code>o-if</code> when an element rarely changes under different conditions, as it completely removes unnecessary elements and saves memory.</p>
+          </li>
+          <li>
+            <p><strong>Performance</strong>: For frequently toggled elements, prefer class binding (e.g., <code>class:hide</code>) over conditional rendering, which creates and destroys DOM nodes.</p>
+          </li>
+          <li>
+            <p><strong>Clear structure</strong>: Conditional rendering is ideal for switching between content with different structures, such as tabs or step-by-step guides.</p>
+          </li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

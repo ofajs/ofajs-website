@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ライフサイクル</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>ライフサイクル</h1>
+        <p>ofa.jsコンポーネントは完全なライフサイクルフック関数を備えており、コンポーネントの異なる段階で特定のロジックを実行できます。これらのフック関数により、コンポーネントの作成、マウント、更新、破棄などの重要なタイミングで介入し、対応する操作を実行することができます。</p>
+        <h2>ライフサイクルフック関数</h2>
+        <p>ofa.js は以下の主要なライフサイクルフック関数を提供しており、一般的に使用される順に並べています：</p>
+        <h3>attached</h3>
+        <p><code>attached</code> フックは、コンポーネントがドキュメントに挿入されたときに呼び出され、コンポーネントがページにマウントされたことを示します。これは最もよく使用されるライフサイクルフックであり、通常、コンポーネントが実際にページ上に表示された後にのみ実行できる初期化操作を行うために使用され、コンポーネントが不可視の状態で不必要な計算を実行することを防ぎます。このフックは、コンポーネントがページにレンダリングされていることに依存する、要素サイズの測定やアニメーションの開始などの操作にも非常に適しています。</p>
+        <ul>
+          <li><strong>呼び出しタイミング</strong>: コンポーネントが DOM ツリーに追加されたとき</li>
+          <li><strong>主な用途</strong>: タイマーの起動、イベントリスナーの追加、可視性を必要とする操作の実行</li>
+        </ul>
+        <h3>detached</h3>
+        <p><code>detached</code> フックは、コンポーネントがドキュメントから削除される際に呼び出され、コンポーネントがまもなくアンロードされることを示します。このフックは、タイマーのクリアやイベントリスナーの削除など、リソースのクリーンアップに適しています。</p>
+        <ul>
+          <li><strong>呼び出しタイミング</strong>: コンポーネントがDOMツリーから削除される時</li>
+          <li><strong>主な用途</strong>: リソースのクリーンアップ、サブスクリプションの解除、イベントリスナーの削除</li>
+        </ul>
+        <h3>ready</h3>
+        <p><code>ready</code> フックはコンポーネントの準備が整ったときに呼び出され、この時点でコンポーネントのテンプレートはすでにレンダリングされ、DOM要素は作成されているが、まだ文書に挿入されていない可能性がある。このフックはDOM操作やサードパーティライブラリの初期化に適している。</p>
+        <ul>
+          <li><strong>呼び出しタイミング</strong>: コンポーネントテンプレートのレンダリングが完了し、DOMが作成された時点</li>
+          <li><strong>主な用途</strong>: DOMに依存する初期化操作を実行する</li>
+        </ul>
+        <h3>loaded</h3>
+        <p><code>loaded</code> フックは、コンポーネントとそのすべての子コンポーネント、非同期リソースがすべてロードされた後にトリガーされ、この時点でローディング状態を安全に削除したり、完全なコンポーネントツリーに依存する後続の操作を実行したりできます。依存がなければ、<code>ready</code> フックの後に呼び出されます。</p>
+        <ul>
+          <li><strong>呼び出しタイミング</strong>: コンポーネントとその子コンポーネントが完全にロードされた時</li>
+          <li><strong>主な用途</strong>: 完全なコンポーネントツリーに依存する操作を実行する</li>
+        </ul>
+        <h2>ライフサイクル実行順序</h2>
+        <p>コンポーネントのライフサイクルフックは以下の順序で実行されます：</p>
+        <ol start="2">
+          <li><code>ready</code> - コンポーネントが準備完了（DOMが作成済み）</li>
+          <li><code>attached</code> - コンポーネントがDOMにマウントされる</li>
+          <li><code>loaded</code> - コンポーネントが完全に読み込まれる</li>
+        </ol>
+        <p>コンポーネントがDOMから削除されるとき、<code>detached</code>フックが呼び出されます。</p>
+        <h2>使用例</h2>
+        <p>以下の例は、コンポーネントでライフサイクルフック関数を使用する方法を示しています：</p>
+        <o-playground name="ライフサイクル例" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .counter {
+          margin: 10px 0;
+        }
+        button {
+          margin-right: 10px;
+          padding: 5px 10px;
+        }
+      </style>
+      <h3>ライフサイクルデモ</h3>
+      <div class="counter">カウンタ: {{count}}</div>
+      <button on:click="count += 10">10増加</button>
+      <button on:click="removeSelf">コンポーネントを削除</button>
+      <div class="log">
+        <h4>ライフサイクルログ:</h4>
+        <ul>
+          <o-fill :value="logs">
+            <li>{{$data}}</li>
+          </o-fill>
+        </ul>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 0,
+              logs: [],
+            },
+            proto: {
+              removeSelf() {
+                this.remove(); // DOMから自身を削除してdetachedフックをトリガー
+              },
+              addLog(message) {
+                this.logs = [...this.logs, `${new Date().toLocaleTimeString()} - ${message}`];
+              }
+            },
+            ready() {
+              this.addLog("ready: コンポーネントが準備完了、DOMが作成されました");
+              console.log("コンポーネントが準備完了");
+            },
+            attached() {
+              this.addLog("attached: コンポーネントがDOMにマウントされました");
+              this._timer = setInterval(() => {
+                this.count++;
+              }, 1000);
+              console.log("コンポーネントがマウントされました");
+            },
+            detached() {
+              this.addLog("detached: コンポーネントがDOMから削除されました");
+              // タイマーをクリアしてメモリリークを防ぐ
+              clearInterval(this._timer); 
+              console.log("コンポーネントがアンロードされました");
+            },
+            loaded() {
+              this.addLog("loaded: コンポーネントが完全に読み込まれました");
+              console.log("コンポーネントが完全に読み込まれました");
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>この例では、異なるライフサイクルフックの実行順序とタイミングを観察できます。「コンポーネントを削除」ボタンをクリックすると、<code>detached</code> フックがトリガーされることがわかります。</p>
+        <h2>実際の応用シーン</h2>
+        <h3>初期化操作</h3>
+        <p><code>ready</code> フックでのデータ初期化：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">items</span>: []
+    },
+    <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// DOM操作</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initDomElements</span>();
+    }
+  };
+};</code></pre>
+        <h3>リソース管理</h3>
+        <p><code>attached</code> フックでタイマーを起動し、<code>detached</code> フックでリソースをクリーンアップします：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">timer</span>: <span class="hljs-literal">null</span>
+    },
+    <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// タイマーを起動</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;定期タスク実行&#x27;</span>);
+      }, <span class="hljs-number">1000</span>);
+    },
+    <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// タイマーをクリーンアップ</span>
+      <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>) {
+        <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>);
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-literal">null</span>;
+      }
+    }
+  };
+};</code></pre>
+        <p>ライフサイクルフック関数は ofa.js コンポーネント開発における重要な概念であり、これらを正しく使用することで、コンポーネントの状態とリソースをより適切に管理し、アプリケーションのパフォーマンスを向上させることができます。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

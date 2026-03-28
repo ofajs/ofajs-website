@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprender la vinculación de propiedades</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Comprender la vinculación de propiedades</h1>
+        <p>En el contenido anterior, ya se presentó brevemente el uso básico del <a href="./property-binding.html" olink="">enlace de propiedades</a>. El caso anterior se utilizó para enlazar la propiedad <code>value</code> de elementos nativos del navegador (como <code>textarea</code>); en esta sección se profundizará en la esencia del enlace de propiedades: en realidad se enlaza a la propiedad JavaScript del componente después de su instanciación, no al atributo HTML.</p>
+        <h2>Mecanismo de enlace de propiedades del componente</h2>
+        <p>En ofa.js, cuando usamos la sintaxis <code>:toProp="fromProp"</code> en el componente padre, estamos estableciendo la propiedad JavaScript de la instancia del componente hijo, no el atributo HTML. Esto difiere significativamente de establecer directamente un atributo HTML (como <code>attr:toKey="fromKey"</code>).</p>
+        <p>El siguiente ejemplo demuestra cómo pasar datos a un componente personalizado mediante enlace de propiedades:</p>
+        <o-playground name="Comprender el enlace de atributos" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active="">
+    <template page="">
+      <l-m src="./demo-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h3 style="color:blue;">{{val}}</h3>
+      <demo-comp :full-name="val"></demo-comp>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "ofajs",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin: 8px;
+        }
+      </style>
+      <p>FullName: {{fullName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            data: {
+              fullName: ""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>En este ejemplo:- El dato <code>val</code> del componente padre se enlaza a la propiedad <code>fullName</code> del componente hijo <code>&lt;demo-comp&gt;</code></p>
+        <ul>
+          <li>Utiliza la sintaxis <code>:full-name="val"</code> para pasar el valor de <code>val</code> del componente padre a la propiedad <code>fullName</code> del componente hijo</li>
+          <li>Después de recibir el valor, el componente hijo lo muestra en la plantilla mediante <code>{{fullName}}</code></li>
+        </ul>
+        <h2>Enlace de atributos vs herencia de propiedades de características</h2>
+        <p>Es importante tener en cuenta que el enlace de atributos (<code>:）y la herencia de atributos de características (</code>attr:`）presentan las siguientes diferencias clave：</p>
+        <h3>Enlace de atributos (<code>:</code>)</h3>
+        <ul>
+          <li>Propiedades de JavaScript vinculadas a la instancia del componente</li>
+          <li>Los datos pasados mantienen su tipo original (cadena, número, booleano, etc.)</li>
+          <li>Se pueden acceder y modificar directamente dentro del componente, incluso sin definir <code>data</code> previamente dentro del componente</li>
+        </ul>
+        <h3>Herencia de atributos de características (<code>attr:</code>)</h3>
+        <ul>
+          <li>Establecer atributos HTML</li>
+          <li>Todos los valores se convertirán en cadenas</li>
+          <li>Se utiliza principalmente para pasar atributos a elementos DOM subyacentes</li>
+          <li>Requiere un manejo especial para analizar datos complejos</li>
+          <li>Debe definir <code>attrs</code> dentro del componente por adelantado para recibir los valores de los atributos</li>
+        </ul>
+        <p>Comparación de gramática:```html</p>
+        <!-- Enlace de atributos: pasar valores JavaScript, mantener tipos de datos -->
+        <p><my-component :data-value="complexObject"></my-component>
+          <my-component :count="42"></my-component>
+          <my-component :is-active="true"></my-component>
+        </p>
+        <!-- Herencia de atributos: establecer atributos HTML, todos los valores se convierten en cadenas -->
+        <p><my-component attr:data-value="simpleString"></my-component>
+          <my-component attr:count="42"></my-component> <!-- Se pasa realmente la cadena "42" -->
+        </p>
+        <pre><code class="hljs"><span class="language-xml">
+## Diferencias de comparación de casos
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Comparación de diferencias entre casos"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"page1.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./demo-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+        <span class="hljs-selector-attr">[vone]</span>{
+            <span class="hljs-attribute">color</span>: red;
+        }
+        <span class="hljs-selector-attr">[vtwo]</span>{
+            <span class="hljs-attribute">color</span>: green;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">:vone</span>=<span class="hljs-string">"valOne"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">attr:vtwo</span>=<span class="hljs-string">"valTwo"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">valOne</span>: <span class="hljs-string">"I am One"</span>,
+              <span class="hljs-attr">valTwo</span>: <span class="hljs-string">"I am Two"</span>,
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo-comp.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid gray;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">8px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>(1: </span><span class="hljs-template-variable">{{<span class="hljs-name">vone</span>}}</span><span class="language-xml">) --- (2: </span><span class="hljs-template-variable">{{<span class="hljs-name">vtwo</span>}}</span><span class="language-xml">)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">tag</span>: <span class="hljs-string">"demo-comp"</span>,
+            <span class="hljs-attr">attrs</span>:{
+              <span class="hljs-attr">vtwo</span>: <span class="hljs-literal">null</span>,
+            },
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">vone</span>: <span class="hljs-literal">null</span>
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
+
+Donde `vone` es una propiedad de la instancia del componente y `vtwo` es un atributo HTML; el valor del atributo será seleccionado por el selector `[vtwo]` y se le aplicarán los estilos, mientras que `vone`, al ser una propiedad de la instancia del componente, no será seleccionada por el selector `[vone]`.
+
+## Enlace de datos bidireccional
+
+Los componentes instanciados también admiten el enlace de datos bidireccional, utilizando la sintaxis `sync:toProp="fromProp"`. El enlace bidireccional permite la sincronización de datos entre el componente padre y el componente hijo; cuando los datos en cualquiera de los lados cambian, el otro lado también se actualiza en consecuencia.
+
+&gt; A diferencia de Angular y Vue, ofa.js no requiere configuración especial u operaciones adicionales para los componentes, y puede soportar de forma nativa la sintaxis de enlace de datos bidireccional.
+
+### Ejemplo de enlace bidireccional
+
+El siguiente ejemplo muestra cómo establecer un enlace de datos bidireccional entre un componente padre y un componente hijo:
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Ejemplo de enlace bidireccional"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 600px"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"page1.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./demo-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:blue;"</span>&gt;</span>Valor en el componente padre: </span><span class="hljs-template-variable">{{<span class="hljs-name">val</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modifica el valor del componente padre mediante el campo de entrada:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Introduce texto en el campo..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modifica el valor del componente padre desde el componente hijo:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">sync:full-name</span>=<span class="hljs-string">"val"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">val</span>: <span class="hljs-string">"ofajs"</span>,
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo-comp.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid green;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">8px</span>;
+          <span class="hljs-attribute">margin</span>: <span class="hljs-number">8px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Valor mostrado en el componente hijo: </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Introduce en el campo del hijo..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">tag</span>: <span class="hljs-string">"demo-comp"</span>,
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">fullName</span>: <span class="hljs-string">""</span>
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
+
+En este ejemplo:- El `val` del componente padre y el `fullName` del componente hijo implementan el enlace bidireccional a través de `sync:full-name="val"`
+- Cuando se introduce contenido en el cuadro de entrada del componente padre, el componente hijo muestra inmediatamente el nuevo valor
+- Cuando se introduce contenido en el cuadro de entrada del componente hijo, el componente padre también actualiza la visualización inmediatamente
+
+### Diferencia entre el enlace bidireccional y el enlace de propiedades común
+
+| Característica | Enlace de propiedad normal (`:)` | Enlace bidireccional (`sync:`) |
+|----------------|----------------------------------|--------------------------------|
+| Flujo de datos | Unidireccional: padre → hijo | Bidireccional: padre ↔ hijo |
+| Sintaxis | `:prop="value"` | `sync:prop="value"` |
+| Modificación del componente hijo | No afecta al componente padre | Afecta al componente padre |
+| Escenario de uso | Pasar configuración del padre al hijo | Necesita sincronización de datos padre-hijo |### Precauciones
+
+1. **Consideraciones de rendimiento**: El enlace bidireccional desencadena un nuevo renderizado cuando cambian los datos, por lo que debe usarse con precaución en escenarios complejos.
+2. **Control del flujo de datos**: Un exceso de enlaces bidireccionales puede dificultar el seguimiento del flujo de datos; se recomienda diseñar de manera adecuada la comunicación entre componentes.
+3. **Compatibilidad de componentes**: No todos los componentes son adecuados para usar enlace bidireccional; es necesario considerar el propósito de diseño del componente.</span></code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

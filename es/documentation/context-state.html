@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estado de contexto</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Estado de contexto</h1>
+        <p>El estado de contexto es un mecanismo en ofa.js para compartir datos entre componentes. A través del patrón de proveedor (Provider) y consumidor (Consumer), se puede lograr la transferencia de datos entre componentes padre e hijo, y entre componentes de diferentes niveles, sin necesidad de pasar a través de props capa por capa.</p>
+        <h2>Conceptos centrales</h2>
+        <ul>
+          <li><strong>o-provider</strong>: proveedor de datos, define los datos que deben compartirse</li>
+          <li><strong>o-consumer</strong>: consumidor de datos, obtiene los datos del proveedor más cercano</li>
+          <li><strong>watch:xxx</strong>: escucha los cambios en los datos del consumidor y los vincula a las propiedades del componente o módulo de página</li>
+        </ul>
+        <h2>o-provider Proveedor</h2>
+        <p>El componente <code>o-provider</code> se utiliza para definir proveedores de datos compartidos. Se identifica a sí mismo mediante el atributo <code>name</code> y define los datos que se compartirán a través de atributos (como <code>custom-a=&quot;value&quot;</code>).</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-proveedor</span> <span class="hljs-attr">nombre</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">nombre-personalizado</span>=<span class="hljs-string">&quot;张三&quot;</span> <span class="hljs-attr">edad-personalizada</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
+  ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-proveedor</span>&gt;</span></code></pre>
+        <h3>Atributos</h3>
+        <ul>
+          <li><code>name</code>: el nombre único del proveedor, utilizado para que los consumidores encuentren el proveedor correspondiente</li>
+        </ul>
+        <h3>Características</h3>
+        <ol>
+          <li><strong>Paso automático de atributos</strong>: todos los atributos no reservados del provider se transmiten como datos compartidos</li>
+          <li><strong>Actualización reactiva</strong>: cuando cambian los datos del provider, el consumer correspondiente que utiliza ese provider y tenga el mismo name se actualiza automáticamente</li>
+          <li><strong>Búsqueda jerárquica</strong>: el consumer busca los datos del name correspondiente comenzando desde el provider más cercano ascendente</li>
+        </ol>
+        <h2>o-consumer Consumidor</h2>
+        <p>El componente <code>o-consumer</code> se utiliza para consumir (usar) los datos del proveedor. Especifica el nombre del proveedor que se desea consumir mediante el atributo <code>name</code>.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
+        <h3>Atributos</h3>
+        <ul>
+          <li><code>name</code>: Nombre del proveedor a consumir</li>
+        </ul>
+        <h3>Características</h3>
+        <ol>
+          <li><strong>Obtención automática de datos</strong>: el consumer obtendrá automáticamente los datos correspondientes al nombre del provider superior más cercano</li>
+          <li><strong>Fusión de propiedades</strong>: si múltiples providers con el mismo nombre tienen una propiedad, la propiedad del provider más cercano al consumer tiene prioridad</li>
+          <li><strong>Observación de propiedades</strong>: se puede observar cambios en propiedades específicas mediante <code>watch:xxx</code></li>
+        </ol>
+        <h2>Escuchar cambios en los datos</h2>
+        <p>Puedes escuchar los cambios en los datos del proveedor mediante <code>watch:xxx</code>:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">watch:custom-age</span>=<span class="hljs-string">&quot;age&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">data</span>:{
+    <span class="hljs-attr">age</span>: <span class="hljs-number">0</span>,
+  },
+};
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <h2>Ejemplos básicos</h2>
+        <o-playground name="Ejemplo básico" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-provider name="userInfo" user-id="9527">
+        <o-page src="page1.html"></o-page>
+      </o-provider>
+    </template>
+  </code>
+          <code path="page1.html" active>
+    <template page>
+      <l-m src="./user-avatar.html"></l-m>
+      <l-m src="./user-name.html"></l-m>
+      <style>
+        :host {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border: 1px solid #007acc;
+          padding: 10px;
+        }
+      </style>
+      <user-avatar></user-avatar>
+      <div>用户ID: {{userId}}</div>
+      <user-name></user-name>
+      <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
+      <script>
+        export default {
+          data:{
+            userId: 0,
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="user-avatar.html">
+    <template component>
+      <style>
+        :host {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(68, 107, 133, 1);
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+      </style>
+      {{userId}}头像
+      <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
+      <script>
+        export default async ()=>{
+            return {
+                tag:"user-avatar",
+                data:{
+                    userId: null,
+                }
+            };
+        }
+      </script>
+    </template>
+  </code>
+          <code path="user-name.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          color: rgba(204, 153, 0, 1);
+        }
+      </style>
+      User-{{userId}}
+      <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
+      <script>
+        export default async ()=>{
+            return {
+                tag:"user-name",
+                data:{
+                    userId: null,
+                }
+            };
+        }
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>o-root-provider Proveedor raíz</h2>
+        <p><code>o-root-provider</code> es un proveedor global a nivel raíz; su ámbito abarca todo el documento. Incluso sin un proveedor padre, los consumidores pueden obtener los datos del proveedor raíz.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 定义全局根提供者 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">custom-theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">custom-language</span>=<span class="hljs-string">&quot;es-ES&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 在页面的任何位置都可以消费 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">watch:custom-theme</span>=<span class="hljs-string">&quot;theme&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
+        <h3>Características</h3>
+        <ol>
+          <li><strong>Ámbito global</strong>: Los datos del proveedor raíz están disponibles en toda la página</li>
+          <li><strong>Prioridad</strong>: Cuando existen simultáneamente un provider y un root-provider con el mismo nombre, tiene prioridad el provider más cercano al consumidor</li>
+          <li><strong>Removible</strong>: Después de eliminar el root-provider, el consumidor volverá a buscar otros providers</li>
+        </ol>
+        <h2>Ejemplo de root-provider</h2>
+        <o-playground name="Ejemplo de root-provider" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-root-provider name="globalConfig" custom-theme="dark" custom-language="zh-CN"></o-root-provider>
+      <o-page src="page.html"></o-page>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <l-m src="./header.html"></l-m>
+      <l-m src="./content.html"></l-m>
+      <style>
+        :host {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .info {
+          padding: 10px;
+          border: 1px solid #007acc;
+        }
+      </style>
+      <div class="info">
+        <div>Tema: {{theme}}</div>
+        <div>Idioma: {{language}}</div>
+      </div>
+      <header-com></header-com>
+      <content-com></content-com>
+      <o-consumer name="globalConfig" watch:custom-theme="theme" watch:custom-language="language"></o-consumer>
+      <script>
+        export default {
+          data: {
+            theme: "",
+            language: "",
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="header.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+          background-color: #333;
+          color: white;
+        }
+      </style>
+      Encabezado - Tema: {{theme}}
+      <o-consumer name="globalConfig" watch:custom-theme="theme"></o-consumer>
+      <script>
+        export default {
+          tag:"header-com",
+          data: {
+            theme: "",
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="content.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+          background-color: rgba(137, 133, 133, 1);
+        }
+      </style>
+      Contenido - Idioma: {{language}}
+      <o-consumer name="globalConfig" watch:custom-language="language"></o-consumer>
+      <script>
+        export default {
+          tag:"content-com",
+          data: {
+            language: "",
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Ejemplo de prioridad</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;parent&quot;</span>&gt;</span>
+ ...
+ <span class="hljs-comment">&lt;!-- Aquí👇 el custom-value obtenido es &quot;parent&quot; --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+ ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Aquí👇 el custom-value obtenido es &quot;root&quot; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+</code></pre>
+        <h3>Ejemplo de demostración de prioridad</h3>
+        <o-playground name="Ejemplo de demostración de prioridad" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-root-provider name="test" custom-value="root"></o-root-provider>
+      <o-page src="page.html"></o-page>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <l-m src="./child.html"></l-m>
+      <o-provider name="test" custom-value="parent">
+        <div style="padding: 10px; border: 1px solid #007acc;">
+          <p>Valor en el Provider padre: {{parentValue}}</p>
+          <child-com></child-com>
+        </div>
+        <o-consumer name="test" watch:custom-value="parentValue"></o-consumer>
+      </o-provider>
+      <div style="padding: 10px; border: 1px solid #cc6600; margin-top: 10px;">
+        <p>Valor del Provider raíz: {{rootValue}}</p>
+      </div>
+      <child-com></child-com>
+      <o-consumer name="test" watch:custom-value="rootValue"></o-consumer>
+      <script>
+        export default () => ({
+          data: {
+            parentValue: "",
+            rootValue: "",
+          },
+        });
+      </script>
+    </template>
+  </code>
+          <code path="child.html">
+    <template component>
+      <div style="padding: 10px;  border: 1px dashed gray;">
+        Valor en el componente hijo: {{customValue}} (el más cercano es el provider {{customValue}})
+      </div>
+      <o-consumer name="test" watch:custom-value="customValue"></o-consumer>
+      <script>
+        export default () => ({
+          tag:"child-com",
+          data: {
+            customValue: "",
+          },
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Método getProvider(name)</h2>
+        <p><code>getProvider(name)</code> es un método de instancia que se utiliza para obtener el elemento proveedor correspondiente al nombre. Busca hacia arriba en el DOM el proveedor ancestro más cercano; si no lo encuentra, devuelve el root-provider.</p>
+        <h3>Uso del método getProvider(nombre) dentro de componentes o módulos de página</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+...
+<span class="hljs-attr">proto</span>:{
+  <span class="hljs-title function_">changeValue</span>(<span class="hljs-params"></span>){
+    <span class="hljs-keyword">const</span> provider = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;name&quot;</span>);
+    provider.<span class="hljs-property">customValue</span> = <span class="hljs-string">&quot;new value&quot;</span>;
+  }
+}
+...
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <h2>Ejemplo de getProvider</h2>
+        <o-playground name="Ejemplo de getProvider" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-provider name="userInfo" custom-name="张三" custom-age="25">
+        <o-page src="page.html"></o-page>
+      </o-provider>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <button on:click="getProviderData">Obtener datos del Provider</button>
+      <div>Nombre actual: {{currentName}}</div>
+      <div>Edad actual: {{currentAge}}</div>
+      <div style="margin-top: 10px;">
+        <button on:click="updateProvider">Modificar datos del Provider</button>
+      </div>
+      <o-consumer name="userInfo" watch:custom-name="currentName" watch:custom-age="currentAge"></o-consumer>
+      <script>
+        export default {
+          data: {
+            currentName: "",
+            currentAge: 0,
+          },
+          proto: {
+            getProviderData() {
+              const provider = this.getProvider("userInfo");
+              if (provider) {
+                console.log("Provider encontrado:", provider);
+                console.log("Nombre:", provider.customName);
+                console.log("Edad:", provider.customAge);
+                alert(`Datos del Provider: ${provider.customName}, ${provider.customAge} años`);
+              }
+            },
+            updateProvider() {
+              const provider = this.getProvider("userInfo");
+              if (provider) {
+                provider.customName = "李四";
+                provider.customAge = 30;
+              }
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Obteniendo el proveedor desde el elemento</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Obtener el proveedor superior del elemento actual</span>
+<span class="hljs-keyword">const</span> provider = $(<span class="hljs-string">&quot;.my-element&quot;</span>).<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;userInfo&quot;</span>);
+
+<span class="hljs-keyword">if</span> (provider) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Proveedor encontrado:&quot;</span>, provider.<span class="hljs-property">customName</span>);
+}
+
+<span class="hljs-comment">// Obtener directamente el proveedor raíz global</span>
+<span class="hljs-keyword">const</span> globalProvider = $.<span class="hljs-title function_">getRootProvider</span>(<span class="hljs-string">&quot;globalConfig&quot;</span>);</code></pre>
+        <h3>Escenarios de uso</h3>
+        <ol>
+          <li><strong>Obtención manual de datos</strong>: se utiliza en escenarios que requieren acceso directo a los datos del proveedor </li>
+          <li><strong>A través de Shadow DOM</strong>: busca el proveedor superior dentro del Shadow DOM </li>
+          <li><strong>Manejo de eventos</strong>: obtiene el proveedor correspondiente en la devolución de llamada del evento</li>
+        </ol>
+        <h2>dispatch 事件派发</h2>
+        <p>El provider puede emitir eventos a todos los consumers que lo consumen:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myProvider&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;Hola&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">&quot;handleEvent&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{customValue}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+<span class="hljs-comment">// Despachar evento</span>
+$(<span class="hljs-string">&quot;#myProvider&quot;</span>).<span class="hljs-title function_">dispatch</span>(<span class="hljs-string">&quot;custom-event&quot;</span>, {
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Hola Mundo&quot;</span> }
+});
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <h2>Ejemplo de distribución de eventos</h2>
+        <o-playground name="Ejemplo de envío de eventos" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-provider name="chat" custom-messages='["Bienvenido a la sala de chat"]' id="chatProvider">
+        <o-page src="page.html"></o-page>
+      </o-provider>
+    </template>
+  </code>
+          <code path="page.html" active>
+    <template page>
+      <l-m src="./chat-list.html"></l-m>
+      <l-m src="./chat-input.html"></l-m>
+      <style>
+        :host {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
+        }
+      </style>
+      <h3>Sala de chat</h3>
+      <chat-list></chat-list>
+      <chat-input></chat-input>
+    </template>
+  </code>
+          <code path="chat-list.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid #007acc;
+          padding: 10px;
+          max-height: 200px;
+          overflow-y: auto;
+        }
+        .message {
+          padding: 5px;
+          margin: 5px 0;
+          background: gray;
+          border-radius: 4px;
+        }
+      </style>
+      <div class="messages">
+        <o-fill :value="messages">
+          <div class="message">{{$data}}</div>
+        </o-fill>
+      </div>
+      <o-consumer name="chat" on:new-message="addMessage"></o-consumer>
+      <script>
+        export default {
+          tag:"chat-list",
+          data: {
+            messages: [],
+          },
+          proto: {
+            addMessage(event) {
+              this.messages.push(event.data.text);
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+          <code path="chat-input.html">
+    <template component>
+      <style>
+        :host {
+          display: flex;
+          gap: 10px;
+        }
+        input {
+          flex: 1;
+          padding: 8px;
+        }
+        button {
+          padding: 8px 16px;
+          background: #007acc;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+      </style>
+      <input type="text" sync:value="inputText" placeholder="Escribe un mensaje...">
+      <button on:click="sendMessage">Enviar</button>
+      <script>
+        export default {
+          tag:"chat-input",
+          data: {
+            inputText: "",
+          },
+          proto: {
+            sendMessage() {
+              const provider = this.getProvider("chat");
+              if (provider && this.inputText.trim()) {
+                provider.dispatch("new-message", {
+                  data: { text: this.inputText }
+                });
+                this.inputText = "";
+              }
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Mejores prácticas</h2>
+        <ol>
+          <li><strong>Nombrado apropiado</strong>: Utilice nombres significativos para el proveedor y el consumidor para facilitar el seguimiento y el mantenimiento.</li>
+          <li><strong>Evitar el uso excesivo</strong>: El estado de contexto es adecuado para compartir datos entre componentes; para componentes padre-hijo normales se recomienda usar props.</li>
+          <li><strong>Proveedor raíz para configuración global</strong>: Temas, idiomas, estados globales, etc., son adecuados para usar con root-provider.</li>
+          <li><strong>Limpieza oportuna</strong>: Cuando se elimina un proveedor, el consumidor elimina automáticamente los datos, no es necesario manejarlo manualmente.</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

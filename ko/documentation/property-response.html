@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>속성 반응</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>속성 반응</h1>
+        <p>앞서의 <a href="./property-binding.html" olink="">속성 바인딩</a>에서는 간단한 속성 반응 메커니즘, 즉 컴포넌트의 속성 값을 텍스트로 렌더링하는 방법을 소개했습니다.</p>
+        <p>ofa.js는 기본 속성 값에 대한 반응을 지원할 뿐만 아니라 다중 중첩 객체 내부 속성 값에 대한 반응형 렌더링도 지원합니다.</p>
+        <o-playground name="비반응형 데이터 예제" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{obj.count2}}</p>
+      <button on:click="handleAddCount">증가</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              obj: {
+                count2: 100,
+              },
+            },
+            proto:{
+              handleAddCount(){
+                this.count++;
+                this.obj.count2++;
+              }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>ofa.js 인스턴스 객체에 바인딩된 모든 데이터는 자동으로 반응형 데이터로 변환됩니다. 반응형 데이터는 문자열, 숫자, 불리언, 배열, 객체 등 기본 데이터 타입만 지원합니다. 함수, 클래스 인스턴스 등 복잡한 데이터 타입은 <strong>비반응형 속성</strong>으로 저장해야 하며, 이러한 속성의 변경은 컴포넌트의 재렌더링을 유발하지 않습니다.</p>
+        <h2>비반응형 데이터</h2>
+        <p>때때로 Promise 인스턴스, 정규 표현식 객체 또는 기타 복잡한 객체와 같이 반응형 업데이트가 필요 없는 데이터를 저장해야 하는 경우가 있습니다. 이때는 비반응형 속성을 사용해야 합니다. 이러한 속성의 변경은 컴포넌트의 재렌더링을 트리거하지 않으므로 뷰 연동이 필요 없는 데이터 저장에 적합합니다.</p>
+        <p>비반응형 속성의 명명은 일반적으로 속성 이름 앞에 밑줄 <code>_</code>를 접두사로 붙여 반응형 속성과 구분합니다.</p>
+        <o-playground name="비반응형 데이터 예시" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{_count2}}</p>
+      <button on:click="count++">Blue 증가</button>
+      <button on:click="_count2++">Green 증가</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              _count2: 100,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p><code>Green增加</code> 버튼을 클릭할 때, <code>_count2</code>의 값은 실제로 증가했지만 반응형 속성이 아니므로 뷰 업데이트가 트리거되지 않아 인터페이스에 표시되지 않습니다. <code>Blue增加</code> 버튼을 클릭하면 <code>count</code>는 반응형 속성이므로 전체 컴포넌트의 리렌더링을 트리거하고, 이때 Green의 표시 내용이 동기화되어 업데이트됩니다.</p>
+        <p>비반응형 객체 데이터는 반응형 객체 데이터보다 성능이 더 좋습니다, 비반응형 데이터는 컴포넌트의 재렌더링을 트리거하지 않기 때문입니다.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

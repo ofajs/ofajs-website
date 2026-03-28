@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>one</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>one</h1>
+        <p>Con el método <code>one</code>, puedes registrar manejadores de eventos de una sola vez para elementos objetivo, lo que significa que el manejador de eventos se desvinculará automáticamente después de activarse por primera vez y no se volverá a activar.</p>
+        <p>Aquí hay un ejemplo que demuestra cómo usar el método <code>one</code> para registrar un controlador de eventos de clic en un elemento de botón:</p>
+        <o-playground name="one - click Evento único" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <button id="target">añadir contador</button>
+      <br>
+      <br>
+      <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$("#target").one("click", ()=> {
+          \$("#logger").text = count++;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>En este ejemplo, utilizamos el método <code>one</code> para añadir un manejador de eventos de clic al elemento botón. Cuando el usuario hace clic en el botón, el manejador de eventos se activa, pero no volverá a activarse después, ya que se ha desvinculado.</p>
+        <h2>Uso mediante sintaxis de plantilla</h2>
+        <p>También puedes usar la sintaxis de plantilla para vincular manejadores de eventos de un solo uso a elementos objetivo.</p>
+        <o-playground name="one - Sintaxis de plantillas" style="--editor-height: 400px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./one-demo.html"></l-m>
+      <one-demo></one-demo>
+    </template>
+  </code>
+          <code path="one-demo.html" active>
+    <template component>
+      <button one:click="addCount">Add Count</button>
+      <div>{{count}}</div>
+      <script>
+        export default {
+          tag: "one-demo",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            }
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>En este ejemplo, utilizamos la vinculación <code>one:click</code> en el elemento de botón para un método llamado <code>addCount</code>. Cuando el usuario hace clic en el botón, este método se llamará, pero no se activará nuevamente después, ya que es un controlador de eventos de un solo uso.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

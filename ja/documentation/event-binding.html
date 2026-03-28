@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>イベントバインディング</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>イベントバインディング</h1>
+        <p>ofa.jsでは、イベントバインディングはユーザーインタラクションを実現する重要なメカニズムです。あなたは様々な方法で要素にイベントハンドラをバインドし、ユーザーの操作に応答することができます。</p>
+        <h2>proto からイベントをバインド</h2>
+        <p>これは推奨されるイベントバインディングの方法で、複雑なイベント処理ロジックに適しています。イベント処理関数を <code>proto</code> オブジェクト内で定義することで、コードロジックをより良く整理でき、メンテナンスや再利用が容易になります。</p>
+        <o-playground name="protoからのイベントバインディング" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="clickMe">Click Me - {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            },
+            proto:{
+              clickMe(){
+                this.count++;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>直接に関数を実行する</h2>
+        <p>単純な操作（カウンタの増加や状態の切り替えなど）については、イベント属性に短い式を直接記述できます。この方法は簡潔で分かりやすく、単純なロジックの処理に適しています。</p>
+        <o-playground name="直接実行関数" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="count++">Click Me - {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>サポートされるイベントタイプ</h2>
+        <p>ofa.js は、以下を含むすべての標準 DOM イベントをサポートしています：</p>
+        <ul>
+          <li>マウスイベント：<code>click</code>、<code>dblclick</code>、<code>mousedown</code>、<code>mouseup</code>、<code>mouseover</code>、<code>mouseout</code> など</li>
+          <li>キーボードイベント：<code>keydown</code>、<code>keyup</code>、<code>keypress</code> など</li>
+          <li>フォームイベント：<code>submit</code>、<code>change</code>、<code>input</code>、<code>focus</code>、<code>blur</code> など</li>
+          <li>タッチイベント：<code>touchstart</code>、<code>touchmove</code>、<code>touchend</code> など</li>
+        </ul>
+        <p>ofa.jsでサポートされるイベントタイプは、ネイティブDOMイベントと完全に一致します。詳細については、<a href="https://developer.mozilla.org/ja/docs/Web/API/Event" target="_blank">MDNイベントドキュメント</a>を参照してください。</p>
+        <h2>イベントハンドラへのパラメータ受け渡し</h2>
+        <p>イベントハンドラに引数を渡すこともできます：</p>
+        <o-playground name="イベントハンドラーへの引数渡し" style="--editor-height: 600px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="addNumber(5)">5を加算 - 現在: {{count}}</button>
+      <button on:click="addNumber(10)">10を加算 - 現在: {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 0,
+            },
+            proto: {
+              addNumber(num) {
+                this.count += num;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>イベントオブジェクトへのアクセス</h2>
+        <p>イベントハンドラでは、<code>event</code> パラメータを通じてネイティブイベントオブジェクトにアクセスできます：</p>
+        <o-playground name="イベントオブジェクトへのアクセス" style="--editor-height: 700px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .container {
+          width: 300px;
+          height: 200px;
+          background-color: #f0f0f0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      </style>
+      <div class="container" on:click="handleClick">クリックして座標を表示</div>
+      <p>X: {{x}}, Y: {{y}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              x: 0,
+              y: 0,
+            },
+            proto: {
+              handleClick(event) {
+                this.x = event.clientX;
+                this.y = event.clientY;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>また、<code>$event</code> パラメータを使用して式内でネイティブイベントオブジェクトにアクセスすることもできます。例えば、マウスクリックの座標を取得する場合：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>任意の場所をクリックして座標を表示<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>カスタムイベントのリスニング</h2>
+        <p>ネイティブDOMイベントをリッスンするだけでなく、コンポーネントが発行するカスタムイベントも簡単にリッスンできます：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">custom-comp</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">"handleCustomEvent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">custom-comp</span>&gt;</span></code></pre>
+        <p>カスタムイベントについて詳しく知りたい場合は、<a href="custom-events.html" olink="">カスタムイベント</a>の章を参照してください。チュートリアルの順序に従って段階的に進めることをお勧めします。そうすれば、後の内容が自然に展開されます。もちろん、事前に理解を深めるためにいつでも参照することも歓迎します。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

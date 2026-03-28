@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Single Page Application</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Single Page Application</h1>
+        <p>A single-page application binds the <code>o-app</code> component to the browser’s address bar, keeping the web URL synchronized with the in-app page path. After enabling the single-page application:</p>
+        <ul>
+          <li>Refreshing the page preserves the current route state</li>
+          <li>Copying the URL from the address bar and opening it in another browser or tab also restores the application state</li>
+          <li>The browser&#39;s forward/back buttons work properly</li>
+        </ul>
+        <h2>Basic Usage</h2>
+        <p>Wrap the <code>o-app</code> component with the official <code>o-router</code> component to implement a single-page application.</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>router test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/libs/router/dist/router.min.mjs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">o-router</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <h2>fix-body attribute</h2>
+        <p>After adding the <code>fix-body</code> attribute, <code>o-router</code> will automatically reset the styles of <code>html</code> and <code>body</code>, removing the default margin and padding.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-router</span> <span class="hljs-attr">fix-body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span></code></pre>
+        <p>This is particularly useful in the following scenarios:- <code>o-app</code> needs to fill the viewport completely </p>
+        <ul>
+          <li>When the app is the only content of the page</li>
+        </ul>
+        <h2>Example</h2>
+        <o-playground name="Single Page Application Example" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/libs/router/dist/router.min.mjs"></l-m>
+      <o-router fix-body>
+        <o-app src="./app-config.js"></o-app>
+      </o-router>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // Application home page address
+    export const home = "./home.html";
+    // Page transition animation configuration
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const loading = () => {
+  const loadingEl = $({
+    tag: "div",
+    css: {
+      width: "100%",
+      height: "100%",
+      position: "absolute",
+      zIndex: 1000,
+    },
+    html: `
+      <div style="transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);"></div>
+    `,
+  });
+  setTimeout(() => (loadingEl[0].style.width = "98%"));
+  loadingEl.remove = () => {
+    loadingEl[0].style["transition-duration"] = "0.1s";
+    loadingEl[0].style.width = "100%";
+    setTimeout(() => {
+      \$.fn.remove.call(loadingEl);
+    }, 200);
+  };
+  return loadingEl;
+};
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <br>
+      <br>
+      <button on:click="gotoAbout">Go to About Button</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+            proto:{
+                gotoAbout(){
+                    this.goto("./about.html");
+                }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>How It Works</h2>
+        <p>Single-page application implemented using browser-based Hash mode:</p>
+        <ol>
+          <li>When the page switches inside the app, <code>o-router</code> automatically updates the hash in the address bar (e.g., <code>#/about.html</code>).</li>
+          <li>When users refresh the page or visit via URL, <code>o-router</code> reads the hash and loads the corresponding page.</li>
+          <li>The browser’s forward/back buttons trigger hash changes, thereby controlling in-app navigation.</li>
+        </ol>
+        <h2>URL Change Examples</h2>
+        <p>Assume the application has two pages, <code>home.html</code> and <code>about.html</code>.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>User Action</th>
+              <th>Address Bar Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Open App</td>
+              <td><code>index.html</code> → <code>index.html#/home.html</code></td>
+            </tr>
+            <tr>
+              <td>Navigate to About Page</td>
+              <td><code>index.html#/home.html</code> → <code>index.html#/about.html</code></td>
+            </tr>
+            <tr>
+              <td>Click Back</td>
+              <td><code>index.html#/about.html</code> → <code>index.html#/home.html</code></td>
+            </tr>
+            <tr>
+              <td>Refresh Page</td>
+              <td>Keep current hash unchanged</td>
+            </tr>
+          </tbody>
+        </table>
+        <ul>
+          <li>A single-page application can only work with <strong>one</strong> <code>o-app</code> component.</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

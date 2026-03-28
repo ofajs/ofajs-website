@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 使用 ofa.js 的优势</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>AI 使用 ofa.js 的优势</h1>
+        <p>ofa.js 通过简化技术栈、去除编译环节，为 AI 生成前端项目提供了一条更轻量、更高效的路径。</p>
+        <p>这不仅降低了服务器成本，更重要的是降低了项目复杂度，让 AI 能够更专注于业务逻辑的实现，而非环境配置和构建流程。</p>
+        <h2>传统前端框架 vs ofa.js</h2>
+        <p>在 AI 时代，使用传统前端框架生成前端项目，通常需要经历以下繁琐流程：</p>
+        <h3>1. 项目初始化阶段</h3>
+        <ul>
+          <li>AI 生成创建前端项目的命令行代码</li>
+          <li>调用动态服务器进程，创建前端独立容器</li>
+          <li>在容器内进行前端代码的初始化（安装依赖、配置构建工具等）</li>
+        </ul>
+        <h3>2. 开发与构建阶段</h3>
+        <ul>
+          <li>AI 生成前端代码，部署到容器内</li>
+          <li>容器编译前端代码（Webpack、Vite 等构建工具处理）</li>
+        </ul>
+        <h3>3. 预览阶段</h3>
+        <ul>
+          <li>用户通过浏览器预览前端项目效果</li>
+        </ul>
+        <p>整个流程涉及<strong>6 个步骤</strong>，需要动态服务器支持，依赖 Node.js 环境，且必须经过编译构建环节。</p>
+        <h2>ofa.js 的简化流程</h2>
+        <p>采用 ofa.js，流程简化为<strong>3 个步骤</strong>：</p>
+        <h3>1. 环境准备</h3>
+        <ul>
+          <li>创建静态服务器容器，或在公共静态服务器根目录生成随机名目录</li>
+        </ul>
+        <h3>2. 代码生成</h3>
+        <ul>
+          <li>AI 生成 ofa.js 前端代码，直接将代码部署到静态服务器目录内</li>
+        </ul>
+        <h3>3. 即时预览</h3>
+        <ul>
+          <li>用户通过浏览器直接预览前端项目效果</li>
+        </ul>
+        <h2>核心优势</h2>
+        <h3>1. 成本优势</h3>
+        <p>因为没有动态进程的开销，服务器成本将会显著降低。静态服务器的部署和维护成本远低于需要运行 Node.js 进程的动态服务器。</p>
+        <h3>2. 零依赖、零编译</h3>
+        <p>ofa.js 不需要依赖 Node.js，也不走编译流程。代码直接部署到静态服务器即可生效，实现了真正的&quot;所见即所得&quot;。这大大减少了 AI 生成代码时的环境配置负担。</p>
+        <h3>3. 降低项目复杂度</h3>
+        <p>流程的简化意味着项目难度系数的降低。这带来两个关键好处：</p>
+        <ul>
+          <li><strong>快速启动</strong>：项目初期无需复杂的环境搭建和配置</li>
+          <li><strong>平滑扩展</strong>：更利于项目后期的需求难度扩张，不至于提前达到项目复杂度的天花板</li>
+        </ul>
+        <h3>4. 微前端容器特性</h3>
+        <p>ofa.js 的微前端容器特性为 AI 开发带来了独特的优势：</p>
+        <ul>
+          <li><strong>模块化开发</strong>：AI 可以独立创建各个模块，每个模块都是完整且自洽的</li>
+          <li><strong>模块安全度</strong>：独立模块的各自创建，达到更安全的模块完整度</li>
+          <li><strong>模块拼接</strong>：最后通过 AI 将各个模块拼接整合，提高项目的整体安全度和稳定性</li>
+        </ul>
+        <p>这种&quot;分而治之&quot;的方式，让 AI 能够更好地管理复杂项目，每个模块都可以独立验证，降低了整体项目的风险。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

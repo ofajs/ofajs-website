@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>クラスとスタイルのバインディング</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>クラスとスタイルのバインディング</h1>
+        <p>ofa.jsでは、クラス名、スタイル、属性を動的にバインドすることで、柔軟なUI状態管理を実現できます。これにより、データの変化に応じてインターフェースの見た目が自動的に調整されます。</p>
+        <h2>クラスバインディング</h2>
+        <p>クラスバインディングを使うと、データの状態に応じて CSS クラスを動的に追加・削除できます。<code>class:className=&quot;booleanExpression&quot;</code> という構文を使って特定のクラスをバインドできます。</p>
+        <p><code>booleanExpression</code> が <code>true</code> の場合、クラス名が要素に追加されます；<code>false</code> の場合、クラス名が要素から削除されます。</p>
+        <h3>基本クラスバインディング</h3>
+        <o-playground name="基礎クラスバインディング" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .hide {
+          display: none;
+        }
+      </style>
+      <button on:click="isHide = !isHide">表示切り替え</button>
+      <p class="green" class:hide="isHide">{{val}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isHide: false,
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>複数のクラスバインディング</h3>
+        <p>複数のクラスを同時にバインドすることもでき、要素が異なる条件に応じて異なる見た目の状態を持つようにできます。</p>
+        <o-playground name="複数クラスバインディング" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .active {
+          background-color: #e6f7ff;
+          border: 2px solid #1890ff;
+        }
+        .disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+        .highlight {
+          font-weight: bold;
+          color: #52c41a;
+        }
+      </style>
+      <button on:click="toggleStates">Toggle States</button>
+      <p class:active="isActive" class:disabled="isDisabled" class:highlight="isHighlighted">
+        Current State - Active: {{isActive}}, Disabled: {{isDisabled}}, Highlighted: {{isHighlighted}}
+      </p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isActive: false,
+              isDisabled: false,
+              isHighlighted: false,
+            },
+            proto: {
+              toggleStates() {
+                this.isActive = !this.isActive;
+                this.isDisabled = !this.isDisabled;
+                this.isHighlighted = !this.isHighlighted;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>スタイルバインディング</h2>
+        <p>スタイルバインディングは、インラインスタイルの値を直接設定し、動的な更新をサポートします。ofa.jsは2種類のスタイルバインディング方法を提供しています：</p>
+        <h3>単一スタイル属性バインディング</h3>
+        <p>特定のスタイルプロパティをバインドするには、<code>:style.propertyName</code> 構文を使用します。</p>
+        <o-playground name="単一スタイル属性バインディング" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p class="green" :style.color="isGreen ? 'green' : 'red'">{{val}}</p>
+      <button on:click="isGreen = !isGreen">Toggle Color</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isGreen: false,
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>多様なスタイル属性バインディング</h3>
+        <p>あなたは一度に複数のスタイル属性をバインドすることもできます：</p>
+        <o-playground name="多様なスタイル属性バインディング" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p :style.color="textColor" :style.fontSize="fontSize + 'px'" :style.backgroundColor="bgColor">
+        動的スタイリングの例
+      </p>
+      <button on:click="changeStyles">スタイルを変更</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              textColor: 'blue',
+              fontSize: 16,
+              bgColor: '#f0f0f0'
+            },
+            proto: {
+              changeStyles() {
+                this.textColor = this.textColor === 'blue' ? 'red' : 'blue';
+                this.fontSize = this.fontSize === 16 ? 20 : 16;
+                this.bgColor = this.bgColor === '#f0f0f0' ? '#ffffcc' : '#f0f0f0';
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>プロパティバインディング</h2>
+        <p>クラスとスタイルのバインディングに加えて、他のHTML属性を動的にバインディングすることもできます。ofa.jsは<code>attr:attributeName</code>構文を使用して属性バインディングを実装します。</p>
+        <h3>基礎属性バインディング</h3>
+        <o-playground name="基本属性バインディング" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        [bg-color="red"]{
+            background-color: red;
+        }
+        [bg-color="green"]{
+            background-color: green;
+        }
+      </style>
+      <p attr:bg-color="bgColor" attr:title="tooltipText">{{val}}</p>
+      <button on:click="changeColor">色を変更</button>  
+      <script>
+        export default async () => {
+          return {
+            data: {
+              bgColor: "green",
+              tooltipText: "これはヒント情報です",
+              val: "マウスを乗せてタイトルを表示",
+            },
+            proto: {
+              changeColor() {
+                this.bgColor = this.bgColor === "green" ? "red" : "green";
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>ブール属性の処理</h3>
+        <p>ブール型の属性（例: <code>disabled</code>, <code>hidden</code>）については、ofa.jsはバインドされた値の真偽に基づいて、その属性を追加するかどうかを決定します。</p>
+        <o-playground name="ブール属性処理" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <input type="text" attr:disabled="isDisabled" placeholder="Type here..." />
+      <br /><br />
+      <button attr:disabled="isButtonDisabled" on:click="handleButtonClick">Click Me</button>
+      <br /><br />
+      <label>
+        <input type="checkbox" on:change="toggleAll" /> Toggle All States
+      </label>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isDisabled: false,
+              isChecked: true,
+              isButtonDisabled: false,
+            },
+            proto: {
+              handleButtonClick() {
+                alert('Button clicked!');
+              },
+              toggleAll(event) {
+                const checked = event.target.checked;
+                this.isDisabled = checked;
+                this.isChecked = checked;
+                this.isButtonDisabled = checked;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>スタイルにおけるデータ</h2>
+        <p>スタイルで <code>data(xxx)</code> を使用してコンポーネントデータをバインドできます。これは、コンポーネントデータに基づいてスタイルを動的に変更する必要があるシナリオに非常に適しています。</p>
+        <o-playground name="data in style" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        p:hover{
+          color:red;
+        }
+      </style>
+      <style>
+        p {
+          font-size: data(size);
+          color:green;
+          transition: all data(time)s ease;
+        }
+      </style>
+      FontSize: <input type="number" sync:value="size" placeholder="这是一个双向绑定的输入框" />
+      <br />
+      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="这是一个双向绑定的输入框" />
+      <p>{{val}} - size: {{size}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              size: 16,
+              time: 0.3,
+              val: "Hello ofa.js Demo Code",
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>注意事項</h2>
+        <p><code>style</code> 内の <code>data(xxx)</code> は原理的には style の内容全体を置き換えるため、data に関連するスタイルのみを style 内に記述し、data を必要としないものは別の style に配置する方がパフォーマンスが向上します。</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ data(xxx) を持たない p:hover も更新されます --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-tag">p</span> {
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);
+    <span class="hljs-attribute">color</span>:green;
+    <span class="hljs-attribute">transition</span>: all <span class="hljs-built_in">data</span>(time)s ease;
+  }
+  <span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:hover</span>{
+    <span class="hljs-attribute">color</span>:red;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+``````html
+<span class="hljs-comment">&lt;!-- ✅ data(xxx) のみを含むスタイルは再レンダリングされます --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-tag">p</span> {
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);
+    <span class="hljs-attribute">color</span>:green;
+    <span class="hljs-attribute">transition</span>: all <span class="hljs-built_in">data</span>(time)s ease;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:hover</span>{
+    <span class="hljs-attribute">color</span>:red;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

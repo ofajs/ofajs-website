@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>列表渲染</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>列表渲染</h1>
+        <p>在 ofa.js 中，<code>o-fill</code> 组件提供了强大的列表渲染功能，能够高效地将数组数据渲染为多个相似的元素。它支持两种主要的使用方式：直接渲染和模板渲染。</p>
+        <h2>o-fill 组件介绍</h2>
+        <p><code>o-fill</code> 是 ofa.js 中用于列表渲染的核心组件，它接收一个数组类型的 <code>value</code> 属性，并为数组中的每一项生成对应的 DOM 元素。在渲染过程中，ofa.js 会自动追踪数组的变化并高效地更新 DOM。</p>
+        <h3>主要特性：</h3>
+        <ul>
+          <li><strong>高效更新</strong>：通过键值跟踪数组变化，仅更新需要变更的部分</li>
+          <li><strong>索引访问</strong>：通过 <code>$index</code> 访问当前项的索引</li>
+          <li><strong>数据访问</strong>：通过 <code>$data</code> 访问当前项的数据</li>
+          <li><strong>宿主访问</strong>：通过 <code>$host</code> 访问当前组件实例，可调用组件方法或访问组件数据</li>
+          <li><strong>模板复用</strong>：支持使用命名模板进行复杂列表渲染</li>
+        </ul>
+        <h2>直接渲染</h2>
+        <p>直接渲染是最简单的使用方式，将模板内容直接写在 <code>o-fill</code> 标签内部。当数组变化时，<code>o-fill</code> 会自动为每项数据创建对应的元素。</p>
+        <o-playground name="o-fill - 直接渲染" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 10px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px; margin: 5px 0; background: #7e7e7e; border-radius: 4px; }
+      </style>
+      <h3>水果列表</h3>
+      <button on:click="addItem">添加水果</button>
+      <button on:click="removeItem">移除最后一个</button>
+      <ul>
+        <o-fill :value="fruits">
+          <li> {{$index + 1}}. {{$data.name}} - 价格: ¥{{$data.price}} <button on:click="$host.removeItem($index)">删除</button></li>
+        </o-fill>
+      </ul>
+      <script>
+        export default async () => ({
+          data: { 
+            fruits: [
+              { name: "🍎 苹果", price: 5 },
+              { name: "🍊 橙子", price: 6 },
+              { name: "🍌 香蕉", price: 3 }
+            ],
+            fruitIndex: 0,
+          },
+          proto: {
+            addItem() {
+              const fruitNames = ["🍇 葡萄", "🍓 草莓", "🥝 猕猴桃", "🍑 桃子", "🥭 芒果"];
+              const name = fruitNames[this.fruitIndex % fruitNames.length];
+              this.fruits.push({ 
+                name: name, 
+                price: Math.floor(Math.random() * 10) + 1 
+              });
+              this.fruitIndex++;
+            },
+            removeItem(index) {
+              if (index >= 0 && index < this.fruits.length) {
+                this.fruits.splice(index, 1);
+                return;
+              }
+              this.fruits.length && this.fruits.pop();
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在这个例子中，我们可以看到：</p>
+        <ul>
+          <li><code>$index</code> 代表当前项的索引（从0开始）</li>
+          <li><code>$data</code> 代表当前项的数据对象</li>
+          <li><code>$host</code> 代表当前组件实例，可用于调用组件方法或访问组件数据</li>
+          <li>当数组发生变化时，列表会自动更新</li>
+        </ul>
+        <h2>模板渲染</h2>
+        <p>对于更复杂的列表项结构，可以使用命名模板的方式。将模板定义在 <code>template</code> 标签中，然后在 <code>o-fill</code> 中通过 <code>name</code> 属性引用。</p>
+        <o-playground name="o-fill - 模板渲染" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 10px; }
+        .product-card { border: 1px solid #747474; border-radius: 8px; padding: 12px; margin: 10px 0; }
+        .product-name { font-weight: bold; font-size: 1.1em; }
+        .product-price { color: #832c22; font-weight: bold; }
+        .product-desc { color: #929292; font-size: 0.9em; margin-top: 5px; }
+      </style>
+      <h3>商品列表</h3>
+      <button on:click="addProduct">添加商品</button>
+      <div class="products-container">
+        <o-fill :value="products" name="product-template"></o-fill>
+      </div>
+      <template name="product-template">
+        <div class="product-card">
+          <div class="product-name">{{$data.name}}</div>
+          <div class="product-price">¥{{$data.price}}</div>
+          <div class="product-desc">{{$data.description}}</div>
+          <small>序号: {{$index + 1}}</small>
+        </div>
+      </template>
+      <script>
+        export default async () => ({
+          data: {
+            products: [
+              { name: "MacBook Pro", price: 12999, description: "高性能笔记本电脑，适合专业工作" },
+              { name: "iPhone 15", price: 5999, description: "最新款智能手机，拍照效果出色" },
+              { name: "AirPods Pro", price: 1999, description: "无线降噪耳机，音质优秀" }
+            ],
+            productIndex: 0,
+          },
+          proto: {
+            addProduct() {
+              const productNames = ["iPad Air", "Apple Watch", "Magic Mouse", "Pro Display"];
+              const productDescs = ["轻薄便携的平板电脑", "智能手表，健康监测", "人体工学设计鼠标", "专业级显示器"];
+              const name = productNames[this.productIndex % productNames.length];
+              const desc = productDescs[this.productIndex % productDescs.length];
+              this.products.push({
+                name: name,
+                price: Math.floor(Math.random() * 5000) + 1000,
+                description: desc
+              });
+              this.productIndex++;
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>嵌套列表渲染</h2>
+        <p><code>o-fill</code> 支持嵌套使用，可以处理复杂的层次数据结构，如树形菜单、分类列表等。</p>
+        <o-playground name="o-fill - 嵌套列表渲染" style="--editor-height: 800px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .category {
+          border-left: 3px solid #3498db;
+          padding-left: 15px;
+          margin: 10px 0;
+        }
+        .subcategory {
+          border-left: 2px solid #9b59b6;
+          padding-left: 15px;
+          margin: 8px 0;
+        }
+        .item {
+          padding: 5px 0;
+          margin: 5px 0;
+          color: #2c3e50;
+        }
+        h4 {
+          margin: 10px 0 5px 0;
+          color: #34495e;
+        }
+      </style>
+      <h3>商品分类导航</h3>
+      <div class="navigation">
+        <o-fill :value="categories" name="category-template"></o-fill>
+      </div>
+      <template name="category-template">
+        <div class="category">
+          <h4> {{$data.name}} </h4>
+          <o-fill :value="$data.subcategories" name="subcategory-template"></o-fill>
+        </div>
+      </template>
+      <template name="subcategory-template">
+        <div class="subcategory">
+          <strong>{{$data.name}}</strong>
+          <o-fill :value="$data.items">
+            <div class="item"> • {{$data}} </div>
+          </o-fill>
+        </div>
+      </template>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "电子产品",
+                  subcategories: [
+                    {
+                      name: "手机",
+                      items: ["iPhone", "Android手机", "功能机"]
+                    },
+                    {
+                      name: "电脑",
+                      items: ["笔记本", "台式机", "平板"]
+                    }
+                  ]
+                },
+                {
+                  name: "家居用品",
+                  subcategories: [
+                    {
+                      name: "厨房用品",
+                      items: ["锅具", "餐具", "小家电"]
+                    },
+                    {
+                      name: "卧室用品",
+                      items: ["床品", "衣柜", "装饰"]
+                    }
+                  ]
+                },
+                {
+                  name: "服装配饰",
+                  subcategories: [
+                    {
+                      name: "男装",
+                      items: ["T恤", "衬衫", "外套"]
+                    },
+                    {
+                      name: "女装",
+                      items: ["连衣裙", "裤子", "配饰"]
+                    }
+                  ]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>性能优化和键值管理</h2>
+        <p>对于需要频繁更新的列表，可以通过 <code>fill-key</code> 属性指定唯一标识符，以提高渲染性能。</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 使用自定义键值提升性能 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;items&quot;</span> <span class="hljs-attr">fill-key</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
+        <p>在上面的例子中，<code>fill-key=&quot;id&quot;</code> 告诉 ofa.js 使用每项数据的 <code>id</code> 属性作为唯一标识符，这样即使数组顺序发生变化，也能正确识别和更新对应的元素。</p>
+        <h2>列表渲染最佳实践</h2>
+        <ol>
+          <li><strong>事件处理</strong>：在列表项中使用事件时，注意 <code>$host</code> 指向当前组件实例，<code>$data</code> 指向当前项数据</li>
+          <li><strong>选择合适的渲染方式</strong>：简单列表使用直接渲染，复杂结构使用模板渲染</li>
+          <li><strong>性能考虑</strong>：对于大列表或频繁更新的列表，使用 <code>fill-key</code> 指定键值</li>
+          <li><strong>数据结构</strong>：确保数组中的每一项都是有效的数据对象</li>
+          <li><strong>避免深层嵌套</strong>：虽然支持嵌套，但应避免过深的嵌套层级</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

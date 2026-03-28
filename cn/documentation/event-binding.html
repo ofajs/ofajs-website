@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>事件绑定</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs#debug" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>事件绑定</h1>
+        <p>在 ofa.js 中，事件绑定是实现用户交互的重要机制。你可以通过多种方式为元素绑定事件处理器，从而响应用户的操作。</p>
+        <h2>从 proto 绑定事件</h2>
+        <p>这是推荐的事件绑定方式，适用于复杂的事件处理逻辑。将事件处理函数定义在 <code>proto</code> 对象中，可以更好地组织代码逻辑，并且便于维护和复用。</p>
+        <o-playground name="从 proto 绑定事件" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="clickMe">Click Me - {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            },
+            proto:{
+              clickMe(){
+                this.count++;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>直接运行函数</h2>
+        <p>对于简单的操作（如计数器增加、状态切换等），可以直接在事件属性中编写简短的表达式。这种方式简洁明了，适合处理简单逻辑。</p>
+        <o-playground name="直接运行函数" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="count++">Click Me - {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>支持的事件类型</h2>
+        <p>ofa.js 支持所有标准 DOM 事件，包括但不限于：</p>
+        <ul>
+          <li>鼠标事件：<code>click</code>、<code>dblclick</code>、<code>mousedown</code>、<code>mouseup</code>、<code>mouseover</code>、<code>mouseout</code> 等</li>
+          <li>键盘事件：<code>keydown</code>、<code>keyup</code>、<code>keypress</code> 等</li>
+          <li>表单事件：<code>submit</code>、<code>change</code>、<code>input</code>、<code>focus</code>、<code>blur</code> 等</li>
+          <li>触摸事件：<code>touchstart</code>、<code>touchmove</code>、<code>touchend</code> 等</li>
+        </ul>
+        <p>ofa.js 支持的事件类型与原生 DOM 事件完全一致，更多细节可参考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank">MDN 事件文档</a>。</p>
+        <h2>传递参数到事件处理器</h2>
+        <p>你也可以向事件处理器传递参数：</p>
+        <o-playground name="传递参数到事件处理器" style="--editor-height: 600px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="addNumber(5)">Add 5 - Current: {{count}}</button>
+      <button on:click="addNumber(10)">Add 10 - Current: {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 0,
+            },
+            proto: {
+              addNumber(num) {
+                this.count += num;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>访问事件对象</h2>
+        <p>在事件处理器中，你可以通过 <code>event</code> 参数访问原生事件对象：</p>
+        <o-playground name="访问事件对象" style="--editor-height: 700px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .container {
+          width: 300px;
+          height: 200px;
+          background-color: #f0f0f0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      </style>
+      <div class="container" on:click="handleClick">点击任意位置查看坐标</div>
+      <p>X: {{x}}, Y: {{y}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              x: 0,
+              y: 0,
+            },
+            proto: {
+              handleClick(event) {
+                this.x = event.clientX;
+                this.y = event.clientY;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>你也可以在表达式中使用 <code>$event</code> 参数访问原生事件对象，例如获取鼠标点击坐标：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>点击任意位置查看坐标<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>监听自定义事件</h2>
+        <p>除了监听原生 DOM 事件，你还可以轻松监听组件发出的自定义事件：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">custom-comp</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">"handleCustomEvent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">custom-comp</span>&gt;</span></code></pre>
+        <p>如需深入了解自定义事件，请参考<a href="custom-events.html" olink="">自定义事件</a>章节。建议按教程顺序循序渐进，后续内容将自然展开；当然，也欢迎随时查阅以提前掌握。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>
