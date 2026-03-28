@@ -1,0 +1,20 @@
+{
+  "name": "ofajs-website-new",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/ofajs/ofajs-website#readme",
+  "bugs": {
+    "url": "https://github.com/ofajs/ofajs-website/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ofajs/ofajs-website.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Yao",
+  "type": "module",
+  "main": "copy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
