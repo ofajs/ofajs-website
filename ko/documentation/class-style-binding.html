@@ -313,9 +313,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>스타일의 데이터</h2>
+        <h2>스타일 태그 내의 데이터 함수</h2>
         <p>스타일에서 <code>data(xxx)</code>를 사용하여 컴포넌트 데이터를 바인딩할 수 있습니다. 이는 컴포넌트 데이터에 따라 동적으로 스타일을 변경해야 하는场景에 매우 적합합니다.</p>
-        <o-playground name="스타일의 데이터" style="--editor-height: 500px">
+        <o-playground name="스타일 태그 내의 데이터 함수" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -335,9 +335,9 @@
           transition: all data(time)s ease;
         }
       </style>
-      글꼴 크기: <input type="number" sync:value="size" placeholder="양방향 바인딩 입력 상자" />
+      FontSize: <input type="number" sync:value="size" placeholder="양방향 바인딩 입력란입니다" />
       <br />
-      전환 시간: <input type="number" step="0.3" min="0" sync:value="time" placeholder="양방향 바인딩 입력 상자" />
+      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="양방향 바인딩 입력란입니다" />
       <p>{{val}} - size: {{size}}</p>
       <script>
         export default async () => {

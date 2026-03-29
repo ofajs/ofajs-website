@@ -313,9 +313,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>datos en estilo</h2>
+        <h2>Funciones de datos dentro de etiquetas de estilo</h2>
         <p>Puedes usar <code>data(xxx)</code> en los estilos para enlazar datos del componente. Esto es muy adecuado para escenarios en los que los estilos deben cambiar dinámicamente según los datos del componente.</p>
-        <o-playground name="data in style" style="--editor-height: 500px">
+        <o-playground name="Función de datos dentro de etiquetas de estilo" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -335,9 +335,9 @@
           transition: all data(time)s ease;
         }
       </style>
-      Tamaño de fuente: <input type="number" sync:value="size" placeholder="Este es un cuadro de entrada con enlace bidireccional" />
+      TamañoFuente: <input type="number" sync:value="size" placeholder="Este es un campo de entrada con enlace bidireccional" />
       <br />
-      Tiempo de transición: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Este es un cuadro de entrada con enlace bidireccional" />
+      TiempoTransición: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Este es un campo de entrada con enlace bidireccional" />
       <p>{{val}} - tamaño: {{size}}</p>
       <script>
         export default async () => {
@@ -345,7 +345,7 @@
             data: {
               size: 16,
               time: 0.3,
-              val: "Hello ofa.js Demo Code",
+              val: "Código de demostración de ofa.js",
             }
           };
         };
