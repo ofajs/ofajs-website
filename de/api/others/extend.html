@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>extend</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>extend</h1>
+        <p><code>extend</code> ist eine Higher-Order-Methode, die zum Erweitern von Eigenschaften oder Methoden einer Instanz verwendet wird.</p>
+        <blockquote>
+          <p>In der Regel wird es nicht empfohlen, dass Benutzer die Eigenschaften oder Methoden von Instanzen erweitern, da dies die Lernkosten erhöht. Es sei denn, es gibt spezielle Szenarien innerhalb des Teams, die eine Anpassung des Verhaltens von Instanzen erfordern, wird davon abgeraten.</p>
+        </blockquote>
+        <o-playground name="extend - Instanz erweitern" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
+      </ul>
+      <div id="logger">logger</div>
+      <script>
+        const target = $("#target");
+        target.extend({
+          get good(){
+            return "ofa.js is good";
+          },
+          say(){
+            return 'hello';
+          }
+        });
+        setTimeout(() => {
+          const target = $("#target");
+          \$("#logger").html = `
+          good : ${target.good} <br>
+          say() : ${target.say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Erweitern Sie $ Unterbau</h2>
+        <p>Ähnlich wie jQuery können Sie auch die Eigenschaften oder Methoden der zugrunde liegenden Instanz über fn.extend erweitern; Eigenschaften oder Methoden, die von fn erweitert werden, werden auf alle Instanzen angewendet.</p>
+        <o-playground name="extend - Basis erweitern" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>Ich bin 1</li>
+        <li id="target">Ich bin das Ziel</li>
+        <li>Ich bin 3</li>
+      </ul>
+      <div id="logger">Logger</div>
+      <script>
+        \$.fn.extend({
+          get good(){
+            return "ofa.js ist gut";
+          },
+          say(){
+            return 'Hallo';
+          }
+        });
+        setTimeout(() => {
+          \$("#logger").html = `
+          target gut : ${$("#target").good} <br>
+          logger say() : ${$("#logger").say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Erweiterte Vorlagensyntax</h2>
+        <p>Durch <code>extend</code> erweiterte Eigenschaften oder Funktionen können die Funktionalität der Template-Syntax erweitern und Komponenten sogar exklusive Template-Syntax-Sugar bieten. Es sollte jedoch beachtet werden, dass <strong>nicht offizielle</strong> Template-Syntax möglichst <strong>nicht verwendet</strong> wird, da sie für die Anwender mit einem gewissen Lernaufwand verbunden ist und eine große Menge an inoffiziellem Template-Syntax-Sugar die Entwicklungserfahrung beeinträchtigt.</p>
+        <h3>Erweiterte Attribute</h3>
+        <p>Sie können erweiterte Attribute verwenden, um sie in der Vorlage mit <code>:</code> festzulegen. Im Folgenden erweitern wir ein <code>red</code>-Attribut. Wenn <code>red</code> <code>true</code> ist, ändert sich die Schriftfarbe in Rot:</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;rot&quot;</span>;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});</code></pre><o-playground name="extend - Erweiterte Eigenschaften" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-one.html"></l-m>
+      <temp-one></temp-one>
+      <script>
+        \$.fn.extend({
+          set red(bool){
+            if(bool){
+              this.css.color = "red";
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+          <code path="temp-one.html">
+    <template component>
+      <button on:click="addCount">Zähler erhöhen</button>
+      <div :red="count % 3">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-one",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>In diesem Beispiel fügen wir der Vorlagensyntax ein <code>red</code>-Attribut hinzu, das die Schriftfarbe auf Rot setzt, wenn <code>count % 3</code> nicht 0 ist.</p>
+        <h3>Erweiterungsmethoden</h3>
+        <p>Du kannst auch über die <code>extend</code>-Erweiterungsmethode dafür sorgen, dass sie in der Vorlagen-Syntax verfügbar ist. Der Methodenname ist der Teil vor dem Doppelpunkt. Hier erweitern wir eine <code>color</code>-Vorlagen-Syntax; die folgenden Parameter werden an die definierte Erweiterungsmethode übergeben.</p>
+        <p>Hier wird das Attribut <code>always</code> auf <code>true</code> gesetzt, was bedeutet, dass die definierte Methode jedes Mal aufgerufen wird, wenn die Komponente die Benutzeroberfläche aktualisieren muss. Wenn <code>always</code> nicht gesetzt ist, wird diese Template-Syntax-Funktion nur einmal ausgeführt.</p>
+        <p>Hierbei bietet <code>options</code> weitere Parameter, die Ihnen helfen können, eine stärker anpassbare Template-Syntax zu entwickeln:</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
+    <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = value;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});
+
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - Erweiterungsmethode" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-two.html"></l-m>
+      <temp-two></temp-two>
+      <script>
+        \$.fn.extend({
+          color(color, func, options){
+            const bool = func();
+            if(bool){
+              this.css.color = color;
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+        \$.fn.color.always = true;
+      </script>
+    </template>
+  </code>
+          <code path="temp-two.html">
+    <template component>
+      <button on:click="addCount" color:blue="count % 3">Zähler erhöhen</button>
+      <div color:red="!(count % 3)">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-two",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Prinzip der Template-Syntax</h2>
+        <p>Bisher sollten Sie verstanden haben, dass viele der Template-Syntaxen auf ofa.js tatsächlich durch <code>extend</code> erweitert werden:</p>
+        <ul>
+          <li>Die Methoden <code>class</code> und <code>attr</code> werden bei jedem Aktualisieren der Ansicht ausgeführt</li>
+          <li>Funktionsbindungen wie <code>on</code> oder <code>one</code> werden nur einmal ausgeführt</li>
+        </ul>
+        <p>Sie können sich das folgende Beispiel ansehen, um die Template-Render-Prinzipien von ofa.js besser zu verstehen:</p>
+        <o-playground name="extend - Template-Syntax-Prinzipien" style="--editor-height: 480px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./temp-three.html"></l-m>
+      <temp-three></temp-three>
+    </template>
+  </code>
+          <code path="temp-three.html" active>
+    <template component>
+      <div>class always => {{classalways}}</div>
+      <div>attr always => {{attralways}}</div>
+      <div>on always => {{onalways}}</div>
+      <script>
+        export default {
+          tag: "temp-three",
+          data: {
+            classalways:"",
+            attralways:"",
+            onalways:""
+          },
+          ready(){
+            this.classalways = $.fn.class.always;
+            this.attralways = $.fn.attr.always;
+            this.onalways = !!$.fn.on.always;
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

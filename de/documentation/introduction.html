@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Einführung</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Einführung</h1>
+        <h2>Was ist ofa.js?</h2>
+        <p>ofa.js ist ein sehr benutzerfreundliches Web-Frontend-Framework zur Entwicklung von Web-Anwendungen, das darauf abzielt, die Entwicklungseffizienz zu verbessern und die Einstiegshürden zu senken.</p>
+        <blockquote>
+          <p>Wenn Sie mit HTML, CSS und JavaScript <strong>bereits gut vertraut sind</strong>, dann ist ofa.js eine sehr gute Wahl.</p>
+        </blockquote>
+        <h2>Warum habe ich ofa.js entwickelt?</h2>
+        <p>Obwohl es bereits Frontend-Frameworks wie React und Vue gibt, haben sie alle eine relativ hohe Einstiegshürde. Entwickler müssen zunächst eine Reihe von Vorwissen erlernen, wie z.B. die Installation von Node.js, die Verwendung von npm zum Installieren von Paketen, das Einrichten von Scaffolding usw.</p>
+        <p>Diese anfänglichen Schritte sind für die eigentliche Entwicklung keineswegs unerlässlich, sondern werden in der Projektstartphase zu einer „Blackbox", die die Anwendung von Anfang an mit unnötiger Komplexität belastet. Die Entstehung von ofa.js zielt genau darauf ab, diese Schwierigkeiten zu überwinden.</p>
+        <h2>Zweck der Existenz von ofa.js</h2>
+        <h3>Vereinfachung des Frontend-Entwicklungsprozesses</h3>
+        <p>ofa.js vereinfacht die mühsamen Prozesse der traditionellen Frontend-Entwicklung. Entwickler müssen keine Tools wie Node.js, npm und Scaffolding lernen, um schnell Frontend-Anwendungen aufzubauen. Sie müssen lediglich das offizielle Build-Programm (Webversion) im Browser öffnen, dann ein lokales Verzeichnis auswählen und können sofort mit der Entwicklung beginnen.</p>
+        <h3>Die Einstiegshürden für Entwickler senken</h3>
+        <p>Viele Menschen möchten ihre eigene App entwickeln oder Entwickler werden, doch angesichts der traditionellen Web-Entwicklung (einschließlich Android, iOS usw.) scheuen sie zurück, weil sie zahlreiche Vorkenntnisse erwerben müssen – etwa die Installation der Entwicklungsumgebung und das Einrichten von Scaffolding –, was viele Anfänger abschreckt.</p>
+        <p>ofa.js widmet sich der Vereinfachung aller Dinge. Sie benötigen nur einen Chrome-Browser, öffnen die Webseite und können sofort Anwendungen erstellen. Wählen Sie direkt ein lokales Verzeichnis aus und öffnen Sie es, ohne Vorbereitungen vor der Entwicklung. Alle Berechnungen, Daten- und Speichervorgänge werden lokal auf dem Rechner des Benutzers ausgeführt, ohne Abhängigkeit von Cloud-Diensten.</p>
+        <h3>Die ultimative Lösung für Micro-Frontends</h3>
+        <p>ofa.js ermöglicht es, Web-Front-End-Entwicklung wie Microservices in mehrere unabhängige Module aufzuteilen, die jeweils eigenständig entwickelt und bereitgestellt werden können. Nachdem die traditionellen Grenzen des Web-Front-Ends durchbrochen wurden, wird die Front-End-Technologie schrittweise die Grenzen der Server-Technologie überschreiten.</p>
+        <blockquote>
+          <p>Microservices (Microservices) ist ein Softwarearchitekturstil, der große, komplexe Anwendungen in mehrere feinkörnige, unabhängig bereitgestellte und ausgeführte kleine Dienste aufteilt.</p>
+        </blockquote>
+        <h2>Erste Schritte</h2>
+        <ul>
+          <li>Wenn Sie über grundlegende Entwicklungskenntnisse verfügen, können Sie mit <a href="./script-reference.html" olink="">Skriptreferenz</a> beginnen.</li>
+          <li>Wenn Sie ein Anfänger sind, wird empfohlen, mit <a href="./create-first-app.html" olink="">Erstellen der ersten Anwendung</a> zu beginnen.</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

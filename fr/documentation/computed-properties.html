@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propriétés calculées</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Propriétés calculées</h1>
+        <p>Les propriétés calculées sont un moyen de dériver de nouvelles données à partir de données réactives, elles se mettent à jour automatiquement en fonction des changements des données dont elles dépendent. Dans ofa.js, les propriétés calculées sont des méthodes spéciales définies dans l&#39;objet <code>proto</code>, utilisant les mots-clés <code>get</code> ou <code>set</code> de JavaScript pour leur définition.</p>
+        <h2>Caractéristiques et avantages</h2>
+        <ul>
+          <li><strong>Mise en cache</strong> : le résultat d’une propriété calculée est mis en cache et n’est recalculé que lorsque ses données dépendantes changent</li>
+          <li><strong>Réactivité</strong> : lorsque les données dépendantes sont mises à jour, la propriété calculée se met à jour automatiquement</li>
+          <li><strong>Déclaratif</strong> : les dépendances sont créées de manière déclarative, rendant le code plus clair et plus lisible</li>
+        </ul>
+        <h2>get propriété calculée</h2>
+        <p>La propriété calculée get sert à dériver une nouvelle valeur à partir de données réactives ; elle n’accepte aucun paramètre et ne renvoie qu’une valeur calculée à partir d’autres données.</p>
+        <o-playground name="exemple de propriété calculée get" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="clickMe">Cliquez-moi - {{count}} - {{countDouble}}</button>
+      <p>La valeur de la propriété calculée countDouble est : {{countDouble}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            },
+            proto: {
+              get countDouble() {
+                console.log('countDouble a été accédé');
+                return this.count * 2;
+              },
+              clickMe() {
+                this.count++;
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Exemples de scénarios d&#39;application réels</h3>
+        <p>Les propriétés calculées sont souvent utilisées pour gérer des logiques de transformation de données complexes, telles que filtrer des tableaux, formater le texte affiché, etc. :</p>
+        <o-playground name="Exemple de propriété calculée" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+        ul {
+          list-style-type: none;
+          padding: 0;
+        }
+        li {
+          padding: 5px;
+          margin: 3px 0;
+          background-color: #838383ff;
+        }
+      </style>
+      <input type="text" sync:value="filterText" placeholder="Filtrer les noms...">
+      <ul>
+        <o-fill :value="filteredNames">
+          <li>{{$data}}</li>
+        </o-fill>
+      </ul>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              filterText: '',
+              names: ['张3', '李4', '王54']
+            },
+            proto: {
+              get filteredNames() {
+                if (!this.filterText) {
+                  return this.names;
+                }
+                return this.names.filter(name => 
+                  name.includes(this.filterText)
+                );
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>set propriété calculée</h2>
+        <p>set Les propriétés calculées vous permettent de modifier l’état des données sous-jacentes via une opération d’assignation. Elles reçoivent un paramètre, généralement utilisé pour mettre à jour en retour les données d’origine dont elles dépendent.</p>
+        <o-playground name="Exemple de propriété calculée set" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        button {
+          margin: 5px;
+          padding: 8px 12px;
+        }
+      </style>
+      <div>
+        <p>Valeur de base : {{count}}</p>
+        <p>Valeur doublée : {{countDouble}}</p>
+        <button on:click="resetCount">Réinitialiser le compteur</button>
+        <button on:click="setCountDouble">Définir la valeur doublée à 10</button>
+        <button on:click="incrementCount">Augmenter la valeur de base</button>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            },
+            proto: {
+              get countDouble() {
+                return this.count * 2;
+              },
+              set countDouble(val) {
+                this.count = Math.max(0, val / 2); // assure que count ne soit pas négatif
+              },
+              resetCount() {
+                this.count = 0;
+              },
+              setCountDouble() {
+                this.countDouble = 10;
+              },
+              incrementCount() {
+                this.count++;
+              }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Propriétés calculées vs Méthodes</h2>
+        <p>Bien que les méthodes puissent également réaliser des fonctions similaires, les propriétés calculées ont une caractéristique de mise en cache : elles ne sont réévaluées que lorsque les données dont elles dépendent changent, ce qui offre de meilleures performances.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Utiliser une propriété calculée (recommandé) - avec mise en cache</span>
+<span class="hljs-keyword">get</span> <span class="hljs-title function_">fullName</span>() {
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
+}
+
+<span class="hljs-comment">// Utiliser une méthode - s&#x27;exécute à chaque appel</span>
+<span class="hljs-title function_">fullName</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
+}</code></pre>
+        <h2>Remarques</h2>
+        <ol>
+          <li><strong>Éviter les opérations asynchrones</strong> : Les propriétés calculées doivent rester synchrones et sans effets secondaires, il est interdit d&#39;effectuer des appels asynchrones ou de modifier directement l&#39;état du composant à l&#39;intérieur. </li>
+          <li><strong>Suivi des dépendances</strong> : Veillez à ne dépendre que de données réactives, sinon les mises à jour seront imprévisibles. </li>
+          <li><strong>Protection contre les erreurs</strong> : Si une dépendance circulaire ou une affectation anormale survient à l&#39;intérieur d&#39;une propriété calculée, cela peut entraîner un échec de rendu, voire une boucle infinie. Il est essentiel de définir des conditions limites à l&#39;avance et de bien gérer les exceptions.</li>
+        </ol>
+        <h2>Exemples d&#39;applications pratiques</h2>
+        <p>Voici un exemple simple de validation de formulaire qui illustre l’utilité des propriétés calculées :</p>
+        <o-playground name="Exemple de validation de formulaire" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 15px;
+          font-family: Arial, sans-serif;
+        }
+        input {
+          margin: 5px 0;
+          padding: 8px;
+          width: 200px;
+        }
+        .status {
+          margin-top: 10px;
+          padding: 8px;
+          border-radius: 4px;
+        }
+        .valid {
+          background-color: #d4edda;
+          color: green;
+        }
+        .invalid {
+          background-color: #f8d7da;
+          color: red;
+        }
+      </style>
+      <h3>Exemple de validation simple</h3>
+      <input type="text" sync:value="username" placeholder="Entrez un nom d'utilisateur (au moins 3 caractères)">
+      <p class="status" class:valid="isValid" class:invalid="!isValid">
+        Statut: {{statusMessage}}
+      </p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              username: ''
+            },
+            proto: {
+              get isValid() {
+                return this.username.length >= 3;
+              },
+              get statusMessage() {
+                return this.isValid ? 'Nom d'utilisateur valide' : 'Le nom d'utilisateur est trop court';
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

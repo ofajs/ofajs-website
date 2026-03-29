@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>formData</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>formData</h1>
+        <p>La méthode <code>formData</code> sert à générer un objet de données lié aux éléments de formulaire, rendant ainsi le traitement des éléments de formulaire plus simple et plus efficace. Cette méthode produit un objet contenant les valeurs de tous les éléments de formulaire présents dans l’élément cible, et cet objet reflète en temps réel les modifications des éléments de formulaire.</p>
+        <p>Dans l’exemple ci-dessous, nous montrons comment utiliser la méthode <code>formData</code> pour générer des données d’objet liées à un élément de formulaire :</p>
+        <o-playground name="formData - 基本使用" style="--editor-height: 500px">
+          <code path="demo.html">
+    <template>
+      <form id="myForm">
+        <input type="text" name="username" value="John Doe" />
+        <div>
+          sex:
+          <label>
+            man
+            <input type="radio" name="sex" value="man" />
+          </label>
+          <label>
+            woman
+            <input type="radio" name="sex" value="woman" />
+          </label>
+        </div>
+        <textarea name="message">Hello World!</textarea>
+      </form>
+      <br />
+      <div id="logger"></div>
+      <script>
+        const data = $("#myForm").formData();
+        \$("#logger").text = data;
+        data.watch(() => {
+          \$("#logger").text = data;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous avons créé un formulaire contenant une zone de saisie de texte, des boutons radio et une zone de texte, et utilisé la méthode <code>formData</code> pour créer un objet <code>data</code> qui contient les valeurs de ces éléments de formulaire. Nous avons également utilisé la méthode <code>watch</code> pour surveiller les changements de données et afficher les données en temps réel sur la page. Lorsque l&#39;utilisateur modifie la valeur d&#39;un élément de formulaire, l&#39;objet <code>data</code> est mis à jour en conséquence, rendant le traitement des données très simple et efficace.</p>
+        <h2>Liaison de données inverse</h2>
+        <p>Les données d’objet générées possèdent également une capacité de liaison inverse, ce qui signifie que lorsque vous modifiez les propriétés de l’objet, les valeurs des éléments de formulaire associées se mettent à jour automatiquement. Cela est très utile lors du traitement des données de formulaire, car vous pouvez facilement mettre en œuvre une liaison de données bidirectionnelle.</p>
+        <p>Dans l&#39;exemple ci-dessous, nous démontrons comment utiliser les données d&#39;objet générées par la méthode <code>formData</code>, ainsi que la manière d&#39;effectuer une liaison de données inverse :</p>
+        <o-playground name="formData - liaison inverse" style="--editor-height: 500px">
+          <code path="demo.html">
+    <template>
+      <form id="myForm">
+        <input type="text" name="username" value="John Doe" />
+        <div>
+          sexe:
+          <label>
+            homme
+            <input type="radio" name="sex" value="man" />
+          </label>
+          <label>
+            femme
+            <input type="radio" name="sex" value="woman" />
+          </label>
+        </div>
+        <textarea name="message">Hello World!</textarea>
+      </form>
+      <br />
+      <div id="logger"></div>
+      <script>
+        const data = $("#myForm").formData();
+        setTimeout(()=>{
+          data.username = "Yao";
+          data.sex = "man";
+          data.message = "ofa.js is good!";
+        },1000);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous avons d&#39;abord créé un formulaire contenant une zone de saisie de texte, des boutons radio et une zone de texte, puis nous avons utilisé la méthode <code>formData</code> pour générer un objet de données <code>data</code>. Ensuite, en modifiant les propriétés de l&#39;objet <code>data</code>, nous avons réalisé une liaison de données bidirectionnelle, c&#39;est-à-dire que les valeurs des éléments du formulaire sont automatiquement mises à jour lorsque les propriétés de l&#39;objet sont modifiées. Cette fonctionnalité de liaison de données bidirectionnelle rend l&#39;interaction avec les données du formulaire plus pratique.</p>
+        <h2>Écouter un formulaire spécifique</h2>
+        <p>Par défaut, la méthode <code>formData()</code> écoute tous les éléments <code>input</code>, <code>select</code> et <code>textarea</code> dans l&#39;élément cible. Mais si vous ne souhaitez écouter que des éléments de formulaire spécifiques, vous pouvez le faire en transmettant un sélecteur CSS.</p>
+        <p>Dans l’exemple ci-dessous, nous montrons comment écouter un élément de formulaire spécifique en passant un sélecteur CSS :</p>
+        <o-playground name="formData - 特定表单" style="--editor-height: 500px">
+          <code path="demo.html">
+    <template>
+      <form id="myForm">
+        <input type="text" name="username" value="John Doe" class="use-it" />
+        <div>
+          sexe:
+          <label>
+            homme
+            <input type="radio" name="sex" value="man" class="use-it" />
+          </label>
+          <label>
+            femme
+            <input type="radio" name="sex" value="woman" class="use-it" />
+          </label>
+        </div>
+        <textarea name="message">Cet élément de formulaire n'est pas lié</textarea>
+      </form>
+      <br />
+      <div id="logger"></div>
+      <script>
+        const data = $("#myForm").formData(".use-it");
+        \$("#logger").text = data;
+        data.watch(() => {
+          \$("#logger").text = data;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous souhaitons écouter uniquement les éléments de formulaire dont la <code>class</code> est &quot;use-it&quot;, c&#39;est pourquoi nous avons passé <code>&quot;.use-it&quot;</code> comme paramètre à la méthode <code>formData()</code>. Ainsi, seuls les éléments de formulaire portant ce nom de classe seront écoutés et inclus dans l&#39;objet de données généré. Cela est très utile pour écouter de manière sélective les éléments de formulaire, afin de gérer vos données de formulaire plus précisément.</p>
+        <h2>Formulaire personnalisé</h2>
+        <p>L&#39;utilisation d&#39;un composant de formulaire personnalisé est très simple : il suffit d&#39;ajouter un <strong>attribut value</strong> au composant personnalisé et de définir une <strong>propriété name</strong>.</p>
+        <o-playground name="formData - formulaire personnalisé" style="--editor-height: 500px">
+          <code path="demo.html" preview active>
+    <template>
+      <div id="myForm">
+        <input type="text" name="username" value="John Doe" />
+        <l-m src="./custom-input.html"></l-m>
+        <custom-input name="message"></custom-input>
+        <div id="logger"></div>
+      </div>
+      <script>
+        const data = $("#myForm").formData("input,custom-input");
+        \$("#logger").text = data;
+        data.watch(() => {
+          \$("#logger").text = data;
+        });
+      </script>
+    </template>
+  </code>
+          <code path="custom-input.html">
+    <template component>
+      <style>
+        :host{
+          display: block;
+        }
+        .editor {
+          display: inline-block;
+          min-width: 200px;
+          line-height: 30px;
+          height: 30px;
+          border: #aaa solid 1px;
+          border-radius: 4px;
+          padding: 4px;
+          font-size: 14px;
+        }
+      </style>
+      <div
+        class="editor"
+        contenteditable="plaintext-only"
+        :text="value"
+        on:input="changeText"
+      ></div>
+      <script>
+        export default {
+          tag:"custom-input",
+          attrs: {
+            name: "",
+          },
+          data: {
+            value: "Texte par défaut",
+          },
+          proto: {
+            changeText(e) {
+              this.value = $(e.target).text;
+            },
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Lorsque vous utilisez un composant de formulaire personnalisé, vous n&#39;avez qu&#39;à l&#39;ajouter à votre formulaire et définir l&#39;attribut <code>name</code> requis. Dans l&#39;exemple ci-dessus, nous utilisons l&#39;élément <code>&lt;custom-input&gt;</code> et définissons l&#39;attribut <code>name</code> pour utiliser le composant de formulaire personnalisé. Ensuite, nous utilisons la méthode <code>formData()</code> pour écouter les valeurs des éléments d&#39;entrée et des composants personnalisés, afin d&#39;obtenir et de traiter les données du formulaire en temps réel. Cette méthode vous permet d&#39;étendre facilement votre formulaire pour inclure des composants de formulaire personnalisés, répondant ainsi à vos besoins spécifiques.</p>
+        <h2>Utiliser des données de formulaire dans un composant ou une page</h2>
+        <p>Parfois, vous pouvez avoir besoin d&#39;utiliser des données de formulaire dans un composant ou une page, et il est nécessaire de générer des données au moment du cycle de vie <code>attached</code> et de les lier au composant.</p>
+        <o-playground name="formData - Utilisation dans le composant" style="--editor-height: 600px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./form-data-demo.html"></l-m>
+      <form-data-demo></form-data-demo>
+    </template>
+  </code>
+          <code path="form-data-demo.html" active>
+    <template component>
+      <style>
+        :host{
+          display: block;
+        }
+      </style>
+      <input type="text" name="username" value="John Doe" />
+      <div>{{logtext}}</div>
+      <script>
+        export default {
+          tag:"form-data-demo",
+          data: {
+            fdata:{},
+            logtext: ""
+          },
+          watch:{
+            fdata(data){
+              if(data){
+                this.logtext = JSON.stringify(data);
+              }
+            }
+          },
+          attached(){
+            this.fdata = this.shadow.formData();
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Grâce au cycle de vie <code>attached</code>, une fois le composant prêt, nous avons généré l’objet de données de formulaire <code>fdata</code> à l’aide de la méthode <code>this.shadow.formData()</code>.</p>
+        <p><code>formData()</code> est plus adapté aux scénarios de formulaires où la logique d&#39;interaction est relativement simple.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

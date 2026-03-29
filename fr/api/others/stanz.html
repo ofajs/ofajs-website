@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caractéristiques des données d'exemple</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Caractéristiques des données d'exemple</h1>
+        <p>Les objets d’instance obtenus ou créés via <code>$</code> possèdent l’intégralité des caractéristiques de données de stanz, car l’instance <code>$</code> hérite de stanz. Cela signifie que vous pouvez utiliser les méthodes et propriétés de manipulation de données fournies par <code>stanz</code> pour manipuler et écouter les données de l’objet d’instance.</p>
+        <blockquote>
+          <p>Les exemples suivants utilisent des éléments conventionnels, car les composants personnalisés ont généralement des données déjà enregistrées, tandis que les éléments conventionnels ne contiennent généralement que des informations de balisage, ce qui les rend plus adaptés à la démonstration.</p>
+        </blockquote>
+        <h2>watch</h2>
+        <p>Les instances peuvent écouter les changements de valeur via la méthode <code>watch</code> ; même si la valeur d’un sous-objet de l’objet est modifiée, le changement peut être détecté dans la méthode <code>watch</code> de l’objet.</p>
+        <p>Voici un exemple montrant comment utiliser l’instance <code>$</code> et la méthode <code>watch</code> :</p>
+        <o-playground name="stanz - watch" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger" style="border: #aaa solid 1px; padding: 8px"></div>
+      <script>
+        const target = $("#target");
+        \$("#logger").text = target;
+        target.watch(() => {
+          \$("#logger").text = target;
+        });
+        setTimeout(() => {
+          target.aaa = "Je suis aaa";
+        }, 600);
+        setTimeout(() => {
+          target.bbb = {
+            child: {
+              val: "Je suis bbb child val",
+            },
+          };
+        }, 1200);
+        setTimeout(() => {
+          target.bbb.child.val = "changer bbb child val";
+        }, 1800);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous créons d’abord une instance <code>$</code> appelée <code>target</code>, puis utilisons la méthode <code>watch</code> pour surveiller ses modifications. Même si nous modifions la valeur d’un sous-objet, par exemple <code>target.bbb.child.val</code>, la méthode <code>watch</code> détecte ces changements et met à jour le contenu de l’élément <code>logger</code>. Cela illustre la puissance de l’instance <code>$</code>, qui vous permet de surveiller facilement les changements d’un objet.</p>
+        <h2>watchTick</h2>
+        <p><code>watchTick</code> et la méthode <code>watch</code> ont des fonctions similaires, mais <code>watchTick</code> inclut une opération de throttling interne ; il s’exécute une seule fois dans un thread unique, ce qui permet d’écouter les changements de données plus efficacement dans certains scénarios à forte exigence de performance.</p>
+        <p>Ci-dessous un exemple démontrant comment utiliser la méthode <code>watchTick</code> d'une instance <code>$</code> :</p>
+        <o-playground name="stanz - watchTick" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger1" style="border: blue solid 1px; margin: 8px"></div>
+      <div id="logger2" style="border: red solid 1px; margin: 8px"></div>
+      <script>
+        const target = $("#target");
+        let count1 = 0;
+        target.watch(() => {
+          count1++;
+          \$("#logger1").text = 'watch exécuté : ' + count1 + ' fois';
+        });
+        let count2 = 0;
+        target.watchTick(()=>{
+          count2++;
+          \$("#logger2").text = 'watchTick exécuté : ' + count2 + ' fois';
+        });
+        setTimeout(() => {
+          target.aaa = "Je suis aaa";
+          target.bbb = "Je suis bbb";
+          target.ccc = "Je suis ccc";
+        }, 1000);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous avons d'abord créé une instance d'objet <code>$</code> appelée <code>target</code>. Ensuite, nous avons utilisé la méthode <code>watch</code> et la méthode <code>watchTick</code> pour surveiller les modifications de l'objet. La méthode <code>watch</code> s'exécute immédiatement lorsque les données changent, tandis que la méthode <code>watchTick</code> s'exécute une seule fois dans un seul thread, ce qui permet de limiter la fréquence des opérations de surveillance. Vous pouvez choisir d'utiliser la méthode <code>watch</code> ou <code>watchTick</code> pour surveiller les changements de données en fonction de vos besoins.</p>
+        <h2>unwatch</h2>
+        <p>La méthode <code>unwatch</code> sert à annuler l’écoute des données ; elle permet de révoquer l’écoute précédemment enregistrée par <code>watch</code> ou <code>watchTick</code>.</p>
+        <p>Voici un exemple montrant comment utiliser la méthode <code>unwatch</code> de l'instance <code>$</code> :</p>
+        <o-playground name="stanz - unwatch" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger1" style="border: blue solid 1px; margin: 8px"></div>
+      <div id="logger2" style="border: red solid 1px; margin: 8px"></div>
+      <script>
+        const target = $("#target");
+        const tid1 = target.watch(() => {
+          \$("#logger1").text = JSON.stringify(target);
+        });
+        const tid2 = target.watchTick(()=>{
+          \$("#logger2").text = JSON.stringify(target);
+        });
+        setTimeout(() => {
+          target.aaa = "I am aaa";
+          target.unwatch(tid1);
+          target.unwatch(tid2);
+        }, 500);
+        setTimeout(() => {
+          target.bbb = "I am aaa";
+        }, 1000);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous avons d'abord créé une instance d'objet <code>$</code> appelée <code>target</code>, puis utilisé les méthodes <code>watch</code> et <code>watchTick</code> pour enregistrer deux écouteurs respectivement. Ensuite, nous avons passé les valeurs de retour précédemment enregistrées <code>tid1</code> et <code>tid2</code> des écouteurs à la méthode <code>unwatch</code> pour annuler ces deux écouteurs. Cela signifie que le changement de propriété dans le premier <code>setTimeout</code> ne déclenchera aucun écouteur, car les écouteurs ont été annulés.</p>
+        <h2>Valeurs non surveillées</h2>
+        <p>Dans l'instance <code>$</code>, les noms d'attributs commençant par un tire-bas <code>_</code> indiquent que ces valeurs ne seront pas surveillées par les méthodes <code>watch</code> ou <code>watchTick</code>. Cela est très utile pour certains attributs temporaires ou privés, vous pouvez les modifier à volonté sans déclencher la surveillance.</p>
+        <p>Dans le modèle, ceci est appelé une <a href="../../documentation/state-management.html" olink="">donnée non réactive</a>.</p>
+        <p>Voici un exemple montrant comment utiliser des valeurs d’attribut commençant par un soulignement pour éviter d’être écouté :</p>
+        <o-playground name="stanz - Données non réactives" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger" style="border: #aaa solid 1px; padding: 8px"></div>
+      <script>
+        const target = $("#target");
+        \$("#logger").text = target;
+        target.watch(() => {
+          \$("#logger").text = target;
+        });
+        setTimeout(() => {
+          target._aaa = "Je suis aaa";
+        }, 600);
+        setTimeout(() => {
+          target._aaa = "modifier aaa";
+        }, 1200);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous créons une instance <code>$</code> appelée <code>target</code>, puis utilisons la méthode <code>watch</code> pour écouter les changements de valeur des propriétés. Dans <code>setTimeout</code>, nous tentons de modifier la valeur de la propriété <code>_aaa</code>, mais ce changement ne déclenche pas l'écoute. Cela est très utile pour les cas où l'on souhaite mettre à jour une valeur de propriété sans déclencher l'écoute.</p>
+        <h2>Caractéristiques de base</h2>
+        <p>Les données d'objet définies sur l'instance seront converties en instance Stanz, et cette instance Stanz peut être surveillée.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> obj = {
+  <span class="hljs-attr">val</span>: <span class="hljs-string">"Je suis obj"</span>
+};
+
+$(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> = obj;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span>.<span class="hljs-property">val</span> === obj.<span class="hljs-property">val</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> === obj);</code></pre>
+        <p>Nous pouvons également utiliser <code>$.stanz</code> pour créer des données Stanz qui ne sont pas liées à une instance.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> data = $.<span class="hljs-title function_">stanz</span>({
+  <span class="hljs-attr">val</span>: <span class="hljs-string">"Je suis val"</span>
+});
+
+data.<span class="hljs-title function_">watch</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data.<span class="hljs-property">val</span>);
+});
+
+data.<span class="hljs-property">val</span> = <span class="hljs-string">"changer val"</span>;</code></pre>
+        <p>Ces exemples illustrent les caractéristiques de base de la configuration des données d'objet en tant qu'instances Stanz pour l'écoute.</p>
+        <p>Pour plus de fonctionnalités complètes, veuillez consulter <a href="https://github.com/ofajs/stanz" target="_blank">stanz</a>.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

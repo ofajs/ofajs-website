@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSR et rendu isomorphe</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>SSR et rendu isomorphe</h1>
+        <blockquote>
+          <p>Si vous ne savez pas ce qu'est le SSR, cela signifie que vous n'en avez pas besoin pour l'instant. Vous pouvez passer ce chapitre et revenir l'étudier plus tard lorsque vous en aurez besoin.</p>
+        </blockquote>
+        <h2>Rendu isomorphe</h2>
+        <p>Afin de conserver simultanément l’expérience fluide du CSR, une meilleure reconnaissance par les robots d’indexation (SEO) et un choix plus libre du langage de développement backend, ofa.js propose un mode de rendu isomorphe unique (Symphony Client-Server Rendering).</p>
+        <blockquote>
+          <p>Pour connaître les définitions et les différences précises entre CSR / SSR / SSG, veuillez lire directement la dernière section de cet article.</p>
+        </blockquote>
+        <p>Le concept central du rendu isomorphe est :- Rendu initial du contenu côté serveur, garantissant le SEO et la vitesse de chargement de la première page</p>
+        <ul>
+          <li>Prise en charge du routage côté client, préservant l’expérience utilisateur fluide du CSR</li>
+          <li>Compatible avec tout environnement serveur, réalisant un rendu isomorphique véritable</li>
+        </ul>
+        <h3>Principe de mise en œuvre du rendu isomorphe</h3>
+        <p>ofa.js 的 同构渲染模式基于以下机制：</p>
+        <ol>
+          <li>Le serveur génère une page HTML complète avec une structure d'exécution universelle</li>
+          <li>Le client charge le moteur d'exécution CSR</li>
+          <li>Reconnaissance automatique de l'environnement d'exécution actuel pour déterminer la stratégie de rendu</li>
+        </ol>
+        <h3>Structure du code de rendu isomorphique</h3>
+        <p><strong>Module de page CSR original :</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>I am Page<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {},
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {},
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p><strong>Page complète après encapsulation du rendu isomorphique :</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Titre de la page<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs#debug"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/scsr/dist/scsr.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-tag">html</span>,
+    <span class="hljs-selector-tag">body</span> {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">overflow</span>: hidden;
+    }
+
+    o-app {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/app-config.js"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- 页面模块内容插入位置 ⬇️ --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Je suis la Page<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {},
+            <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {},
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <p>Ainsi, vous pouvez utiliser n'importe quel langage de développement (Go, Java, PHP, Nodejs, Python, etc.), n'importe quel moteur de rendu de templates backend (comme <code>html/template</code> de Go, Smarty/Twig/Blade de PHP, etc.), pour intégrer la structure de code de rendu isomorphe d'ofa.js dans le template, et ainsi réaliser le SSR.</p>
+        <ul>
+          <li><a href="https://github.com/ofajs/ofa.js/tree/main/test/ssr-case/node" target="_blank">Exemple SSR Nodejs</a></li>
+          <li><a href="https://github.com/ofajs/ofa.js/tree/main/test/ssr-case/php" target="_blank">Exemple SSR PHP</a></li>
+          <li><a href="https://github.com/ofajs/ofa.js/tree/main/test/ssr-case/go" target="_blank">Exemple SSR Go</a></li>
+        </ul>
+        <h3>Structure de modèle de rendu isomorphe</h3>
+        <p>Pour implémenter le mode de rendu isomorphe, il suffit d’utiliser la structure de modèle universelle suivante côté serveur :</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"fr"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Titre de la Page<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs#debug"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/scsr/dist/scsr.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-tag">html</span>,
+    <span class="hljs-selector-tag">body</span> {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+      <span class="hljs-attribute">overflow</span>: hidden;
+    }
+
+    o-app {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/app-config.js"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Contenu du module de page correspondant inséré dynamiquement --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <p><strong>Note :</strong> Le HTML renvoyé par le serveur doit définir le bon en-tête HTTP : <code>Content-Type: text/html; charset=UTF-8</code></p>
+        <p><code>scsr.mjs</code> est le moteur d’exécution de rendu isomorphe fourni par ofa.js ; il détermine automatiquement la stratégie de rendu en fonction de l’état d’exécution de la page actuelle, garantissant ainsi la meilleure expérience utilisateur dans n’importe quel environnement.</p>
+        <p>De la même manière, SSG peut également appliquer cette structure pour générer des sites statiques.</p>
+        <h2>Différences entre ofa.js et SSR ainsi que d'autres frameworks front-end</h2>
+        <p>Le rendu client-serveur Symphony (ci-après SCSR) de ofa.js est essentiellement un mode SSR.</p>
+        <p>Comparé aux solutions SSR existantes des frameworks front-end comme Vue, React, Angular, le plus grand avantage d'ofa.js est qu'il <strong>ne nécessite pas de liaison obligatoire à Node.js</strong>. Cela signifie que n'importe quel moteur de rendu de templates backend (comme Smarty pour PHP, Jinja2 pour Python, Thymeleaf pour Java, etc.) peut facilement intégrer ofa.js pour réaliser le SSR.</p>
+        <h2>Vue d'ensemble des méthodes de rendu de pages web</h2>
+        <p>Les applications web modernes utilisent principalement quatre méthodes de rendu : le rendu côté serveur avec moteur de gabarits traditionnel, le CSR (Client Side Rendering, rendu côté client), le SSR (Server Side Rendering, rendu côté serveur) et le SSG (Static Site Generation, génération de site statique). Chaque méthode présente ses avantages et ses scénarios d’utilisation adaptés.</p>
+        <h3>Rendu par moteur de template côté serveur traditionnel</h3>
+        <p>Parmi les nombreux produits Web, les moteurs de templates côté serveur restent le moyen de rendu de pages le plus répandu. Les langages backend comme Go et PHP utilisent des moteurs de templates intégrés ou tiers (tels que <code>html/template</code> pour Go, Smarty/Twig/Blade pour PHP, etc.) pour injecter des données dynamiques dans des templates HTML, générer des pages HTML complètes en une seule fois et les retourner au client.</p>
+        <p><strong>Avantages :</strong>- SEO friendly, chargement rapide de la première page</p>
+        <ul>
+          <li>Contrôle côté serveur, sécurité relativement élevée</li>
+          <li>Faibles exigences pour la pile technologique de l'équipe, les développeurs backend peuvent effectuer le développement de manière indépendante</li>
+        </ul>
+        <p><strong>Inconvénients :</strong>- Mauvaise expérience utilisateur : chaque interaction nécessite un rafraîchissement de la page</p>
+        <ul>
+          <li>Forte pression sur le serveur</li>
+          <li>Couplage élevé entre le front-end et le back-end, défavorable à la collaboration et à la division du travail</li>
+        </ul>
+        <h3>CSR (rendu côté client)</h3>
+        <p>En mode CSR, le contenu de la page est entièrement rendu par JavaScript côté navigateur, et l'<a href="./routes.html" olink="">application à page unique</a> d'ofa.js en est une mise en œuvre typique. Cette approche offre une expérience utilisateur fluide, permettant de réaliser toutes les interactions sans nécessiter de rechargement de page. Les applications monopages (SPA) développées avec React ou Vue et leurs bibliothèques de routage correspondantes (comme React Router ou Vue Router) sont toutes des exemples classiques de mise en œuvre CSR.</p>
+        <p><strong>Avantages :</strong>- Expérience utilisateur fluide, changement de page sans rafraîchissement</p>
+        <ul>
+          <li>Forte capacité de traitement côté client, réponse rapide</li>
+        </ul>
+        <p><strong>Inconvénients :</strong>- N'est pas favorable au SEO, les moteurs de recherche ont du mal à indexer le contenu</p>
+        <h3>SSR（Rendu côté serveur）</h3>
+        <p>En conservant l'expérience fluide du CSR, le rendu des pages est assurée par le serveur en temps réel : lorsque l'utilisateur fait une requête, le serveur génère instantanément le HTML complet et le renvoie, réalisant ainsi un véritable rendu côté serveur.</p>
+        <p><strong>Avantages :</strong>- Convivial pour le SEO, chargement rapide de la première écran</p>
+        <ul>
+          <li>Prise en charge du contenu dynamique</li>
+        </ul>
+        <p><strong>Inconvénients :</strong>- Forte charge sur le serveur</p>
+        <ul>
+          <li>Nécessite généralement un environnement Node.js comme runtime, ou au moins une couche intermédiaire Node.js</li>
+          <li>Nécessite encore une activation côté client ultérieure pour une interaction complète</li>
+        </ul>
+        <h3>GSS (Génération de Site Statique)</h3>
+        <p>À la phase de construction, toutes les pages sont pré-rendues en fichiers HTML statiques et, après déploiement, peuvent être directement renvoyées aux utilisateurs par le serveur.</p>
+        <p><strong>Avantages :</strong>- Chargement initial rapide, convivial pour le SEO</p>
+        <ul>
+          <li>Faible charge serveur, performance stable</li>
+          <li>Haute sécurité</li>
+        </ul>
+        <p><strong>Inconvénients :</strong>- Difficulté de mise à jour du contenu dynamique</p>
+        <ul>
+          <li>Temps de construction augmentant avec le nombre de pages</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Composant o-app</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Composant o-app</h1>
+        <p><code>o-app</code> est l’un des composants principaux d’ofa.js, utilisé pour configurer et gérer l’ensemble de l’application. Voici quelques attributs et méthodes clés de l’app :</p>
+        <h2>src</h2>
+        <p>L&#39;attribut <code>src</code> est utilisé pour spécifier l&#39;adresse exacte du module de configuration des paramètres de l&#39;application.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> app = $(<span class="hljs-string">&quot;o-app&quot;</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(app.<span class="hljs-property">src</span>);</code></pre>
+        <h2>current</h2>
+        <p>La propriété <code>current</code> sert à obtenir l&#39;instance de la page en cours d&#39;affichage. Cela vous permet d&#39;accéder à la page actuellement affichée et d&#39;effectuer des opérations dessus, par exemple mettre à jour son contenu ou exécuter des actions spécifiques.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
+        <h2>goto</h2>
+        <p>La méthode <code>goto</code> sert à sauter vers la page spécifiée. Vous pouvez transmettre l’adresse de la page cible, l’application chargera et affichera cette page. C’est une méthode importante pour la navigation dans l’application.</p>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;/page2.html&quot;</span>);</code></pre>
+        <h2>replace</h2>
+        <p>La méthode <code>replace</code> est similaire à <code>goto</code>, mais elle sert à remplacer la page actuelle plutôt que d&#39;ajouter une nouvelle page à la pile. Cela peut être utilisé pour implémenter un remplacement de page plutôt qu&#39;une navigation dans la pile.</p>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;/nouvelle-page.html&quot;</span>);</code></pre>
+        <h2>back</h2>
+        <p>La méthode <code>back</code> est utilisée pour revenir à la page précédente, permettant une navigation arrière. Cela ramènera l&#39;utilisateur à la page précédente.</p>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">back</span>();</code></pre>
+        <h2>routers</h2>
+        <p>La propriété &quot;routers&quot; contient les informations de configuration des itinéraires de l&#39;application. C&#39;est une propriété importante qui définit les règles et les correspondances d&#39;itinéraire des différentes pages de l&#39;application. La configuration des itinéraires détermine la navigation entre les pages et la façon dont les URL sont traitées.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> routeConfig = app.<span class="hljs-property">routers</span>;</code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application à page unique</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Application à page unique</h1>
+        <p>Une application à page unique lie le composant <code>o-app</code> à la barre d&#39;adresse du navigateur, afin de synchroniser l&#39;URL de la page avec le chemin des pages au sein de l&#39;application. Après avoir activé l&#39;application à page unique :</p>
+        <ul>
+          <li>Rafraîchir la page permet de conserver l’état actuel de la route</li>
+          <li>Copier l’URL de la barre d’adresse et l’ouvrir dans un autre navigateur ou onglet restaure également l’état de l’application</li>
+          <li>Les boutons Précédent/Suivant du navigateur fonctionnent normalement</li>
+        </ul>
+        <h2>Utilisation de base</h2>
+        <p>Utilisez le composant officiel <code>o-router</code> pour envelopper le composant <code>o-app</code>, afin de réaliser une application à page unique.</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;fr&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>test de routeur<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/router/dist/router.min.mjs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">o-router</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <h2>Attribut fix-body</h2>
+        <p>Après l’ajout de l’attribut <code>fix-body</code>, <code>o-router</code> réinitialise automatiquement les styles de <code>html</code> et <code>body</code>, éliminant les marges et les rembourrages par défaut.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-router</span> <span class="hljs-attr">fix-body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span></code></pre>
+        <p>Cela est particulièrement utile dans les cas suivants :- nécessite que <code>o-app</code> remplisse entièrement la fenêtre</p>
+        <ul>
+          <li>lorsque l’application est le seul contenu de la page</li>
+        </ul>
+        <h2>Exemple</h2>
+        <o-playground name="Exemple d'application monopage" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/router/dist/router.min.mjs"></l-m>
+      <o-router fix-body>
+        <o-app src="./app-config.js"></o-app>
+      </o-router>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // URL de la page d'accueil de l'application
+    export const home = "./home.html";
+    // Configuration de l'animation de transition des pages
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const loading = () => {
+  const loadingEl = $({
+    tag: "div",
+    css: {
+      width: "100%",
+      height: "100%",
+      position: "absolute",
+      zIndex: 1000,
+    },
+    html: `
+      <div style="transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);"></div>
+    `,
+  });
+  setTimeout(() => (loadingEl[0].style.width = "98%"));
+  loadingEl.remove = () => {
+    loadingEl[0].style["transition-duration"] = "0.1s";
+    loadingEl[0].style.width = "100%";
+    setTimeout(() => {
+      \$.fn.remove.call(loadingEl);
+    }, 200);
+  };
+  return loadingEl;
+};
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink>Aller à À propos</a>
+      <br>
+      <br>
+      <button on:click="gotoAbout">Bouton Aller à À propos</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Bonjour Démo d'application ofa.js",
+            },
+            proto:{
+                gotoAbout(){
+                    this.goto("./about.html");
+                }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Retour</button> </div>
+      <p> À propos de <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Bonjour Démo d'application ofa.js",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Principe de fonctionnement</h2>
+        <p>Applications à page unique implémentées via le mode Hash du navigateur :</p>
+        <ol>
+          <li>Lorsqu’un changement de page se produit dans l’application, <code>o-router</code> met automatiquement à jour la valeur de hash dans la barre d’adresse (par exemple <code>#/about.html</code>)</li>
+          <li>Lorsque l’utilisateur actualise la page ou y accède via l’URL, <code>o-router</code> lit la valeur de hash et charge la page correspondante</li>
+          <li>Les boutons Précédent/Suivant du déclenchent une modification du hash, contrôlant ainsi la navigation dans l’application</li>
+        </ol>
+        <h2>Exemple de changement d&#39;URL</h2>
+        <p>Supposons que l&#39;application comporte deux pages <code>home.html</code> et <code>about.html</code> :</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Opération utilisateur</th>
+              <th>Changement dans la barre d’adresse</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ouvrir l’application</td>
+              <td><code>index.html</code> → <code>index.html#/home.html</code></td>
+            </tr>
+            <tr>
+              <td>Naviguer vers la page À propos</td>
+              <td><code>index.html#/home.html</code> → <code>index.html#/about.html</code></td>
+            </tr>
+            <tr>
+              <td>Cliquer sur Retour</td>
+              <td><code>index.html#/about.html</code> → <code>index.html#/home.html</code></td>
+            </tr>
+            <tr>
+              <td>Actualiser la page</td>
+              <td>Conserver le hash actuel</td>
+            </tr>
+          </tbody>
+        </table>
+        <ul>
+          <li>Une application monopage ne peut être utilisée qu&#39;avec <strong>un</strong> seul composant <code>o-app</code></li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

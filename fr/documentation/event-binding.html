@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liaison d'événements</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Liaison d'événements</h1>
+        <p>Dans ofa.js, la liaison d'événements est un mécanisme important pour réaliser l'interaction utilisateur. Vous pouvez lier des gestionnaires d'événements aux éléments de plusieurs manières, afin de répondre aux actions de l'utilisateur.</p>
+        <h2>Lier des événements depuis proto</h2>
+        <p>C'est la méthode recommandée pour la liaison d'événements, adaptée à une logique de traitement d'événements complexe. Définir la fonction de gestion d'événements dans l'objet <code>proto</code> permet de mieux organiser la logique du code et facilite la maintenance et la réutilisation.</p>
+        <o-playground name="Lier un événement depuis proto" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="clickMe">Click Me - {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            },
+            proto:{
+              clickMe(){
+                this.count++;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Exécuter directement la fonction</h2>
+        <p>Pour des opérations simples (comme l'incrémentation d'un compteur, la bascule d'un état, etc.), vous pouvez écrire directement de courtes expressions dans les attributs d'événement. Cette approche est concise et claire, adaptée au traitement de logiques simples.</p>
+        <o-playground name="Exécuter la fonction directement" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="count++">Click Me - {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 1,
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Types d’événements pris en charge</h2>
+        <p>ofa.js prend en charge tous les événements DOM standard, y compris mais sans se limiter à :</p>
+        <ul>
+          <li>Événements de souris : <code>click</code>, <code>dblclick</code>, <code>mousedown</code>, <code>mouseup</code>, <code>mouseover</code>, <code>mouseout</code>, etc.</li>
+          <li>Événements de clavier : <code>keydown</code>, <code>keyup</code>, <code>keypress</code>, etc.</li>
+          <li>Événements de formulaire : <code>submit</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code>, etc.</li>
+          <li>Événements tactiles : <code>touchstart</code>, <code>touchmove</code>, <code>touchend</code>, etc.</li>
+        </ul>
+        <p>ofa.js prend en charge les mêmes types d'événements que les événements DOM natifs ; pour plus de détails, veuillez consulter la <a href="https://developer.mozilla.org/fr/docs/Web/API/Event" target="_blank">documentation des événements MDN</a>.</p>
+        <h2>Passer des paramètres aux gestionnaires d'événements</h2>
+        <p>Vous pouvez également passer des paramètres aux gestionnaires d'événements :</p>
+        <o-playground name="Passer des paramètres aux gestionnaires d'événements" style="--editor-height: 600px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="addNumber(5)">Ajouter 5 - Actuel : {{count}}</button>
+      <button on:click="addNumber(10)">Ajouter 10 - Actuel : {{count}}</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 0,
+            },
+            proto: {
+              addNumber(num) {
+                this.count += num;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Accéder à l'objet d'événement</h2>
+        <p>Dans le gestionnaire d'événements, vous pouvez accéder à l'objet d'événement natif via le paramètre <code>event</code> :</p>
+        <o-playground name="Accéder à l'objet événement" style="--editor-height: 700px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .container {
+          width: 300px;
+          height: 200px;
+          background-color: #f0f0f0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      </style>
+      <div class="container" on:click="handleClick">Cliquez n'importe où pour voir les coordonnées</div>
+      <p>X : {{x}}, Y : {{y}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              x: 0,
+              y: 0,
+            },
+            proto: {
+              handleClick(event) {
+                this.x = event.clientX;
+                this.y = event.clientY;
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Vous pouvez également accéder à l’objet d’événement natif via le paramètre <code>$event</code> dans l’expression, par exemple pour obtenir les coordonnées d’un clic de souris :</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>Cliquez n'importe où pour voir les coordonnées<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>Écouter les événements personnalisés</h2>
+        <p>En plus d'écouter les événements DOM natifs, vous pouvez également facilement écouter les événements personnalisés émis par les composants :</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">custom-comp</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">"handleCustomEvent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">custom-comp</span>&gt;</span></code></pre>
+        <p>Pour approfondir vos connaissances sur les événements personnalisés, veuillez consulter le chapitre <a href="custom-events.html" olink="">Événements personnalisés</a>. Il est recommandé de progresser dans l'ordre du tutoriel ; les contenus suivants se développeront naturellement. Bien entendu, vous pouvez également le consulter à tout moment pour une maîtrise préalable.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprendre la liaison d'attributs</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Comprendre la liaison d'attributs</h1>
+        <p>Dans le contenu précédent, nous avons présenté les bases de l'utilisation de la <a href="./property-binding.html" olink="">liaison de propriétés</a>. L'exemple précédent consistait à lier l'attribut value d'un élément natif du navigateur (comme <code>textarea</code>). Cette section approfondira l'exploration de la nature de la liaison de propriétés — elle lie en réalité aux propriétés JavaScript de l'instance du composant, et non aux attributs HTML.</p>
+        <h2>Mécanisme de liaison des propriétés des composants</h2>
+        <p>Dans ofa.js, lorsque nous utilisons la syntaxe <code>:toProp="fromProp"</code> dans un composant parent, nous définissons une propriété JavaScript de l'instance du composant enfant, et non un attribut HTML. Cela constitue une différence importante par rapport à la définition directe d'un attribut HTML (comme <code>attr:toKey="fromKey"</code>).</p>
+        <p>L'exemple suivant montre comment transmettre des données à un composant personnalisé via la liaison d'attributs :</p>
+        <o-playground name="Comprendre la liaison d'attributs" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active="">
+    <template page="">
+      <l-m src="./demo-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h3 style="color:blue;">{{val}}</h3>
+      <demo-comp :full-name="val"></demo-comp>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "ofajs",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin: 8px;
+        }
+      </style>
+      <p>Nom complet : {{fullName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            data: {
+              fullName: ""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple :- Les données <code>val</code> du composant parent sont liées à la propriété <code>fullName</code> du composant enfant <code>&lt;demo-comp&gt;</code></p>
+        <ul>
+          <li>Utiliser la syntaxe <code>:full-name="val"</code> pour transmettre la valeur <code>val</code> du composant parent à la propriété <code>fullName</code> du composant enfant</li>
+          <li>Après réception de cette valeur, le composant enfant l’affiche dans le modèle via <code>{{fullName}}</code></li>
+        </ul>
+        <h2>Liaison d'attributs vs Héritage d'attributs de caractéristiques</h2>
+        <p>Il est important de noter que la liaison d'attributs (<code>:</code>) et l'héritage des attributs de caractéristiques (<code>attr:</code>) présentent les différences clés suivantes :</p>
+        <h3>Liaison de propriété (<code>:</code>)</h3>
+        <ul>
+          <li>Propriétés JavaScript liées à l’instance du composant</li>
+          <li>Les données transmises conservent leur type d’origine (chaîne, nombre, booléen, etc.)</li>
+          <li>Elles sont directement accessibles et modifiables à l’intérieur du composant, sans même avoir à définir au préalable un <code>data</code> dans le composant</li>
+        </ul>
+        <h3>Héritage des attributs de caractéristiques (<code>attr:</code>)</h3>
+        <ul>
+          <li>Définir les attributs HTML</li>
+          <li>Toutes les valeurs sont converties en chaînes de caractères</li>
+          <li>Principalement utilisé pour transmettre des attributs aux éléments DOM sous-jacents</li>
+          <li>Nécessite un traitement spécial pour analyser les données complexes</li>
+          <li>Doit être défini à l'avance dans le composant avec <code>attrs</code> pour recevoir les valeurs d'attribut</li>
+        </ul>
+        <p>Comparaison grammaticale :```html</p>
+        <!-- Liaison d'attributs : transmettre des valeurs JavaScript, conserver les types de données -->
+        <p><my-component :data-value="complexObject"></my-component>
+          <my-component :count="42"></my-component>
+          <my-component :is-active="true"></my-component>
+        </p>
+        <!-- Héritage d'attributs : définir des attributs HTML, toutes les valeurs sont converties en chaînes -->
+        <p><my-component attr:data-value="simpleString"></my-component>
+          <my-component attr:count="42"></my-component> <!-- Chaîne "42" réellement transmise -->
+        </p>
+        <pre><code class="hljs"><span class="language-xml">
+## Comparaison des cas et différences
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Comparaison des différences de cas"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"page1.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./demo-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+        <span class="hljs-selector-attr">[vone]</span>{
+            <span class="hljs-attribute">color</span>: red;
+        }
+        <span class="hljs-selector-attr">[vtwo]</span>{
+            <span class="hljs-attribute">color</span>: green;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">:vone</span>=<span class="hljs-string">"valOne"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">attr:vtwo</span>=<span class="hljs-string">"valTwo"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">valOne</span>: <span class="hljs-string">"I am One"</span>,
+              <span class="hljs-attr">valTwo</span>: <span class="hljs-string">"I am Two"</span>,
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo-comp.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid gray;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">8px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>(1: </span><span class="hljs-template-variable">{{<span class="hljs-name">vone</span>}}</span><span class="language-xml">) --- (2: </span><span class="hljs-template-variable">{{<span class="hljs-name">vtwo</span>}}</span><span class="language-xml">)<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">tag</span>: <span class="hljs-string">"demo-comp"</span>,
+            <span class="hljs-attr">attrs</span>:{
+              <span class="hljs-attr">vtwo</span>: <span class="hljs-literal">null</span>,
+            },
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">vone</span>: <span class="hljs-literal">null</span>
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
+
+Ici, `vone` est une propriété de l'instance du composant, `vtwo` est un attribut HTML, la valeur de l'attribut sera sélectionnée par le sélecteur `[vtwo]` et les styles seront appliqués, tandis que `vone` est une propriété de l'instance du composant, elle ne sera pas sélectionnée par le sélecteur `[vone]`.
+
+## Liaison de données bidirectionnelle
+
+Les composants instanciés prennent également en charge la liaison de données bidirectionnelle, en utilisant la syntaxe `sync:toProp="fromProp"`. La liaison bidirectionnelle permet la synchronisation des données entre le composant parent et le composant enfant ; lorsque les données changent d'un côté, l'autre côté est mis à jour en conséquence.
+
+&gt; Contrairement à Angular et Vue, ofa.js n'a pas besoin d'ajouter de configuration spéciale ou d'opérations supplémentaires aux composants pour prendre en charge nativement la syntaxe de liaison de données bidirectionnelle.
+
+### Exemple de liaison bidirectionnelle
+
+L'exemple ci-dessous montre comment établir une liaison de données bidirectionnelle entre un composant parent et un composant enfant :
+
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Exemple de liaison bidirectionnelle"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 600px"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"page1.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./demo-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:blue;"</span>&gt;</span>Valeur dans le composant parent : </span><span class="hljs-template-variable">{{<span class="hljs-name">val</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modifier la valeur du composant parent via la zone de saisie :<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Saisissez du texte dans la zone..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modifier la valeur du composant parent via le composant enfant :<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">sync:full-name</span>=<span class="hljs-string">"val"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">val</span>: <span class="hljs-string">"ofajs"</span>,
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo-comp.html"</span> <span class="hljs-attr">active</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+        <span class="hljs-selector-pseudo">:host</span> {
+          <span class="hljs-attribute">display</span>: block;
+          <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid green;
+          <span class="hljs-attribute">padding</span>: <span class="hljs-number">8px</span>;
+          <span class="hljs-attribute">margin</span>: <span class="hljs-number">8px</span>;
+        }
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Valeur affichée par le composant enfant : </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Saisissez dans la zone du composant enfant..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+        <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+          <span class="hljs-keyword">return</span> {
+            <span class="hljs-attr">tag</span>: <span class="hljs-string">"demo-comp"</span>,
+            <span class="hljs-attr">data</span>: {
+              <span class="hljs-attr">fullName</span>: <span class="hljs-string">""</span>
+            },
+          };
+        };
+      </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
+
+Dans cet exemple :- Le `val` du composant parent et le `fullName` du composant enfant réalisent une liaison bidirectionnelle via `sync:full-name="val"`
+- Lorsqu’on saisit du contenu dans le champ du composant parent, le composant enfant affiche immédiatement la nouvelle valeur
+- Lorsqu’on saisit du contenu dans le champ du composant enfant, le composant parent se met également à jour et affiche la nouvelle valeur
+
+### Différence entre la liaison bidirectionnelle et la liaison de propriété normale
+
+| 特性 | 普通属性绑定 (`:)`) | 双向绑定 (`sync:`) |
+|------|-------------------|-------------------|
+| 数据流向 | 单向：父 → 子 | 双向：父 ↔ 子 |
+| 语法 | `:prop="value"` | `sync:prop="value"` |
+| 子组件修改 | 不影响父组件 | 影响父组件 |
+| 适用场景 | 父组件向子组件传递配置 | 需要父子组件同步数据 |### Remarques
+
+1. **Considérations de performance** : La liaison bidirectionnelle déclenche un nouveau rendu lors des changements de données, elle doit être utilisée avec prudence dans des scénarios complexes.
+2. **Contrôle du flux de données** : Un excès de liaisons bidirectionnelles peut rendre le flux de données difficile à suivre, il est recommandé de concevoir judicieusement les modes de communication entre les composants.
+3. **Compatibilité des composants** : Tous les composants ne sont pas adaptés à l'utilisation de la liaison bidirectionnelle, il faut tenir compte de l'objectif de conception du composant.</span></code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rendu de liste</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Rendu de liste</h1>
+        <p>Dans ofa.js, le composant <code>o-fill</code> offre une puissante fonction de rendu de listes, capable de restituer efficacement des données de tableau en plusieurs éléments similaires. Il prend en charge deux modes d&#39;utilisation principaux : le rendu direct et le rendu par modèle.</p>
+        <h2>Présentation du composant o-fill</h2>
+        <p><code>o-fill</code> est le composant central d&#39;ofa.js pour le rendu des listes ; il reçoit un attribut <code>value</code> de type tableau et génère un élément DOM correspondant pour chaque élément du tableau. Lors du rendu, ofa.js suit automatiquement les changements du tableau et met à jour le DOM de manière efficace.</p>
+        <h3>Fonctionnalités principales :</h3>
+        <ul>
+          <li><strong>Mise à jour efficace</strong> : suivi des changements de tableau par clé, mise à jour uniquement des parties nécessitant des modifications</li>
+          <li><strong>Accès à l&#39;index</strong> : accès à l&#39;index de l&#39;élément actuel via <code>$index</code></li>
+          <li><strong>Accès aux données</strong> : accès aux données de l&#39;élément actuel via <code>$data</code></li>
+          <li><strong>Accès à l&#39;hôte</strong> : accès à l&#39;instance du composant actuel via <code>$host</code>, permettant d&#39;appeler des méthodes de composant ou d&#39;accéder aux données de composant</li>
+          <li><strong>Réutilisation de modèle</strong> : support de modèles nommés pour le rendu de listes complexes</li>
+        </ul>
+        <h2>Rendu direct</h2>
+        <p>Le rendu direct est la méthode la plus simple : le contenu du modèle est écrit directement à l’intérieur de la balise <code>o-fill</code>. Lorsque le tableau change, <code>o-fill</code> crée automatiquement un élément correspondant pour chaque donnée.</p>
+        <o-playground name="o-fill - Rendu direct" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 10px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px; margin: 5px 0; background: #7e7e7e; border-radius: 4px; }
+      </style>
+      <h3>Liste de fruits</h3>
+      <button on:click="addItem">Ajouter un fruit</button>
+      <button on:click="removeItem">Supprimer le dernier</button>
+      <ul>
+        <o-fill :value="fruits">
+          <li> {{$index + 1}}. {{$data.name}} - Prix : ¥{{$data.price}} <button on:click="$host.removeItem($index)">Supprimer</button></li>
+        </o-fill>
+      </ul>
+      <script>
+        export default async () => ({
+          data: { 
+            fruits: [
+              { name: "🍎 Pomme", price: 5 },
+              { name: "🍊 Orange", price: 6 },
+              { name: "🍌 Banane", price: 3 }
+            ],
+            fruitIndex: 0,
+          },
+          proto: {
+            addItem() {
+              const fruitNames = ["🍇 Raisin", "🍓 Fraise", "🥝 Kiwi", "🍑 Pêche", "🥭 Mangue"];
+              const name = fruitNames[this.fruitIndex % fruitNames.length];
+              this.fruits.push({ 
+                name: name, 
+                price: Math.floor(Math.random() * 10) + 1 
+              });
+              this.fruitIndex++;
+            },
+            removeItem(index) {
+              if (index >= 0 && index < this.fruits.length) {
+                this.fruits.splice(index, 1);
+                return;
+              }
+              this.fruits.length && this.fruits.pop();
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous pouvons voir :- <code>$index</code> représente l’index de l’élément actuel (à partir de 0)</p>
+        <ul>
+          <li><code>$data</code> représente l’objet de données de l’élément actuel</li>
+          <li><code>$host</code> représente l’instance du composant actuel, permettant d’appeler des méthodes du composant ou d’accéder aux données du composant</li>
+          <li>Lorsque le tableau change, la liste se met à jour automatiquement</li>
+        </ul>
+        <h2>Rendu de template</h2>
+        <p>Pour des structures d’éléments de liste plus complexes, on peut utiliser des modèles nommés. Définissez le modèle dans la balise <code>template</code>, puis référencez-le dans <code>o-fill</code> via l’attribut <code>name</code>.</p>
+        <o-playground name="o-fill - Rendu de modèle" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 10px; }
+        .product-card { border: 1px solid #747474; border-radius: 8px; padding: 12px; margin: 10px 0; }
+        .product-name { font-weight: bold; font-size: 1.1em; }
+        .product-price { color: #832c22; font-weight: bold; }
+        .product-desc { color: #929292; font-size: 0.9em; margin-top: 5px; }
+      </style>
+      <h3>Liste de produits</h3>
+      <button on:click="addProduct">Ajouter un produit</button>
+      <div class="products-container">
+        <o-fill :value="products" name="product-template"></o-fill>
+      </div>
+      <template name="product-template">
+        <div class="product-card">
+          <div class="product-name">{{$data.name}}</div>
+          <div class="product-price">¥{{$data.price}}</div>
+          <div class="product-desc">{{$data.description}}</div>
+          <small>Numéro : {{$index + 1}}</small>
+        </div>
+      </template>
+      <script>
+        export default async () => ({
+          data: {
+            products: [
+              { name: "MacBook Pro", price: 12999, description: "Ordinateur portable haute performance, adapté au travail professionnel" },
+              { name: "iPhone 15", price: 5999, description: "Dernier smartphone, excellente qualité photo" },
+              { name: "AirPods Pro", price: 1999, description: "Écouteurs sans fil à réduction de bruit, qualité sonore excellente" }
+            ],
+            productIndex: 0,
+          },
+          proto: {
+            addProduct() {
+              const productNames = ["iPad Air", "Apple Watch", "Magic Mouse", "Pro Display"];
+              const productDescs = ["Tablette fine et portable", "Montre connectée, surveillance de la santé", "Souris au design ergonomique", "Moniteur professionnel"];
+              const name = productNames[this.productIndex % productNames.length];
+              const desc = productDescs[this.productIndex % productDescs.length];
+              this.products.push({
+                name: name,
+                price: Math.floor(Math.random() * 5000) + 1000,
+                description: desc
+              });
+              this.productIndex++;
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Rendu de listes imbriquées</h2>
+        <p><code>o-fill</code> supporte l’imbrication et peut gérer des structures de données hiérarchiques complexes, telles que des menus arborescents, des listes de catégories, etc.</p>
+        <o-playground name="o-fill - Rendu de listes imbriquées" style="--editor-height: 800px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .category {
+          border-left: 3px solid #3498db;
+          padding-left: 15px;
+          margin: 10px 0;
+        }
+        .subcategory {
+          border-left: 2px solid #9b59b6;
+          padding-left: 15px;
+          margin: 8px 0;
+        }
+        .item {
+          padding: 5px 0;
+          margin: 5px 0;
+          color: #2c3e50;
+        }
+        h4 {
+          margin: 10px 0 5px 0;
+          color: #34495e;
+        }
+      </style>
+      <h3>Navigation des catégories de produits</h3>
+      <div class="navigation">
+        <o-fill :value="categories" name="category-template"></o-fill>
+      </div>
+      <template name="category-template">
+        <div class="category">
+          <h4> {{$data.name}} </h4>
+          <o-fill :value="$data.subcategories" name="subcategory-template"></o-fill>
+        </div>
+      </template>
+      <template name="subcategory-template">
+        <div class="subcategory">
+          <strong>{{$data.name}}</strong>
+          <o-fill :value="$data.items">
+            <div class="item"> • {{$data}} </div>
+          </o-fill>
+        </div>
+      </template>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "Électronique",
+                  subcategories: [
+                    {
+                      name: "Téléphones",
+                      items: ["iPhone", "Téléphones Android", "Téléphones classiques"]
+                    },
+                    {
+                      name: "Ordinateurs",
+                      items: ["Portables", "Bureaux", "Tablettes"]
+                    }
+                  ]
+                },
+                {
+                  name: "Articles ménagers",
+                  subcategories: [
+                    {
+                      name: "Ustensiles de cuisine",
+                      items: ["Batterie de cuisine", "Couverts", "Petits appareils"]
+                    },
+                    {
+                      name: "Articles de chambre",
+                      items: ["Linge de lit", "Armoires", "Décorations"]
+                    }
+                  ]
+                },
+                {
+                  name: "Vêtements et accessoires",
+                  subcategories: [
+                    {
+                      name: "Hommes",
+                      items: ["T-shirts", "Chemises", "Manteaux"]
+                    },
+                    {
+                      name: "Femmes",
+                      items: ["Robes", "Pantalons", "Accessoires"]
+                    }
+                  ]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Optimisation des performances et gestion des paires clé-valeur</h2>
+        <p>Pour les listes nécessitant des mises à jour fréquentes, vous pouvez spécifier un identifiant unique via l&#39;attribut <code>fill-key</code> afin d&#39;améliorer les performances de rendu.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Utiliser des clés personnalisées pour améliorer les performances --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;items&quot;</span> <span class="hljs-attr">fill-key</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
+        <p>Dans l’exemple ci-dessus, <code>fill-key=&quot;id&quot;</code> indique à ofa.js d’utiliser la propriété <code>id</code> de chaque élément de données comme identifiant unique, afin que, même si l’ordre du tableau change, les éléments correspondants puissent être correctement identifiés et mis à jour.</p>
+        <h2>Meilleures pratiques de rendu de liste</h2>
+        <ol>
+          <li><strong>Gestion des événements</strong> : lors de l’utilisation d’événements dans les éléments de la liste, notez que <code>$host</code> pointe vers l’instance du composant actuel et que <code>$data</code> pointe vers les données de l’élément actuel </li>
+          <li><strong>Choisir la méthode de rendu appropriée</strong> : pour une liste simple, utilisez le rendu direct ; pour une structure complexe, utilisez le rendu par modèle </li>
+          <li><strong>Considérations de performance</strong> : pour les grandes listes ou les listes mises à jour fréquemment, utilisez <code>fill-key</code> pour spécifier la clé </li>
+          <li><strong>Structure des données</strong> : assurez-vous que chaque élément du tableau est un objet de données valide </li>
+          <li><strong>Éviter l’imbrication profonde</strong> : bien que l’imbrication soit supportée, évitez les niveaux d’imbrication trop profonds</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>extend</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>extend</h1>
+        <p><code>extend</code> est une méthode d’ordre supérieur utilisée pour étendre les propriétés ou les méthodes d’une instance.</p>
+        <blockquote>
+          <p>En général, il n&#39;est pas recommandé aux utilisateurs d&#39;étendre les propriétés ou les méthodes d&#39;une instance, car cela augmente le coût d&#39;apprentissage. Sauf si des scénarios spécifiques au sein de l&#39;équipe nécessitent un comportement personnalisé de l&#39;instance, il est déconseillé de procéder ainsi.</p>
+        </blockquote>
+        <o-playground name="extend - étendre l'instance" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
+      </ul>
+      <div id="logger">logger</div>
+      <script>
+        const target = $("#target");
+        target.extend({
+          get good(){
+            return "ofa.js is good";
+          },
+          say(){
+            return 'hello';
+          }
+        });
+        setTimeout(() => {
+          const target = $("#target");
+          \$("#logger").html = `
+          good : ${target.good} <br>
+          say() : ${target.say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Étendre $ fond</h2>
+        <p>Comme jQuery, vous pouvez également étendre les propriétés ou méthodes des instances de base via <code>fn.extend</code> ; les propriétés ou méthodes étendues à partir de <code>fn</code> seront appliquées à toutes les instances.</p>
+        <o-playground name="extend - 扩展底层" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
+      </ul>
+      <div id="logger">logger</div>
+      <script>
+        \$.fn.extend({
+          get good(){
+            return "ofa.js is good";
+          },
+          say(){
+            return 'hello';
+          }
+        });
+        setTimeout(() => {
+          \$("#logger").html = `
+          target good : ${$("#target").good} <br>
+          logger say() : ${$("#logger").say()}
+          `;
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Syntaxe de modèle étendue</h2>
+        <p>En étendant des propriétés ou des fonctions via <code>extend</code>, vous pouvez augmenter les fonctionnalités de la syntaxe des templates, voire fournir une syntaxe de template exclusive pour les composants. Cependant, il est important de noter qu&#39;il est préférable de <strong>ne pas utiliser</strong> de syntaxes de template non officielles, car elles imposent un certain coût d&#39;apprentissage aux utilisateurs, et une grande quantité de syntaxes de template non officielles peut réduire l&#39;expérience de développement.</p>
+        <h3>Attributs étendus</h3>
+        <p>Vous pouvez définir des propriétés étendues dans le modèle en utilisant <code>:</code>. Nous allons maintenant étendre une propriété <code>red</code>, lorsque <code>red</code> est <code>true</code>, la couleur de la police devient rouge :</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;red&quot;</span>;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});</code></pre><o-playground name="extend - Propriétés étendues" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-one.html"></l-m>
+      <temp-one></temp-one>
+      <script>
+        \$.fn.extend({
+          set red(bool){
+            if(bool){
+              this.css.color = "red";
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+      </script>
+    </template>
+  </code>
+          <code path="temp-one.html">
+    <template component>
+      <button on:click="addCount">Ajouter Compteur</button>
+      <div :red="count % 3">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-one",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous avons ajouté une propriété <code>red</code> à la syntaxe du modèle ; lorsque <code>count % 3</code> n’est pas égal à 0, la couleur de la police devient rouge.</p>
+        <h3>Méthodes d&#39;extension</h3>
+        <p>Vous pouvez également utiliser la méthode d&#39;extension <code>extend</code> pour la rendre disponible dans la syntaxe des modèles. Le nom de la méthode est la partie avant les deux-points. Ici, nous avons étendu une syntaxe de modèle <code>color</code>, et les paramètres qui suivent seront transmis à la méthode d&#39;extension définie.</p>
+        <p>Ici, l&#39;attribut <code>always</code> est défini à <code>true</code>, ce qui signifie que la méthode définie sera appelée à chaque fois que le composant a besoin de rafraîchir l&#39;interface. Si <code>always</code> n&#39;est pas défini, cette fonction de syntaxe de modèle ne sera exécutée qu&#39;une seule fois.</p>
+        <p>Parmi eux, <code>options</code> fournit davantage de paramètres qui vous permettent de développer une syntaxe de modèle plus personnalisée :</p>
+        <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
+  <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
+    <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
+    <span class="hljs-keyword">if</span>(bool){
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = value;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    }
+  }
+});
+
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - Méthodes d'extension" style="--editor-height: 400px">
+          <code path="demo.html" preview active>
+    <template>
+      <l-m src="./temp-two.html"></l-m>
+      <temp-two></temp-two>
+      <script>
+        \$.fn.extend({
+          color(color, func, options){
+            const bool = func();
+            if(bool){
+              this.css.color = color;
+            }else{
+              this.css.color = '';
+            }
+          }
+        });
+        \$.fn.color.always = true;
+      </script>
+    </template>
+  </code>
+          <code path="temp-two.html">
+    <template component>
+      <button on:click="addCount" color:blue="count % 3">Add Count</button>
+      <div color:red="!(count % 3)">{{count}}</div>
+      <script>
+        export default {
+          tag: "temp-two",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            },
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Principe de la syntaxe des modèles</h2>
+        <p>Jusqu’à présent, tu devrais déjà comprendre que de nombreuses syntaxes de modèle sur ofa.js sont en réalité étendues via <code>extend</code> :</p>
+        <ul>
+          <li>Les méthodes <code>class</code>, <code>attr</code> s&#39;exécutent à chaque rafraîchissement de la vue</li>
+          <li>Les liaisons de fonctions comme <code>on</code>, <code>one</code> ne s&#39;exécutent qu&#39;une seule fois</li>
+        </ul>
+        <p>Vous pouvez consulter l&#39;exemple ci-dessous pour mieux comprendre le principe de rendu des modèles d’ofa.js :</p>
+        <o-playground name="extend - 模板语法原理" style="--editor-height: 480px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./temp-three.html"></l-m>
+      <temp-three></temp-three>
+    </template>
+  </code>
+          <code path="temp-three.html" active>
+    <template component>
+      <div>class always => {{classalways}}</div>
+      <div>attr always => {{attralways}}</div>
+      <div>on always => {{onalways}}</div>
+      <script>
+        export default {
+          tag: "temp-three",
+          data: {
+            classalways:"",
+            attralways:"",
+            onalways:""
+          },
+          ready(){
+            this.classalways = $.fn.class.always;
+            this.attralways = $.fn.attr.always;
+            this.onalways = !!$.fn.on.always;
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

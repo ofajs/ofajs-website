@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slots</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Slots</h1>
+        <p>Slots sind Platzhalter in Komponenten, um externe Inhalte zu empfangen. Durch die Verwendung von Slots kannst du wiederverwendbare Komponenten erstellen und gleichzeitig den Personen, die die Komponente verwenden, ermöglichen, deren Inhalt anzupassen.</p>
+        <h2>Standard-Slot</h2>
+        <o-playground name="Standard-Beispiel für Slot" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp>
+        <div>Hallo, OFAJS!</div>
+      </demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>Slot-Inhalt：
+      <br />
+      <span style="color: red;">
+        <slot></slot>
+      </span>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Standardinhalt für Slots</h3>
+        <p>Wenn das übergeordnete Element keinen Slot-Inhalt bereitstellt, werden die Elemente innerhalb von <code>&lt;slot&gt;&lt;/slot&gt;</code> als Standardinhalt angezeigt.</p>
+        <o-playground name="Slot-Standardinhalt-Beispiel" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <h3>Mit Slot-Inhalt:</h3>
+      <demo-comp>
+        <div>Dies ist benutzerdefinierter Inhalt</div>
+      </demo-comp>
+      <h3>Ohne Slot-Inhalt (zeigt Standardinhalt an):</h3>
+      <demo-comp></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin-bottom: 10px;
+        }
+      </style>Slot-Inhalt:
+      <span style="color: red;">
+        <slot>
+          <div>Dies ist Standardinhalt</div>
+        </slot>
+      </span>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Benannte Slots</h2>
+        <p>Wenn eine Komponente mehrere Slot-Positionen benötigt, können benannte Slots verwendet werden, um verschiedene Slots zu unterscheiden. Benannte Slots werden durch <code>&lt;slot name=&quot;xxx&quot;&gt;</code> definiert, und bei der Verwendung wird durch das Attribut <code>slot=&quot;xxx&quot;</code> angegeben, in welchen Slot der Inhalt eingefügt wird.</p>
+        <o-playground name="Beispiel für benannte Slots" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp>
+        <div>Hallo, OFAJS!</div>
+        <div slot="footer">Footer-Inhalt</div>
+      </demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>Slot-Inhalt:
+      <br />
+      <span style="color: red;">
+        <slot></slot>
+      </span>
+      <br />
+      <span style="color: blue;">
+        <slot name="footer"></slot>
+      </span>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Mehrstufige Slot-Übergabe</h2>
+        <p>Slot-Inhalte können über mehrere Komponentenebenen hinweg weitergegeben werden. Nachdem eine Elternkomponente Slot-Inhalte an eine Kindkomponente übermittelt hat, kann die Kindkomponente diese Slot-Inhalte weiter an ihre eigenen Kindkomponenten weitergeben, wodurch eine mehrschichtige Durchreichung der Slots ermöglicht wird.</p>
+        <o-playground name="Beispiel für mehrstufige Slot-Übergabe" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./outer-comp.html"></l-m>
+      <outer-comp>
+        <div style="color: red;">Überschrift von der äußersten Ebene</div>
+      </outer-comp>
+    </template>
+  </code>
+          <code path="outer-comp.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin-bottom: 10px;
+        }
+      </style>
+      <h3>Äußere Komponente</h3>
+      <l-m src="./inner-comp.html"></l-m>
+      <inner-comp>
+        <div style="color: inherit;">
+          <slot></slot>
+        </div>
+      </inner-comp>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "outer-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="inner-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid blue;
+          padding: 8px;
+        }
+      </style>
+      <h4>Innere Komponente</h4>
+      <slot></slot>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "inner-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Im obigen Beispiel:- Die äußerste Elternkomponente definiert den Inhalt von <code>slot=&quot;header&quot;</code></p>
+        <ul>
+          <li>Die äußere Komponente (outer-comp) empfängt diesen Slot-Inhalt und leitet ihn an die innere Komponente (inner-comp) weiter</li>
+          <li>Die innere Komponente rendert schließlich den Slot-Inhalt aus der äußersten Ebene</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

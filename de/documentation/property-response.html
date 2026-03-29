@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attributantwort</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Attributantwort</h1>
+        <p>Im vorherigen Abschnitt <a href="./property-binding.html" olink="">Attribut-Binding</a> haben wir den einfachen Mechanismus der Attribut-Reaktivität vorgestellt, also wie man den Wert einer Komponenteneigenschaft in einer Textanzeige rendert.</p>
+        <p>ofa.js unterstützt nicht nur die Reaktivität von grundlegenden Eigenschaftswerten, sondern auch das reaktive Rendering von inneren Eigenschaftswerten von mehrschichtig verschachtelten Objekten.</p>
+        <o-playground name="Beispiel für nicht-reaktive Daten" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{obj.count2}}</p>
+      <button on:click="handleAddCount">Erhöhen</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              obj: {
+                count2: 100,
+              },
+            },
+            proto:{
+              handleAddCount(){
+                this.count++;
+                this.obj.count2++;
+              }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Alle Daten, die an ein ofa.js-Instanzobjekt gebunden werden, werden automatisch in reaktive Daten umgewandelt. Reaktive Daten unterstützen nur primitive Datentypen wie Strings, Zahlen, boolesche Werte, Arrays und Objekte. Für komplexe Datentypen wie Funktionen oder Klasseninstanzen müssen diese als <strong>nicht-reaktive Eigenschaften</strong> gespeichert werden, da Änderungen an diesen Eigenschaften keine erneute Komponentenrenderierung auslösen.</p>
+        <h2>Nicht-responsive Daten</h2>
+        <p>Manchmal müssen wir Daten speichern, die nicht reaktiv aktualisiert werden müssen, wie beispielsweise Promise-Instanzen, reguläre Ausdrücke oder andere komplexe Objekte. In solchen Fällen müssen nicht-reaktive Eigenschaften verwendet werden. Änderungen an diesen Eigenschaften lösen kein erneutes Rendern der Komponente aus und eignen sich daher für die Speicherung von Daten, die keine Verknüpfung mit der Ansicht erfordern.</p>
+        <p>Die Benennung nicht-reaktiver Eigenschaften erfolgt in der Regel durch das Voranstellen eines Unterstrichs <code>_</code> vor den Eigenschaftsnamen, um sie von reaktiven Eigenschaften zu unterscheiden.</p>
+        <o-playground name="Nicht-reaktives Datenbeispiel" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{_count2}}</p>
+      <button on:click="count++">Blau erhöhen</button>
+      <button on:click="_count2++">Grün erhöhen</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              _count2: 100,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Beim Klicken der Schaltfläche <code>Green增加</code> ist der Wert von <code>_count2</code> zwar tatsächlich erhöht worden, da es sich jedoch um eine nicht-reaktive Eigenschaft handelt, wird keine Aktualisierung der Ansicht ausgelöst, und die Anzeige in der Benutzeroberfläche bleibt daher unverändert. Beim Klicken der Schaltfläche <code>Blue增加</code> hingegen handelt es sich bei <code>count</code> um eine reaktive Eigenschaft, wodurch eine vollständige Neurenderung der Komponente ausgelöst wird und erst dann der Inhalt von Green synchron aktualisiert wird.</p>
+        <p>Nicht-reaktive Objektdaten haben eine bessere Leistung als reaktive Objektdaten, da nicht-reaktive Daten keine erneute Renderung der Komponente auslösen.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

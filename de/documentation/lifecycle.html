@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lebenszyklus</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Lebenszyklus</h1>
+        <p>ofa.js Komponenten verfügen über vollständige Lifecycle-Hook-Funktionen, die es Ihnen ermöglichen, spezifische Logik in verschiedenen Phasen der Komponente auszuführen. Diese Hook-Funktionen ermöglichen es Ihnen, in kritischen Momenten wie der Erstellung, dem Mounting, der Aktualisierung und der Zerstörung der Komponente einzugreifen und entsprechende Operationen auszuführen.</p>
+        <h2>Lebenszyklus-Hook-Funktionen</h2>
+        <p>ofa.js bietet die folgenden hauptsächlichen Lebenszyklus-Hook-Funktionen an, geordnet nach der gebräuchlichen Reihenfolge:</p>
+        <h3>attached</h3>
+        <p>Der <code>attached</code>-Hook wird aufgerufen, wenn die Komponente in das Dokument eingefügt wurde und signalisiert, dass die Komponente bereits an die Seite angehängt ist. Es handelt sich um den am häufigsten verwendeten Lifecycle-Hook; er dient in der Regel dazu, Initialisierungen auszuführen, die erst nach dem tatsächlichen Anzeigen der Komponente erfolgen dürfen, und vermeidet unnötige Berechnungen, solange die Komponente noch nicht sichtbar ist. Dieser Hook eignet sich auch hervorragend für Operationen wie die Messung von Elementabmessungen oder das Starten von Animationen, die davon abhängen, dass die Komponente bereits gerendert wurde.</p>
+        <ul>
+          <li><strong>Aufrufzeitpunkt</strong>: Wenn die Komponente zum DOM-Baum hinzugefügt wird</li>
+          <li><strong>Hauptzweck</strong>: Timer starten, Event-Listener hinzufügen, Operationen ausführen, die Sichtbarkeit erfordern</li>
+        </ul>
+        <h3>detached</h3>
+        <p>Der <code>detached</code>-Hook wird aufgerufen, wenn die Komponente aus dem Dokument entfernt wird und signalisiert, dass die Komponente kurz vor dem Entladen steht. Dieser Hook eignet sich zum Aufräumen von Ressourcen, wie das Löschen von Timern oder das Entfernen von Event-Listenern.</p>
+        <ul>
+          <li><strong>Aufrufzeitpunkt</strong>: Komponente wird aus dem DOM-Baum entfernt</li>
+          <li><strong>Hauptzweck</strong>: Ressourcen bereinigen, Abonnements kündigen, Event-Listener entfernen</li>
+        </ul>
+        <h3>ready</h3>
+        <p><code>ready</code> Hook wird aufgerufen, wenn die Komponente bereit ist. Zu diesem Zeitpunkt wurde die Vorlage der Komponente bereits gerendert, DOM-Elemente wurden erstellt, aber möglicherweise noch nicht in das Dokument eingefügt. Dieser Hook eignet sich für DOM-Manipulationen oder das Initialisieren von Bibliotheken von Drittanbietern.</p>
+        <ul>
+          <li><strong>Aufrufzeitpunkt</strong>: Nachdem die Komponentenvorlage gerendert wurde und das DOM erstellt ist</li>
+          <li><strong>Hauptverwendungszweck</strong>: Durchführung von DOM-abhängigen Initialisierungsoperationen</li>
+        </ul>
+        <h3>loaded</h3>
+        <p>Der <code>loaded</code>-Hook wird ausgelöst, nachdem die Komponente und alle ihre Unterkomponenten sowie asynchrone Ressourcen vollständig geladen sind. Zu diesem Zeitpunkt kann der Ladezustand sicher entfernt oder nachfolgende Operationen ausgeführt werden, die von der vollständigen Komponentenstruktur abhängen. Wenn keine Abhängigkeiten bestehen, wird er nach dem <code>ready</code>-Hook aufgerufen.</p>
+        <ul>
+          <li><strong>Aufrufzeitpunkt</strong>: Komponente und ihre Unterkomponenten sind vollständig geladen</li>
+          <li><strong>Hauptverwendung</strong>: Ausführung von Operationen, die auf dem vollständigen Komponentenbaum basieren</li>
+        </ul>
+        <h2>Lebenszyklus-Ausführungsreihenfolge</h2>
+        <p>Die Lifecycle-Hooks einer Komponente werden in folgender Reihenfolge ausgeführt:</p>
+        <ol>
+          <li><code>ready</code> - Komponente bereit (DOM erstellt)</li>
+          <li><code>attached</code> - Komponente in DOM eingehängt</li>
+          <li><code>loaded</code> - Komponente vollständig geladen</li>
+        </ol>
+        <p>Wenn die Komponente aus dem DOM entfernt wird, wird der <code>detached</code>-Hook aufgerufen.</p>
+        <h2>Verwendungsbeispiel</h2>
+        <p>Das folgende Beispiel zeigt, wie man in einer Komponente Lebenszyklus-Hook-Funktionen verwendet:</p>
+        <o-playground name="Lebenszyklus-Beispiel" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .counter {
+          margin: 10px 0;
+        }
+        button {
+          margin-right: 10px;
+          padding: 5px 10px;
+        }
+      </style>
+      <h3>Lebenszyklus-Demonstration</h3>
+      <div class="counter">Zähler: {{count}}</div>
+      <button on:click="count += 10">Um 10 erhöhen</button>
+      <button on:click="removeSelf">Komponente entfernen</button>
+      <div class="log">
+        <h4>Lebenszyklus-Protokoll:</h4>
+        <ul>
+          <o-fill :value="logs">
+            <li>{{$data}}</li>
+          </o-fill>
+        </ul>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 0,
+              logs: [],
+            },
+            proto: {
+              removeSelf() {
+                this.remove(); // Entfernt sich selbst aus dem DOM, um den detached-Hook auszulösen
+              },
+              addLog(message) {
+                this.logs = [...this.logs, `${new Date().toLocaleTimeString()} - ${message}`];
+              }
+            },
+            ready() {
+              this.addLog("ready: Komponente bereit, DOM erstellt");
+              console.log("Komponente ist bereit");
+            },
+            attached() {
+              this.addLog("attached: Komponente im DOM eingehängt");
+              this._timer = setInterval(() => {
+                this.count++;
+              }, 1000);
+              console.log("Komponente eingehängt");
+            },
+            detached() {
+              this.addLog("detached: Komponente aus DOM entfernt");
+              // Timer löschen, um Speicherlecks zu verhindern
+              clearInterval(this._timer); 
+              console.log("Komponente ausgehängt");
+            },
+            loaded() {
+              this.addLog("loaded: Komponente vollständig geladen");
+              console.log("Komponente vollständig geladen");
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>In diesem Beispiel kannst du die Ausführungsreihenfolge und den Zeitpunkt verschiedener Lifecycle-Hooks beobachten. Wenn du auf die Schaltfläche „Komponente entfernen“ klickst, wird der Hook <code>detached</code> ausgelöst.</p>
+        <h2>Praktische Anwendungsszenarien</h2>
+        <h3>Initialisierungsvorgang</h3>
+        <p>Die Dateninitialisierung im <code>ready</code>-Hook vornehmen:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">items</span>: []
+    },
+    <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// DOM-Operationen</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initDomElements</span>();
+    }
+  };
+};</code></pre>
+        <h3>Ressourcenmanagement</h3>
+        <p>Starten Sie den Timer im <code>attached</code>-Hook und räumen Sie die Ressourcen im <code>detached</code>-Hook auf:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">timer</span>: <span class="hljs-literal">null</span>
+    },
+    <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// Timer starten</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Zeitgesteuerte Aufgabe wird ausgeführt&#x27;</span>);
+      }, <span class="hljs-number">1000</span>);
+    },
+    <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// Timer bereinigen</span>
+      <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>) {
+        <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>);
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-literal">null</span>;
+      }
+    }
+  };
+};</code></pre>
+        <p>Die Lebenszyklus-Hook-Funktionen sind ein zentrales Konzept in der ofa.js-Komponentenentwicklung. Ihre korrekte Anwendung hilft dir, den Komponentenzustand und Ressourcen besser zu verwalten und die Leistung deiner Anwendung zu verbessern.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

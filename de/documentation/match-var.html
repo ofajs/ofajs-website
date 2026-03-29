@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stilabfragen</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Stilabfragen</h1>
+        <h2>Kernkonzepte</h2>
+        <ul>
+          <li><strong>match-var</strong>: Stil-Matching-Komponente, die entscheidet, ob interne Stile angewendet werden, basierend auf dem Wert der CSS-Variablen</li>
+          <li><strong>Attribut-Matching</strong>: Definiert über Komponentenattribute, welche CSS-Variablen und erwarteten Werte abgeglichen werden sollen</li>
+          <li><strong>Stilanwendung</strong>: Bei erfolgreichem Matching werden die Stile des internen <code>&lt;style&gt;</code>-Tags auf die Komponente angewendet</li>
+        </ul>
+        <h2>Grundlegende Verwendung</h2>
+        <p>Die <code>match-var</code>-Komponente definiert über Attribute die abzugleichenden CSS-Variablen und die erwarteten Werte. Sobald der CSS-Variablenwert der Komponente mit dem angegebenen Attributwert übereinstimmt, werden die innerhalb definierten Stile angewendet.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#333</span>;
+      <span class="hljs-attribute">color</span>: white;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
+        <h3>Attribute</h3>
+        <p>Die <code>match-var</code>-Komponente verwendet beliebige Attribute, um die Übereinstimmungsregeln für CSS-Variablen zu definieren. Der Attributname entspricht dem CSS-Variablennamen (ohne das <code>--</code>-Präfix), und der Attributwert ist der erwartete Übereinstimmungswert.</p>
+        <h3>Funktionsweise</h3>
+        <ol>
+          <li>
+            <p><strong>Browser-Unterstützung</strong>: Wenn der Browser <code>@container style()</code>-Abfragen unterstützt, werden die nativen CSS-Fähigkeiten direkt verwendet.</p>
+          </li>
+          <li>
+            <p><strong>Fallback-Behandlung</strong>: Wenn dies nicht unterstützt wird, werden Änderungen der CSS-Variablenwerte durch Abfrage erkannt, und nach erfolgreicher Übereinstimmung werden Stile dynamisch injiziert.</p>
+          </li>
+          <li>
+            <p><strong>Manuelle Aktualisierung</strong>: Die Stilerkennung kann manuell durch die Methode <code>$.checkMatch()</code> ausgelöst werden.</p>
+          </li>
+        </ol>
+        <h2>Grundlegendes Beispiel</h2>
+        <o-playground name="Grundlegendes Beispiel" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="./page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <l-m src="./theme-box.html"></l-m>
+      <style>
+        :host{
+            display: block;
+        }
+      </style>
+      <style>
+        .container{
+           --theme: data(currentTheme);
+        }
+      </style>
+      <button on:click="changeTheme">Thema wechseln</button> - Thema:{{currentTheme}}
+      <div class="container">
+        <theme-box>
+          Zeigt unterschiedliche Stile basierend auf CSS-Variablen an
+        </theme-box>
+      </div>
+        <theme-box style="--theme: light;">
+          Zeigt helles Thema an
+        </theme-box>
+        <theme-box style="--theme: dark;">
+          Zeigt dunkles Thema an
+        </theme-box>
+      </div>
+      <script>
+        export default async ()=>{
+          return {
+            data: {
+                currentTheme: "light",
+            },
+            proto:{
+                changeTheme(){
+                    this.currentTheme = this.currentTheme === "light" ? "dark" : "light";
+                }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="theme-box.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          margin: 8px 0;
+        }
+        .content {
+          padding: 20px;
+          border-radius: 4px;
+        }
+      </style>
+      <match-var theme="light">
+        <style>
+          .content {
+            background-color: #f5f5f5;
+            color: #333;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark">
+        <style>
+          .content {
+            background-color: #333;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <div class="content">
+        <slot></slot>
+      </div>
+      <script>
+        export default {
+          tag: "theme-box",
+          data: {
+            theme: "light",
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Mehrfachbedingungs-Abgleich</h2>
+        <p>Mehrere Attribute können gleichzeitig verwendet werden, um komplexere Übereinstimmungsbedingungen zu definieren; Stile werden nur angewendet, wenn alle CSS-Variablen übereinstimmen.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;large&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>;
+      <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
+        <h2>Beispiel für die Mehrfachbedingungsabgleichung</h2>
+        <o-playground name="Beispiel für Attribut-Übereinstimmung" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="./page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <style>
+        :host {
+            display: block;
+        }
+      </style>
+      <style>
+        .content{
+            --theme: data(theme);
+            --size: data(size);
+        }
+      </style>
+      <l-m src="./test-card.html"></l-m>
+      <div>Theme: {{theme}} <button on:click="changeTheme">Theme wechseln</button></div>
+      <div>Größe: {{size}} <button on:click="changeSize">Größe wechseln</button></div>
+      <div class="content">
+        <test-card>
+          <div>Beispiel für Mehrfach-Stil-Übereinstimmung</div>
+        </test-card>
+      </div>
+      <script>
+        export default async ()=>{
+            return {
+                data:{
+                    theme:"light",
+                    size:"small"
+                },
+                proto:{
+                    changeTheme(){
+                        this.theme = this.theme === "light" ? "dark" : "light";
+                    },
+                    changeSize(){
+                        this.size = this.size === "small" ? "large" : "small";
+                    }
+                }
+            };
+        }
+      </script>
+    </template>
+  </code>
+          <code path="test-card.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          padding: 20px;
+          margin: 10px;
+        }
+      </style>
+      <match-var theme="light" size="small">
+        <style>
+          :host {
+            background-color: #e3f2fd;
+            border: 1px solid #2196f3;
+          }
+        </style>
+      </match-var>
+      <match-var theme="light" size="large">
+        <style>
+          :host {
+            background-color: #bbdefb;
+            border: 2px solid #1976d2;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark" size="small">
+        <style>
+          :host {
+            background-color: #424242;
+            border: 1px solid #757575;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark" size="large">
+        <style>
+          :host {
+            background-color: #212121;
+            border: 2px solid #616161;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <slot></slot>
+      <script>
+        export default {
+          tag: "test-card",
+          data: {},
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>checkMatch Manuelle Aktualisierung</h2>
+        <p>In manchen Fällen können Änderungen an CSS-Variablen möglicherweise nicht automatisch erkannt werden. In solchen Fällen kann die Methode <code>$.checkMatch()</code> manuell aufgerufen werden, um die Stilerkennung auszulösen.</p>
+        <p>Derzeit unterstützt Firefox die <code>@container style()</code>-Abfrage noch nicht, daher muss <code>$.checkMatch()</code> manuell aufgerufen werden; sobald die native Browser-Unterstützung in Zukunft verfügbar ist, wird das System automatisch Variablenänderungen erkennen und manuelle Aufrufe sind nicht mehr erforderlich.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-attr">proto</span>: {
+  <span class="hljs-title function_">updateTheme</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&#x27;dark&#x27;</span>;
+    <span class="hljs-comment">// Manuell die Stilerkennung auslösen</span>
+    $.<span class="hljs-title function_">checkMatch</span>();
+  }
+}</code></pre>
+        <h2>Best Practices</h2>
+        <ol>
+          <li><strong>Prioritize native CSS capabilities</strong>: <code>match-var</code> prioritizes using the browser&#39;s native <code>@container style()</code> queries, which offer better performance in modern browsers.</li>
+          <li><strong>Organize styles logically</strong>: Group related matching styles together for easier maintenance and understanding.</li>
+          <li><strong>Utilize data() binding</strong>: Combine with the <code>data()</code> directive to achieve responsive style switching.</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eigenschaftsbindung</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Eigenschaftsbindung</h1>
+        <p>ofa.js unterstützt das Binden von Daten an Eigenschaften des nach der Instanziierung des Elements erzeugten Objekts, wie z. B. die value- oder checked-Eigenschaft eines input-Elements.</p>
+        <h2>Unidirektionale Eigenschaftsbindung</h2>
+        <p>Unidirektionale Attributbindung verwendet die Syntax <code>:toKey=&quot;fromKey&quot;</code>, um Komponentendaten &quot;unidirektional&quot; mit den Attributen eines DOM-Elements zu synchronisieren. Bei Änderungen der Komponentendaten werden die Elementattribute sofort aktualisiert; jedoch werden Änderungen am Element selbst (z. B. Benutzereingaben) nicht zurück in die Komponente geschrieben, wodurch der Datenfluss einfach und kontrollierbar bleibt.</p>
+        <o-playground name="Einweg-Attribut-Bindung" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        input {
+          margin: 5px 0;
+          padding: 8px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      </style>
+      <p>Aktueller Wert: {{val}}</p>
+      <input type="text" :value="val" placeholder="Dies ist ein einweg-gebundenes Eingabefeld">
+      <p>Hinweis: Direktes Ändern des Inhalts im Eingabefeld ändert den oben angezeigten Wert nicht</p>
+      <script>
+        export default async () => {
+          return {
+            data: { val: "Hello ofa.js Demo Code" }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Zweiseitige Attributbindung</h2>
+        <p>Die bidirektionale Eigenschaftsbindung verwendet die <code>sync:xxx</code>-Syntax und ermöglicht die bidirektionale Synchronisierung zwischen Komponentendaten und DOM-Elementen. Wenn sich die Komponentendaten ändern, werden die Attribute des DOM-Elements aktualisiert; wenn sich die Attribute des DOM-Elements ändern (z. B. durch Benutzereingaben), werden auch die Komponentendaten synchron aktualisiert.</p>
+        <o-playground name="Zweirichtungs-Attribut-Bindung" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid #007acc;
+          padding: 10px;
+        }
+        input {
+          margin: 5px 0;
+          padding: 8px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      </style>
+      <p>Aktueller Wert: {{val}}</p>
+      <input type="text" sync:value="val" placeholder="Dies ist ein Eingabefeld mit Zweirichtungs-Bindung">
+      <p>Tipp: Änderungen im Eingabefeld aktualisieren den oben angezeigten Wert in Echtzeit</p>
+      <script>
+        export default async () => {
+          return {
+            data: { val: "Hello ofa.js Demo Code" }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Zwei-Wege-Datenbindung Merkmale</h3>
+        <ul>
+          <li>Datenfluss: Komponente ↔ DOM-Element (bidirektional)</li>
+          <li>Komponentendatenänderungen → DOM-Element-Aktualisierung</li>
+          <li>DOM-Element-Änderungen → Komponentendaten-Aktualisierung</li>
+          <li>Geeignet für Szenarien, die Benutzereingaben und Datensynchronisierung erfordern</li>
+        </ul>
+        <h3>Häufige Szenarien für bidirektionale Datenbindung</h3>
+        <o-playground name="Formular-Zwei-Wege-Bindung Beispiel" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 15px;
+          font-family: Arial, sans-serif;
+        }
+        .form-group {
+          margin: 10px 0;
+        }
+        input, textarea, select {
+          padding: 8px;
+          margin: 5px 0;
+          box-sizing: border-box;
+        }
+        .preview {
+          margin-top: 15px;
+          padding: 10px;
+          background-color: #7b7b7bff;
+          border-radius: 4px;
+        }
+      </style>
+      <h3>Formular-Zwei-Wege-Bindung Beispiel</h3>
+      <div class="form-group">
+        <label>Textfeld:</label>
+        <input type="text" sync:value="textInput" placeholder="Text eingeben">
+      </div>
+      <div class="form-group">
+        <label>Zahlenfeld:</label>
+        <input type="number" sync:value="numberInput" placeholder="Zahl eingeben">
+      </div>
+      <div class="form-group">
+        <label>Mehrzeiliger Text:</label>
+        <textarea sync:value="textareaInput" rows="3" placeholder="Mehrzeiligen Text eingeben"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Auswahlfeld:</label>
+        <select sync:value="selectedOption">
+          <option value="">Bitte auswählen...</option>
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Checkbox:</label>
+        <label style="display:flex;">
+          <input type="checkbox" sync:checked="isChecked" /> Ich stimme den Bedingungen zu
+        </label>
+      </div>
+      <div class="preview">
+        <h4>Live-Vorschau:</h4>
+        <p>Text: {{textInput}}</p>
+        <p>Zahl: {{numberInput}}</p>
+        <p>Mehrzeiliger Text: {{textareaInput}}</p>
+        <p>Auswahl: {{selectedOption}}</p>
+        <p>Checkbox-Status: {{isChecked ? 'Ausgewählt' : 'Nicht ausgewählt'}}</p>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: { textInput: '', numberInput: 0, textareaInput: '', selectedOption: '', isChecked: false }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Hinweise</h2>
+        <ol>
+          <li><strong>Performance-Aspekte</strong>: Zwei-Wege-Bindung erzeugt Daten-Listener, deren massenhafter Einsatz die Leistung beeinträchtigen kann </li>
+          <li><strong>Datenkonsistenz</strong>: Zwei-Wege-Bindung stellt die Übereinstimmung von Daten und View sicher, doch sollte man auf endless Update-Schleifen achten </li>
+          <li><strong>Initialwert setzen</strong>: Stelle sicher, dass die gebundenen Daten sinnvolle Initialwerte besitzen, um undefined-Anzeigeprobleme zu vermeiden </li>
+          <li><strong>Event-Konflikte</strong>: Verwende nicht gleichzeitig Zwei-Wege-Bindung und manuelle Event-Behandlung am selben Element, um Konflikte zu verhindern</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

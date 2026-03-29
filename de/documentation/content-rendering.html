@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template-Rendering</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Template-Rendering</h1>
+        <p>ofa.js bietet eine leistungsstarke Template-Rendering-Engine mit einer umfangreichen Template-Syntax, die Entwicklern hilft, Anwendungen schnell zu erstellen. Zunächst beginnen wir mit der Einführung des am häufigsten verwendeten Text-Renderings.</p>
+        <h2>Seitendatenbindung</h2>
+        <p>In ofa.js hat jede Seite ein <code>data</code>-Objekt, in dem Sie Variablen definieren können, die auf der Seite verwendet werden sollen. Wenn das Rendering der Seite beginnt, werden die Daten aus dem <code>data</code>-Objekt automatisch mit der Vorlage verknüpft. Anschließend können Sie in der Vorlage die Syntax <code>{{Variablenname}}</code> verwenden, um den Wert der entsprechenden Variable zu rendern.</p>
+        <h2>Text-Rendering</h2>
+        <p>Text-Rendering ist die grundlegendste Rendering-Methode. Sie können in der Vorlage die Syntax <code>{{Variablenname}}</code> verwenden, um den Wert der entsprechenden Variable im <code>data</code>-Objekt anzuzeigen.</p>
+        <o-playground name="Text-Rendering-Beispiel" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>HTML-Inhalt rendern</h2>
+        <p>Durch Hinzufügen der <code>:html</code>-Direktive zu einem Element kann der entsprechende HTML-String aus einer Variable geparst und sicher in das Element eingefügt werden, wodurch die dynamische Darstellung von Rich-Text oder das Einbetten externer HTML-Fragmente erleichtert wird.</p>
+        <o-playground name="Beispiel für das Rendern von HTML-Inhalten" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p :html="val"></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: '<span style="color:green;">Hallo ofa.js Demo Code</span>',
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

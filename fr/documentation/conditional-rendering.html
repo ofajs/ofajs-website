@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rendu conditionnel</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Rendu conditionnel</h1>
+        <p>Dans ofa.js, le rendu conditionnel est une fonctionnalité importante qui permet de décider, selon l&#39;état des données, s&#39;il faut rendre un élément ou un composant. ofa.js propose un schéma de rendu conditionnel basé sur des composants, implémenté par les composants <code>o-if</code>, <code>o-else-if</code> et <code>o-else</code>.</p>
+        <h2>Composant o-if</h2>
+        <p>Le composant <code>o-if</code> est utilisé pour décider de rendre son contenu en fonction de la valeur de vérité d&#39;une expression. Lorsque la propriété liée <code>value</code> est évaluée à vrai, le contenu à l&#39;intérieur du composant est rendu ; sinon, le contenu n&#39;apparaît pas dans le DOM.</p>
+        <o-playground name="Exemple de fonctionnement d'o-if" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="isHide = !isHide">Basculer l'affichage</button>
+      <o-if :value="!isHide">
+        <p>{{val}}</p>
+      </o-if>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isHide: false,
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Fonctionnement de o-if</h3>
+        <p><code>o-if</code> 只会在条件为真时才将内容渲染到 DOM 中，当条件为假时，<code>o-if</code> 内的 DOM 元素会被完全移除。这种实现方式适合在条件变化不太频繁的情况下使用，因为它涉及到 DOM 的创建和销毁。</p>
+        <h2>Composants o-else-if et o-else</h2>
+        <p>Lorsque plusieurs branches conditionnelles sont nécessaires, vous pouvez utiliser les composants <code>o-else-if</code> et <code>o-else</code> en combinaison avec <code>o-if</code> pour réaliser un rendu conditionnel à branches multiples.</p>
+        <ul>
+          <li><code>o-if</code> : le premier composant conditionnel obligatoire</li>
+          <li><code>o-else-if</code> : composant conditionnel intermédiaire optionnel, peut être présent plusieurs fois</li>
+          <li><code>o-else</code> : composant conditionnel par défaut optionnel, placé à la fin</li>
+        </ul>
+        <o-playground name="Exemple de rendu conditionnel multi-branches" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="num++">Basculer l'affichage - {{num}}</button>
+      <!-- Basculer l'affichage de différents contenus en fonction du résultat de num modulo 3 -->
+      <o-if :value="num % 3 === 0">
+        <p>❤️ 0 / 3</p>
+      </o-if>
+      <o-else-if :value="num % 3 === 1">
+        <p>😊 1 / 3</p>
+      </o-else-if>
+      <o-else>
+        <p>😭 2 / 3</p>
+      </o-else>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              num: 0,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Exemples de scénarios d&#39;application pratique</h2>
+        <h3>Contrôle des permissions utilisateur</h3>
+        <o-playground name="Exemple de contrôle des permissions utilisateur" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .admin-panel {
+          background-color: #813b3bff;
+          padding: 10px;
+          margin: 10px 0;
+        }
+        .user-info {
+          background-color: #3f6e86ff;
+          padding: 10px;
+          margin: 10px 0;
+        }
+      </style>
+      <div>
+        <button on:click="toggleUserRole">Basculer le rôle utilisateur</button>
+        <p>Rôle actuel : {{role}}</p>
+        <o-if :value="role === 'admin'">
+          <div class="admin-panel">
+            <h3>Panneau d'administration</h3>
+            <button>Gérer les utilisateurs</button>
+            <button>Paramètres système</button>
+          </div>
+        </o-if>
+        <o-else-if :value="role === 'user'">
+          <div class="user-info">
+            <h3>Informations utilisateur</h3>
+            <p>Bienvenue {{userName}} !</p>
+          </div>
+        </o-else-if>
+        <o-else>
+          <p>Veuillez vous connecter pour voir le contenu</p>
+        </o-else>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              role: 'guest',
+              userName: 'Invité'
+            },
+            proto: {
+              toggleUserRole() {
+                if (this.role === 'guest') {
+                  this.role = 'user';
+                  this.userName = 'Zhang San';
+                } else if (this.role === 'user') {
+                  this.role = 'admin';
+                } else {
+                  this.role = 'guest';
+                  this.userName = '';
+                }
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Affichage de l&#39;état de validation du formulaire</h3>
+        <o-playground name="Exemple d'affichage de l'état de validation de formulaire" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        input {
+          margin: 5px;
+          padding: 5px;
+        }
+      </style>
+      <div>
+        <h3>Exemple de validation d'email</h3>
+        <input type="email" :value="email" on:input="email = $event.target.value" placeholder="Entrez une adresse email">
+        <o-if :value="email && isValidEmail(email)">
+          <p style="color:green;">✓ Format d'email correct</p>
+        </o-if>
+        <o-else-if :value="email && !isValidEmail(email) && email.length > 0">
+          <p style="color:red;">✗ Format d'email incorrect</p>
+        </o-else-if>
+        <o-else>
+          <p style="color:orange;">Veuillez entrer une adresse email pour la valider</p>
+        </o-else>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              email: ''
+            },
+            proto: {
+              isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Meilleures pratiques pour le rendu conditionnel</h2>
+        <ol>
+          <li>
+            <p><strong>Cas d’utilisation</strong> : lorsqu’un élément est rarement basculé entre différents états, <code>o-if</code> est plus approprié car il supprime complètement les éléments inutiles, économisant ainsi la mémoire.</p>
+          </li>
+          <li>
+            <p><strong>Considérations de performance</strong> : pour les éléments fréquemment basculés, il vaut mieux utiliser la liaison de classes (par exemple <code>class:hide</code>) plutôt que le rendu conditionnel, car ce dernier implique la création et la destruction du DOM.</p>
+          </li>
+          <li>
+            <p><strong>Clarté de la structure</strong> : le rendu conditionnel est particulièrement adapté aux basculements entre contenus de structures différentes, comme les onglets ou les guides par étapes.</p>
+          </li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schnellstart</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Schnellstart</h1>
+        <p>In diesem Abschnitt wird erklärt, wie Sie schnell mit ofa.js beginnen können. In den folgenden Tutorials werden wir die Erstellung der index.html-Einstiegsdatei überspringen und nur den Code der Seitenmoduldateien zeigen. Sie können direkt auf der Grundlage der Vorlage entwickeln.</p>
+        <h2>Vorbereitung der Basisdateien</h2>
+        <p>Um ofa.js schnell einzusetzen, erstellst du einfach ein <strong>Seitenmodul</strong> und kombinierst es mit einer Einstiegs-HTML-Datei. Die erforderlichen Kern-Dateien sind:</p>
+        <ul>
+          <li><code>index.html</code>: Die Einstiegsdatei der Anwendung, die für das Laden des ofa.js-Frameworks und das Einbinden von Seitenmodulen verantwortlich ist</li>
+          <li><code>demo-page.html</code>: Die Seitenmoduldatei, die den spezifischen Inhalt, das Styling und die Datenlogik der Seite definiert</li>
+        </ul>
+        <h3>index.html (Anwendungseinstieg)</h3>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- index.html --&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>ofa.js Beispiel<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+      <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs&quot;</span>
+      <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>
+    &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./demo-page.html&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <p>Die Hauptfunktion dieser Datei ist:- Einführung des ofa.js-Frameworks</p>
+        <ul>
+          <li>Verwendung der <code>&lt;o-page&gt;</code>-Komponente zum Laden und Rendern von Seitenmodulen</li>
+        </ul>
+        <h3>demo-page.html (Seitenmodul)</h3>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- demo-page.html --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid red;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+    }
+    <span class="hljs-selector-tag">p</span> {
+      <span class="hljs-attribute">color</span>: pink;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{val}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hallo ofa.js Demo-Code&quot;</span>,
+        },
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>Diese Datei definiert eine einfache Seitenkomponente, die Folgendes enthält:- <code>&lt;template page&gt;</code>-Tag, definiert Seitenmodul</p>
+        <ul>
+          <li>CSS-Stile (Verwendung des <code>:host</code>-Selektors von Shadow DOM)</li>
+          <li>Datenbindungsausdruck <code>{{val}}</code></li>
+          <li>JavaScript-Logik, gibt ein Objekt mit Anfangsdaten zurück</li>
+        </ul>
+        <h2>Online-Demo</h2>
+        <p>Hier ist ein Live-Beispiel im Online-Editor, Sie können den Code direkt bearbeiten und die Auswirkungen sehen:</p>
+        <o-playground name="Online-Demo" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        p {
+          color: pink;
+        }
+      </style>
+      <p>{{val}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hallo ofa.js Demo-Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Wir definieren Stile durch das <code>&lt;style&gt;</code>-Tag innerhalb der Komponente. Diese internen Stile wirken nur innerhalb der Komponente, bieten eine gute Kapselung und beeinflussen keine anderen Elemente auf der Seite.</p>
+        <p>Hier wird der <code>:host</code>-Selektor verwendet, um die Stile des Host-Elements der Komponente zu definieren. Hier setzen wir die Komponente als Block-Level-Element und fügen einen roten Rahmen sowie einen Innenabstand von 10px hinzu.</p>
+        <p>Mit dem <code>{{key}}</code>-Ausdruck kann der entsprechende Wert aus den Komponentendaten auf der Seite gerendert werden.</p>
+        <p>Jetzt haben Sie erfolgreich Ihre erste ofa.js-Anwendung erstellt! Als nächstes lassen Sie uns tiefer in die Template-Rendering-Syntax und die fortgeschrittenen Funktionen von ofa.js eintauchen.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

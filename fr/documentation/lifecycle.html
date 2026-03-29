@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cycle de vie</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Cycle de vie</h1>
+        <p>ofa.js dispose de fonctions de cycle de vie complètes, vous permettant d&#39;exécuter une logique spécifique à différentes étapes du composant. Ces fonctions de crochet vous permettent d&#39;intervenir et d&#39;exécuter les opérations correspondantes à des moments clés tels que la création, le montage, la mise à jour et la destruction du composant.</p>
+        <h2>Fonctions de hook du cycle de vie</h2>
+        <p>ofa.js fournit les hooks de cycle de vie principaux suivants, classés dans l’ordre d’usage courant :</p>
+        <h3>attached</h3>
+        <p>Le crochet <code>attached</code> est appelé lorsque le composant est inséré dans le document, indiquant que le composant a été monté dans la page. C’est le crochet de cycle de vie le plus utilisé, généralement employé pour effectuer des opérations d’initialisation qui doivent attendre que le composant soit réellement affiché, évitant ainsi des calculs inutiles tant qu’il n’est pas visible. Ce crochet est également idéal pour mesurer les dimensions des éléments, démarrer des animations ou toute autre action dépendant du fait que le composant est déjà rendu dans la page.</p>
+        <ul>
+          <li><strong>Moment d’appel</strong> : le composant est ajouté à l’arbre DOM</li>
+          <li><strong>Usage principal</strong> : démarrer des minuteries, ajouter des écouteurs d’événements, exécuter des opérations nécessitant la visibilité</li>
+        </ul>
+        <h3>detached</h3>
+        <p>Le hook <code>detached</code> est appelé lorsque le composant est retiré du document, indiquant qu’il va être démonté. Ce hook est approprié pour nettoyer les ressources, comme annuler les minuteries ou supprimer les écouteurs d’événements.</p>
+        <ul>
+          <li><strong>Moment d&#39;appel</strong> : le composant est retiré de l&#39;arbre DOM</li>
+          <li><strong>Usage principal</strong> : nettoyer les ressources, annuler les abonnements, supprimer les écouteurs d&#39;événements</li>
+        </ul>
+        <h3>ready</h3>
+        <p>Le hook <code>ready</code> est appelé lorsque le composant est prêt, à ce moment le template du composant est déjà rendu, les éléments DOM sont créés, mais ils ne sont peut-être pas encore insérés dans le document. Ce hook est adapté pour effectuer des manipulations DOM ou initialiser des bibliothèques tierces.</p>
+        <ul>
+          <li><strong>Moment d&#39;appel</strong> : Le modèle de composant a été rendu, le DOM a été créé</li>
+          <li><strong>Usage principal</strong> : Exécuter des opérations d&#39;initialisation dépendantes du DOM</li>
+        </ul>
+        <h3>loaded</h3>
+        <p>Le hook <code>loaded</code> se déclenche lorsque le composant et tous ses composants enfants ainsi que les ressources asynchrones sont entièrement chargés ; à ce moment-là, il est sûr de retirer l’état de chargement ou d’exécuter des opérations ultérieures dépendant de l’arbre complet des composants. S’il n’y a pas de dépendance, il est appelé après le hook <code>ready</code>.</p>
+        <ul>
+          <li><strong>Moment d&#39;appel</strong> : Quand le composant et tous ses composants enfants sont entièrement chargés</li>
+          <li><strong>Utilisation principale</strong> : Exécuter des opérations qui dépendent d&#39;un arbre de composants complet</li>
+        </ul>
+        <h2>Ordre d&#39;exécution du cycle de vie</h2>
+        <p>Les hooks du cycle de vie du composant s&#39;exécutent dans l&#39;ordre suivant :</p>
+        <ol start="2">
+          <li><code>ready</code> - Le composant est prêt (le DOM a été créé)</li>
+          <li><code>attached</code> - Le composant est monté dans le DOM</li>
+          <li><code>loaded</code> - Le composant est entièrement chargé</li>
+        </ol>
+        <p>Quand un composant est retiré du DOM, le hook <code>detached</code> est appelé.</p>
+        <h2>Exemple d&#39;utilisation</h2>
+        <p>L&#39;exemple ci-dessous montre comment utiliser les fonctions de cycle de vie dans un composant :</p>
+        <o-playground name="Exemple de cycle de vie" style="--editor-height: 700px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .counter {
+          margin: 10px 0;
+        }
+        button {
+          margin-right: 10px;
+          padding: 5px 10px;
+        }
+      </style>
+      <h3>Démonstration du cycle de vie</h3>
+      <div class="counter">Compteur : {{count}}</div>
+      <button on:click="count += 10">Augmenter de 10</button>
+      <button on:click="removeSelf">Supprimer le composant</button>
+      <div class="log">
+        <h4>Journal du cycle de vie :</h4>
+        <ul>
+          <o-fill :value="logs">
+            <li>{{$data}}</li>
+          </o-fill>
+        </ul>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 0,
+              logs: [],
+            },
+            proto: {
+              removeSelf() {
+                this.remove(); // Se supprime du DOM pour déclencher le hook detached
+              },
+              addLog(message) {
+                this.logs = [...this.logs, `${new Date().toLocaleTimeString()} - ${message}`];
+              }
+            },
+            ready() {
+              this.addLog("ready : composant prêt, DOM créé");
+              console.log("Composant prêt");
+            },
+            attached() {
+              this.addLog("attached : composant monté dans le DOM");
+              this._timer = setInterval(() => {
+                this.count++;
+              }, 1000);
+              console.log("Composant monté");
+            },
+            detached() {
+              this.addLog("detached : composant retiré du DOM");
+              // Nettoie le timer pour éviter les fuites mémoire
+              clearInterval(this._timer); 
+              console.log("Composant démonté");
+            },
+            loaded() {
+              this.addLog("loaded : chargement complet du composant");
+              console.log("Composant entièrement chargé");
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, vous pouvez observer l&#39;ordre d&#39;exécution et le timing des différents hooks de cycle de vie. Lorsque vous cliquez sur le bouton &quot;Supprimer le composant&quot;, vous pouvez voir que le hook <code>detached</code> est déclenché.</p>
+        <h2>Scénarios d&#39;application pratiques</h2>
+        <h3>Opération d&#39;initialisation</h3>
+        <p>Effectuer l&#39;initialisation des données dans le hook <code>ready</code> :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">items</span>: []
+    },
+    <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// Manipulation du DOM</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initDomElements</span>();
+    }
+  };
+};</code></pre>
+        <h3>Gestion des ressources</h3>
+        <p>Dans le hook <code>attached</code>, lancez un minuteur ; dans le hook <code>detached</code>, nettoyez les ressources :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">timer</span>: <span class="hljs-literal">null</span>
+    },
+    <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// 启动定时器</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;定时任务执行&#x27;</span>);
+      }, <span class="hljs-number">1000</span>);
+    },
+    <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-comment">// 清理定时器</span>
+      <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>) {
+        <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>);
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-literal">null</span>;
+      }
+    }
+  };
+};</code></pre>
+        <p>Les fonctions de hook du cycle de vie sont un concept essentiel dans le développement des composants ofa.js ; leur utilisation appropriée vous permet de mieux gérer l&#39;état et les ressources des composants, tout en améliorant les performances de l&#39;application.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

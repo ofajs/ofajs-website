@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>emit</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>emit</h1>
+        <p>En utilisant la méthode <code>emit</code>, vous pouvez déclencher activement des événements, et les événements déclenchés possèdent un mécanisme de propagation. Le mécanisme de propagation signifie que l&#39;événement remonte de l&#39;élément interne vers l&#39;élément externe, en déclenchant les événements de l&#39;intérieur vers l&#39;extérieur selon les niveaux hiérarchiques.</p>
+        <p>Ci-dessous un exemple démontrant comment utiliser la méthode <code>emit</code> pour déclencher un événement personnalisé et utiliser le mécanisme de propagation pour transmettre l&#39;événement à un élément externe.</p>
+        <o-playground name="emit - déclencher un événement" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li id="target">
+          Je suis la cible
+        </li>
+      </ul>
+      <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
+      <div id="logger2" style="border:blue solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$('ul').on('custom-event',()=>{
+          count++;
+          \$("#logger1").text = 'ul est déclenché ' + count;
+        });
+        \$('#target').on('custom-event',()=>{
+          count++;
+          \$("#logger2").text = 'la cible est déclenchée ' + count;
+        });
+        setTimeout(()=>{
+          \$("#target").emit("custom-event",{
+            data:"Je suis les données"
+          });
+        },500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous avons enregistré le même gestionnaire d&#39;événements personnalisé <code>custom-event</code> pour l&#39;élément <code>&lt;ul&gt;</code> et l&#39;élément <code>&lt;li&gt;</code>. Lorsque nous utilisons la méthode <code>emit</code> pour déclencher l&#39;événement, celui-ci remonte de l&#39;élément <code>&lt;li&gt;</code> à l&#39;élément <code>&lt;ul&gt;</code>, déclenchant ainsi les deux gestionnaires d&#39;événements.</p>
+        <h2>Données personnalisées</h2>
+        <p>En passant le paramètre <code>data</code>, vous pouvez transmettre des données personnalisées au gestionnaire d&#39;événements :</p>
+        <o-playground name="emit - Données personnalisées" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li id="target">
+          Je suis la cible
+        </li>
+      </ul>
+      <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
+      <div id="logger2" style="border:blue solid 1px;padding:8px;">-</div>
+      <script>
+        \$('ul').on('custom-event',(event)=>{
+          \$("#logger1").text = 'ul est déclenché;  =>  ' + event.data;
+        });
+        \$('#target').on('custom-event',(event)=>{
+          \$("#logger2").text = 'la cible est déclenchée;  =>  ' + event.data;
+        });
+        setTimeout(()=>{
+          \$("#target").emit("custom-event",{ 
+            data:"Je suis les données"
+          });
+        },500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous passons des données personnalisées au gestionnaire d&#39;événements via le paramètre <code>data</code>. Le gestionnaire d&#39;événements peut récupérer les données transmises via <code>event.data</code>.</p>
+        <h2>Déclencher un événement sans propagation</h2>
+        <p>Si vous ne souhaitez pas que l&#39;événement se propage, vous pouvez ajouter le paramètre <code>bubbles: false</code> lors du déclenchement de l&#39;événement :</p>
+        <o-playground name="emit - 不冒泡" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li id="target">
+          I am target
+        </li>
+      </ul>
+      <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
+      <div id="logger2" style="border:blue solid 1px;padding:8px;">-</div>
+      <script>
+        \$('ul').on('custom-event',()=>{
+          \$("#logger1").text = 'ul est déclenché';
+        });
+        \$('#target').on('custom-event',()=>{
+          \$("#logger2").text = 'target est déclenché';
+        });
+        setTimeout(()=>{
+          \$("#target").emit("custom-event",{
+            bubbles: false
+          });
+        },500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous déclenchons un événement personnalisé avec le paramètre <code>bubbles: false</code>. Cet événement ne remonte pas aux éléments parents, seul le gestionnaire d’événements de l’élément <code>&lt;li&gt;</code> est donc déclenché.</p>
+        <h2>Pénétration du nœud racine</h2>
+        <p>Par défaut, les événements ne traversent pas le DOM fantôme des composants personnalisés. Mais vous pouvez permettre aux événements personnalisés de traverser le nœud racine et de déclencher des éléments en dehors du nœud racine en définissant <code>composed: true</code>.</p>
+        <o-playground name="emit - Pénétration du nœud racine" style="--editor-height: 560px">
+          <code path="demo.html" preview>
+    <template>
+      <div id="outer-logger"></div>
+      <l-m src="./composed-test.html"></l-m>
+      <composed-test></composed-test>
+    </template>
+  </code>
+          <code path="composed-test.html" active>
+    <template component>
+      <style>
+        :host{
+          display:block;
+          border:red solid 1px;
+        }
+      </style>
+      <div id="logger">{{loggerText}}</div>
+      <div id="target"></div>
+      <script>
+        export default {
+          tag: "composed-test",
+          data:{
+            loggerText: ""
+          },
+          ready(){
+            this.on("custom-event",(event)=>{
+              this.loggerText = "L'événement personnalisé est déclenché ;  =>  " + event.data;
+            });
+            setTimeout(()=>{
+              this.shadow.$("#target").emit("custom-event",{
+                composed: true,
+                data:"Je suis un événement composé"
+              });
+            },500);
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple, nous avons créé un composant personnalisé <code>composed-test</code> qui contient un élément dans un DOM fantôme et un bouton qui déclenche un événement. Par défaut, les événements ne traversent pas le DOM fantôme pour atteindre le nœud racine. Cependant, en utilisant le paramètre <code>composed: true</code> lors du déclenchement de l&#39;événement, nous avons permis à l&#39;événement de traverser jusqu&#39;au nœud racine, déclenchant ainsi l&#39;élément en dehors du nœud racine.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

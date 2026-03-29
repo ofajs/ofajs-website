@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation API</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <l-m src="./_comps/api-container.html"></l-m>
+      <style>
+        article a {
+          color: var(--md-sys-color-primary);
+          text-decoration: none;
+          align-items: center !important;
+        }
+      </style>
+      <article>
+        <h1>Documentation API</h1>
+        <p> ofa.js prend en charge non seulement la syntaxe des modèles, mais fournit également une API riche pour manipuler directement le DOM. Tout comme <a href="https://jquery.com/" target="_blank">jQuery</a>, vous pouvez utiliser la syntaxe concise d'ofa.js pour remplacer le JavaScript natif verbeux et effectuer facilement des opérations DOM. </p>
+        <p> Dans les fonctions de cycle de vie des composants ou modules de page ainsi que dans les méthodes personnalisées, vous pouvez appeler à tout moment les API fournies par ofa.js pour manipuler les éléments DOM de manière flexible et efficace. </p>
+        <api-container>
+          <api-list>
+            <h3>Instance Related</h3>
+            <api-item>
+              <a href="./instance/dollar.html" olink="">$(selector)</a>
+              <p>Fonction principale dans ofa.js, utilisée pour obtenir et manipuler des instances d'éléments DOM</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/all.html" olink="">all</a>
+              <p>Obtenir toutes les instances d'éléments enfants de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/shadow.html" olink="">shadow</a>
+              <p>Obtenir la racine d'ombre (shadow root) de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prev.html" olink="">prev</a>
+              <p>Obtenir l'élément frère précédent de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prevs.html" olink="">prevs</a>
+              <p>Obtenir tous les éléments frères précédant l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/next.html" olink="">next</a>
+              <p>Obtenir l'élément frère suivant de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/nexts.html" olink="">nexts</a>
+              <p>Obtenir tous les éléments frères suivant l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/siblings.html" olink="">siblings</a>
+              <p>Obtenir tous les éléments frères de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parent.html" olink="">parent</a>
+              <p>Obtenir l'élément parent de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parents.html" olink="">parents</a>
+              <p>Obtenir tous les éléments ancêtres de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/clone.html" olink="">clone</a>
+              <p>Copier l'élément courant et ses éléments enfants</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/ele.html" olink="">ele</a>
+              <p>Obtenir l'instance de l'élément enfant de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/root.html" olink="">root</a>
+              <p>Obtenir l'instance racine à laquelle appartient l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/children.html" olink="">Éléments enfants</a>
+              <p>Obtenir tous les éléments enfants de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/host.html" olink="">host</a>
+              <p>Obtenir l'élément hôte du web component auquel appartient l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/app.html" olink="">app</a>
+              <p>Obtenir l'instance du composant o-app auquel appartient l'élément courant</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Node Operations</h3>
+            <api-item>
+              <a href="./operation/array-like.html" olink="">push</a>
+              <p>Ajouter un élément enfant à l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=11" olink="">pop</a>
+              <p>Supprimer le dernier élément enfant de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=14" olink="">shift</a>
+              <p>Supprimer le premier élément enfant de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=8" olink="">unshift</a>
+              <p>Ajouter le premier élément enfant à l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=17" olink="">splice</a>
+              <p>Ajouter ou supprimer des éléments enfants de l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/before.html" olink="">before</a>
+              <p>Ajouter un élément enfant avant l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/after.html" olink="">after</a>
+              <p>Ajouter un élément enfant après l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/remove.html" olink="">remove</a>
+              <p>Supprimer l'élément courant</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/wrap.html" olink="">wrap</a>
+              <p>Envelopper l'élément courant dans un élément spécifié</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/unwrap.html" olink="">unwrap</a>
+              <p>Supprimer l'enveloppe de l'élément parent de l'élément courant</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Attribute Operations</h3>
+            <api-item>
+              <a href="./props/text.html" olink="">text</a>
+              <p>Obtenir ou définir le contenu textuel de l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./props/html.html" olink="">html</a>
+              <p>Obtenir ou définir le contenu HTML de l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./props/attr.html" olink="">attr</a>
+              <p>Obtenir ou définir les attributs de l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./props/css.html" olink="">css</a>
+              <p>Obtenir ou définir les styles de l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./props/style.html" olink="">style</a>
+              <p>Obtenir l'objet style de l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./props/class-list.html" olink="">classList</a>
+              <p>Obtenir la liste des noms de classe de l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./props/data.html" olink="">data</a>
+              <p>Obtenir ou définir les attributs data de l'élément</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Event Related</h3>
+            <api-item>
+              <a href="./event/on.html" olink="">on</a>
+              <p>Ajouter un écouteur d'événement à l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./event/one.html" olink="">one</a>
+              <p>Ajouter un écouteur d'événement qui ne s'exécute qu'une seule fois à l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./event/emit.html" olink="">emit</a>
+              <p>Déclencher un événement personnalisé sur l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./event/off.html" olink="">off</a>
+              <p>Supprimer un écouteur d'événement de l'élément</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>Others</h3>
+            <api-item>
+              <a href="./others/app.html" olink="">Composant o-app</a>
+              <p>Composant racine de l'application ofa.js, utilisé pour gérer l'état de l'application et le routage</p>
+            </api-item>
+            <api-item>
+              <a href="./others/page.html" olink="">Composant o-page</a>
+              <p>Composant de page ofa.js, utilisé pour créer des pages d'application monopage</p>
+            </api-item>
+            <api-item>
+              <a href="./others/form-data.html" olink="">formData</a>
+              <p>Obtenir les données du formulaire</p>
+            </api-item>
+            <api-item>
+              <a href="./others/tag.html" olink="">tag</a>
+              <p>Obtenir le nom de balise de l'élément</p>
+            </api-item>
+            <api-item>
+              <a href="./others/index.html" olink="">index</a>
+              <p>Obtenir l'index de l'élément dans son élément parent</p>
+            </api-item>
+            <api-item>
+              <a href="./others/is.html" olink="">is</a>
+              <p>Déterminer si l'élément correspond au sélecteur spécifié</p>
+            </api-item>
+            <api-item>
+              <a href="./others/refresh.html" olink="">refresh</a>
+              <p>Actualiser le composant ou la page courant(e)</p>
+            </api-item>
+            <api-item>
+              <a href="./others/path.html" olink="">PATH</a>
+              <p>Obtenir le chemin de la page courante</p>
+            </api-item>
+            <api-item>
+              <a href="./others/extend.html" olink="">extend</a>
+              <p>Étendre les fonctionnalités de ofa.js</p>
+            </api-item>
+            <api-item>
+              <a href="./others/version.html" olink="">version</a>
+              <p>Obtenir le numéro de version de ofa.js</p>
+            </api-item>
+            <api-item>
+              <a href="./others/stanz.html" olink="">Caractéristiques des données d'instance</a>
+              <p>Stanz est la caractéristique de données réactives de ofa.js, prenant en charge la mise à jour automatique des données</p>
+            </api-item>
+          </api-list>
+        </api-container>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

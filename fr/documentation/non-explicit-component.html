@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Composant implicite</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Composant implicite</h1>
+        <p>ofa.js intègre deux types de composants non explicites :</p>
+        <ul>
+          <li>Composants de rendu conditionnel : <code>x-if</code>, <code>x-else-if</code>, <code>x-else</code></li>
+          <li>Composants de remplissage : <code>x-fill</code></li>
+        </ul>
+        <p>Ces deux composants ont des fonctionnalités identiques à celles des composants <code>o-if</code> et <code>o-fill</code>, mais ils ne seront pas réellement rendus dans le DOM ; à la place, leurs éléments internes seront directement rendus dans la zone correspondante.</p>
+        <p>Par exemple :</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-class">.container</span> &gt; <span class="hljs-selector-class">.item</span>{
+        <span class="hljs-attribute">color</span>:red;
+    }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">o-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- Le style n’est pas rouge, car le composant o-if existe dans le DOM --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">o-if</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- Le style est rouge, car le composant x-if n’est pas rendu dans le DOM --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="Composant non explicite" style="--editor-height: 500px">
+          <code>
+    <template page="">
+        <style>
+        :host {
+            display: block;
+            border: 1px solid red;
+            padding: 10px;
+        }
+        .container > .item {
+            /* sélectionne les éléments .item du premier niveau en rouge */
+            color:red;
+        }
+        /* il faut sélectionner les éléments .item à l’intérieur du composant o-if */
+        /* .container > o-if > .item {
+            color:green;
+        } */
+        </style>
+        <div class="container">
+            <o-if :value="true">
+                <!-- le style n’est pas rouge car le composant o-if existe dans le DOM -->
+                <div class="item">ne s’affichera pas en rouge</div>
+            </o-if>
+            <x-if :value="true">
+                <!-- le style est rouge car le composant x-if n’est pas rendu dans le DOM -->
+                <div class="item">s’affiche en rouge</div>
+            </x-if>
+        </div>
+        <script>
+        export default async () => {
+            return {
+            data: {},
+            };
+        };
+        </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>x-if Composant de rendu conditionnel</h2>
+        <p><code>x-if</code> a exactement la même fonction que <a href="./conditional-rendering.html" olink="">o-if</a>, il est utilisé pour décider si le contenu doit être rendu en fonction de la valeur de vérité d'une expression conditionnelle. La différence est que <code>x-if</code> lui-même n'existe pas en tant qu'élément DOM, son contenu interne est directement rendu dans le conteneur parent.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"isLoggedIn"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Bienvenue, utilisateur !<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <p><code>x-if</code> peut également être utilisé avec <code>x-else-if</code> et <code>x-else</code> :</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"role === 'admin'"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Panneau d'administration<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-else-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"role === 'user'"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Centre utilisateur<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-else-if</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-else</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Veuillez vous connecter<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-else</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>Composant de remplissage x-fill</h2>
+        <p><code>x-fill</code> 与 <a href="./list-rendering.html" olink="">o-fill</a> 的功能完全相同，用于将数组数据渲染为多个 DOM 元素。与 <code>x-if</code> 类似，<code>x-fill</code> 本身不会渲染到 DOM 中，其内部模板会直接渲染到父级容器。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">x-fill</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+        <p>Exemple d'utilisation de modèles nommés :</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"li"</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">x-fill</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"li"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class:active</span>=<span class="hljs-string">"$data.active"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">attr:href</span>=<span class="hljs-string">"$data.href"</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>Spécifications de performance</h2>
+        <p>En plus des différences fonctionnelles, les performances de rendu des composants non explicites sont <strong>bien inférieures</strong> à celles des composants explicites (<code>o-if</code>, <code>o-fill</code>). En effet, les composants non explicites ne sont pas réellement rendus dans le DOM, nécessitant une logique de rendu simulé supplémentaire pour gérer le positionnement et la mise à jour des éléments internes.</p>
+        <p>De plus, les composants non explicites peuvent introduire des bugs difficiles à détecter : comme ils ne sont pas réellement insérés dans le DOM, les opérations qui dépendent de la structure du DOM (comme la liaison d'événements, le calcul de styles ou les requêtes de bibliothèques tierces) peuvent échouer ou se comporter de manière anormale.</p>
+        <p>Par conséquent, il est conseillé de <strong>préférer les composants explicites</strong> (<code>o-if</code>, <code>o-else-if</code>, <code>o-else</code>, <code>o-fill</code>) et de n'utiliser les composants non explicites que dans des situations spécifiques.</p>
+        <h2>Scénarios d'utilisation</h2>
+        <p>Bien que les composants implicites aient des performances inférieures, ils peuvent être utilisés dans les scénarios suivants :</p>
+        <ol>
+          <li><strong>Éviter les niveaux DOM supplémentaires</strong> : lorsque vous ne souhaitez pas que les éléments <code>o-if</code> ou <code>o-fill</code> fassent partie de la structure DOM </li>
+          <li><strong>Héritage des styles</strong> : lorsque vous avez besoin que les éléments internes héritent directement des styles du conteneur parent, sans être influencés par des éléments de composants intermédiaires </li>
+          <li><strong>Limitations des sélecteurs CSS</strong> : lorsque vous devez utiliser des sélecteurs d’enfant direct du parent (comme <code>.container &gt; .item</code>) pour contrôler précisément les styles, sans qu’un élément d’emballage supplémentaire ne s’interpose</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

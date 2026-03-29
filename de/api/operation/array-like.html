@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hinzufügen oder Löschen von Unterelementen</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Hinzufügen oder Löschen von Unterelementen</h1>
+        <p>Element-Instanzen haben array-ähnliche Eigenschaften. Das Hinzufügen oder Löschen von Knoten kann einfach mit den üblichen Array-Methoden erfolgen. Bei Verwendung der Methoden <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code> und <code>splice</code> führt das System intern automatisch die Initialisierungsoperation der <a href="../instance/dollar.html" olink="">$-Methode</a> aus, sodass direkt konkrete Elementzeichenketten oder Objekte angegeben werden können.</p>
+        <p>Ebenso können Sie andere Array-Methoden verwenden, z. B. <code>forEach</code>, <code>map</code>, <code>some</code> usw.</p>
+        <p><strong>Bitte beachten Sie, dass bei Elementen mit Vorlagensyntax keine Kindelemente hinzugefügt oder entfernt werden sollen.</strong></p>
+        <h2>push</h2>
+        <p>Fügen Sie ein untergeordnetes Element vom Ende hinzu.</p>
+        <o-playground name="array-like - push" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>Ich bin 1</li>
+        <li>Ich bin 2</li>
+        <li>Ich bin 3</li>
+      </ul>
+      <script>
+        setTimeout(()=>{
+          \$("ul").push(`<li style="color:red;">neues li</li>`);
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>unshift</h2>
+        <p>Fügen Sie ein untergeordnetes Element am Anfang des Arrays ein.</p>
+        <o-playground name="array-like - unshift" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>Ich bin 1</li>
+        <li>Ich bin 2</li>
+        <li>Ich bin 3</li>
+      </ul>
+      <script>
+        setTimeout(()=>{
+          \$("ul").unshift(`<li style="color:blue;">neues li</li>`);
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>pop</h2>
+        <p>Entfernen Sie Unterelemente vom Ende.</p>
+        <o-playground name="array-like - pop" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>Ich bin 1</li>
+        <li>Ich bin 2</li>
+        <li>Ich bin 3</li>
+      </ul>
+      <script>
+        setTimeout(()=>{
+          \$("ul").pop();
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>shift</h2>
+        <p>Ein Unterelement am Anfang des Arrays löschen.</p>
+        <o-playground name="array-like - shift" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>Ich bin 1</li>
+        <li>Ich bin 2</li>
+        <li>Ich bin 3</li>
+      </ul>
+      <script>
+        setTimeout(()=>{
+          \$("ul").shift();
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>splice</h2>
+        <p>Sie können vorhandene Kindelemente löschen oder ersetzen und neue Kindelemente hinzufügen. Die Verwendung ähnelt der <code>splice</code>-Methode von Arrays.</p>
+        <o-playground name="array-like - splice" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li>Ich bin 1</li>
+        <li>Ich bin 2</li>
+        <li>Ich bin 3</li>
+      </ul>
+      <script>
+        setTimeout(()=>{
+          \$("ul").splice(1, 2, `<li style="color:green;">neues li 1</li>`, `<li style="color:green;">neues li 2</li>`);
+        }, 500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

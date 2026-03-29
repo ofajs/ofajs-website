@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>on</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>on</h1>
+        <p>Mit der Methode <code>on</code> können Sie Ereignis-Handler für Zielelemente registrieren. Dadurch können Sie Benutzerinteraktionen einfach erfassen und darauf reagieren.</p>
+        <p>Hier ist ein Beispiel, das zeigt, wie man die <code>on</code>-Methode verwendet, um einen Klick-Event-Handler für ein Schaltflächenelement zu registrieren:</p>
+        <o-playground name="on - click Event" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <button id="target">add count</button>
+      <br>
+      <br>
+      <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$("#target").on("click", ()=> {
+          \$("#logger").text = count++;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>In diesem Beispiel verwenden wir die <code>on</code>-Methode, um einen Klick-Event-Handler für das Schaltflächenelement hinzuzufügen. Wenn der Benutzer auf die Schaltfläche klickt, wird der Event-Handler ausgelöst, der Zähler wird erhöht und das Ergebnis wird auf der Seite angezeigt.</p>
+        <h2>Verwendung auf Template-Syntax-Weise</h2>
+        <p>Sie können auch Template-Syntax verwenden, um Methoden an Zielelemente zu binden.</p>
+        <o-playground name="on - 模板语法" style="--editor-height: 400px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./on-demo.html"></l-m>
+      <on-demo></on-demo>
+    </template>
+  </code>
+          <code path="on-demo.html" active>
+    <template component>
+      <button on:click="addCount">Add Count</button>
+      <div>{{count}}</div>
+      <script>
+        export default {
+          tag: "on-demo",
+          data: {
+            count: 0
+          },
+          proto:{
+            addCount(){
+              this.count++;
+            }
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>In diesem Beispiel binden wir mit <code>on:click</code> auf dem Button-Element eine Methode namens <code>addCount</code>. Wenn der Benutzer auf den Button klickt, wird diese Methode aufgerufen, der Zählerwert erhöht sich und wird auf der Seite angezeigt. Auf diese Weise kannst du Event-Handler mit Methoden der Komponente verknüpfen und komplexere Interaktionen realisieren.</p>
+        <h2>event</h2>
+        <p>Nach der Registrierung eines Ereignisses wird die ausgelöste Funktion mit dem Event-Parameter versehen, um mit dem nativen Verhalten übereinzustimmen:</p>
+        <o-playground name="on - event 参数" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <button id="target">Zähler erhöhen</button>
+      <br>
+      <br>
+      <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$("#target").on("click", (event)=> {
+          \$("#logger").text = event.type;
+        });
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

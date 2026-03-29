@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benutzerdefinierte Ereignisse</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Benutzerdefinierte Ereignisse</h1>
+        <p>In ofa.js können Sie neben den integrierten DOM-Ereignissen auch benutzerdefinierte Ereignisse erstellen und verwenden, um die Kommunikation zwischen Komponenten zu ermöglichen. Benutzerdefinierte Ereignisse sind ein wichtiger Mechanismus in der komponentenbasierten Entwicklung, da sie es Komponenten ermöglichen, Nachrichten oder Statusänderungen nach oben zu übertragen.</p>
+        <h2>emit-Methode - Benutzerdefinierte Ereignisse auslösen</h2>
+        <p>Die Methode <code>emit</code> wird verwendet, um benutzerdefinierte Ereignisse auszulösen und Zustandsänderungen innerhalb der Komponente oder Benutzeraktionen an externe Beobachter zu melden.</p>
+        <h3>Grundlegende Verwendung</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Ein einfaches benutzerdefiniertes Ereignis auslösen</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'custom-event'</span>);
+
+<span class="hljs-comment">// Ein benutzerdefiniertes Ereignis mit Daten auslösen</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'data-changed'</span>, {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-comment">// Benutzerdefinierte Daten, beliebige Struktur je nach Anforderungen</span>
+    <span class="hljs-attr">newValue</span>: <span class="hljs-number">100</span>,
+    <span class="hljs-attr">oldValue</span>: <span class="hljs-number">50</span>
+  }
+});</code></pre>
+        <h3>emit-Methode Parameter</h3>
+        <p>Die <code>emit</code>-Methode akzeptiert zwei Parameter:</p>
+        <ol>
+          <li><strong>Ereignisname</strong>: Zeichenkette, die den Namen des auszulösenden Ereignisses angibt</li>
+          <li><strong>Optionsobjekt</strong> (optional): Enthält Konfigurationsoptionen für das Ereignis<ul>
+              <li><code>data</code>: zu übermittelnde Daten</li>
+              <li><code>bubbles</code>: Boolescher Wert, steuert, ob das Ereignis bubblen soll (Standardwert ist true)</li>
+              <li><code>composed</code>: Boolescher Wert, steuert, ob das Ereignis Shadow-DOM-Grenzen überwinden kann</li>
+              <li><code>cancelable</code>: Boolescher Wert, steuert, ob das Ereignis abgebrochen werden kann</li>
+            </ul>
+          </li>
+        </ol>
+        <p>Dann kann das übergeordnete Element dieses benutzerdefinierte Ereignis mit der <code>on</code>-Methode <a href="./event-binding.html" olink="">(Ereignisbindung)</a> überwachen.</p>
+        <h3>emit Verwendungsbeispiel</h3>
+        <o-playground name="Emit Verwendungsbeispiel" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page="">
+      <l-m src="./my-component.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <h3 style="color:blue;">{{val}}</h3>
+      <my-component on:button-clicked="handleButtonClick"></my-component>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "ofajs",
+            },
+            proto: {
+              handleButtonClick(event) {
+                this.val = JSON.stringify(event.data);
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="my-component.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      </style>
+      <button on:click="handleClick">Klicken, um Ereignis auszulösen</button>
+      <script>
+        export default async () => {
+          return {
+            tag: "my-component",
+            proto: {
+              handleClick() {
+                this.emit('button-clicked', {
+                  data: {
+                    message: 'Button wurde geklickt',
+                    timestamp: Date.now()
+                  },
+                });
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>bubbles - Ereignisblasen-Mechanismus</h2>
+        <p><code>bubbles</code> 属性 steuert, ob ein Ereignis an übergeordnete Elemente nach oben weitergeleitet wird. Wenn es auf <code>true</code> gesetzt ist, breitet sich das Ereignis entlang des DOM-Baums nach oben aus. Der Standardwert ist <code>true</code>. Wenn es auf <code>false</code> gesetzt ist, wird das Ereignis nicht weitergeleitet.</p>
+        <h3>Detaillierte Erklärung des Bubble-Mechanismus</h3>
+        <ul>
+          <li><strong>Standardverhalten</strong>: Mit <code>emit</code> ausgelöste Ereignisse haben standardmäßig Blasen aktiviert (<code>bubbles: true</code>)</li>
+          <li><strong>Blasenpfad</strong>: Das Ereignis beginnt beim auslösenden Element und verbreitet sich stufenweise nach oben</li>
+          <li><strong>Blasen stoppen</strong>: Der Aufruf von <code>event.stopPropagation()</code> im Ereignis-Handler verhindert das Weiterblasen</li>
+        </ul>
+        <h3>Blasensortierungsbeispiel</h3>
+        <o-playground name="Benutzerdefinierte Ereignis-Beispiel" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page="">
+      <l-m src="./bubble-component.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          padding: 20px;
+          border: 1px solid blue;
+        }
+      </style>
+      <div on:child-event="handleChildEventFromComponent">
+        <bubble-component on:child-event="handleDirectChildEvent"></bubble-component>
+      </div>
+      <p>Äußerer Container (hört Bubbling-Ereignis): {{bubbledEventCount}} mal</p>
+      <p>Inneres Komponente (hört direktes Ereignis): {{directEventCount}} mal</p>
+      <p>Empfangene Daten: <span style="color:red;">{{result}}</span></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              result:"-",
+              bubbledEventCount: 0,
+              directEventCount: 0
+            },
+            proto: {
+              handleDirectChildEvent(event) {
+                this.directEventCount++;
+                this.result = event.data;
+              },
+              handleChildEventFromComponent(event) {
+                this.bubbledEventCount++;
+                this.result = event.data;
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="bubble-component.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          padding: 15px;
+          border: 1px solid green;
+        }
+      </style>
+      <button on:click="triggerNonBubblingEvent">Nicht-Bubbling-Ereignis auslösen</button>
+      <button on:click="triggerBubblingEvent">Bubbling-Ereignis auslösen</button>
+      <script>
+        export default async () => {
+          return {
+            tag: "bubble-component",
+            proto: {
+              triggerNonBubblingEvent() {
+                // Nicht-Bubbling-Ereignis, wird nur vom direkten Listener erfasst
+                this.emit('child-event', {
+                  data: { type: 'non-bubbling', message: 'Nicht-Bubbling-Ereignis ausgelöst', timestamp: Date.now() },
+                  bubbles: false
+                });
+              },
+              triggerBubblingEvent() {
+                // Bubbling-Ereignis, wird zum Elternelement hochpropagiert
+                this.emit('child-event', {
+                  data: { type: 'bubbling', message: 'Bubbling-Ereignis ausgelöst', timestamp: Date.now() },
+                  bubbles: true
+                });
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>composed - Durchdringung der Shadow DOM-Grenze</h2>
+        <p>Das <code>composed</code>-Attribut steuert, ob Ereignisse die Shadow-DOM-Grenze passieren können. Dies ist besonders wichtig für die Web Components-Entwicklung, der Standardwert ist <code>false</code>.</p>
+        <h3>Durchdringungsmechanismus im Detail</h3>
+        <ul>
+          <li><strong>Shadow DOM-Isolierung</strong>: Standardmäßig können Ereignisse nicht über Shadow DOM-Grenzen hinweggehen</li>
+          <li><strong>Durchdringung aktivieren</strong>: Setzen Sie <code>composed: true</code>, um Ereignissen das Durchqueren von Shadow DOM-Grenzen zu ermöglichen</li>
+          <li><strong>Anwendungsfälle</strong>: Wenn eine Komponente Ereignisse an die Host-Umgebung senden muss, muss <code>composed: true</code> gesetzt werden</li>
+        </ul>
+        <h3>Durchdringungsbeispiel</h3>
+        <o-playground name="Benutzerdefiniertes Ereignis mit Daten-Beispiel" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page="">
+      <l-m src="./bubble-component.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          padding: 20px;
+          border: 1px solid blue;
+        }
+      </style>
+      <div on:child-event="handleChildEventFromComponent">
+        <bubble-component></bubble-component>
+      </div>
+      <p>监听事件: {{bubbledEventCount}} 次</p>
+      <p>接受到的数据: <span style="color:red;">{{result}}</span></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              result:"-",
+              bubbledEventCount: 0,
+            },
+            proto: {
+              handleChildEventFromComponent(event) {
+                this.bubbledEventCount++;
+                this.result = event.data;
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="bubble-component.html">
+    <template component="">
+      <l-m src="./child-component.html"></l-m>
+      <style>
+        :host{
+          display: block;
+          padding: 15px;
+          border: 1px solid gray;
+        }
+      </style>
+      <child-component on:child-event="handleChildEventFromComponent"></child-component>
+      <p>监听事件: {{bubbledEventCount}} 次</p>
+      <p>接受到的数据: <span style="color:pink;">{{result}}</span></p>
+      <script>
+        export default async () => {
+          return {
+            tag: "bubble-component",
+            data: {
+              result:"-",
+              bubbledEventCount: 0,
+            },
+            proto: {
+              handleChildEventFromComponent(event) {
+                this.bubbledEventCount++;
+                this.result = event.data;
+              },
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="child-component.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          padding: 15px;
+          border: 1px solid green;
+        }
+      </style>
+      <button on:click="triggerNonComposedEvent">触发非穿透事件</button>
+      <button on:click="triggerComposedEvent">触发穿透事件</button>
+      <script>
+        export default async () => {
+          return {
+            tag: "child-component",
+            proto: {
+              triggerNonComposedEvent() {
+                // 非穿透事件，只会被直接监听者捕获
+                this.emit('child-event', {
+                  data: { type: 'non-composed', message: '非穿透事件触发', timestamp: Date.now() },
+                  composed: false
+                });
+              },
+              triggerComposedEvent() {
+                // 穿透事件，会跨越 Shadow DOM 边界
+                this.emit('child-event', {
+                  data: { type: 'composed', message: '穿透事件触发', timestamp: Date.now() },
+                  composed: true
+                });
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

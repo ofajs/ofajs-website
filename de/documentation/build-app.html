@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produktion und Bereitstellung</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Produktion und Bereitstellung</h1>
+        <p>Projekte, die mit ofa.js entwickelt wurden, können direkt auf einem statischen Server bereitgestellt und verwendet werden.</p>
+        <h2>Entwicklungsumgebung</h2>
+        <p>Sie können das offizielle <a href="https://core.noneos.com/?redirect=studio" target="_blank">ofa Studio</a> für die Entwicklung verwenden, das eine One-Click-Projekterstellung und Vorschau bietet.</p>
+        <p>Sie können auch einen eigenen statischen Server einrichten:</p>
+        <ul>
+          <li>Verwenden Sie statische Server-Software wie Nginx oder Apache</li>
+          <li>Verwenden Sie das <a href="https://www.npmjs.com/package/http-server" target="_blank">http-server</a>-Modul von Node.js</li>
+          <li>Verwenden Sie direkt das statische Server-Plugin des Editors zur Vorschau</li>
+        </ul>
+        <h2>Produktionsumgebung</h2>
+        <h3>Projekt exportieren</h3>
+        <p>Wenn du ein Projekt mit <a href="https://core.noneos.com/?redirect=studio" target="_blank">ofa Studio</a> erstellt hast, verwende einfach die integrierte Exportfunktion des Tools.</p>
+        <p>Wenn es sich um ein manuell erstelltes Projekt handelt, können Sie den Projektordner direkt auf einem statischen Server bereitstellen, wobei das gleiche Muster wie in der Entwicklungsumgebung beibehalten wird.</p>
+        <h3>Komprimierung und Obfuskation</h3>
+        <p>In der Produktionsumgebung werden normalerweise Komprimierungs- und Obfuskierungswerkzeuge verwendet, um die Dateigröße zu verringern und die Ladegeschwindigkeit zu erhöhen. Sie können <a href="https://terser.org/docs/cli-usage/" target="_blank">Terser CLI</a> für die Komprimierung und Obfuskierung verwenden.</p>
+        <p>Falls Sie keine Kommandozeilentools verwenden möchten, können Sie <a href="https://builder.ofajs.com/" target="_blank">ofa build</a> online nutzen, um Dateien zu komprimieren und zu verschleiern. Dieses Tool befindet sich derzeit in der Testversion und wird später in ofa Studio integriert.</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

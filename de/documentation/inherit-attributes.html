@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attribute übergeben</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Attribute übergeben</h1>
+        <p>In ofa.js sind <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/attributes" target="_blank">Attribut-Eigenschaften (Attribute)</a> eine der gebräuchlichsten Methoden zur Datenübertragung zwischen Komponenten. Man muss nur die erforderlichen Attribute im <code>attrs</code>-Objekt der Komponente deklarieren, dann können beim Verwenden der Komponente externe Daten in die Komponente übergeben werden.</p>
+        <h2>Grundlegende Verwendung</h2>
+        <h3>Empfangsattribute definieren</h3>
+        <p>Bevor Sie eine Komponente verwenden, müssen Sie die gewünschten Eigenschaften im <code>attrs</code>-Objekt der Komponente deklarieren. Eigenschaften können Standardwerte erhalten.</p>
+        <o-playground name="Grundlegende Verwendungsbeispiele" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp first="OFA" full-name="OFA Komponentenbeispiel"></demo-comp>
+      <br>
+      <demo-comp first="NoneOS" full-name="NoneOS Anwendungsfall"></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>
+      <p>Vorname: {{first}}</p>
+      <p>Vollständiger Name: {{fullName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            attrs: {
+              first: null,
+              fullName:""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>Wichtige Regeln</h3>
+        <ol>
+          <li>
+            <p><strong>Typbeschränkung</strong>: Der übergebene Attributwert muss ein String sein; andere Typen werden automatisch in Strings umgewandelt.</p>
+          </li>
+          <li>
+            <p><strong>Namenskonvertierung</strong>: Da HTML-Attribute Groß- und Kleinschreibung ignorieren, müssen Attribute mit Großbuchstaben im Namen durch <code>-</code> getrennt (kebab-case) übergeben werden.</p>
+            <ul>
+              <li>Beispiel: <code>fullName</code> → <code>full-name</code></li>
+            </ul>
+          </li>
+          <li>
+            <p><strong>Definition erforderlich</strong>: Kann das entsprechende Attribut nicht im <code>attrs</code>-Objekt der Komponente gefunden werden, wird das Attribut nicht empfangen. Der gesetzte Wert ist der Standardwert; wenn kein Standardwert gewünscht ist, muss <code>null</code> gesetzt werden.</p>
+          </li>
+        </ol>
+        <o-playground name="Beispiel für wichtige Regeln" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp></demo-comp>
+      <demo-comp user-name="张三" age="25"></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>
+      <p>Benutzername: {{userName}}</p>
+      <p>Alter: {{age}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            attrs: {
+              userName: "Standardname",
+              age: "0"
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Vorlagensyntax zum Weitergeben von Attributen</h2>
+        <p>In der Komponentenvorlage kann mit der Syntax <code>attr:toKey="fromKey"</code> das <code>fromKey</code>-Datenfeld der aktuellen Komponente an das <code>toKey</code>-Attribut der untergeordneten Komponente übergeben werden.</p>
+        <o-playground name="Eigenschaftsübergabe Beispiel" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html" active="">
+    <template page="">
+      <l-m src="./demo-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <textarea sync:value="val"></textarea>
+      <br>
+      👇
+      <demo-comp attr:full-name="val"></demo-comp>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>
+      <p>Vollständiger Name: {{fullName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+            attrs: {
+              fullName:""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Mehrstufige Weitergabe</h2>
+        <p>可以通过多层嵌套组件逐层传递 attribute。</p>
+        <p>Wenn eine Komponente von anderen Komponenten abhängig ist, muss das Modul der anderen Komponenten in der Komponente importiert werden.</p>
+        <o-playground name="Mehrebenen-Übergabebeispiel" style="--editor-height: 700px">
+          <code path="demo.html" preview="">
+    <template>
+      <l-m src="./outer-comp.html"></l-m>
+      <outer-comp user-name="Top-Level-Daten"></outer-comp>
+    </template>
+  </code>
+          <code path="outer-comp.html" active="">
+    <template component="">
+      <l-m src="./inner-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid blue;
+          padding: 8px;
+          margin-bottom: 8px;
+        }
+      </style>
+      <p>Äußere Komponente empfängt: {{userName}}</p>
+      <inner-comp attr:user-name="userName"></inner-comp>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "outer-comp",
+            attrs: {
+              userName: ""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="inner-comp.html" active="">
+    <template component="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin-left: 20px;
+        }
+      </style>
+      <p>Innere Komponente empfängt: {{userName}}</p>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "inner-comp",
+            attrs: {
+              userName: ""
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>
