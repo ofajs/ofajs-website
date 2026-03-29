@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>host</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>host</h1>
+        <p>使用 <code>host</code> 屬性，可以獲取元素的宿主組件實例。這對於在組件內部訪問其宿主組件的數據和方法非常有用。</p>
+        <p>下面是一個示例，演示如何使用 <code>host</code> 屬性獲取宿主組件的實例：</p>
+        <o-playground name="host - 獲取宿主" style="--editor-height: 700px">
+          <code path="demo.html" preview>
+    <template>
+      <o-page src="./page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <l-m src="./user-card.html"></l-m>
+      <user-card username="tom"></user-card>
+      <script>
+        export default async function(){
+          return {
+            data: {
+              greeting: "Hello"
+            },
+            proto: {
+              sayHi(){
+                return `${this.greeting}, I'm the host!`;
+              }
+            }
+          };
+        }
+      </script>
+    </template>
+  </code>
+          <code path="user-card.html" active>
+    <template component>
+      <style>
+        :host{display:block;border:1px solid #ddd;padding:12px;margin:8px;border-radius:4px;}
+      </style>
+      <div>Username: {{username}}</div>
+      <button on:click="onClick">Say Hi</button>
+      <div>Response: {{response}}</div>
+      <script>
+        export default {
+          tag: "user-card",
+          attrs:{
+            username: null
+          },
+          data: {
+            response: "-"
+          },
+          proto: {
+            onClick(){
+              this.response = this.host.sayHi();
+            }
+          },
+          ready(){
+            console.log("Host method:", this.host.sayHi());
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們創建瞭一個自定義組件 <code>user-card</code>，並在組件內部通過 <code>this.host</code> 訪問宿主組件（頁面）的方法 <code>sayHi</code>，實現瞭組件與宿主之間的交互。</p>
+        <p>如菓元素不在組件或頁面模塊內，<code>host</code> 的值將爲 <code>null</code>。例如：</p>
+        <o-playground name="host - 無宿主情況" style="--editor-height: 300px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li id="target">
+          I am target
+        </li>
+      </ul>
+      <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
+      <script>
+        setTimeout(()=>{
+          $("#logger").text = String($("#target").host);
+        },500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，<code>#target</code> 元素在 body 下，不在任何組件或頁面內，所以 <code>$(&quot;#target&quot;).host</code> 的值爲 <code>null</code>。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

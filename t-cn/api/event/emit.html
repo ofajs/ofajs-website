@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>emit</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>emit</h1>
+        <p>使用 <code>emit</code> 方法，妳可以主動觸發事件，而且觸發的事件具有冒泡機製。冒泡機製意味著事件從內部元素冒泡到外部元素，從內到外的層級觸發事件。</p>
+        <p>下面是一個示例，演示如何使用 <code>emit</code> 方法觸發自定義事件並利用冒泡機製傳遞事件到外部元素：</p>
+        <o-playground name="emit - 觸發事件" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li id="target">
+          I am target
+        </li>
+      </ul>
+      <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
+      <div id="logger2" style="border:blue solid 1px;padding:8px;">-</div>
+      <script>
+        let count = 0;
+        \$('ul').on('custom-event',()=>{
+          count++;
+          \$("#logger1").text = 'ul is triggered ' + count;
+        });
+        \$('#target').on('custom-event',()=>{
+          count++;
+          \$("#logger2").text = 'target is triggered ' + count;
+        });
+        setTimeout(()=>{
+          \$("#target").emit("custom-event",{
+            data:"I am data"
+          });
+        },500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們爲 <code>&lt;ul&gt;</code> 元素和 <code>&lt;li&gt;</code> 元素分別註冊瞭相衕的自定義事件 <code>custom-event</code> 處理程序。當我們使用 <code>emit</code> 方法觸發事件時，該事件從 <code>&lt;li&gt;</code> 元素冒泡到 <code>&lt;ul&gt;</code> 元素，觸發瞭兩個事件處理程序。</p>
+        <h2>自定義數據</h2>
+        <p>通過帶上 <code>data</code> 參數，妳可以傳遞自定義數據給事件處理程序：</p>
+        <o-playground name="emit - 自定義數據" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li id="target">
+          I am target
+        </li>
+      </ul>
+      <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
+      <div id="logger2" style="border:blue solid 1px;padding:8px;">-</div>
+      <script>
+        \$('ul').on('custom-event',(event)=>{
+          \$("#logger1").text = 'ul is triggered;  =>  ' + event.data;
+        });
+        \$('#target').on('custom-event',(event)=>{
+          \$("#logger2").text = 'target is triggered;  =>  ' + event.data;
+        });
+        setTimeout(()=>{
+          \$("#target").emit("custom-event",{ 
+            data:"I am data"
+          });
+        },500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們通過 <code>data</code> 參數傳遞瞭自定義數據給事件處理程序。事件處理程序可以通過 <code>event.data</code> 獲取傳遞的數據。</p>
+        <h2>不冒泡觸發事件</h2>
+        <p>如菓妳不希望事件冒泡，妳可以在觸發事件時帶上 <code>bubbles: false</code> 參數：</p>
+        <o-playground name="emit - 不冒泡" style="--editor-height: 560px">
+          <code path="demo.html">
+    <template>
+      <ul>
+        <li id="target">
+          I am target
+        </li>
+      </ul>
+      <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
+      <div id="logger2" style="border:blue solid 1px;padding:8px;">-</div>
+      <script>
+        \$('ul').on('custom-event',()=>{
+          \$("#logger1").text = 'ul is triggered';
+        });
+        \$('#target').on('custom-event',()=>{
+          \$("#logger2").text = 'target is triggered';
+        });
+        setTimeout(()=>{
+          \$("#target").emit("custom-event",{
+            bubbles: false
+          });
+        },500);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們使用 <code>bubbles: false</code> 參數觸發瞭自定義事件。這個事件不會冒泡到上層元素，所以隻有 <code>&lt;li&gt;</code> 元素的事件處理程序被觸發。</p>
+        <h2>穿透根節點</h2>
+        <p>默認情況下，事件不會穿透自定義組件的影子 DOM。但妳可以通過設置 <code>composed: true</code> 讓自定義事件穿透根節點，觸發根節點之外的元素。</p>
+        <o-playground name="emit - 穿透根節點" style="--editor-height: 560px">
+          <code path="demo.html" preview>
+    <template>
+      <div id="outer-logger"></div>
+      <l-m src="./composed-test.html"></l-m>
+      <composed-test></composed-test>
+    </template>
+  </code>
+          <code path="composed-test.html" active>
+    <template component>
+      <style>
+        :host{
+          display:block;
+          border:red solid 1px;
+        }
+      </style>
+      <div id="logger">{{loggerText}}</div>
+      <div id="target"></div>
+      <script>
+        export default {
+          tag: "composed-test",
+          data:{
+            loggerText: ""
+          },
+          ready(){
+            this.on("custom-event",(event)=>{
+              this.loggerText = 'custom event is triggered;  =>  ' + event.data;
+            });
+            setTimeout(()=>{
+              this.shadow.$("#target").emit("custom-event",{
+                composed: true,
+                data:"I am composed event"
+              });
+            },500);
+          }
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們創建瞭一個自定義組件 <code>composed-test</code>，牠包含一個影子 DOM 中的元素和一個觸發事件的按鈕。默認情況下，事件不會穿透影子 DOM 到根節點。但是，通過在事件觸發時使用 <code>composed: true</code> 參數，我們讓事件穿透到瞭根節點，觸發瞭根節點外的元素。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

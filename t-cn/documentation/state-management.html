@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>狀態管理</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>狀態管理</h1>
+        <h2>什麼是狀態</h2>
+        <p>在ofa.js中，<strong>狀態</strong>是指組件或頁面模塊自身的 <code>data</code> 屬性。這個狀態隻能在當前組件上使用，用於存儲和管理該組件的內部數據。</p>
+        <p>當有多個組件或頁面需要共享衕一份數據時，傳統的做法是通過事件傳遞或 props 層層傳遞，這種方式在復雜應用中會導緻代碼難以維護。因此需要<strong>狀態管理</strong>——通過定義一個共享的狀態對象，讓多個組件或頁面模塊都可以訪問和脩改這份數據，從而實現狀態的共享。</p>
+        <blockquote>
+          <p><strong>提示</strong>：狀態管理適用於需要跨組件、跨頁面共享數據的場景，如用戶信息、購物車、主題配置、全侷配置等。</p>
+        </blockquote>
+        <h2>生成狀態對象</h2>
+        <p>通過 <code>$.stanz({})</code> 來創建一個響應式的狀態對象。這個方法接收一個普通對象作爲初始數據，返迴一個響應式的狀態代理。</p>
+        <h3>基本用法</h3>
+        <o-playground name="狀態管理示例" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js" unimportant>
+    // 應用首頁地址
+    export const home = "./list.html";
+    // 頁面切換動畫配置
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="data.js">
+  export const contacts = $.stanz({
+    list: [{
+        id: 10010,
+        name: "皮特",
+        info: "每一天都是新的開始，陽光總在風雨後。",
+    },{
+        id: 10020,
+        name: "邁剋",
+        info: "生活就像海洋，隻有意誌堅強的人纔能到達彼岸。",
+    },{
+        id: 10030,
+        name: "約翰",
+        info: "成功的祕訣在於堅持自己的夢想，永不放棄。",
+    }]
+  });
+  // await fetch("/list.api").then(e=>e.json()).then(list=>data.list = list)
+  </code>
+          <code path="list.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <h2>通訊錄</h2>
+      <ul>
+        <o-fill :value="list">
+          <li>
+          Name: {{$data.name}} <button on:click="$host.gotoDetail($data)">Detail</button>
+          </li>
+        </o-fill>
+      </ul>
+      <script>
+        export default async ({load}) => {
+          const { contacts } = await load("./data.js");
+          return {
+            data: {
+              list:[]
+            },
+            proto:{
+                gotoDetail(user){
+                    this.goto(`./detail.html?id=${user.id}`);
+                }
+            },
+            attached(){
+              this.list = contacts.list;
+            },
+            detached(){
+              this.list = []; // 組件銷毀時，清空掛載的狀態數據
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="detail.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+        .avatar{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(204, 204, 204, 1);
+            color: rgba(58, 58, 58, 1);
+        }
+        .user-info{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <div class="user-info">
+        <div class="avatar">Avatar</div>
+        <div style="font-size: 24px;">
+        UserName: 
+          <o-if :value="editorMode">
+            <input type="text" sync:value="userData.name"/>
+            <button on:click="editorMode = false">✅</button>
+          </o-if>
+          <o-else>
+            <span>{{userData.name}}</span>
+            <button on:click="editorMode = true">🖊️</button>
+          </o-else>
+        </div>
+        <div style="font-size: 16px;">UserID: {{userData.id}}</div>
+        <p style="font-size: 14px;">{{userData.info}}</p>
+      </div>
+      <script>
+        export default async ({ load,query }) => {
+          const { contacts } = await load("./data.js");
+          return {
+            data: {
+              userData:{},
+              editorMode:false
+            },
+            attached(){
+              this.userData = contacts.list.find(e=>e.id == query.id);
+            },
+            detached(){
+              this.userData = {}; // 組件銷毀時，清空掛載的狀態數據
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>狀態對象的特性</h2>
+        <h3>1. 響應式更新</h3>
+        <p><code>$.stanz()</code> 創建的狀態對象是響應式的。當狀態數據發生變化時，所有引用該數據的組件都會自動更新。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
+
+<span class="hljs-comment">// 在組件中</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">store</span>: {}
+  },
+  <span class="hljs-attr">proto</span>:{
+    <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// 所有引用瞭 store.count 的組件都會自動更新</span>
+    }
+  },
+  <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// 直接引用狀態對象的屬性</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
+  },
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// 組件銷毀時，清空掛載的狀態數據</span>
+  }
+};</code></pre>
+        <h3>2. 深度響應式</h3>
+        <p>狀態對象支持深度響應式，嵌套對象和數組的變化也會被監聽。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
+  <span class="hljs-attr">user</span>: {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;張三&quot;</span>,
+    <span class="hljs-attr">settings</span>: {
+      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
+    }
+  },
+  <span class="hljs-attr">list</span>: []
+});
+
+<span class="hljs-comment">// 脩改嵌套屬性也會觸發更新</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;李四&quot;</span>;
+store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
+store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新任務&quot;</span> });</code></pre>
+        <h2>最佳實踐</h2>
+        <h3>1. 在組件 attached 階段掛載狀態</h3>
+        <p>推薦在組件的 <code>attached</code> 生命周期中掛載共享狀態：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">list</span>: []
+  },
+  <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// 將共享狀態掛載到組件的 data 上</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
+  },
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// 組件銷毀時，清空掛載的狀態數據，防止內存洩漏</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
+  }
+};</code></pre>
+        <h3>2. 閤理管理狀態作用域</h3>
+        <ul>
+          <li><strong>全侷狀態</strong>：適用於整個應用都需要訪問的數據（如用戶信息、全侷配置）</li>
+          <li><strong>模塊狀態</strong>：適用於特定功能模塊內部共享的數據</li>
+        </ul>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 全侷調用狀態</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
+
+<span class="hljs-comment">// 模塊內使用的狀態</span>
+<span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
+        <h2>模塊內狀態管理</h2>
+        <o-playground name="模塊內狀態管理示例" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <l-m src="./demo-comp.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          padding: 8px;
+        }
+      </style>
+      <button on:click="addItem">Add Item</button>
+      <o-fill :value="list">
+        <div>{{$index}} - <demo-comp :val="$data.val"></demo-comp></div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+                list:[{
+                    val:Math.random().toString(36).slice(2, 6)
+                }]
+            },
+            proto:{
+                addItem(item){
+                    this.list.push({
+                        val:Math.random().toString(36).slice(2, 6)
+                    });
+                }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host{
+            display: inline-block;
+        }
+      </style>
+      {{val}} - {{cartStore.total}} <button on:click="addStoreTotal">Add Store Total</button>
+      <script>
+        const cartStore = $.stanz({ total: 0 });
+        export default async () => {
+          return {
+            tag: "demo-comp",
+            data: {
+                val:"",
+                cartStore:{}
+            },
+            proto:{
+                addStoreTotal(){
+                    this.cartStore.total++;
+                }
+            },
+            attached(){
+                this.cartStore = cartStore;
+            },
+            detached(){
+                this.cartStore = {}; // 組件銷毀時，清空掛載的狀態數據
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>註意事項</h2>
+        <ol>
+          <li>
+            <p><strong>狀態清理</strong>：在組件的 <code>detached</code> 生命周期中，及時清理對狀態數據的引用，避免內存洩漏。</p>
+          </li>
+          <li>
+            <p><strong>避免循環依賴</strong>：狀態對象之間不要形成循環引用，這可能導緻響應式系統齣現問題。</p>
+          </li>
+          <li>
+            <p><strong>大型數據結構</strong>：對於大型數據結構，考慮使用計算屬性或分片管理，避免不必要的性能開銷。</p>
+          </li>
+          <li>
+            <p><strong>狀態一緻性</strong>：在異步操作中註意狀態的一緻性，可以使用事務或批量更新來保證數據的完整性。</p>
+          </li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

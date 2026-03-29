@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>實例數據特徵</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>實例數據特徵</h1>
+        <p>通過 <code>$</code> 獲取或創建的實例對象，擁有完整 stanz 數據特性，因爲 <code>$</code> 實例是從 stanz 繼承而來的。這意味著妳可以利用 <code>stanz</code> 提供的數據操作方法和特性來操作和監聽實例對象的數據。</p>
+        <blockquote>
+          <p>以下示例使用常規元素，因爲自定義組件通常自帶已註冊的數據，而常規元素通常隻包含標籤信息，因此更適閤用於演示。</p>
+        </blockquote>
+        <h2>watch</h2>
+        <p>實例可以通過 <code>watch</code> 方法監聽值的變動；卽使改動瞭對象的子對象的值，也能在對象的 <code>watch</code> 方法中監聽到變動。</p>
+        <p>下面是一個示例，演示如何使用 <code>$</code> 實例和 <code>watch</code> 方法：</p>
+        <o-playground name="stanz - watch" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger" style="border: #aaa solid 1px; padding: 8px"></div>
+      <script>
+        const target = $("#target");
+        \$("#logger").text = target;
+        target.watch(() => {
+          \$("#logger").text = target;
+        });
+        setTimeout(() => {
+          target.aaa = "I am aaa";
+        }, 600);
+        setTimeout(() => {
+          target.bbb = {
+            child: {
+              val: "I am bbb child val",
+            },
+          };
+        }, 1200);
+        setTimeout(() => {
+          target.bbb.child.val = "change bbb child val";
+        }, 1800);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們首先創建瞭一個 <code>$</code> 實例對象 <code>target</code>，然後使用 <code>watch</code> 方法來監聽牠的變動。卽使我們改動瞭對象的子對象的值，例如 <code>target.bbb.child.val</code> 的值，在 <code>watch</code> 方法中都能監聽到這些變動並更新 <code>logger</code> 元素的內容。這展示瞭 <code>$</code> 實例對象的強大特性，使妳能夠輕鬆監控對象的變化。</p>
+        <h2>watchTick</h2>
+        <p><code>watchTick</code> 和 <code>watch</code> 方法功能類似，但 <code>watchTick</code> 內部有節流操作，牠在單個綫程下執行一次，因此在某些性能要求更高的場景下可以更有效地監聽數據變動。</p>
+        <p>下面是一個示例，演示如何使用 <code>$</code> 實例的 <code>watchTick</code> 方法：</p>
+        <o-playground name="stanz - watchTick" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger1" style="border: blue solid 1px; margin: 8px"></div>
+      <div id="logger2" style="border: red solid 1px; margin: 8px"></div>
+      <script>
+        const target = $("#target");
+        let count1 = 0;
+        target.watch(() => {
+          count1++;
+          \$("#logger1").text = 'watch 運行次數：' + count1;
+        });
+        let count2 = 0;
+        target.watchTick(()=>{
+          count2++;
+          \$("#logger2").text = 'watchTick 運行次數：' + count2;
+        });
+        setTimeout(() => {
+          target.aaa = "I am aaa";
+          target.bbb = "I am bbb";
+          target.ccc = "I am ccc";
+        }, 1000);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們首先創建瞭一個 <code>$</code> 實例對象 <code>target</code>。然後，我們使用 <code>watch</code> 方法和 <code>watchTick</code> 方法來監聽對象的變動。<code>watch</code> 方法會在數據變動時立卽運行，而 <code>watchTick</code> 方法在單個綫程下執行一次，因此能夠限製監聽操作的頻率。妳可以根據妳的需求選擇使用 <code>watch</code> 或 <code>watchTick</code> 方法來監聽數據的變化。</p>
+        <h2>unwatch</h2>
+        <p><code>unwatch</code> 方法用於取消對數據的監聽，可以撤銷之前註冊的 <code>watch</code> 或 <code>watchTick</code> 監聽。</p>
+        <p>下面是一個示例，演示如何使用 <code>$</code> 實例的 <code>unwatch</code> 方法：</p>
+        <o-playground name="stanz - unwatch" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger1" style="border: blue solid 1px; margin: 8px"></div>
+      <div id="logger2" style="border: red solid 1px; margin: 8px"></div>
+      <script>
+        const target = $("#target");
+        const tid1 = target.watch(() => {
+          \$("#logger1").text = JSON.stringify(target);
+        });
+        const tid2 = target.watchTick(()=>{
+          \$("#logger2").text = JSON.stringify(target);
+        });
+        setTimeout(() => {
+          target.aaa = "I am aaa";
+          target.unwatch(tid1);
+          target.unwatch(tid2);
+        }, 500);
+        setTimeout(() => {
+          target.bbb = "I am aaa";
+        }, 1000);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們首先創建瞭一個 <code>$</code> 實例對象 <code>target</code>，然後使用 <code>watch</code> 方法和 <code>watchTick</code> 方法分別註冊瞭兩個監聽。之後，通過 <code>unwatch</code> 方法傳遞之前保存的監聽返迴值 <code>tid1</code> 和 <code>tid2</code> 來撤銷這兩個監聽。這意味著在第一個 <code>setTimeout</code> 中的屬性改變不會觸發任何監聽，因爲監聽已被撤銷。</p>
+        <h2>不被監聽的值</h2>
+        <p>在 <code>$</code> 實例中，使用下劃綫 <code>_</code> 開頭的屬性名錶示這些值不會被 <code>watch</code> 或 <code>watchTick</code> 方法監聽。這對於一些臨時或俬有的屬性非常有用，妳可以在不觸發監聽的情況下隨意更改牠們。</p>
+        <p>在模闆內，這種被稱爲<a href="../../documentation/state-management.html" olink="">非響應式數據</a>。</p>
+        <p>下面是一個示例，演示瞭如何使用下劃綫開頭的屬性值來避免被監聽：</p>
+        <o-playground name="stanz - 非響應式數據" style="--editor-height: 480px">
+          <code path="demo.html">
+    <template>
+      <div id="target"></div>
+      <br>
+      <div id="logger" style="border: #aaa solid 1px; padding: 8px"></div>
+      <script>
+        const target = $("#target");
+        \$("#logger").text = target;
+        target.watch(() => {
+          \$("#logger").text = target;
+        });
+        setTimeout(() => {
+          target._aaa = "I am aaa";
+        }, 600);
+        setTimeout(() => {
+          target._aaa = "change aaa";
+        }, 1200);
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個示例中，我們創建瞭一個 <code>$</code> 實例對象 <code>target</code>，然後使用 <code>watch</code> 方法監聽屬性值的變動。在 <code>setTimeout</code> 中，我們嘗試更改 <code>_aaa</code> 屬性值，但這個更改不會觸發監聽。這對於需要在不觸發監聽的情況下更新屬性值的情況非常有用。</p>
+        <h2>基本特徵</h2>
+        <p>設置在實例上的對象數據將被轉換爲 Stanz 實例，這種 Stanz 實例允許進行監聽。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> obj = {
+  <span class="hljs-attr">val</span>: <span class="hljs-string">"I am obj"</span>
+};
+
+$(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> = obj;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span>.<span class="hljs-property">val</span> === obj.<span class="hljs-property">val</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> === obj);</code></pre>
+        <p>我們還可以使用 <code>$.stanz</code> 來創建一個沒有與實例綁定的 Stanz 數據。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> data = $.<span class="hljs-title function_">stanz</span>({
+  <span class="hljs-attr">val</span>: <span class="hljs-string">"I am val"</span>
+});
+
+data.<span class="hljs-title function_">watch</span>(<span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data.<span class="hljs-property">val</span>);
+});
+
+data.<span class="hljs-property">val</span> = <span class="hljs-string">"change val"</span>;</code></pre>
+        <p>這些示例展示瞭將對象數據設置爲 Stanz 實例以進行監聽的基本特徵。</p>
+        <p>更多完整的特性請査閱 <a href="https://github.com/ofajs/stanz" target="_blank">stanz</a>。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

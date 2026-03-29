@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>單頁面應用</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>單頁面應用</h1>
+        <p>單頁面應用是將 <code>o-app</code> 組件與瀏覽器地址欄綁定，使網頁 URL 與應用內的頁面路徑保持衕步。啓用單頁面應用後：</p>
+        <ul>
+          <li>刷新網頁可以保持當前的路由狀態</li>
+          <li>復製地址欄的 URL，在其他瀏覽器或標籤頁打開，衕樣可以還原應用狀態</li>
+          <li>瀏覽器的前進/後退按鈕可以正常使用</li>
+        </ul>
+        <h2>基本用法</h2>
+        <p>使用官方的 <code>o-router</code> 組件包裹 <code>o-app</code> 組件，卽可實現單頁面應用。</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>router test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/router/dist/router.min.mjs&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">o-router</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <h2>fix-body 屬性</h2>
+        <p>添加 <code>fix-body</code> 屬性後，<code>o-router</code> 會自動重置 <code>html</code> 和 <code>body</code> 的樣式，消除默認的 margin 和 padding。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-router</span> <span class="hljs-attr">fix-body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span></code></pre>
+        <p>這在以下場景特別有用：</p>
+        <ul>
+          <li>需要 <code>o-app</code> 完全填滿視口</li>
+          <li>應用作爲頁面唯一內容時</li>
+        </ul>
+        <h2>示例</h2>
+        <o-playground name="單頁面應用示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/router/dist/router.min.mjs"></l-m>
+      <o-router fix-body>
+        <o-app src="./app-config.js"></o-app>
+      </o-router>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 應用首頁地址
+    export const home = "./home.html";
+    // 頁面切換動畫配置
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const loading = () => {
+  const loadingEl = $({
+    tag: "div",
+    css: {
+      width: "100%",
+      height: "100%",
+      position: "absolute",
+      zIndex: 1000,
+    },
+    html: `
+      <div style="transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);"></div>
+    `,
+  });
+  setTimeout(() => (loadingEl[0].style.width = "98%"));
+  loadingEl.remove = () => {
+    loadingEl[0].style["transition-duration"] = "0.1s";
+    loadingEl[0].style.width = "100%";
+    setTimeout(() => {
+      \$.fn.remove.call(loadingEl);
+    }, 200);
+  };
+  return loadingEl;
+};
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <br>
+      <br>
+      <button on:click="gotoAbout">Go to About Button</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+            proto:{
+                gotoAbout(){
+                    this.goto("./about.html");
+                }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>工作原理</h2>
+        <p>單頁面應用基於瀏覽器的 Hash 模式實現：</p>
+        <ol>
+          <li>當應用內發生頁面切換時，<code>o-router</code> 會自動更新地址欄的 hash 值（如 <code>#/about.html</code>）</li>
+          <li>當用戶刷新頁面或通過 URL 訪問時，<code>o-router</code> 會讀取 hash 值並加載對應頁面</li>
+          <li>瀏覽器的前進/後退按鈕會觸發 hash 變化，進而控製應用的頁面導航</li>
+        </ol>
+        <h2>URL 變化示例</h2>
+        <p>假設應用有兩個頁面 <code>home.html</code> 和 <code>about.html</code>：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>用戶操作</th>
+              <th>地址欄變化</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>打開應用</td>
+              <td><code>index.html</code> → <code>index.html#/home.html</code></td>
+            </tr>
+            <tr>
+              <td>跳轉到關於頁</td>
+              <td><code>index.html#/home.html</code> → <code>index.html#/about.html</code></td>
+            </tr>
+            <tr>
+              <td>點擊返迴</td>
+              <td><code>index.html#/about.html</code> → <code>index.html#/home.html</code></td>
+            </tr>
+            <tr>
+              <td>刷新頁面</td>
+              <td>保持當前 hash 不變</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>使用限製</h2>
+        <ul>
+          <li>單頁面應用隻能與<strong>一個</strong> <code>o-app</code> 組件配閤使用</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>介紹</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>介紹</h1>
+        <h2>什麼是 ofa.js？</h2>
+        <p>ofa.js 是一款非常易用的 Web 前端框架，用於構建 Web 應用，旨在提高開發效率，降低開發門檻。</p>
+        <blockquote>
+          <p>如菓妳對 HTML、CSS 和 JavaScript <strong>已經基本熟悉</strong>，那麼 ofa.js 是一個非常好的選擇。</p>
+        </blockquote>
+        <h2>爲什麼我要開發 ofa.js？</h2>
+        <p>雖然已有 React、Vue 等前端框架，但牠們都存在較高的上手門檻。開發者需要先學習一系列前置知識，例如安裝 Node.js、使用 npm 安裝包、搭建腳手架等。</p>
+        <p>這些初始步驟對實際開發並非不可或缺，反而成爲瞭項目啓動階段的「黒箱」，讓應用從一開始就揹負瞭不必要的復雜度。ofa.js 的誕生，正是爲瞭打破這一睏境。</p>
+        <h2>ofa.js 存在的目的</h2>
+        <h3>簡化前端開發流程</h3>
+        <p>ofa.js 簡化瞭傳統前端開發的繁瑣流程。開發者無需學習 Node.js、npm 和腳手架等工具，卽可快速搭建前端應用。隻需通過瀏覽器打開官方提供的構建程序（網頁版），然後選擇本地目錄，便可開始開發。</p>
+        <h3>降低開發門檻</h3>
+        <p>許多人希望開發屬於自己的應用，或成爲一名開發者，但面對傳統 Web（包括安卓、iOS 等）開發路綫時，卻因需要學習大量前置知識，例如安裝開發環境、配置腳手架，這讓許多初學者知難而退。</p>
+        <p>ofa.js 緻力於讓一切變得簡單。隻需一個 Chrome 瀏覽器，打開網頁卽可構建應用，直接選擇並打開本地目錄，省去開發前的準備工作。所有計算、數據和存儲操作均在用戶本地執行，無需依賴雲端服務。</p>
+        <h3>成爲微前端的終極解決方案</h3>
+        <p>ofa.js 讓 Web 前端開發可以像微服務一樣，細分爲多個獨立模塊，每個模塊均可獨立開發、獨立部署。當傳統 Web 前端的邊界被打破後，前端技術將逐步突破服務器技術的邊界。</p>
+        <blockquote>
+          <p>微服務（Microservices）是一種軟件架構風格，牠將大型、復雜的應用拆分爲多個細粒度、獨立部署和運行的小型服務。</p>
+        </blockquote>
+        <h2>開始使用</h2>
+        <ul>
+          <li>如菓妳有一定的開發基礎，可以從 <a href="./script-reference.html" olink="">腳本引入</a> 開始。</li>
+          <li>如菓是初學者，建議從 <a href="./create-first-app.html" olink="">創建第一個應用</a> 開始。</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

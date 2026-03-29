@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>插槽</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>插槽</h1>
+        <p>插槽是組件中用於接收外部內容的佔位符。通過使用插槽，妳可以創建可復用的組件，衕時允許使用組件的人自定義組件內部的內容。</p>
+        <h2>默認插槽</h2>
+        <o-playground name="默認插槽示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp>
+        <div>Hello, OFAJS!</div>
+      </demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>插槽內容：
+      <br />
+      <span style="color: red;">
+        <slot></slot>
+      </span>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>插槽默認內容</h3>
+        <p>當父組件沒有提供插槽內容時，<code>&lt;slot&gt;&lt;/slot&gt;</code> 內部的元素將作爲默認內容顯示。</p>
+        <o-playground name="插槽默認內容示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <h3>有插槽內容：</h3>
+      <demo-comp>
+        <div>這是自定義內容</div>
+      </demo-comp>
+      <h3>無插槽內容（顯示默認內容）：</h3>
+      <demo-comp></demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin-bottom: 10px;
+        }
+      </style>插槽內容：
+      <span style="color: red;">
+        <slot>
+          <div>這是默認內容</div>
+        </slot>
+      </span>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>命名插槽</h2>
+        <p>當組件需要多個插槽位置時，可以使用命名插槽來區分不衕的插槽。通過 <code>&lt;slot name=&quot;xxx&quot;&gt;</code> 定義具名插槽，在使用時通過 <code>slot=&quot;xxx&quot;</code> 屬性指定內容放入哪個插槽。</p>
+        <o-playground name="命名插槽示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./demo-comp.html"></l-m>
+      <demo-comp>
+        <div>Hello, OFAJS!</div>
+        <div slot="footer">Footer Content</div>
+      </demo-comp>
+    </template>
+  </code>
+          <code path="demo-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+        }
+      </style>插槽內容：
+      <br />
+      <span style="color: red;">
+        <slot></slot>
+      </span>
+      <br />
+      <span style="color: blue;">
+        <slot name="footer"></slot>
+      </span>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "demo-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>多層級插槽傳遞</h2>
+        <p>插槽內容可以跨越多層組件進行傳遞。當父組件向子組件傳遞插槽內容後，子組件可以繼續將這個插槽內容傳遞給自己的子組件，實現插槽的多層透傳。</p>
+        <o-playground name="多層級插槽傳遞示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <l-m src="./outer-comp.html"></l-m>
+      <outer-comp>
+        <div style="color: red;">來自最外層的標題</div>
+      </outer-comp>
+    </template>
+  </code>
+          <code path="outer-comp.html">
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid green;
+          padding: 8px;
+          margin-bottom: 10px;
+        }
+      </style>
+      <h3>外層組件</h3>
+      <l-m src="./inner-comp.html"></l-m>
+      <inner-comp>
+        <div style="color: inherit;">
+          <slot></slot>
+        </div>
+      </inner-comp>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "outer-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="inner-comp.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid blue;
+          padding: 8px;
+        }
+      </style>
+      <h4>內層組件</h4>
+      <slot></slot>
+      <script>
+        export default async ({ load }) => {
+          return {
+            tag: "inner-comp",
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在上面的示例中：</p>
+        <ul>
+          <li>最外層父組件定義瞭 <code>slot=&quot;header&quot;</code> 的內容</li>
+          <li>外層組件（outer-comp）接收到這個插槽內容後，將其繼續傳遞給內層組件（inner-comp）</li>
+          <li>內層組件最終渲染來自最外層的插槽內容</li>
+        </ul>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

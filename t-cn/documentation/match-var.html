@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>樣式査詢</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>樣式査詢</h1>
+        <p><code>match-var</code> 是 ofa.js 中用於根據 CSS 變量進行樣式匹配的功能組件。通過 <code>match-var</code>，可以根據當前組件的 CSS 變量值動態匹配並應用不衕的樣式。這種特性專門用於樣式相關的上下文狀態傳遞，不需要使用 JavaScript，使用起來更加方便，適閤主題色等樣式傳遞需求。</p>
+        <h2>覈心槪唸</h2>
+        <ul>
+          <li><strong>match-var</strong>: 樣式匹配組件，根據 CSS 變量值決定是否應用內部樣式</li>
+          <li><strong>屬性匹配</strong>: 通過組件屬性定義需要匹配的 CSS 變量和期望值</li>
+          <li><strong>樣式應用</strong>: 匹配成功時，內部 <code>&lt;style&gt;</code> 標籤的樣式會被應用到組件上</li>
+        </ul>
+        <h2>基本用法</h2>
+        <p><code>match-var</code> 組件通過屬性來定義需要匹配的 CSS 變量和期望值。當組件的 CSS 變量值與指定的屬性值匹配時，內部定義的樣式就會被應用。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#333</span>;
+      <span class="hljs-attribute">color</span>: white;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
+        <h3>屬性</h3>
+        <p><code>match-var</code> 組件使用任意屬性來定義 CSS 變量的匹配規則。屬性名對應 CSS 變量名（不含 <code>--</code> 前綴），屬性值就是期望匹配的值。</p>
+        <h3>工作原理</h3>
+        <ol>
+          <li><strong>瀏覽器支持</strong>: 如菓瀏覽器支持 <code>@container style()</code> 査詢，會直接使用 CSS 原生能力</li>
+          <li><strong>降級處理</strong>: 如菓不支持，會通過輪詢檢測 CSS 變量值的變化，匹配成功後動態註入樣式</li>
+          <li><strong>手動刷新</strong>: 可以通過 <code>$.checkMatch()</code> 方法手動觸發樣式檢測</li>
+        </ol>
+        <h2>基礎示例</h2>
+        <o-playground name="基礎示例" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="./page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <l-m src="./theme-box.html"></l-m>
+      <style>
+        :host{
+            display: block;
+        }
+      </style>
+      <style>
+        .container{
+           --theme: data(currentTheme);
+        }
+      </style>
+      <button on:click="changeTheme">切換主題</button> - Theme:{{currentTheme}}
+      <div class="container">
+        <theme-box>
+          根據 CSS 變量顯示不衕樣式
+        </theme-box>
+      </div>
+        <theme-box style="--theme: light;">
+          顯示亮色主題
+        </theme-box>
+        <theme-box style="--theme: dark;">
+          顯示闇色主題
+        </theme-box>
+      </div>
+      <script>
+        export default async ()=>{
+          return {
+            data: {
+                currentTheme: "light",
+            },
+            proto:{
+                changeTheme(){
+                    this.currentTheme = this.currentTheme === "light" ? "dark" : "light";
+                }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="theme-box.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          margin: 8px 0;
+        }
+        .content {
+          padding: 20px;
+          border-radius: 4px;
+        }
+      </style>
+      <match-var theme="light">
+        <style>
+          .content {
+            background-color: #f5f5f5;
+            color: #333;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark">
+        <style>
+          .content {
+            background-color: #333;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <div class="content">
+        <slot></slot>
+      </div>
+      <script>
+        export default {
+          tag: "theme-box",
+          data: {
+            theme: "light",
+          },
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>多條件匹配</h2>
+        <p>可以衕時使用多個屬性來定義更復雜的匹配條件，隻有當所有 CSS 變量都匹配時，樣式纔會被應用。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;large&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>;
+      <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
+        <h2>多條件匹配示例</h2>
+        <o-playground name="屬性匹配示例" style="--editor-height: 500px">
+          <code path="demo.html" preview unimportant>
+    <template>
+      <o-page src="./page1.html"></o-page>
+    </template>
+  </code>
+          <code path="page1.html">
+    <template page>
+      <style>
+        :host {
+            display: block;
+        }
+      </style>
+      <style>
+        .content{
+            --theme: data(theme);
+            --size: data(size);
+        }
+      </style>
+      <l-m src="./test-card.html"></l-m>
+      <div>主題: {{theme}} <button on:click="changeTheme">切換主題</button></div>
+      <div>尺寸: {{size}} <button on:click="changeSize">切換尺寸</button></div>
+      <div class="content">
+        <test-card>
+          <div>多條件樣式匹配示例</div>
+        </test-card>
+      </div>
+      <script>
+        export default async ()=>{
+            return {
+                data:{
+                    theme:"light",
+                    size:"small"
+                },
+                proto:{
+                    changeTheme(){
+                        this.theme = this.theme === "light" ? "dark" : "light";
+                    },
+                    changeSize(){
+                        this.size = this.size === "small" ? "large" : "small";
+                    }
+                }
+            };
+        }
+      </script>
+    </template>
+  </code>
+          <code path="test-card.html" active>
+    <template component>
+      <style>
+        :host {
+          display: block;
+          padding: 20px;
+          margin: 10px;
+        }
+      </style>
+      <match-var theme="light" size="small">
+        <style>
+          :host {
+            background-color: #e3f2fd;
+            border: 1px solid #2196f3;
+          }
+        </style>
+      </match-var>
+      <match-var theme="light" size="large">
+        <style>
+          :host {
+            background-color: #bbdefb;
+            border: 2px solid #1976d2;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark" size="small">
+        <style>
+          :host {
+            background-color: #424242;
+            border: 1px solid #757575;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <match-var theme="dark" size="large">
+        <style>
+          :host {
+            background-color: #212121;
+            border: 2px solid #616161;
+            color: white;
+          }
+        </style>
+      </match-var>
+      <slot></slot>
+      <script>
+        export default {
+          tag: "test-card",
+          data: {},
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>checkMatch 手動刷新</h2>
+        <p>在某些情況下，CSS 變量的變化可能無法被自動檢測到，這時可以手動調用 <code>$.checkMatch()</code> 方法來觸發樣式檢測。</p>
+        <blockquote>
+          <p>當前 Firefox 尚未支持 <code>@container style()</code> 査詢，因此需手動調用 <code>$.checkMatch()</code>；待未來瀏覽器原生支持後，系統將自動檢測變量變化，無需再手動觸發。</p>
+        </blockquote>
+        <pre><code class="hljs language-javascript"><span class="hljs-attr">proto</span>: {
+  <span class="hljs-title function_">updateTheme</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&#x27;dark&#x27;</span>;
+    <span class="hljs-comment">// 手動觸發樣式檢測</span>
+    $.<span class="hljs-title function_">checkMatch</span>();
+  }
+}</code></pre>
+        <h2>最佳實踐</h2>
+        <ol>
+          <li><strong>優先使用 CSS 原生能力</strong>: <code>match-var</code> 會優先使用瀏覽器原生的 <code>@container style()</code> 査詢，現代瀏覽器中性能更好</li>
+          <li><strong>閤理組織樣式</strong>: 將相關的匹配樣式放在一起，便於維護和理解</li>
+          <li><strong>使用 data() 綁定</strong>: 結閤 <code>data()</code> 指令可以實現響應式的樣式切換</li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

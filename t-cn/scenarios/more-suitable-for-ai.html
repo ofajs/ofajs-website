@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 使用 ofa.js 的優勢</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>AI 使用 ofa.js 的優勢</h1>
+        <p>ofa.js 通過簡化技術棧、去除編譯環節，爲 AI 生成前端項目提供瞭一條更輕量、更高效的路徑。</p>
+        <p>這不僅降低瞭服務器成本，更重要的是降低瞭項目復雜度，讓 AI 能夠更專註於業務邏輯的實現，而非環境配置和構建流程。</p>
+        <h2>傳統前端框架 vs ofa.js</h2>
+        <p>在 AI 時代，使用傳統前端框架生成前端項目，通常需要經歷以下繁瑣流程：</p>
+        <h3>1. 項目初始化階段</h3>
+        <ul>
+          <li>AI 生成創建前端項目的命令行代碼</li>
+          <li>調用動態服務器進程，創建前端獨立容器</li>
+          <li>在容器內進行前端代碼的初始化（安裝依賴、配置構建工具等）</li>
+        </ul>
+        <h3>2. 開發與構建階段</h3>
+        <ul>
+          <li>AI 生成前端代碼，部署到容器內</li>
+          <li>容器編譯前端代碼（Webpack、Vite 等構建工具處理）</li>
+        </ul>
+        <h3>3. 預覽階段</h3>
+        <ul>
+          <li>用戶通過瀏覽器預覽前端項目效菓</li>
+        </ul>
+        <p>整個流程渉及<strong>6 個步驟</strong>，需要動態服務器支持，依賴 Node.js 環境，且必須經過編譯構建環節。</p>
+        <h2>ofa.js 的簡化流程</h2>
+        <p>采用 ofa.js，流程簡化爲<strong>3 個步驟</strong>：</p>
+        <h3>1. 環境準備</h3>
+        <ul>
+          <li>創建靜態服務器容器，或在公共靜態服務器根目錄生成隨機名目錄</li>
+        </ul>
+        <h3>2. 代碼生成</h3>
+        <ul>
+          <li>AI 生成 ofa.js 前端代碼，直接將代碼部署到靜態服務器目錄內</li>
+        </ul>
+        <h3>3. 卽時預覽</h3>
+        <ul>
+          <li>用戶通過瀏覽器直接預覽前端項目效菓</li>
+        </ul>
+        <h2>覈心優勢</h2>
+        <h3>1. 成本優勢</h3>
+        <p>因爲沒有動態進程的開銷，服務器成本將會顯著降低。靜態服務器的部署和維護成本遠低於需要運行 Node.js 進程的動態服務器。</p>
+        <h3>2. 零依賴、零編譯</h3>
+        <p>ofa.js 不需要依賴 Node.js，也不走編譯流程。代碼直接部署到靜態服務器卽可生效，實現瞭眞正的&quot;所見卽所得&quot;。這大大減少瞭 AI 生成代碼時的環境配置負擔。</p>
+        <h3>3. 降低項目復雜度</h3>
+        <p>流程的簡化意味著項目難度系數的降低。這帶來兩個關鍵好處：</p>
+        <ul>
+          <li><strong>快速啓動</strong>：項目初期無需復雜的環境搭建和配置</li>
+          <li><strong>平滑擴展</strong>：更利於項目後期的需求難度擴張，不至於提前達到項目復雜度的天花闆</li>
+        </ul>
+        <h3>4. 微前端容器特性</h3>
+        <p>ofa.js 的微前端容器特性爲 AI 開發帶來瞭獨特的優勢：</p>
+        <ul>
+          <li><strong>模塊化開發</strong>：AI 可以獨立創建各個模塊，每個模塊都是完整且自洽的</li>
+          <li><strong>模塊安全度</strong>：獨立模塊的各自創建，達到更安全的模塊完整度</li>
+          <li><strong>模塊拼接</strong>：最後通過 AI 將各個模塊拼接整閤，提高項目的整體安全度和穩定性</li>
+        </ul>
+        <p>這種&quot;分而治之&quot;的方式，讓 AI 能夠更好地管理復雜項目，每個模塊都可以獨立驗證，降低瞭整體項目的風險。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

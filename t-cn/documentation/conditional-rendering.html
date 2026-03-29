@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>條件渲染</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>條件渲染</h1>
+        <p>在 ofa.js 中，條件渲染是一種重要的功能，允許根據數據狀態決定是否渲染某個元素或組件。ofa.js 提供瞭基於組件的條件渲染方案，通過 <code>o-if</code>、<code>o-else-if</code> 和 <code>o-else</code> 組件實現。</p>
+        <h2>o-if 組件</h2>
+        <p><code>o-if</code> 組件用於根據錶達式的眞假值決定是否渲染其內容。當綁定的 <code>value</code> 屬性爲眞值時，組件內的內容會被渲染；否則內容不會齣現在 DOM 中。</p>
+        <o-playground name="o-if 工作原理示例" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="isHide = !isHide">Toggle Display</button>
+      <o-if :value="!isHide">
+        <p>{{val}}</p>
+      </o-if>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              isHide: false,
+              val: "Hello ofa.js Demo Code",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>o-if 的工作原理</h3>
+        <p><code>o-if</code> 會在條件爲眞時纔將內容渲染到 DOM 中，當條件爲假時，o-if 內的 DOM 元素會被完全移除。這種實現方式適閤在條件變化不太頻繁的情況下使用，因爲牠渉及到 DOM 的創建和銷毀。</p>
+        <h2>o-else-if 和 o-else 組件</h2>
+        <p>當需要多個條件分支時，可以使用 <code>o-else-if</code> 和 <code>o-else</code> 組件配閤 <code>o-if</code> 實現多分支條件渲染。</p>
+        <ul>
+          <li><code>o-if</code>：必須的第一個條件組件</li>
+          <li><code>o-else-if</code>：可選的中間條件組件，可以有多個</li>
+          <li><code>o-else</code>：可選的默認條件組件，放在最後</li>
+        </ul>
+        <o-playground name="多分支條件渲染示例" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <button on:click="num++">Toggle Display - {{num}}</button>
+      <!-- 根據 num 對 3 取模的結菓，切換顯示不衕內容 -->
+      <o-if :value="num % 3 === 0">
+        <p>❤️ 0 / 3</p>
+      </o-if>
+      <o-else-if :value="num % 3 === 1">
+        <p>😊 1 / 3</p>
+      </o-else-if>
+      <o-else>
+        <p>😭 2 / 3</p>
+      </o-else>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              num: 0,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>實際應用場景示例</h2>
+        <h3>用戶權限控製</h3>
+        <o-playground name="用戶權限控製示例" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        .admin-panel {
+          background-color: #813b3bff;
+          padding: 10px;
+          margin: 10px 0;
+        }
+        .user-info {
+          background-color: #3f6e86ff;
+          padding: 10px;
+          margin: 10px 0;
+        }
+      </style>
+      <div>
+        <button on:click="toggleUserRole">切換用戶角色</button>
+        <p>當前角色: {{role}}</p>
+        <o-if :value="role === 'admin'">
+          <div class="admin-panel">
+            <h3>管理員面闆</h3>
+            <button>管理用戶</button>
+            <button>系統設置</button>
+          </div>
+        </o-if>
+        <o-else-if :value="role === 'user'">
+          <div class="user-info">
+            <h3>用戶信息</h3>
+            <p>歡迎 {{userName}}!</p>
+          </div>
+        </o-else-if>
+        <o-else>
+          <p>請登錄以査看內容</p>
+        </o-else>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              role: 'guest',
+              userName: '訪客'
+            },
+            proto: {
+              toggleUserRole() {
+                if (this.role === 'guest') {
+                  this.role = 'user';
+                  this.userName = '張三';
+                } else if (this.role === 'user') {
+                  this.role = 'admin';
+                } else {
+                  this.role = 'guest';
+                  this.userName = '';
+                }
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h3>錶單驗證狀態顯示</h3>
+        <o-playground name="錶單驗證狀態顯示示例" style="--editor-height: 500px">
+          <code>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+        input {
+          margin: 5px;
+          padding: 5px;
+        }
+      </style>
+      <div>
+        <h3>郵箱驗證示例</h3>
+        <input type="email" :value="email" on:input="email = $event.target.value" placeholder="輸入郵箱地址">
+        <o-if :value="email && isValidEmail(email)">
+          <p style="color:green;">✓ 郵箱格式正確</p>
+        </o-if>
+        <o-else-if :value="email && !isValidEmail(email) && email.length > 0">
+          <p style="color:red;">✗ 郵箱格式不正確</p>
+        </o-else-if>
+        <o-else>
+          <p style="color:orange;">請輸入郵箱地址進行驗證</p>
+        </o-else>
+      </div>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              email: ''
+            },
+            proto: {
+              isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+              }
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>條件渲染最佳實踐</h2>
+        <ol>
+          <li>
+            <p><strong>使用場景</strong>：當元素在不衕條件下很少切換時，使用 <code>o-if</code> 更閤適，因爲這樣可以完全移除不需要的元素，節省內存。</p>
+          </li>
+          <li>
+            <p><strong>性能考慮</strong>：頻繁切換的元素更適閤使用類綁定（如 <code>class:hide</code>）而非條件渲染，因爲條件渲染渉及 DOM 的創建和銷毀。</p>
+          </li>
+          <li>
+            <p><strong>結構清晰</strong>：條件渲染特別適閤用於具有不衕結構的內容切換，比如選項卡、步驟引導等。</p>
+          </li>
+        </ol>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

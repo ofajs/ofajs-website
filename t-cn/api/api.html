@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API 文檔</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <l-m src="./_comps/api-container.html"></l-m>
+      <style>
+        article a {
+          color: var(--md-sys-color-primary);
+          text-decoration: none;
+          align-items: center !important;
+        }
+      </style>
+      <article>
+        <h1>API 文檔</h1>
+        <p> ofa.js 不僅支持模闆語法，還提供豐富的 API 來直接操作 DOM。就像 <a href="https://jquery.com/" target="_blank">jQuery</a> 一樣，妳可以用簡潔的 ofa.js 語法替代冗長的原生 JavaScript，輕鬆完成 DOM 操作。 </p>
+        <p> 在組件或頁面模塊的生命周期函數及自定義方法中，妳都可以隨時調用 ofa.js 提供的 API，靈活高效地操控 DOM 元素。 </p>
+        <api-container>
+          <api-list>
+            <h3>實例相關</h3>
+            <api-item>
+              <a href="./instance/dollar.html" olink="">$(selector)</a>
+              <p>ofa.js 中的覈心函數，用於獲取和操作 DOM 元素實例</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/all.html" olink="">all</a>
+              <p>獲取當前元素的所有子元素實例</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/shadow.html" olink="">shadow</a>
+              <p>獲取當前元素的 shadow root</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prev.html" olink="">prev</a>
+              <p>獲取當前元素的前一個兄弟元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/prevs.html" olink="">prevs</a>
+              <p>獲取當前元素之前的所有兄弟元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/next.html" olink="">next</a>
+              <p>獲取當前元素的下一個兄弟元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/nexts.html" olink="">nexts</a>
+              <p>獲取當前元素之後的所有兄弟元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/siblings.html" olink="">siblings</a>
+              <p>獲取當前元素的所有兄弟元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parent.html" olink="">parent</a>
+              <p>獲取當前元素的父元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/parents.html" olink="">parents</a>
+              <p>獲取當前元素的所有祖先元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/clone.html" olink="">clone</a>
+              <p>復製當前元素及其子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/ele.html" olink="">ele</a>
+              <p>獲取當前元素的子元素實例</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/root.html" olink="">root</a>
+              <p>獲取當前元素所屬的根實例</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/children.html" olink="">子元素</a>
+              <p>獲取當前元素的所有子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/host.html" olink="">host</a>
+              <p>獲取當前元素所屬的 web component 宿主元素</p>
+            </api-item>
+            <api-item>
+              <a href="./instance/app.html" olink="">app</a>
+              <p>獲取當前元素所屬的 o-app 組件實例</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>節點操作</h3>
+            <api-item>
+              <a href="./operation/array-like.html" olink="">push</a>
+              <p>添加當前元素的子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=11" olink="">pop</a>
+              <p>刪除當前元素的最後一個子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=14" olink="">shift</a>
+              <p>刪除當前元素的第一個子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=8" olink="">unshift</a>
+              <p>添加當前元素的第一個子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/array-like.html?L=17" olink="">splice</a>
+              <p>添加或刪除當前元素的子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/before.html" olink="">before</a>
+              <p>在當前元素之前添加子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/after.html" olink="">after</a>
+              <p>在當前元素之後添加子元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/remove.html" olink="">remove</a>
+              <p>移除當前元素</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/wrap.html" olink="">wrap</a>
+              <p>將當前元素包裹在指定元素中</p>
+            </api-item>
+            <api-item>
+              <a href="./operation/unwrap.html" olink="">unwrap</a>
+              <p>移除當前元素的父元素包裹</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>屬性操作</h3>
+            <api-item>
+              <a href="./props/text.html" olink="">text</a>
+              <p>獲取或設置元素的文本內容</p>
+            </api-item>
+            <api-item>
+              <a href="./props/html.html" olink="">html</a>
+              <p>獲取或設置元素的 HTML 內容</p>
+            </api-item>
+            <api-item>
+              <a href="./props/attr.html" olink="">attr</a>
+              <p>獲取或設置元素的屬性</p>
+            </api-item>
+            <api-item>
+              <a href="./props/css.html" olink="">css</a>
+              <p>獲取或設置元素的樣式</p>
+            </api-item>
+            <api-item>
+              <a href="./props/style.html" olink="">style</a>
+              <p>獲取元素的 style 對象</p>
+            </api-item>
+            <api-item>
+              <a href="./props/class-list.html" olink="">classList</a>
+              <p>獲取元素的類名列錶</p>
+            </api-item>
+            <api-item>
+              <a href="./props/data.html" olink="">data</a>
+              <p>獲取或設置元素的 data 屬性</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>事件相關</h3>
+            <api-item>
+              <a href="./event/on.html" olink="">on</a>
+              <p>爲元素添加事件監聽器</p>
+            </api-item>
+            <api-item>
+              <a href="./event/one.html" olink="">one</a>
+              <p>爲元素添加隻執行一次的事件監聽器</p>
+            </api-item>
+            <api-item>
+              <a href="./event/emit.html" olink="">emit</a>
+              <p>觸發元素的自定義事件</p>
+            </api-item>
+            <api-item>
+              <a href="./event/off.html" olink="">off</a>
+              <p>移除元素的事件監聽器</p>
+            </api-item>
+          </api-list>
+          <api-list>
+            <h3>其他</h3>
+            <api-item>
+              <a href="./others/app.html" olink="">o-app組件</a>
+              <p>ofa.js 應用的根組件，用於管理應用狀態和路由</p>
+            </api-item>
+            <api-item>
+              <a href="./others/page.html" olink="">o-page組件</a>
+              <p>ofa.js 的頁面組件，用於創建單頁應用頁面</p>
+            </api-item>
+            <api-item>
+              <a href="./others/form-data.html" olink="">formData</a>
+              <p>獲取錶單數據</p>
+            </api-item>
+            <api-item>
+              <a href="./others/tag.html" olink="">tag</a>
+              <p>獲取元素的標籤名</p>
+            </api-item>
+            <api-item>
+              <a href="./others/index.html" olink="">index</a>
+              <p>獲取元素在其父元素中的索引</p>
+            </api-item>
+            <api-item>
+              <a href="./others/is.html" olink="">is</a>
+              <p>判斷元素是否匹配指定選擇器</p>
+            </api-item>
+            <api-item>
+              <a href="./others/refresh.html" olink="">refresh</a>
+              <p>刷新當前組件或頁面</p>
+            </api-item>
+            <api-item>
+              <a href="./others/path.html" olink="">PATH</a>
+              <p>獲取當前頁面的路徑</p>
+            </api-item>
+            <api-item>
+              <a href="./others/extend.html" olink="">extend</a>
+              <p>擴展 ofa.js 的功能</p>
+            </api-item>
+            <api-item>
+              <a href="./others/version.html" olink="">version</a>
+              <p>獲取 ofa.js 的版本號</p>
+            </api-item>
+            <api-item>
+              <a href="./others/stanz.html" olink="">實例數據特徵</a>
+              <p>Stanz 是 ofa.js 的響應式數據特徵，支持數據的自動更新</p>
+            </api-item>
+          </api-list>
+        </api-container>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

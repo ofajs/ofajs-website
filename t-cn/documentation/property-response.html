@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>屬性響應</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>屬性響應</h1>
+        <p>在前面的 <a href="./property-binding.html" olink="">屬性綁定</a> 中我們介紹瞭簡單的屬性響應機製，卽如何將組件的屬性值渲染到文本展示上。</p>
+        <p>ofa.js 不僅支持對基本屬性值的響應，還支持對多層嵌套對象內部屬性值的響應式渲染。</p>
+        <o-playground name="非響應式數據示例" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{obj.count2}}</p>
+      <button on:click="handleAddCount">增加</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              obj: {
+                count2: 100,
+              },
+            },
+            proto:{
+              handleAddCount(){
+                this.count++;
+                this.obj.count2++;
+              }
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>所有綁定到 ofa.js 實例對象上的數據都會自動轉換爲響應式數據。響應式數據僅支持字符串、數字、佈爾值、數組、對象等基本數據類型。對於函數、類實例等復雜數據類型，則需要作爲<strong>非響應式屬性</strong>進行存儲，這些屬性的變化不會觸發組件的重新渲染。</p>
+        <h2>非響應式數據</h2>
+        <p>有時我們需要存儲一些不需要響應式更新的數據，例如 Promise 實例、正則錶達式對象或其他復雜對象，這時就需要使用非響應式屬性。這些屬性的變化不會觸發組件的重新渲染，適用於存儲不需要視圖聯動的數據。</p>
+        <p>非響應式屬性的命名通常在屬性名前添加下劃綫 <code>_</code> 作爲前綴，以示與響應式屬性的區分。</p>
+        <o-playground name="非響應式數據示例" style="--editor-height: 500px">
+          <code>
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          border: 1px solid red;
+          padding: 10px;
+        }
+      </style>
+      <p style="color: blue;">count: {{count}}</p>
+      <p style="color: green;">count2: {{_count2}}</p>
+      <button on:click="count++">Blue增加</button>
+      <button on:click="_count2++">Green增加</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              count: 20,
+              _count2: 100,
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在點擊<code>Green增加</code>按鈕時，雖然 <code>_count2</code> 的數值實際上已經增加瞭，但由於牠是非響應式屬性，不會觸發視圖更新，因此界面上的顯示並未改變。當點擊<code>Blue增加</code>按鈕時，由於 <code>count</code> 是響應式屬性，會觸發整個組件的重新渲染，這時纔會衕步更新Green的顯示內容。</p>
+        <p>非響應式的對象數據，性能會比響應式的對象數據性能更好，因爲非響應式數據不會觸發組件的重新渲染。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>
