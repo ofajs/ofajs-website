@@ -23,7 +23,8 @@
   "main": "copy.js",
   "scripts": {
     "start": "http-server -p 8085",
-    "bu": "node _make.js"
+    "bu": "node _make.js",
+    "build": "node _build.js"
   },
   "devDependencies": {
     "http-server": "^14.1.1"
