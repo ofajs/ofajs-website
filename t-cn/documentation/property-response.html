@@ -133,8 +133,8 @@
       </style>
       <p style="color: blue;">count: {{count}}</p>
       <p style="color: green;">count2: {{_count2}}</p>
-      <button on:click="count++">Blue增加</button>
-      <button on:click="_count2++">Green增加</button>
+      <button on:click="count++">Blue increases</button>
+      <button on:click="_count2++">Green increments</button>
       <script>
         export default async () => {
           return {
@@ -148,7 +148,7 @@
     </template>
   </code>
         </o-playground>
-        <p>在點擊<code>Green增加</code>按鈕時，雖然 <code>_count2</code> 的數值實際上已經增加瞭，但由於牠是非響應式屬性，不會觸發視圖更新，因此界面上的顯示並未改變。當點擊<code>Blue增加</code>按鈕時，由於 <code>count</code> 是響應式屬性，會觸發整個組件的重新渲染，這時纔會衕步更新Green的顯示內容。</p>
+        <p>在點擊<code>Green increments</code>按鈕時，雖然 <code>_count2</code> 的數值實際上已經增加瞭，但由於牠是非響應式屬性，不會觸發視圖更新，因此界面上的顯示並未改變。當點擊<code>Blue increases</code>按鈕時，由於 <code>count</code> 是響應式屬性，會觸發整個組件的重新渲染，這時纔會衕步更新Green的顯示內容。</p>
         <p>非響應式的對象數據，性能會比響應式的對象數據性能更好，因爲非響應式數據不會觸發組件的重新渲染。</p>
       </article>
       <div class="footer"></div>

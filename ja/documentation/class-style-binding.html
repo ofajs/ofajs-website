@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>クラスとスタイルのバインディング</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -313,9 +313,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>スタイルにおけるデータ</h2>
+        <h2>スタイルタグ内のデータ関数</h2>
         <p>スタイルで <code>data(xxx)</code> を使用してコンポーネントデータをバインドできます。これは、コンポーネントデータに基づいてスタイルを動的に変更する必要があるシナリオに非常に適しています。</p>
-        <o-playground name="data in style" style="--editor-height: 500px">
+        <o-playground name="スタイルタグ内のデータ関数" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -335,9 +335,9 @@
           transition: all data(time)s ease;
         }
       </style>
-      FontSize: <input type="number" sync:value="size" placeholder="这是一个双向绑定的输入框" />
+      FontSize: <input type="number" sync:value="size" placeholder="これは双方向バインディングの入力ボックスです" />
       <br />
-      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="这是一个双向绑定的输入框" />
+      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="これは双方向バインディングの入力ボックスです" />
       <p>{{val}} - size: {{size}}</p>
       <script>
         export default async () => {

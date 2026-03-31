@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>주입 숙주 스타일</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -93,7 +93,7 @@
             <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#007acc</span>;
             <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
         }
-        <span class="hljs-comment">/* 设置直接子一级元素的样式 */</span>
+        <span class="hljs-comment">/* 직접 하위 1단계 요소의 스타일 설정 */</span>
         <span class="hljs-comment">/* ::slotted(user-list-item) {
             background-color: aqua;
         } */</span>
@@ -103,7 +103,7 @@
             user-list user-list-item {
                 <span class="hljs-attribute">background-color</span>: aqua;
             }
-            <span class="hljs-comment">/* 还可以设置多层级嵌套的样式 */</span>
+            <span class="hljs-comment">/* 다중 레벨 중첩 스타일도 설정 가능 */</span>
             user-list user-list-item <span class="hljs-selector-class">.user-list-item-content</span> {
                 <span class="hljs-attribute">color</span>: red;
             }

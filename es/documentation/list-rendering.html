@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Renderizado de listas</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -86,11 +86,11 @@
         <p><code>o-fill</code> es el componente principal en ofa.js para el renderizado de listas; recibe una propiedad <code>value</code> de tipo array y genera un elemento DOM correspondiente para cada ítem del array. Durante el renderizado, ofa.js rastrea automáticamente los cambios en el array y actualiza el DOM de manera eficiente.</p>
         <h3>Características principales：</h3>
         <ul>
-          <li><strong>高效更新</strong>：通过键值跟踪数组变化，仅更新需要变更的部分</li>
-          <li><strong>索引访问</strong>：通过 <code>$index</code> 访问当前项的索引</li>
-          <li><strong>数据访问</strong>：通过 <code>$data</code> 访问当前项的数据</li>
-          <li><strong>宿主访问</strong>：通过 <code>$host</code> 访问当前组件实例，可调用组件方法或访问组件数据</li>
-          <li><strong>模板复用</strong>：支持使用命名模板进行复杂列表渲染</li>
+          <li><strong>Actualización eficiente</strong>: rastrea los cambios en el array mediante pares clave-valor y actualiza solo las partes necesarias</li>
+          <li><strong>Acceso por índice</strong>: accede al índice del elemento actual mediante <code>$index</code></li>
+          <li><strong>Acceso a datos</strong>: accede a los datos del elemento actual mediante <code>$data</code></li>
+          <li><strong>Acceso al host</strong>: accede a la instancia del componente actual mediante <code>$host</code>, pudiendo invocar métodos o acceder a datos del componente</li>
+          <li><strong>Reutilización de plantillas</strong>: admite el uso de plantillas con nombre para renderizar listas complejas</li>
         </ul>
         <h2>Renderizado directo</h2>
         <p>La renderización directa es la forma más sencilla de uso: se escribe el contenido de la plantilla directamente dentro de la etiqueta <code>o-fill</code>. Cuando el array cambia, <code>o-fill</code> crea automáticamente los elementos correspondientes para cada dato.</p>

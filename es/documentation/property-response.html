@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Respuesta de atributo</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -95,7 +95,7 @@
       </style>
       <p style="color: blue;">count: {{count}}</p>
       <p style="color: green;">count2: {{obj.count2}}</p>
-      <button on:click="handleAddCount">增加</button>
+      <button on:click="handleAddCount">Aumentar</button>
       <script>
         export default async () => {
           return {
@@ -133,8 +133,8 @@
       </style>
       <p style="color: blue;">count: {{count}}</p>
       <p style="color: green;">count2: {{_count2}}</p>
-      <button on:click="count++">Aumentar Azul</button>
-      <button on:click="_count2++">Aumentar Verde</button>
+      <button on:click="count++">Blue increases</button>
+      <button on:click="_count2++">Green increments</button>
       <script>
         export default async () => {
           return {
@@ -148,7 +148,7 @@
     </template>
   </code>
         </o-playground>
-        <p>Al hacer clic en el botón <code>Green增加</code>, aunque el valor de <code>_count2</code> de hecho ya se ha incrementado, dado que es una propiedad no reactiva, no se activa la actualización de la vista y, por lo tanto, la visualización en la interfaz no cambia. Al hacer clic en el botón <code>Blue增加</code>, como <code>count</code> es una propiedad reactiva, se activa el re-renderizado del componente entero, momento en el que se sincroniza y actualiza el contenido mostrado de Green.</p>
+        <p>Al hacer clic en el botón <code>Green increments</code>, aunque el valor de <code>_count2</code> realmente ha aumentado, debido a que es una propiedad no reactiva, no desencadena una actualización de la vista, por lo que la visualización en la interfaz no cambia. Al hacer clic en el botón <code>Blue increases</code>, dado que <code>count</code> es una propiedad reactiva, desencadena un nuevo renderizado de todo el componente, y es en ese momento cuando se actualiza sincrónicamente el contenido mostrado por Green.</p>
         <p>Los datos de objetos no reactivos tienen un mejor rendimiento que los datos de objetos reactivos porque los datos no reactivos no desencadenan la re-renderización de componentes.</p>
       </article>
       <div class="footer"></div>

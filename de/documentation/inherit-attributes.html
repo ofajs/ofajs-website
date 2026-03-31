@@ -139,7 +139,7 @@
     <template>
       <l-m src="./demo-comp.html"></l-m>
       <demo-comp></demo-comp>
-      <demo-comp user-name="张三" age="25"></demo-comp>
+      <demo-comp user-name="Zhang San" age="25"></demo-comp>
     </template>
   </code>
           <code path="demo-comp.html" active="">
@@ -151,8 +151,8 @@
           padding: 8px;
         }
       </style>
-      <p>Benutzername: {{userName}}</p>
-      <p>Alter: {{age}}</p>
+      <p>User Name: {{userName}}</p>
+      <p>Age: {{age}}</p>
       <script>
         export default async ({ load }) => {
           return {
@@ -224,7 +224,7 @@
   </code>
         </o-playground>
         <h2>Mehrstufige Weitergabe</h2>
-        <p>可以通过多层嵌套组件逐层传递 attribute。</p>
+        <p>Attribute können durch mehrschichtige verschachtelte Komponenten weitergegeben werden.</p>
         <p>Wenn eine Komponente von anderen Komponenten abhängig ist, muss das Modul der anderen Komponenten in der Komponente importiert werden.</p>
         <o-playground name="Mehrebenen-Übergabebeispiel" style="--editor-height: 700px">
           <code path="demo.html" preview="">

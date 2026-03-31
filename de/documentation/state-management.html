@@ -260,7 +260,7 @@
         <p>Das Statusobjekt unterstützt tiefe Reaktivität; Änderungen an verschachtelten Objekten und Arrays werden ebenfalls überwacht.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>,
     <span class="hljs-attr">settings</span>: {
       <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
     }
@@ -268,10 +268,10 @@
   <span class="hljs-attr">list</span>: []
 });
 
-<span class="hljs-comment">// 修改嵌套属性也会触发更新</span>
-store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;李四&quot;</span>;
+<span class="hljs-comment">// Änderungen an verschachtelten Eigenschaften lösen ebenfalls Updates aus</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;Li Si&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
-store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新任务&quot;</span> });</code></pre>
+store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Neue Aufgabe&quot;</span> });</code></pre>
         <h2>Best Practices</h2>
         <h3>1. Den Status in der Attached-Phase der Komponente einhängen</h3>
         <p>Es wird empfohlen, den gemeinsamen Status im <code>attached</code>-Lebenszyklus der Komponente zu mounten:</p>

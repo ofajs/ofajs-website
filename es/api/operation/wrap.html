@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>wrap</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
   <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -82,18 +82,18 @@
       <article class="markdown-body">
         <h1>wrap</h1>
         <p>El método <code>wrap</code> se utiliza para envolver una capa de elemento alrededor del elemento objetivo. Antes de ejecutar la operación <code>wrap</code>, se realiza automáticamente la operación de inicialización del <a href="../instance/dollar.html" olink="">método $</a>, por lo que se puede proporcionar directamente la cadena de caracteres del elemento o el objeto.</p>
-        <o-playground name="wrap - 包裹元素" style="--editor-height: 440px">
+        <o-playground name="wrap - elemento envuelto" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
       <style> div{border: #aaa solid 1px; margin:8px; padding:8px;} </style>
       <div>
-        <div>Soy 1</div>
-        <div id="target">Soy 2</div>
-        <div>Soy 3</div>
+        <div>I am 1</div>
+        <div id="target">I am 2</div>
+        <div>I am 3</div>
       </div>
       <script>
         setTimeout(()=>{
-          \$('#target').wrap(`<div style="border-color:red;">envolver</div>`);
+          \$('#target').wrap(`<div style="border-color:red;">wrap</div>`);
         }, 500);
       </script>
     </template>

@@ -83,7 +83,7 @@
         <h1>Injecter les styles de l'hôte</h1>
         <p>Dans les Web Components, en raison des limitations des <code>slot</code>, il est impossible de définir directement les styles des éléments multi-niveaux à l’intérieur d’un slot. Pour résoudre ce problème, ofa.js fournit le composant <code>&lt;inject-host&gt;</code>, qui permet d’injecter des styles dans l’élément hôte depuis l’intérieur du composant, afin de contrôler les styles des éléments multi-niveaux dans le contenu du slot.</p>
         <blockquote>
-          <p>注意，建议优先使用 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 选择器来设置插槽内容的样式。只有在无法满足需求时，才使用 <code>&lt;inject-host&gt;</code> 组件。</p>
+          <p>Attention, il est recommandé d’utiliser en priorité le sélecteur <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> pour styliser le contenu des slots. N’utilisez le composant <code>&lt;inject-host&gt;</code> que si ce dernier ne répond pas à vos besoins.</p>
         </blockquote>
         <h2>Utilisation de base</h2>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
@@ -210,8 +210,7 @@
           <li><strong>Éviter les sélecteurs universels de balise</strong> : utilisez plutôt des sélecteurs de classe ou d’attribut à la place des sélecteurs de balise </li>
           <li><strong>Réfléchir à la conception du composant</strong> : envisagez d’optimiser la conception du composant pour éviter l’utilisation de <code>&lt;inject-host&gt;</code>. Par exemple, combiner sur le composant enfant le sélecteur <a href="https://developer.mozilla.org/fr/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> est souvent plus élégant.</li>
         </ol>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 推荐 ✅：使用具体的选择器 --&gt;</span>
-<span class="hljs-comment">&lt;!-- Recommandé ✅：utiliser des sélecteurs spécifiques --&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Recommandé ✅ : Utiliser des sélecteurs spécifiques --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
         user-list <span class="hljs-selector-class">.list-item-content</span> {
@@ -220,12 +219,10 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- 不推荐 ❌：使用过于通用的选择器 --&gt;</span>
-<span class="hljs-comment">&lt;!-- Non recommandé ❌：utiliser des sélecteurs trop génériques --&gt;</span>
+<span class="hljs-comment">&lt;!-- Non recommandé ❌ : Utiliser des sélecteurs trop génériques --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
-        <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* 容易与其他组件冲突 */</span>
-            <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* susceptible d'entrer en conflit avec d'autres composants */</span>
+        <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* Risque de conflit avec d'autres composants */</span>
             <span class="hljs-attribute">color</span>: red;
         }
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>

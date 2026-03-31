@@ -1,17 +1,10 @@
-let defaultLang =
-  sessionStorage.getItem("lang") || localStorage.getItem("lang");
+let defaultLang = "en";
 
-if (!defaultLang) {
-  // 根据本地语言，进行修正
-  if (navigator.language.toLowerCase().includes("zh")) {
-    defaultLang = "cn";
-  } else if (navigator.language.toLowerCase().includes("ja")) {
-    defaultLang = "ja";
-  }
-}
-
-if (!defaultLang) {
-  defaultLang = "en";
+// 根据本地语言，进行修正
+if (navigator.language.toLowerCase().includes("zh")) {
+  defaultLang = "cn";
+} else if (navigator.language.toLowerCase().includes("ja")) {
+  defaultLang = "ja";
 }
 
 export const getLang = () => {

@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>シングルページアプリケーション</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -94,7 +94,7 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>router test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>ルーター テスト<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
@@ -124,9 +124,9 @@
     </template>
   </code>
           <code path="app-config.js">
-    // アプリケーションのホームページアドレス
+    // アプリケーションのホームアドレス
     export const home = "./home.html";
-    // ページ切り替えアニメーション設定
+    // ページ切り替えアニメーションの設定
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -174,15 +174,15 @@
         }
       </style>
       <p>{{val}}</p>
-      <a href="./about.html" olink>Go to About</a>
+      <a href="./about.html" olink>Aboutへ移動</a>
       <br>
       <br>
-      <button on:click="gotoAbout">Go to About Button</button>
+      <button on:click="gotoAbout">Aboutボタンへ移動</button>
       <script>
         export default async () => {
           return {
             data: {
-              val: "Hello ofa.js App Demo",
+              val: "こんにちは ofa.js アプリデモ",
             },
             proto:{
                 gotoAbout(){
@@ -202,13 +202,13 @@
           padding: 10px;
         }
       </style>
-      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <div style="padding: 8px;"> <button on:click="back()">戻る</button> </div>
       <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
       <script>
         export default async () => {
           return {
             data: {
-              val: "Hello ofa.js App Demo",
+              val: "こんにちは ofa.js アプリデモ",
             },
           };
         };

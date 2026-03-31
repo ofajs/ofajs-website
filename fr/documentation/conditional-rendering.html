@@ -112,7 +112,7 @@
   </code>
         </o-playground>
         <h3>Fonctionnement de o-if</h3>
-        <p><code>o-if</code> 只会在条件为真时才将内容渲染到 DOM 中，当条件为假时，<code>o-if</code> 内的 DOM 元素会被完全移除。这种实现方式适合在条件变化不太频繁的情况下使用，因为它涉及到 DOM 的创建和销毁。</p>
+        <p><code>o-if</code> ne rendra le contenu dans le DOM que lorsque la condition est vraie, et lorsque la condition est fausse, les éléments DOM à l&#39;intérieur de <code>o-if</code> seront complètement supprimés. Cette méthode de mise en œuvre convient aux situations où les conditions ne changent pas fréquemment, car elle implique la création et la destruction du DOM.</p>
         <h2>Composants o-else-if et o-else</h2>
         <p>Lorsque plusieurs branches conditionnelles sont nécessaires, vous pouvez utiliser les composants <code>o-else-if</code> et <code>o-else</code> en combinaison avec <code>o-if</code> pour réaliser un rendu conditionnel à branches multiples.</p>
         <ul>

@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inyectar estilos del host</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -127,11 +127,11 @@
       <l-m src="./user-list-item.html"></l-m>
       <user-list>
         <user-list-item>
-          <span>张三</span>
+          <span>Zhang San</span>
           <span slot="age">25</span>
         </user-list-item>
         <user-list-item>
-          <span class="item-name">李四</span>
+          <span class="item-name">Li Si</span>
           <span slot="age">30</span>
         </user-list-item>
       </user-list>
@@ -228,7 +228,7 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span></code></pre>
         <h3>Consejos de rendimiento</h3>
-        <p>由于 <code>&lt;inject-host&gt;</code> puede déclenche el reinyecto de estilos del host, lo que puede causar reflujo o repintado del componente, úselo con precaución en escenarios de actualización frecuente.<br>若仅需为插槽内第一级元素设置样式，优先使用 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 伪类选择器，可避免穿透式注入带来的额外渲染开销，从而获得更佳性能。</p>
+        <p>Dado que <code>&lt;inject-host&gt;</code> desencadena la reinyección de estilos del host, lo que puede provocar el reflujo o repintado del componente, utilícelo con precaución en escenarios de actualización frecuente.<br>Si solo necesita establecer estilos para los elementos de primer nivel dentro del slot, priorice el uso del selector de pseudo-clase <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a>, ya que puede evitar el costo de renderizado adicional causado por la inyección de tipo "penetración", obteniendo así un mejor rendimiento.</p>
       </article>
       <div class="footer"></div>
       <script>

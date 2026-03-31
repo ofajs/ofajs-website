@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>parents</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
   <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -82,18 +82,18 @@
       <article class="markdown-body">
         <h1>parents</h1>
         <p>Usando el atributo <code>parents</code>, puedes obtener fácilmente todas las instancias de elementos padres del elemento actual, que se devolverán en forma de array.</p>
-        <o-playground name="parents - 父元素" style="--editor-height: 360px">
+        <o-playground name="parents - Elemento padre" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
       <div>
         <ul>
-          <li>I am 1</li>
-          <li id="target">I am target</li>
-          <li>I am 3</li>
+          <li>Soy 1</li>
+          <li id="target">Soy target</li>
+          <li>Soy 3</li>
         </ul>
       </div>
       <div>
-        logger: <span id="logger"></span>
+        registrador: <span id="logger"></span>
       </div>
       <script>
         setTimeout(()=>{

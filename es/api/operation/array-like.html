@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agregar o eliminar elementos secundarios</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
   <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>Agregar o eliminar elementos secundarios</h1>
-        <p>元素实例拥有类似数组的特性，添加或删除节点只需要使用数组那几个操作方法即可。其中使用 <code>push</code>、<code>unshift</code>、<code>pop</code>、<code>shift</code>、<code>splice</code> 方法时，内部会自动执行 <a href="../instance/dollar.html" olink="">$ 方法</a> 的初始化操作，所以可以直接填写具体的元素字符串或对象。</p>
+        <p>Las instancias de elementos tienen características similares a las de un array; añadir o eliminar nodos solo requiere utilizar los métodos habituales de array. Al emplear los métodos <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code> y <code>splice</code>, internamente se ejecuta automáticamente la inicialización del método <a href="../instance/dollar.html" olink="">$</a>, por lo que se puede indicar directamente la cadena de elemento o el objeto concreto.</p>
         <p>Del mismo modo, también puede utilizar otros métodos de array, como <code>forEach</code>, <code>map</code>, <code>some</code>, etc.</p>
         <p><strong>Tenga en cuenta que no se deben añadir ni eliminar elementos secundarios en los elementos que tengan sintaxis de plantilla.</strong></p>
         <h2>push</h2>

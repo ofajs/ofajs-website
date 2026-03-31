@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Componentes no explícitos</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -87,7 +87,7 @@
           <li>Componentes de relleno: <code>x-fill</code></li>
         </ul>
         <p>Estos dos componentes tienen funciones idénticas a los componentes <code>o-if</code> y <code>o-fill</code>, pero ellos mismos no se renderizan realmente en el DOM, sino que renderizan sus elementos internos directamente en las áreas correspondientes.</p>
-        <p>例如：</p>
+        <p>Por ejemplo:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-class">.container</span> &gt; <span class="hljs-selector-class">.item</span>{
         <span class="hljs-attribute">color</span>:red;
@@ -177,7 +177,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Descripción del rendimiento</h2>
-        <p>除了功能上的区别外，非显式组件的渲染性能会比显式组件（<code>o-if</code>、<code>o-fill</code>）<strong>差很多</strong>。这是因为非显式组件不会真实渲染到 DOM 中，需要额外的模拟渲染逻辑来处理内部元素的定位和更新。</p>
+        <p>Además de las diferencias funcionales, el rendimiento de renderizado de los componentes no explícitos es <strong>mucho peor</strong> que el de los componentes explícitos (<code>o-if</code>, <code>o-fill</code>). Esto se debe a que los componentes no explícitos no se renderizan realmente en el DOM, requiriendo lógica de renderizado simulada adicional para manejar el posicionamiento y la actualización de los elementos internos.</p>
         <p>Además, los componentes no explícitos pueden provocar errores difíciles de detectar: dado que no se integran realmente en el DOM, las operaciones que dependen de la estructura del DOM (como la vinculación de eventos, el cálculo de estilos o las consultas de bibliotecas de terceros) pueden fallar o comportarse de manera anómala.</p>
         <p>Por lo tanto, se recomienda <strong>dar prioridad al uso de componentes explícitos</strong> (<code>o-if</code>, <code>o-else-if</code>, <code>o-else</code>, <code>o-fill</code>), y utilizar componentes no explícitos solo en escenarios específicos.</p>
         <h2>Casos de uso</h2>

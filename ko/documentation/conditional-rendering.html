@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>조건부 렌더링</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -222,7 +222,7 @@
   </code>
         </o-playground>
         <h3>폼 검증 상태 표시</h3>
-        <o-playground name="表单验证状态显示示例" style="--editor-height: 500px">
+        <o-playground name="폼 검증 상태 표시 예제" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -237,7 +237,7 @@
         }
       </style>
       <div>
-        <h3>이메일 검증 예시</h3>
+        <h3>이메일 검증 예제</h3>
         <input type="email" :value="email" on:input="email = $event.target.value" placeholder="이메일 주소 입력">
         <o-if :value="email && isValidEmail(email)">
           <p style="color:green;">✓ 이메일 형식이 올바릅니다</p>
@@ -246,7 +246,7 @@
           <p style="color:red;">✗ 이메일 형식이 올바르지 않습니다</p>
         </o-else-if>
         <o-else>
-          <p style="color:orange;">검증하려면 이메일 주소를 입력해 주세요</p>
+          <p style="color:orange;">이메일 주소를 입력하여 검증해주세요</p>
         </o-else>
       </div>
       <script>

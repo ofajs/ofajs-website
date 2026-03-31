@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Propiedades calculadas</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -88,7 +88,7 @@
           <li><strong>Reactiva</strong>: cuando se actualizan los datos de los que depende, la propiedad calculada se actualiza automáticamente </li>
           <li><strong>Declarativa</strong>: se crean relaciones de dependencia de forma declarativa, lo que hace que el código sea más claro y fácil de entender</li>
         </ul>
-        <h2>get 计算属性</h2>
+        <h2>get Propiedad calculada</h2>
         <p>La propiedad <code>get</code> se utiliza para derivar nuevos valores a partir de datos reactivos, no acepta parámetros y solo devuelve un valor calculado basado en otros datos.</p>
         <o-playground name="get Ejemplo de propiedad calculada" style="--editor-height: 600px">
           <code>
@@ -154,7 +154,7 @@
           return {
             data: {
               filterText: '',
-              names: ['张3', '李4', '王54']
+              names: ['Juan', 'María', 'Carlos']
             },
             proto: {
               get filteredNames() {
@@ -174,7 +174,7 @@
         </o-playground>
         <h2>set Propiedad calculada</h2>
         <p>Los <code>set</code> de las propiedades computadas te permiten modificar el estado de datos subyacente mediante operaciones de asignación. Recibe un parámetro, que generalmente se utiliza para actualizar inversamente los datos originales de los que depende.</p>
-        <o-playground name="set 计算属性示例" style="--editor-height: 700px">
+        <o-playground name="set ejemplo de propiedad calculada" style="--editor-height: 700px">
           <code>
     <template page>
       <style>
@@ -189,11 +189,11 @@
         }
       </style>
       <div>
-        <p>基础数值: {{count}}</p>
-        <p>双倍数值: {{countDouble}}</p>
-        <button on:click="resetCount">重置计数</button>
-        <button on:click="setCountDouble">设置双倍值为 10</button>
-        <button on:click="incrementCount">增加基础值</button>
+        <p>Valor base: {{count}}</p>
+        <p>Valor doble: {{countDouble}}</p>
+        <button on:click="resetCount">Restablecer contador</button>
+        <button on:click="setCountDouble">Establecer valor doble a 10</button>
+        <button on:click="incrementCount">Incrementar valor base</button>
       </div>
       <script>
         export default async () => {
@@ -206,7 +206,7 @@
                 return this.count * 2;
               },
               set countDouble(val) {
-                this.count = Math.max(0, val / 2); // 确保 count 不为负数
+                this.count = Math.max(0, val / 2); // Asegura que count no sea negativo
               },
               resetCount() {
                 this.count = 0;

@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestión de Estado</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -238,29 +238,29 @@
         <p>El objeto de estado creado por <code>$.stanz()</code> es reactivo. Cuando los datos del estado cambian, todos los componentes que hacen referencia a esos datos se actualizarán automáticamente.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
-<span class="hljs-comment">// 在组件中</span>
+<span class="hljs-comment">// En el componente</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
     <span class="hljs-attr">store</span>: {}
   },
   <span class="hljs-attr">proto</span>:{
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// 所有引用了 store.count 的组件都会自动更新</span>
+        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Todos los componentes que referencian store.count se actualizarán automáticamente</span>
     }
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// 直接引用状态对象的属性</span>
+    <span class="hljs-comment">// Referencia directa a la propiedad del objeto de estado</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// 组件销毁时，清空挂载的状态数据</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// Cuando el componente se destruye, vacía los datos de estado montados</span>
   }
 };</code></pre>
         <h3>2. Reactividad profunda</h3>
         <p>Los objetos de estado admiten reactividad profunda; los cambios en objetos y arrays anidados también son escuchados.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>,
     <span class="hljs-attr">settings</span>: {
       <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
     }
@@ -268,10 +268,10 @@
   <span class="hljs-attr">list</span>: []
 });
 
-<span class="hljs-comment">// 修改嵌套属性也会触发更新</span>
-store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;李四&quot;</span>;
+<span class="hljs-comment">// Modificar propiedades anidadas también activa la actualización</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;Li Si&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
-store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新任务&quot;</span> });</code></pre>
+store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Nueva tarea&quot;</span> });</code></pre>
         <h2>Mejores prácticas</h2>
         <h3>1. Montar estado en la etapa attached del componente</h3>
         <p>Se recomienda montar el estado compartido en el ciclo de vida <code>attached</code> del componente:</p>
@@ -314,7 +314,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
           padding: 8px;
         }
       </style>
-      <button on:click="addItem">Add Item</button>
+      <button on:click="addItem">Agregar Elemento</button>
       <o-fill :value="list">
         <div>{{$index}} - <demo-comp :val="$data.val"></demo-comp></div>
       </o-fill>
@@ -345,7 +345,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
             display: inline-block;
         }
       </style>
-      {{val}} - {{cartStore.total}} <button on:click="addStoreTotal">Add Store Total</button>
+      {{val}} - {{cartStore.total}} <button on:click="addStoreTotal">Agregar Total de la Tienda</button>
       <script>
         const cartStore = $.stanz({ total: 0 });
         export default async () => {
@@ -364,7 +364,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
                 this.cartStore = cartStore;
             },
             detached(){
-                this.cartStore = {}; // 组件销毁时，清空挂载的状态数据
+                this.cartStore = {}; // Al destruir el componente, vaciar los datos de estado montados
             }
           };
         };

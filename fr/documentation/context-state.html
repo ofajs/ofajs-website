@@ -90,7 +90,7 @@
         </ul>
         <h2>o-provider Fournisseur</h2>
         <p>Le composant <code>o-provider</code> sert à définir un fournisseur de données partagées. Il s’identifie par l’attribut <code>name</code> et définit les données à partager via des attributs (comme <code>custom-a=&quot;value&quot;</code>).</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">custom-name</span>=<span class="hljs-string">&quot;张三&quot;</span> <span class="hljs-attr">custom-age</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">custom-name</span>=<span class="hljs-string">&quot;Zhang San&quot;</span> <span class="hljs-attr">custom-age</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
   ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span></code></pre>
         <h3>Attributs</h3>
@@ -314,12 +314,12 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;parent&quot;</span>&gt;</span>
  ...
- <span class="hljs-comment">&lt;!-- 这里👇获取到的custom-value是 &quot;parent&quot; --&gt;</span>
+ <span class="hljs-comment">&lt;!-- Ici 👇 la custom-value obtenue est &quot;parent&quot; --&gt;</span>
  <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
  ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- 这里👇获取到的custom-value是 &quot;root&quot; --&gt;</span>
+<span class="hljs-comment">&lt;!-- Ici 👇 la custom-value obtenue est &quot;root&quot; --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
 </code></pre>
         <h3>Démonstration d&#39;exemple de priorité</h3>
@@ -386,10 +386,10 @@
 ...
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <h2>Exemple de getProvider</h2>
-        <o-playground name="Exemple getProvider" style="--editor-height: 500px">
+        <o-playground name="Exemple de getProvider" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
-      <o-provider name="userInfo" custom-name="张三" custom-age="25">
+      <o-provider name="userInfo" custom-name="Zhang San" custom-age="25">
         <o-page src="page.html"></o-page>
       </o-provider>
     </template>
@@ -397,8 +397,8 @@
           <code path="page.html" active>
     <template page>
       <button on:click="getProviderData">Obtenir les données du Provider</button>
-      <div>Nom actuel : {{currentName}}</div>
-      <div>Âge actuel : {{currentAge}}</div>
+      <div>Nom actuel: {{currentName}}</div>
+      <div>Âge actuel: {{currentAge}}</div>
       <div style="margin-top: 10px;">
         <button on:click="updateProvider">Modifier les données du Provider</button>
       </div>
@@ -413,16 +413,16 @@
             getProviderData() {
               const provider = this.getProvider("userInfo");
               if (provider) {
-                console.log("Provider trouvé :", provider);
-                console.log("Nom :", provider.customName);
-                console.log("Âge :", provider.customAge);
+                console.log("Provider trouvé:", provider);
+                console.log("Nom:", provider.customName);
+                console.log("Âge:", provider.customAge);
                 alert(`Données du Provider : ${provider.customName}, ${provider.customAge} ans`);
               }
             },
             updateProvider() {
               const provider = this.getProvider("userInfo");
               if (provider) {
-                provider.customName = "李四";
+                provider.customName = "Li Si";
                 provider.customAge = 30;
               }
             },
@@ -431,8 +431,7 @@
       </script>
     </template>
   </code>
-        </o-playground>
-        <h3>Obtenir le fournisseur à partir de l&#39;élément</h3>
+        </o-playground> ### Obtenir le fournisseur à partir de l'élément
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Obtenir le provider parent de l&#x27;élément courant</span>
 <span class="hljs-keyword">const</span> provider = $(<span class="hljs-string">&quot;.my-element&quot;</span>).<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;userInfo&quot;</span>);
 

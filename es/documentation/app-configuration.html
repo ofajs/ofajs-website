@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Configuración de la aplicación</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -240,9 +240,9 @@
         <p>Componente que se muestra cuando falla la carga de la página, la función recibe un objeto de parámetros que incluye <code>src</code> (la dirección de la página fallida) y <code>error</code> (el mensaje de error).</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{src, error}</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
-    &lt;p&gt;页面加载失败&lt;/p&gt;
-    &lt;p&gt;地址: <span class="hljs-subst">${src}</span>&lt;/p&gt;
-    &lt;button on:click=&quot;back()&quot;&gt;返回&lt;/button&gt;
+    &lt;p&gt;Error al cargar la página&lt;/p&gt;
+    &lt;p&gt;Dirección: <span class="hljs-subst">${src}</span>&lt;/p&gt;
+    &lt;button on:click=&quot;back()&quot;&gt;Regresar&lt;/button&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
         <h2>proto - Extensión de prototipo</h2>

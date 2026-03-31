@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>formData</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
   <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -185,7 +185,7 @@
         <p>En este ejemplo, solo queremos escuchar los elementos de formulario que tengan <code>class</code> &quot;use-it&quot;, por lo que pasamos <code>&quot;.use-it&quot;</code> como parámetro al método <code>formData()</code>. De esta manera, solo los elementos de formulario con ese nombre de clase serán escuchados e incluidos en el objeto de datos generado. Esto es muy útil para escuchar selectivamente elementos de formulario, para gestionar tus datos de formulario con mayor precisión.</p>
         <h2>Formulario personalizado</h2>
         <p>El uso de componentes de formulario personalizados es muy sencillo, solo necesita agregar un <strong>atributo value</strong> al componente personalizado y establecer el <strong>atributo name</strong>.</p>
-        <o-playground name="formData - 自定义表单" style="--editor-height: 500px">
+        <o-playground name="formData - Formulario personalizado" style="--editor-height: 500px">
           <code path="demo.html" preview active>
     <template>
       <div id="myForm">
@@ -233,7 +233,7 @@
             name: "",
           },
           data: {
-            value: "Texto predeterminado",
+            value: "Texto por defecto",
           },
           proto: {
             changeText(e) {

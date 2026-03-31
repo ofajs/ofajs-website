@@ -221,9 +221,9 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">watch:custom-theme</span>=<span class="hljs-string">&quot;theme&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
         <h3>Eigenschaften</h3>
         <ol>
-          <li><strong>全局作用域</strong>: 根提供者的数据在整个页面都可用</li>
-          <li><strong>优先级</strong>: 当同时存在同 name 的 provider 和 root-provider 时，离消费者最近的 provider 优先</li>
-          <li><strong>可移除</strong>: 移除 root-provider 后，消费者会回退到查找其他 provider</li>
+          <li><strong>Globaler Geltungsbereich</strong>: Die Daten des Root-Providers sind auf der gesamten Seite verfügbar.</li>
+          <li><strong>Priorität</strong>: Wenn sowohl ein Provider als auch ein Root-Provider mit demselben Namen existieren, hat der dem Consumer nächstgelegene Provider Vorrang.</li>
+          <li><strong>Entfernbar</strong>: Nach dem Entfernen des Root-Providers greift der Consumer auf die Suche nach anderen Providern zurück.</li>
         </ol>
         <h2>root-provider Beispiel</h2>
         <o-playground name="root-provider Beispiel" style="--editor-height: 500px">
@@ -385,11 +385,11 @@
 }
 ...
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-        <h2>getProvider 示例</h2>
+        <h2>getProvider Beispiel</h2>
         <o-playground name="getProvider Beispiel" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
-      <o-provider name="userInfo" custom-name="张三" custom-age="25">
+      <o-provider name="userInfo" custom-name="ZhangSan" custom-age="25">
         <o-page src="page.html"></o-page>
       </o-provider>
     </template>
@@ -400,7 +400,7 @@
       <div>Aktueller Name: {{currentName}}</div>
       <div>Aktuelles Alter: {{currentAge}}</div>
       <div style="margin-top: 10px;">
-        <button on:click="updateProvider">Provider-Daten aktualisieren</button>
+        <button on:click="updateProvider">Provider-Daten ändern</button>
       </div>
       <o-consumer name="userInfo" watch:custom-name="currentName" watch:custom-age="currentAge"></o-consumer>
       <script>
@@ -416,13 +416,13 @@
                 console.log("Provider gefunden:", provider);
                 console.log("Name:", provider.customName);
                 console.log("Alter:", provider.customAge);
-                alert(`Provider-Daten: ${provider.customName}, ${provider.customAge} Jahre alt`);
+                alert(`Provider-Daten: ${provider.customName}, ${provider.customAge} Jahre`);
               }
             },
             updateProvider() {
               const provider = this.getProvider("userInfo");
               if (provider) {
-                provider.customName = "李四";
+                provider.customName = "LiSi";
                 provider.customAge = 30;
               }
             },
@@ -448,7 +448,7 @@
           <li><strong>Über Shadow DOM hinweg</strong>: Sucht im Inneren des Shadow DOM nach dem übergeordneten Provider</li>
           <li><strong>Ereignisverarbeitung</strong>: Erhalten des entsprechenden Anbieters im Ereignis-Rückruf</li>
         </ol>
-        <h2>dispatch 事件派发</h2>
+        <h2>dispatch Ereignisverteilung</h2>
         <p>Der Provider kann Ereignisse an alle Consumer verteilen, die ihn nutzen:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myProvider&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;Hallo&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">&quot;handleEvent&quot;</span>&gt;</span>

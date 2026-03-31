@@ -175,7 +175,7 @@
   </code>
         </o-playground>
         <h2>bubbles - Ereignisblasen-Mechanismus</h2>
-        <p><code>bubbles</code> 属性 steuert, ob ein Ereignis an übergeordnete Elemente nach oben weitergeleitet wird. Wenn es auf <code>true</code> gesetzt ist, breitet sich das Ereignis entlang des DOM-Baums nach oben aus. Der Standardwert ist <code>true</code>. Wenn es auf <code>false</code> gesetzt ist, wird das Ereignis nicht weitergeleitet.</p>
+        <p>Das <code>bubbles</code>-Attribut steuert, ob ein Ereignis zu übergeordneten Elementen aufsteigt (bubbling). Wenn es auf <code>true</code> gesetzt ist, breitet sich das Ereignis im DOM-Baum nach oben aus. Der Standardwert ist <code>true</code>. Wenn es auf <code>false</code> gesetzt wird, wird das Ereignis nicht aufsteigen.</p>
         <h3>Detaillierte Erklärung des Bubble-Mechanismus</h3>
         <ul>
           <li><strong>Standardverhalten</strong>: Mit <code>emit</code> ausgelöste Ereignisse haben standardmäßig Blasen aktiviert (<code>bubbles: true</code>)</li>
@@ -274,7 +274,7 @@
           <li><strong>Anwendungsfälle</strong>: Wenn eine Komponente Ereignisse an die Host-Umgebung senden muss, muss <code>composed: true</code> gesetzt werden</li>
         </ul>
         <h3>Durchdringungsbeispiel</h3>
-        <o-playground name="Benutzerdefiniertes Ereignis mit Daten-Beispiel" style="--editor-height: 500px">
+        <o-playground name="Beispiel für benutzerdefinierte Ereignisse mit Daten" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
       <o-page src="page1.html"></o-page>
@@ -293,8 +293,8 @@
       <div on:child-event="handleChildEventFromComponent">
         <bubble-component></bubble-component>
       </div>
-      <p>监听事件: {{bubbledEventCount}} 次</p>
-      <p>接受到的数据: <span style="color:red;">{{result}}</span></p>
+      <p>Ereignis abgehört: {{bubbledEventCount}} mal</p>
+      <p>Empfangene Daten: <span style="color:red;">{{result}}</span></p>
       <script>
         export default async () => {
           return {
@@ -324,8 +324,8 @@
         }
       </style>
       <child-component on:child-event="handleChildEventFromComponent"></child-component>
-      <p>监听事件: {{bubbledEventCount}} 次</p>
-      <p>接受到的数据: <span style="color:pink;">{{result}}</span></p>
+      <p>Ereignis abgehört: {{bubbledEventCount}} mal</p>
+      <p>Empfangene Daten: <span style="color:pink;">{{result}}</span></p>
       <script>
         export default async () => {
           return {
@@ -354,24 +354,24 @@
           border: 1px solid green;
         }
       </style>
-      <button on:click="triggerNonComposedEvent">触发非穿透事件</button>
-      <button on:click="triggerComposedEvent">触发穿透事件</button>
+      <button on:click="triggerNonComposedEvent">Nicht-durchdringendes Ereignis auslösen</button>
+      <button on:click="triggerComposedEvent">Durchdringendes Ereignis auslösen</button>
       <script>
         export default async () => {
           return {
             tag: "child-component",
             proto: {
               triggerNonComposedEvent() {
-                // 非穿透事件，只会被直接监听者捕获
+                // Nicht-durchdringendes Ereignis, wird nur vom direkten Listener erfasst
                 this.emit('child-event', {
-                  data: { type: 'non-composed', message: '非穿透事件触发', timestamp: Date.now() },
+                  data: { type: 'non-composed', message: 'Nicht-durchdringendes Ereignis ausgelöst', timestamp: Date.now() },
                   composed: false
                 });
               },
               triggerComposedEvent() {
-                // 穿透事件，会跨越 Shadow DOM 边界
+                // Durchdringendes Ereignis, überwindet Shadow-DOM-Grenzen
                 this.emit('child-event', {
-                  data: { type: 'composed', message: '穿透事件触发', timestamp: Date.now() },
+                  data: { type: 'composed', message: 'Durchdringendes Ereignis ausgelöst', timestamp: Date.now() },
                   composed: true
                 });
               }

@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Attribute Response</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -121,7 +121,7 @@
         <h2>Non-reactive Data</h2>
         <p>Sometimes we need to store data that doesn't require reactive updates, such as Promise instances, RegExp objects, or other complex objects. In these cases, non-reactive properties are needed. Changes to these properties won't trigger component re-rendering, making them suitable for storing data that doesn't need to be linked with the view.</p>
         <p>Non-reactive properties are typically prefixed with an underscore <code>_</code> to distinguish them from reactive ones.</p>
-        <o-playground name="Non-reactive data example" style="--editor-height: 500px">
+        <o-playground name="Non-reactive Data Example" style="--editor-height: 500px">
           <code>
     <template page="">
       <style>
@@ -133,8 +133,8 @@
       </style>
       <p style="color: blue;">count: {{count}}</p>
       <p style="color: green;">count2: {{_count2}}</p>
-      <button on:click="count++">Increment Blue</button>
-      <button on:click="_count2++">Increment Green</button>
+      <button on:click="count++">Blue increases</button>
+      <button on:click="_count2++">Green increments</button>
       <script>
         export default async () => {
           return {
@@ -148,7 +148,7 @@
     </template>
   </code>
         </o-playground>
-        <p>When clicking the "Green Increase" button, although the <code>_count2</code> value has actually increased, since it is a non-reactive property, it does not trigger a view update, so the display on the interface remains unchanged. When clicking the "Blue Increase" button, since <code>count</code> is a reactive property, it triggers a re-render of the entire component, and only then does the Green display content get synchronized and updated.</p>
+        <p>When clicking the <code>Green increments</code> button, although the value of <code>_count2</code> has actually increased, since it is a non-reactive property, it will not trigger view updates, so the display on the interface does not change. When clicking the <code>Blue increases</code> button, since <code>count</code> is a reactive property, it will trigger the re-rendering of the entire component, and only at this time will the Green display content be synchronized and updated.</p>
         <p>Non-reactive object data performs better than reactive data because it does not trigger component re-renders.</p>
       </article>
       <div class="footer"></div>

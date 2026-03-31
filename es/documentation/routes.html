@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aplicación de página única</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -88,7 +88,7 @@
           <li>Los botones de avance/retroceso del navegador funcionan correctamente</li>
         </ul>
         <h2>Uso básico</h2>
-        <p>使用官方的 <code>o-router</code> 组件包裹 <code>o-app</code> 组件，即可实现单页面应用。</p>
+        <p>Envuelve el componente <code>o-app</code> con el componente oficial <code>o-router</code> para implementar una aplicación de una sola página.</p>
         <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;es&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
@@ -217,7 +217,7 @@
   </code>
         </o-playground>
         <h2>Cómo funciona</h2>
-        <p>单页面应用基于浏览器的 Hash 模式实现：</p>
+        <p>Aplicación de una sola página implementada con el modo Hash del navegador:</p>
         <ol>
           <li>Cuando se produce un cambio de página dentro de la aplicación, <code>o-router</code> actualiza automáticamente el valor hash en la barra de direcciones (por ejemplo, <code>#/about.html</code>)</li>
           <li>Cuando el usuario actualiza la página o accede a través de una URL, <code>o-router</code> lee el valor hash y carga la página correspondiente</li>

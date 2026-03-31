@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>하위 요소 추가 또는 삭제</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
   <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>하위 요소 추가 또는 삭제</h1>
-        <p>요소 인스턴스는 배열과 유사한 특성을 가지며, 노드를 추가하거나 삭제할 때 배열의那几个 조작 메서드만 사용하면 됩니다. <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code>, <code>splice</code> 메서드를 사용할 때는 내부적으로 자동으로 <a href="../instance/dollar.html" olink="">$ 메서드</a>의 초기화 작업이 수행되므로, 구체적인 요소 문자열이나 객체를 바로 입력할 수 있습니다.</p>
+        <p>요소 인스턴스는 배열과 유사한 특성을 가지며, 노드를 추가하거나 삭제할 때 배열의 몇 가지 메서드를 그대로 사용하면 됩니다. <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code>, <code>splice</code> 메서드를 사용할 경우 내부적으로 자동으로 <a href="../instance/dollar.html" olink="">$ 메서드</a>의 초기화 작업이 수행되므로, 구체적인 요소 문자열이나 객체를 바로 입력할 수 있습니다.</p>
         <p>마찬가지로, <code>forEach</code>, <code>map</code>, <code>some</code> 등의 다른 배열 메서드를 사용할 수도 있습니다.</p>
         <p><strong>템플릿 구문이 있는 요소에서는 하위 요소를 추가하거나 삭제하지 마세요.</strong></p>
         <h2>push</h2>

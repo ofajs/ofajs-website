@@ -83,19 +83,19 @@
         <h1>formData</h1>
         <p>La méthode <code>formData</code> sert à générer un objet de données lié aux éléments de formulaire, rendant ainsi le traitement des éléments de formulaire plus simple et plus efficace. Cette méthode produit un objet contenant les valeurs de tous les éléments de formulaire présents dans l’élément cible, et cet objet reflète en temps réel les modifications des éléments de formulaire.</p>
         <p>Dans l’exemple ci-dessous, nous montrons comment utiliser la méthode <code>formData</code> pour générer des données d’objet liées à un élément de formulaire :</p>
-        <o-playground name="formData - 基本使用" style="--editor-height: 500px">
+        <o-playground name="formData - Utilisation de base" style="--editor-height: 500px">
           <code path="demo.html">
     <template>
       <form id="myForm">
         <input type="text" name="username" value="John Doe" />
         <div>
-          sex:
+          sexe:
           <label>
-            man
+            homme
             <input type="radio" name="sex" value="man" />
           </label>
           <label>
-            woman
+            femme
             <input type="radio" name="sex" value="woman" />
           </label>
         </div>
@@ -152,19 +152,19 @@
         <h2>Écouter un formulaire spécifique</h2>
         <p>Par défaut, la méthode <code>formData()</code> écoute tous les éléments <code>input</code>, <code>select</code> et <code>textarea</code> dans l&#39;élément cible. Mais si vous ne souhaitez écouter que des éléments de formulaire spécifiques, vous pouvez le faire en transmettant un sélecteur CSS.</p>
         <p>Dans l’exemple ci-dessous, nous montrons comment écouter un élément de formulaire spécifique en passant un sélecteur CSS :</p>
-        <o-playground name="formData - 特定表单" style="--editor-height: 500px">
+        <o-playground name="formData - formulaire spécifique" style="--editor-height: 500px">
           <code path="demo.html">
     <template>
       <form id="myForm">
         <input type="text" name="username" value="John Doe" class="use-it" />
         <div>
-          sexe:
+          sex:
           <label>
-            homme
+            man
             <input type="radio" name="sex" value="man" class="use-it" />
           </label>
           <label>
-            femme
+            woman
             <input type="radio" name="sex" value="woman" class="use-it" />
           </label>
         </div>

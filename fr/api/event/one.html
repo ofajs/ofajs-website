@@ -83,10 +83,10 @@
         <h1>one</h1>
         <p>En utilisant la méthode <code>one</code>, vous pouvez enregistrer un gestionnaire d’événement unique pour l’élément cible, ce qui signifie que le gestionnaire sera automatiquement désactivé après la première déclenchement et ne se déclenchera plus.</p>
         <p>Voici un exemple démontrant comment utiliser la méthode <code>one</code> pour enregistrer un gestionnaire d&#39;événement de clic sur un élément de bouton：</p>
-        <o-playground name="one - click 一次性事件" style="--editor-height: 300px">
+        <o-playground name="one - click événement unique" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <button id="target">ajouter le compte</button>
+      <button id="target">add count</button>
       <br>
       <br>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
@@ -129,7 +129,7 @@
     </template>
   </code>
         </o-playground>
-        <p>在这个示例中，我们在按钮元素上使用 <code>one:click</code> 绑定了一个名为 <code>addCount</code> 的方法。当用户点击按钮时，这个方法将被调用，但之后不会再次触发，因为它是一次性事件处理程序。</p>
+        <p>Dans cet exemple, nous avons lié une méthode appelée <code>addCount</code> à l&#39;élément bouton en utilisant <code>one:click</code>. Lorsque l&#39;utilisateur clique sur le bouton, cette méthode sera appelée, mais ne se déclenchera plus par la suite, car c&#39;est un gestionnaire d&#39;événements à usage unique.</p>
       </article>
       <div class="footer"></div>
       <script>

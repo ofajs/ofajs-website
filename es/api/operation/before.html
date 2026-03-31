@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>before</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
   <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -83,13 +83,13 @@
         <h1>before</h1>
         <p>El método <code>before</code> se utiliza para añadir elementos delante del elemento destino. Antes de ejecutar la operación <code>before</code>, se realiza automáticamente la inicialización del método <a href="../instance/dollar.html" olink="">$</a>, por lo que puedes escribir directamente la cadena de texto u objeto del elemento concreto.</p>
         <p><strong>Por favor, tenga en cuenta que no se deben realizar operaciones dentro de los componentes de plantilla como o-fill o o-if.</strong></p>
-        <o-playground name="before - 前面添加" style="--editor-height: 300px">
+        <o-playground name="before - agregar antes" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>I am 1</li>
-        <li id="target">I am 2</li>
-        <li>I am 3</li>
+        <li>Yo soy 1</li>
+        <li id="target">Yo soy 2</li>
+        <li>Yo soy 3</li>
       </ul>
       <script>
         setTimeout(()=>{

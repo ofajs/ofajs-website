@@ -160,7 +160,7 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-else</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
         <h2>Composant de remplissage x-fill</h2>
-        <p><code>x-fill</code> 与 <a href="./list-rendering.html" olink="">o-fill</a> 的功能完全相同，用于将数组数据渲染为多个 DOM 元素。与 <code>x-if</code> 类似，<code>x-fill</code> 本身不会渲染到 DOM 中，其内部模板会直接渲染到父级容器。</p>
+        <p><code>x-fill</code> a exactement la même fonction que <a href="./list-rendering.html" olink="">o-fill</a> : il sert à rendre des données de tableau sous forme de multiples éléments DOM. Comme <code>x-if</code>, <code>x-fill</code> ne se rend pas lui-même dans le DOM ; son modèle interne est rendu directement dans le conteneur parent.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>

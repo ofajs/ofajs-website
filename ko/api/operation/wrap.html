@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>wrap</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
   <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../../css/theme.css" />
@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>wrap</h1>
-        <p><code>wrap</code> 메소드는 대상 요소의 외부에 한 层 요소를 감싸는 데 사용된다. <code>wrap</code> 작업을 실행하기 전에 <a href="../instance/dollar.html" olink="">$ 메소드</a>의 초기화 작업이 자동으로 실행되므로 구체적인 요소 문자열이나 객체를 직접 입력할 수 있다.</p>
+        <p><code>wrap</code> 메서드는 대상 요소의 외부에 한 겹의 요소를 감싸는 데 사용됩니다. <code>wrap</code> 작업을 수행하기 전에 자동으로 <a href="../instance/dollar.html" olink="">$ 메서드</a>의 초기화 작업이 실행되므로 구체적인 요소 문자열이나 객체를 바로 입력할 수 있습니다.</p>
         <o-playground name="wrap - 요소 감싸기" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
@@ -109,7 +109,7 @@
 
 $el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// 오류, 부모 요소가 없어 감쌀 수 없음</span>
 $el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// 정상, 부모 요소가 있음</span></code></pre>
-        <p><strong>请 주의하세요. o-fill 또는 o-if 같은 템플릿 컴포넌트 내부에서 조작하지 마세요.</strong></p>
+        <p><strong>o-fill 또는 o-if 등 템플릿 컴포넌트 내에서 조작하지 마십시오.</strong></p>
       </article>
       <div class="footer"></div>
       <script>

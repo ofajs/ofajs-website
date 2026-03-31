@@ -235,7 +235,7 @@
         </o-playground>
         <h2>Caractéristiques de l&#39;objet d&#39;état</h2>
         <h3>1. Mise à jour réactive</h3>
-        <p><code>$.stanz()</code> 创建的状态对象是响应式的。当状态数据发生变化时，所有引用该数据的组件都会自动更新。</p>
+        <p>Les objets d&#39;état créés par <code>$.stanz()</code> sont réactifs. Lorsque les données d&#39;état changent, tous les composants qui référencent ces données se mettent à jour automatiquement.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
 <span class="hljs-comment">// Dans le composant</span>
@@ -260,7 +260,7 @@
         <p>L&#39;objet d&#39;état prend en charge la réactivité en profondeur ; les changements des objets et tableaux imbriqués sont également surveillés.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Jean Dupont&quot;</span>,
     <span class="hljs-attr">settings</span>: {
       <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
     }
@@ -268,8 +268,8 @@
   <span class="hljs-attr">list</span>: []
 });
 
-<span class="hljs-comment">// La modification des propriétés imbriquées déclenche également la mise à jour</span>
-store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;李四&quot;</span>;
+<span class="hljs-comment">// La modification des propriétés imbriquées déclenchera également la mise à jour</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;Pierre Martin&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
 store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Nouvelle tâche&quot;</span> });</code></pre>
         <h2>Bonnes pratiques</h2>

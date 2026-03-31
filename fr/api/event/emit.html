@@ -144,12 +144,12 @@
         <p>Dans cet exemple, nous passons des données personnalisées au gestionnaire d&#39;événements via le paramètre <code>data</code>. Le gestionnaire d&#39;événements peut récupérer les données transmises via <code>event.data</code>.</p>
         <h2>Déclencher un événement sans propagation</h2>
         <p>Si vous ne souhaitez pas que l&#39;événement se propage, vous pouvez ajouter le paramètre <code>bubbles: false</code> lors du déclenchement de l&#39;événement :</p>
-        <o-playground name="emit - 不冒泡" style="--editor-height: 560px">
+        <o-playground name="emit - sans bulles" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
         <li id="target">
-          I am target
+          Je suis la cible
         </li>
       </ul>
       <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
@@ -159,7 +159,7 @@
           \$("#logger1").text = 'ul est déclenché';
         });
         \$('#target').on('custom-event',()=>{
-          \$("#logger2").text = 'target est déclenché';
+          \$("#logger2").text = 'la cible est déclenchée';
         });
         setTimeout(()=>{
           \$("#target").emit("custom-event",{

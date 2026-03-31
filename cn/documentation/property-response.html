@@ -133,8 +133,8 @@
       </style>
       <p style="color: blue;">count: {{count}}</p>
       <p style="color: green;">count2: {{_count2}}</p>
-      <button on:click="count++">Blue增加</button>
-      <button on:click="_count2++">Green增加</button>
+      <button on:click="count++">Blue increases</button>
+      <button on:click="_count2++">Green increments</button>
       <script>
         export default async () => {
           return {
@@ -148,7 +148,7 @@
     </template>
   </code>
         </o-playground>
-        <p>在点击<code>Green增加</code>按钮时，虽然 <code>_count2</code> 的数值实际上已经增加了，但由于它是非响应式属性，不会触发视图更新，因此界面上的显示并未改变。当点击<code>Blue增加</code>按钮时，由于 <code>count</code> 是响应式属性，会触发整个组件的重新渲染，这时才会同步更新Green的显示内容。</p>
+        <p>在点击<code>Green increments</code>按钮时，虽然 <code>_count2</code> 的数值实际上已经增加了，但由于它是非响应式属性，不会触发视图更新，因此界面上的显示并未改变。当点击<code>Blue increases</code>按钮时，由于 <code>count</code> 是响应式属性，会触发整个组件的重新渲染，这时才会同步更新Green的显示内容。</p>
         <p>非响应式的对象数据，性能会比响应式的对象数据性能更好，因为非响应式数据不会触发组件的重新渲染。</p>
       </article>
       <div class="footer"></div>

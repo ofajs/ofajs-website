@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Estado de contexto</title>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/dist/ofa.mjs#debug" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.21/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
   <link rel="stylesheet" href="../../css/palette.css" pui-colors />
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -90,9 +90,9 @@
         </ul>
         <h2>o-provider Proveedor</h2>
         <p>El componente <code>o-provider</code> se utiliza para definir proveedores de datos compartidos. Se identifica a sí mismo mediante el atributo <code>name</code> y define los datos que se compartirán a través de atributos (como <code>custom-a=&quot;value&quot;</code>).</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-proveedor</span> <span class="hljs-attr">nombre</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">nombre-personalizado</span>=<span class="hljs-string">&quot;张三&quot;</span> <span class="hljs-attr">edad-personalizada</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">custom-name</span>=<span class="hljs-string">&quot;Zhang San&quot;</span> <span class="hljs-attr">custom-age</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
   ...
-<span class="hljs-tag">&lt;/<span class="hljs-name">o-proveedor</span>&gt;</span></code></pre>
+<span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span></code></pre>
         <h3>Atributos</h3>
         <ul>
           <li><code>name</code>: el nombre único del proveedor, utilizado para que los consumidores encuentren el proveedor correspondiente</li>
@@ -150,7 +150,7 @@
         }
       </style>
       <user-avatar></user-avatar>
-      <div>用户ID: {{userId}}</div>
+      <div>ID de usuario: {{userId}}</div>
       <user-name></user-name>
       <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
       <script>
@@ -175,7 +175,7 @@
           border-radius: 50%;
         }
       </style>
-      {{userId}}头像
+      Avatar {{userId}}
       <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
       <script>
         export default async ()=>{
@@ -197,7 +197,7 @@
           color: rgba(204, 153, 0, 1);
         }
       </style>
-      User-{{userId}}
+      Usuario-{{userId}}
       <o-consumer name="userInfo" watch:user-id="userId"></o-consumer>
       <script>
         export default async ()=>{
@@ -214,10 +214,10 @@
         </o-playground>
         <h2>o-root-provider Proveedor raíz</h2>
         <p><code>o-root-provider</code> es un proveedor global a nivel raíz; su ámbito abarca todo el documento. Incluso sin un proveedor padre, los consumidores pueden obtener los datos del proveedor raíz.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 定义全局根提供者 --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">custom-theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">custom-language</span>=<span class="hljs-string">&quot;es-ES&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Definir proveedor de raíz global --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">custom-theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">custom-language</span>=<span class="hljs-string">&quot;zh-CN&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- 在页面的任何位置都可以消费 --&gt;</span>
+<span class="hljs-comment">&lt;!-- Se puede consumir en cualquier parte de la página --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">watch:custom-theme</span>=<span class="hljs-string">&quot;theme&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
         <h3>Características</h3>
         <ol>
@@ -389,7 +389,7 @@
         <o-playground name="Ejemplo de getProvider" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
-      <o-provider name="userInfo" custom-name="张三" custom-age="25">
+      <o-provider name="userInfo" custom-name="ZhangShan" custom-age="25">
         <o-page src="page.html"></o-page>
       </o-provider>
     </template>
@@ -422,7 +422,7 @@
             updateProvider() {
               const provider = this.getProvider("userInfo");
               if (provider) {
-                provider.customName = "李四";
+                provider.customName = "LiSi";
                 provider.customAge = 30;
               }
             },
@@ -448,7 +448,7 @@
           <li><strong>A través de Shadow DOM</strong>: busca el proveedor superior dentro del Shadow DOM </li>
           <li><strong>Manejo de eventos</strong>: obtiene el proveedor correspondiente en la devolución de llamada del evento</li>
         </ol>
-        <h2>dispatch 事件派发</h2>
+        <h2>Despacho de eventos</h2>
         <p>El provider puede emitir eventos a todos los consumers que lo consumen:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myProvider&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;Hola&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">&quot;handleEvent&quot;</span>&gt;</span>
