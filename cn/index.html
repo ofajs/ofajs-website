@@ -81,6 +81,12 @@
       <link rel="stylesheet" href="../css/page.css" />
       <l-m src="../publics/_comps/punch-logo/punch-logo.html"></l-m>
       <l-m src="https://book.ofajs.com/o-md/o-md.html"></l-m>
+      <l-m src="../publics/_comps/flow-chart/flow-chart.html"></l-m>
+      <l-m src="../publics/_comps/chat-bubble/chat-bubble.html"></l-m>
+      <l-m src="../publics/_comps/flow-container/flow-container.html"></l-m>
+      <l-m src="../publics/_comps/anchor-dialog/anchor-dialog.html"></l-m>
+      <l-m src="../publics/_comps/support-platforms/support-platforms.html"></l-m>
+      <l-m src="../publics/_comps/split-code/split-code.html"></l-m>
       <center-block>
         <punch-logo>
           <img logo="" src="../img/logo.svg" alt="">
@@ -105,10 +111,7 @@
           </p-button>
         </div>
       </center-block>
-      <l-m src="../publics/_comps/chat-bubble/chat-bubble.html"></l-m>
-      <l-m src="../publics/_comps/flow-container/flow-container.html"></l-m>
-      <l-m src="../publics/_comps/anchor-dialog/anchor-dialog.html"></l-m>
-      <center-block style="--container-max-width: 100%; padding: 128px 0">
+      <center-block style="--container-max-width: 100%">
         <h2>近乎银弹型的前端框架</h2>
         <p>无论是什么应用场景，都适合使用 ofa.js。</p>
         <flow-container style="height: 300px; width: 100%">
@@ -164,7 +167,6 @@
           </article>
         </anchor-dialog>
       </center-block>
-      <l-m src="../publics/_comps/flow-chart/flow-chart.html"></l-m>
       <style>
         .w-title {
           padding: 24px 0 8px;
@@ -177,28 +179,22 @@
         <h2>🤖 更适合AI使用的前端框架 🤖</h2>
         <p>不走编译的流程，直接让代码跑起来。</p>
         <div class="w-title"> AI使用 <b style="color: var(--md-sys-color-primary)">ofa.js</b> 生成前端项目的流程 </div>
-        <flow-chart style="width: 100%; height: 100px">
+        <flow-chart style="width: 100%">
           <div name="ai-model" to="container">AI大模型</div>
           <div name="container" to="preview">部署代码到静态容器</div>
           <div name="preview">预览项目</div>
         </flow-chart>
         <div class="w-title">AI使用当前主流前端框架生成项目的流程</div>
-        <flow-chart style="width: 100%; height: 100px">
+        <flow-chart style="width: 100%">
           <div name="ai-model" to="cloud-container">AI大模型</div>
           <div name="cloud-container" to="init">创建云端容器</div>
           <div name="init" to="deploy">安装依赖</div>
           <div name="deploy" to="preview">部署和编译代码</div>
           <div name="preview">预览项目</div>
         </flow-chart>
-        <p-button size="large">
+        <p-button size="large" style="margin-top: 24px">
           <a href="./scenarios/more-suitable-for-ai.html" olink="">查看详情</a>
         </p-button>
-      </center-block>
-      <l-m src="../publics/_comps/support-platforms/support-platforms.html"></l-m>
-      <center-block>
-        <h2>基于 Web Components 开发</h2>
-        <p>你可以在任何支持 Web Components 的平台上使用 ofa.js</p>
-        <support-platforms></support-platforms>
       </center-block>
       <center-block>
         <h2>极低使用门槛</h2>
@@ -208,12 +204,6 @@
       <template>
         <!-- 加载开发好的 punch-logo 组件 -->
         <l-m src="https://ofajs.com/publics/_comps/punch-logo/punch-logo.html"></l-m>
-        <style>
-          p {
-            white-space: nowrap;
-            font-size: 18px;
-          }
-        </style>
         <!-- 使用 punch-logo 组件 -->
         <punch-logo style="margin: 50px 0 0 150px">
           <img src="https://ofajs.com/img/logo.svg" logo="" height="90">
@@ -293,12 +283,22 @@
     </code>
         </o-playground>
       </center-block>
-      <l-m src="../publics/_comps/flow-chart/flow-chart.html"></l-m>
+      <center-block>
+        <h2>支持多种模板语法</h2>
+        <o-page src="../publics/_comps/render-case/render-case.html"></o-page>
+        <p-button size="large" style="margin-top: 24px">
+          <a href="./documentation/content-rendering.html" olink="">学习更多模板语法</a>
+        </p-button>
+      </center-block>
+      <center-block>
+        <h2>基于 Web Components 开发</h2>
+        <p>你可以在任何支持 Web Components 的平台上使用 ofa.js</p>
+        <support-platforms></support-platforms>
+      </center-block>
       <style>
         .comp-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 24px;
+          column-count: 3;
+          column-gap: 24px;
           margin-top: 24px;
         }
 
@@ -313,6 +313,8 @@
           padding: 24px;
           background: var(--md-sys-color-surface);
           transition: all 0.2s ease;
+          break-inside: avoid;
+          margin-bottom: 24px;
         }
 
         .comp-card:hover {
@@ -392,22 +394,32 @@
           </div>
           <div class="comp-card">
             <h3>o-md</h3>
-            <p>在线 Markdown 渲染组件，无需复杂依赖即可读取和展示 Markdown 文件</p>
+            <p> 一行代码即可渲染和查看 Markdown 的组件；当前点击跳转查看文档的功能，也是基于它实现的。 </p>
             <o-md style="width: 100%; height: 80px; overflow: auto; margin-bottom: 8px" src="https://book.ofajs.com/o-md/README.md"></o-md>
             <p-button>
               <a href="https://book.ofajs.com/o-md/view.html?link=https%3A%2F%2Fbook.ofajs.com%2Fo-md%2FREADME.md" target="_blank">查看文档</a>
             </p-button>
           </div>
+          <div class="comp-card">
+            <h3>o-playground</h3>
+            <p>交互式代码预览组件，支持多文件编辑、实时预览等功能</p>
+            <o-playground style="--editor-height: 200px; margin-bottom: 8px">
+              <code path="demo.html" preview="" active="">
+          <template>
+            <div style="text-align: center; padding: 20px">
+              <h3>Hello o-playground</h3>
+              <p>这是一个交互式代码编辑器</p>
+            </div>
+          </template>
+        </code>
+              <code path="style.css"> h3 { color: #42b983; } </code>
+            </o-playground>
+            <p-button>
+              <a href="https://book.ofajs.com/o-md/view.html?link=https%3A%2F%2Fplayground.ofajs.com%2FREADME.md" target="_blank">查看文档</a>
+            </p-button>
+          </div>
         </div>
       </center-block>
-      <center-block>
-        <h2>支持多种模板语法</h2>
-        <o-page src="../publics/_comps/render-case/render-case.html"></o-page>
-        <p-button size="large" style="margin-top: 24px">
-          <a href="./documentation/content-rendering.html" olink="">学习更多模板语法</a>
-        </p-button>
-      </center-block>
-      <l-m src="../publics/_comps/split-code/split-code.html"></l-m>
       <center-block>
         <h2>jQuery的精神继承者</h2>
         <p>既支持模板语法，又能直接操作节点，灵活高效两不误</p>
