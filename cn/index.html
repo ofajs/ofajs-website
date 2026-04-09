@@ -176,7 +176,7 @@
         }
       </style>
       <center-block>
-        <h2>🤖 更适合AI使用的前端框架 🤖</h2>
+        <h2>更适合生成式AI使用的前端框架</h2>
         <p>不走编译的流程，直接让代码跑起来。</p>
         <div class="w-title"> AI使用 <b style="color: var(--md-sys-color-primary)">ofa.js</b> 生成前端项目的流程 </div>
         <flow-chart style="width: 100%">
@@ -192,9 +192,14 @@
           <div name="deploy" to="preview">部署和编译代码</div>
           <div name="preview">预览项目</div>
         </flow-chart>
-        <p-button size="large" style="margin-top: 24px">
-          <a href="./scenarios/more-suitable-for-ai.html" olink="">查看详情</a>
-        </p-button>
+        <div style="margin-top: 24px">
+          <p-button size="large">
+            <a href="./scenarios/more-suitable-for-ai.html" olink="">查看详情</a>
+          </p-button>
+          <p-button size="large" variant="outlined" style="margin-left: 8px">
+            <a href="./scenarios/use-ofa.js-in-project.html" olink="">查看AI提示词</a>
+          </p-button>
+        </div>
       </center-block>
       <center-block>
         <h2>极低使用门槛</h2>
@@ -406,6 +411,7 @@
             <o-playground style="--editor-height: 200px; margin-bottom: 8px">
               <code path="demo.html" preview="" active="">
           <template>
+            <link rel="stylesheet" href="./style.css">
             <div style="text-align: center; padding: 20px">
               <h3>Hello o-playground</h3>
               <p>这是一个交互式代码编辑器</p>

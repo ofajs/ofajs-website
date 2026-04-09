@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>在項目中使用ofa.js的AI提示詞</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>在項目中使用ofa.js的AI提示詞</h1>
+        <p>由於 ofa.js 目前尚未成爲廣泛知名的框架，主流 AI 模型尚不具備直接使用 ofa.js 的能力。爲此，我們精心準備瞭專用提示詞，幫助 AI 學習和査閱 ofa.js 的使用方法。</p>
+        <p>我們提供瞭兩個版本的提示詞：</p>
+        <h2>精簡版提示詞</h2>
+        <p>這是經過濃縮優化的版本，旨在最小化前置 token 輸入消耗，適用於大多數場景：</p>
+        <pre><code class="hljs">https:<span class="hljs-regexp">//</span>raw.githubusercontent.com<span class="hljs-regexp">/ofajs/</span>ofa.js<span class="hljs-regexp">/main/</span>llms<span class="hljs-regexp">/tiny/</span>start.md</code></pre>
+        <p>使用此提示詞，AI 可以高效地開發 ofa.js 的組件或頁面模塊。</p>
+        <h2>完整版提示詞</h2>
+        <p>如菓您使用的 AI 模型相對不夠智能，可以嘗試使用未濃縮的完整版提示詞。雖然初始化時會佔用更多 token，但可能會獲得更好的效菓：</p>
+        <pre><code class="hljs">https:<span class="hljs-regexp">//</span>raw.githubusercontent.com<span class="hljs-regexp">/ofajs/</span>ofa.js<span class="hljs-regexp">/main/</span>llms<span class="hljs-regexp">/origin/</span>start.md</code></pre>
+        <p>通過提供這些提示詞，我們希望幫助開發者更便捷地利用 AI 工具進行 ofa.js 項目的開發，提升開發效率。</p>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>
