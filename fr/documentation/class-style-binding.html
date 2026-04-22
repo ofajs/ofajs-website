@@ -313,8 +313,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Fonctions de données dans les balises de style</h2>
-        <p>Vous pouvez utiliser <code>data(xxx)</code> dans les styles pour lier les données du composant. Cela est particulièrement adapté aux scénarios où les styles doivent être modifiés dynamiquement en fonction des données du composant.</p>
+        <h2>La fonction data()</h2>
+        <p>Vous pouvez utiliser <code>data(key)</code> dans le style pour lier les données du composant. C&#39;est particulièrement adapté aux scénarios où le style doit être modifié dynamiquement en fonction des données du composant.</p>
         <o-playground name="Fonction de données dans les balises de style" style="--editor-height: 500px">
           <code>
     <template page>
@@ -324,28 +324,30 @@
           border: 1px solid red;
           padding: 10px;
         }
-        p:hover{
+        p {
+          font-size: 10px;
           color:red;
+          transition: all .3s ease;
         }
       </style>
       <style>
-        p {
+        p:hover {
           font-size: data(size);
-          color:green;
+          color: green;
           transition: all data(time)s ease;
         }
       </style>
-      Taille de police : <input type="number" sync:value="size" placeholder="Ceci est une zone de saisie à liaison bidirectionnelle" />
+      Hover FontSize: <input type="number" sync:value="size" placeholder="Il s'agit d'une zone de saisie liée bidirectionnellement" />
       <br />
-      Temps de transition : <input type="number" step="0.3" min="0" sync:value="time" placeholder="Ceci est une zone de saisie à liaison bidirectionnelle" />
-      <p>{{val}} - taille : {{size}}</p>
+      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Il s'agit d'une zone de saisie liée bidirectionnellement" />
+      <p>{{val}} - size: {{size}}</p>
       <script>
         export default async () => {
           return {
             data: {
               size: 16,
               time: 0.3,
-              val: "Hello ofa.js Demo Code",
+              val: "Bonjour, code de démonstration de ofa.js",
             }
           };
         };
@@ -354,8 +356,8 @@
   </code>
         </o-playground>
         <h2>Remarques</h2>
-        <p>Le principe de <code>data(xxx)</code> dans <code>style</code> est de remplacer l&#39;intégralité du contenu du style. Il est donc préférable de ne placer que les styles liés aux données dans ce style, et de mettre les styles qui n&#39;en ont pas besoin dans un autre style, ce qui améliore les performances.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ Les p:hover sans data(xxx) seront également rafraîchis --&gt;</span>
+        <p><code>data(key)</code> dans la balise <code>style</code> remplace en principe tout le contenu du style. Pour éviter de rendre inutilement des styles non pertinents, il est recommandé de placer les styles contenant <code>data(key)</code> dans une balise <code>style</code> séparée, tandis que les styles ne nécessitant pas de liaison de données doivent être placés dans une autre balise <code>style</code>, afin d&#39;obtenir de meilleures performances.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ p:hover sans data(key) sera également rafraîchi --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);

@@ -313,8 +313,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>스타일 태그 내의 데이터 함수</h2>
-        <p>스타일에서 <code>data(xxx)</code>를 사용하여 컴포넌트 데이터를 바인딩할 수 있습니다. 이것은 컴포넌트 데이터에 따라 스타일을 동적으로 변경해야 하는 시나리오에 매우 적합합니다.</p>
+        <h2>data() 함수</h2>
+        <p>스타일에서 <code>data(key)</code>를 사용하여 컴포넌트 데이터를 바인딩할 수 있습니다. 이는 컴포넌트 데이터에 따라 스타일을 동적으로 변경해야 하는 시나리오에 매우 적합합니다.</p>
         <o-playground name="스타일 태그 내의 데이터 함수" style="--editor-height: 500px">
           <code>
     <template page>
@@ -324,20 +324,22 @@
           border: 1px solid red;
           padding: 10px;
         }
-        p:hover{
+        p {
+          font-size: 10px;
           color:red;
+          transition: all .3s ease;
         }
       </style>
       <style>
-        p {
+        p:hover {
           font-size: data(size);
-          color:green;
+          color: green;
           transition: all data(time)s ease;
         }
       </style>
-      FontSize: <input type="number" sync:value="size" placeholder="양방향 바인딩 입력란입니다" />
+      Hover FontSize: <input type="number" sync:value="size" placeholder="이것은 양방향 바인딩 입력 상자입니다" />
       <br />
-      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="양방향 바인딩 입력란입니다" />
+      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="이것은 양방향 바인딩 입력 상자입니다" />
       <p>{{val}} - size: {{size}}</p>
       <script>
         export default async () => {
@@ -354,8 +356,8 @@
   </code>
         </o-playground>
         <h2>주의사항</h2>
-        <p><code>style</code> 내의 <code>data(xxx)</code>는 원칙적으로 전체 style의 내용을 대체하므로, data와 관련된 스타일만 style 내에 작성하고 data가 필요 없는 것은 다른 style에 배치하는 것이 성능상 더 좋습니다.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ data(xxx)가 없는 p:hover도 새로고침됨 --&gt;</span>
+        <p><code>style</code> 태그 내의 <code>data(key)</code>는 원리적으로 전체 style의 내용을 대체합니다. 불필요한 스타일을 반복 렌더링하지 않도록, <code>data(key)</code>를 포함한 스타일은 별도의 <code>style</code> 태그에 두고, 데이터 바인딩이 필요 없는 스타일은 다른 <code>style</code> 태그에 배치하여 더 나은 성능을 얻는 것을 권장합니다.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ data(key)가 없는 p:hover도 갱신됩니다 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);

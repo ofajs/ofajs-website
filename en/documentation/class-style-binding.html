@@ -313,9 +313,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Data Functions Inside Style Tags</h2>
-        <p>You can use <code>data(xxx)</code> in styles to bind component data. This is particularly suitable for scenarios where styles need to be dynamically changed based on component data.</p>
-        <o-playground name="Data Functions within Style Tags" style="--editor-height: 500px">
+        <h2>data() function</h2>
+        <p>You can use <code>data(key)</code> in styles to bind component data. This is perfect for scenarios where styles need to change dynamically based on component data.</p>
+        <o-playground name="Data function in style tags" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -324,18 +324,20 @@
           border: 1px solid red;
           padding: 10px;
         }
-        p:hover{
+        p {
+          font-size: 10px;
           color:red;
+          transition: all .3s ease;
         }
       </style>
       <style>
-        p {
+        p:hover {
           font-size: data(size);
-          color:green;
+          color: green;
           transition: all data(time)s ease;
         }
       </style>
-      FontSize: <input type="number" sync:value="size" placeholder="This is a two-way bound input box" />
+      Hover FontSize: <input type="number" sync:value="size" placeholder="This is a two-way bound input box" />
       <br />
       TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="This is a two-way bound input box" />
       <p>{{val}} - size: {{size}}</p>
@@ -354,8 +356,8 @@
   </code>
         </o-playground>
         <h2>Notes</h2>
-        <p>The <code>data(xxx)</code> inside <code>style</code> essentially replaces the entire content of the style, so it&#39;s better to only write data-related styles inside the style and place non-data styles in another style for better performance.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ p:hover without data(xxx) will also be refreshed --&gt;</span>
+        <p><code>data(key)</code> inside the <code>style</code> tag will in principle replace the entire content of the style. To avoid redundant rendering of unrelated styles, it is recommended to place styles containing <code>data(key)</code> in a separate <code>style</code> tag, while styles that do not require data binding should be placed in another <code>style</code> tag for better performance.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ p:hover without data(key) will also be refreshed --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);
