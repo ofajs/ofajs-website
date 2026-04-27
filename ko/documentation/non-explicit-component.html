@@ -81,12 +81,12 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>비명시적 컴포넌트</h1>
-        <p>ofa.js는 두 가지 비명시적 컴포넌트를 내장하고 있습니다:</p>
+        <p>ofa.js에는 두 가지 비명시적 컴포넌트가 내장되어 있습니다:</p>
         <ul>
-          <li>조건부 렌더링 컴포넌트: <code>x-if</code>, <code>x-else-if</code>, <code>x-else</code></li>
-          <li>채우기 컴포넌트: <code>x-fill</code></li>
+          <li>조건부 렌더링 컴포넌트：<code>x-if</code>、<code>x-else-if</code>、<code>x-else</code></li>
+          <li>채우기 컴포넌트：<code>x-fill</code></li>
         </ul>
-        <p>이 두 컴포넌트의 기능은 각각 <code>o-if</code> 및 <code>o-fill</code> 컴포넌트와 동일하지만, 자체적으로는 실제로 DOM에 렌더링되지 않고 내부 요소를 해당 영역에 직접 렌더링합니다.</p>
+        <p>이 두 컴포넌트의 기능은 각각 <code>o-if</code> 및 <code>o-fill</code> 컴포넌트와 동일하지만, 실제로 DOM에 렌더링되지 않고 내부 요소를 직접 해당 영역에 렌더링합니다.</p>
         <p>예를 들어:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-class">.container</span> &gt; <span class="hljs-selector-class">.item</span>{
@@ -95,14 +95,14 @@
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">o-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
-        <span class="hljs-comment">&lt;!-- 스타일이 빨간색이 아닙니다. 왜냐하면 o-if 컴포넌트 자체가 DOM에 존재하기 때문입니다. --&gt;</span>
+        <span class="hljs-comment">&lt;!-- 스타일이 빨간색이 아닌 이유는 o-if 컴포넌트 자체가 DOM에 존재하기 때문입니다 --&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">o-if</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
-        <span class="hljs-comment">&lt;!-- 스타일이 빨간색입니다. 왜냐하면 x-if 컴포넌트는 DOM에 렌더링되지 않기 때문입니다. --&gt;</span>
+        <span class="hljs-comment">&lt;!-- 스타일이 빨간색인 이유는 x-if 컴포넌트가 DOM에 렌더링되지 않기 때문입니다 --&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="비명시적 컴포넌트" style="--editor-height: 500px">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="명시적이지 않은 컴포넌트" style="--editor-height: 500px">
           <code>
     <template page="">
         <style>
@@ -112,22 +112,22 @@
             padding: 10px;
         }
         .container > .item {
-            /* 자식 레벨의 .item 요소를 빨간색으로 선택 */
+            /* 자식 레벨의 .item 요소를 빨간색으로 선택합니다 */
             color:red;
         }
-        /* o-if 컴포넌트 내부의 .item 요소를 선택해야 함 */
+        /* o-if 컴포넌트 내부의 .item 요소를 선택해야 합니다 */
         /* .container > o-if > .item {
             color:green;
         } */
         </style>
         <div class="container">
             <o-if :value="true">
-                <!-- o-if 컴포넌트가 DOM에 존재하므로 스타일이 빨간색이 아님 -->
-                <div class="item">빨간색으로 표시되지 않음</div>
+                <!-- o-if 컴포넌트 자체가 DOM에 존재하기 때문에 빨간색으로 표시되지 않습니다 -->
+                <div class="item">빨간색으로 표시되지 않습니다</div>
             </o-if>
             <x-if :value="true">
-                <!-- x-if 컴포넌트는 DOM에 렌더링되지 않으므로 스타일이 빨간색임 -->
-                <div class="item">빨간색으로 표시됨</div>
+                <!-- x-if 컴포넌트가 DOM에 렌더링되지 않기 때문에 빨간색으로 표시됩니다 -->
+                <div class="item">빨간색으로 표시됩니다</div>
             </x-if>
         </div>
         <script>
@@ -140,14 +140,14 @@
     </template>
   </code>
         </o-playground>
-        <h2>x-if 조건 렌더링 컴포넌트</h2>
-        <p><code>x-if</code> 와 <a href="./conditional-rendering.html" olink="">o-if</a> 의 기능은 완전히 동일하며, 조건식의 참/거짓 값에 따라 콘텐츠를 렌더링할지 결정하는 데 사용됩니다. 차이점은 <code>x-if</code> 자체는 DOM 요소로 존재하지 않으며, 그 내부 콘텐츠가 부모 컨테이너에 직접 렌더링된다는 점입니다.</p>
+        <h2>x-if 조건부 렌더링 컴포넌트</h2>
+        <p><code>x-if</code>는 <a href="./conditional-rendering.html" olink="">o-if</a>와 기능이 완전히 동일하며, 조건식의 참/거짓 값에 따라 콘텐츠를 렌더링할지 여부를 결정하는 데 사용됩니다. 차이점은 <code>x-if</code> 자체는 DOM 요소로 존재하지 않으며, 그 내부 콘텐츠가 부모 컨테이너에 직접 렌더링된다는 점입니다.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"isLoggedIn"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>돌아오신 것을 환영합니다, 사용자님!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>환영합니다, 사용자님!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <p><code>x-if</code>는 <code>x-else-if</code>와 <code>x-else</code>와 함께 사용할 수도 있습니다:</p>
+        <p><code>x-if</code>는 <code>x-else-if</code> 및 <code>x-else</code>와 함께 사용할 수도 있습니다:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"role === 'admin'"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>관리자 패널<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
@@ -160,13 +160,13 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-else</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
         <h2>x-fill 채우기 컴포넌트</h2>
-        <p><code>x-fill</code>는 <a href="./list-rendering.html" olink="">o-fill</a>과 완전히 동일한 기능을 가지며, 배열 데이터를 여러 개의 DOM 요소로 렌더링하는 데 사용됩니다. <code>x-if</code>와 마찬가지로, <code>x-fill</code> 자체는 DOM에 렌더링되지 않으며, 내부 템플릿은 상위 컨테이너에 직접 렌더링됩니다.</p>
+        <p><code>x-fill</code>은 <a href="./list-rendering.html" olink="">o-fill</a>과 기능이 완전히 동일하며, 배열 데이터를 여러 DOM 요소로 렌더링하는 데 사용됩니다. <code>x-if</code>와 유사하게 <code>x-fill</code> 자체는 DOM에 렌더링되지 않으며, 내부 템플릿이 부모 컨테이너에 직접 렌더링됩니다.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-fill</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
-        <p>명명된 템플릿 사용 예시：</p>
+        <p>명명된 템플릿 사용 예:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"li"</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">x-fill</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
@@ -177,15 +177,15 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>성능 설명</h2>
-        <p>기능적 차이 외에도, 비명시적 컴포넌트의 렌더링 성능은 명시적 컴포넌트(<code>o-if</code>, <code>o-fill</code>)보다 <strong>훨씬 떨어집니다</strong>. 비명시적 컴포넌트는 실제로 DOM에 렌더링되지 않으며, 내부 요소의 위치 지정과 업데이트를 처리하기 위해 추가적인 시뮬레이션 렌더링 로직이 필요하기 때문입니다.</p>
-        <p>또한, 비명시적 컴포넌트는 발견하기 어려운 버그를 유발할 수 있습니다: 실제로 DOM에 진입하지 않기 때문에 DOM 구조에 의존하는 작업(예: 이벤트 바인딩, 스타일 계산 또는 서드파티 라이브러리 쿼리)이 실패하거나 비정상적으로 동작할 수 있습니다.</p>
-        <p>따라서, <strong>명시적 컴포넌트</strong>(<code>o-if</code>, <code>o-else-if</code>, <code>o-else</code>, <code>o-fill</code>)를 우선 사용하고, 특정 상황에서만 비명시적 컴포넌트를 사용하는 것을 권장합니다.</p>
+        <p>기능상의 차이 외에도, 비명시적 컴포넌트의 렌더링 성능은 명시적 컴포넌트(<code>o-if</code>, <code>o-fill</code>)보다 <strong>훨씬 떨어집니다</strong>. 이는 비명시적 컴포넌트가 실제로 DOM에 렌더링되지 않으며, 내부 요소의 위치 지정 및 업데이트를 처리하기 위해 추가적인 시뮬레이션 렌더링 로직이 필요하기 때문입니다.</p>
+        <p>또한, 비명시적 컴포넌트는 눈에 띄지 않는 버그를 유발할 수 있습니다: 실제로 DOM에 들어가지 않기 때문에 DOM 구조에 의존하는 작업(예: 이벤트 바인딩, 스타일 계산 또는 서드파티 라이브러리 조회)이 실패하거나 예상치 못한 동작을 보일 수 있습니다.</p>
+        <p>따라서 <strong>명시적 컴포넌트</strong>(<code>o-if</code>, <code>o-else-if</code>, <code>o-else</code>, <code>o-fill</code>)를 <strong>우선적으로 사용</strong>하고, 특정 시나리오에서만 비명시적 컴포넌트를 사용할 것을 권장합니다.</p>
         <h2>사용 시나리오</h2>
-        <p>비명시적 컴포넌트는 성능이 떨어지지만, 다음과 같은 상황에서 사용될 수 있습니다:</p>
+        <p>비록 비명시적 구성 요소의 성능은 떨어지지만, 다음과 같은 시나리오에서 사용될 수 있습니다:</p>
         <ol>
-          <li><strong>추가 DOM 계층 구조 방지</strong>: <code>o-if</code> 또는 <code>o-fill</code> 요소가 DOM 구조의 일부가 되지 않도록 할 때</li>
-          <li><strong>스타일 상속</strong>: 내부 요소가 중간 컴포넌트 요소의 영향을 받지 않고 부모 컨테이너의 스타일을 직접 상속받아야 할 때</li>
-          <li><strong>CSS 선택자 제한</strong>: 부모의 직접 자식 선택자(예: <code>.container &gt; .item</code>)를 사용하여 스타일을 정밀하게 제어해야 하지만 중간에 추가적인 래퍼 요소가 없기를 원할 때</li>
+          <li><strong>추가적인 DOM 계층 구조를 피할 때</strong>: <code>o-if</code> 또는 <code>o-fill</code> 요소가 DOM 구조의 일부가 되는 것을 원하지 않을 때</li>
+          <li><strong>스타일 상속</strong>: 내부 요소가 중간 컴포넌트 요소의 영향을 받지 않고 부모 컨테이너의 스타일을 직접 상속받도록 해야 할 때</li>
+          <li><strong>CSS 선택자 제한</strong>: 부모 직계 자식 선택자(예: <code>.container &gt; .item</code>)를 사용하여 스타일을 정밀하게 제어해야 하지만 중간에 추가적인 포장 요소가 없어야 할 때</li>
         </ol>
       </article>
       <div class="footer"></div>

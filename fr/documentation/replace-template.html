@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Composant replace-temp</title>
+  <title>replace-temp composant</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,10 +80,10 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Composant replace-temp</h1>
-        <p>Lorsque nous tentons de rendre une liste à l&#39;intérieur d&#39;éléments spéciaux comme select ou table, le navigateur peut automatiquement supprimer le composant <code>&lt;x-fill&gt;</code>, entraînant l&#39;échec du rendu de la liste. On peut alors utiliser la méthode replace-temp pour résoudre ce problème.</p>
-        <p>La méthode d&#39;utilisation est : définir <code>is=&quot;replace-temp&quot;</code> sur la balise <code>&lt;template&gt;</code> et la placer à l&#39;intérieur d’un élément que le navigateur corrigera automatiquement.</p>
-        <o-playground name="replace-temp composant" style="--editor-height: 500px">
+        <h1>replace-temp composant</h1>
+        <p>Lorsque nous essayons d&#39;effectuer un rendu de liste dans des éléments spéciaux tels que <code>select</code> ou <code>table</code>, le navigateur peut automatiquement supprimer le composant <code>&lt;x-fill&gt;</code>, ce qui entraîne un échec du rendu de la liste. Dans ce cas, vous pouvez utiliser l&#39;approche <code>replace-temp</code> pour résoudre ce problème.</p>
+        <p>La méthode consiste à définir <code>is=&quot;replace-temp&quot;</code> sur la balise <code>&lt;template&gt;</code> et à la placer à l&#39;intérieur d&#39;un élément que le navigateur corrige automatiquement.</p>
+        <o-playground name="composant replace-temp" style="--editor-height: 500px">
           <code>
     <template page>
       <style>

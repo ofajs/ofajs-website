@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>extend</h1>
-        <p><code>extend</code> est une méthode d’ordre supérieur utilisée pour étendre les propriétés ou les méthodes d’une instance.</p>
+        <p><code>extend</code> est une méthode d&#39;ordre supérieur servant à étendre les propriétés ou les méthodes d&#39;une instance.</p>
         <blockquote>
-          <p>En général, il n&#39;est pas recommandé aux utilisateurs d&#39;étendre les propriétés ou les méthodes d&#39;une instance, car cela augmente le coût d&#39;apprentissage. Sauf si des scénarios spécifiques au sein de l&#39;équipe nécessitent un comportement personnalisé de l&#39;instance, il est déconseillé de procéder ainsi.</p>
+          <p>En règle générale, il n&#39;est pas recommandé aux utilisateurs d&#39;étendre les propriétés ou méthodes des instances, car cela augmente le coût d&#39;apprentissage. Sauf si l&#39;équipe a besoin de personnaliser le comportement des instances dans un scénario particulier, il n&#39;est pas recommandé de le faire.</p>
         </blockquote>
-        <o-playground name="extend - étendre l'instance" style="--editor-height: 560px">
+        <o-playground name="extend - exemple d'extension" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
@@ -115,9 +115,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Étendre $ fond</h2>
-        <p>Comme jQuery, vous pouvez également étendre les propriétés ou méthodes des instances de base via <code>fn.extend</code> ; les propriétés ou méthodes étendues à partir de <code>fn</code> seront appliquées à toutes les instances.</p>
-        <o-playground name="extend - Extension de la couche inférieure" style="--editor-height: 560px">
+        <h2>Étendre le $ sous-jacent</h2>
+        <p>Similaire à jQuery, vous pouvez également étendre les propriétés ou méthodes de l&#39;instance sous-jacente via fn.extend ; les propriétés ou méthodes étendues à partir de fn s&#39;appliquent à toutes les instances.</p>
+        <o-playground name="extend - étendre la couche inférieure" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
@@ -146,18 +146,18 @@
   </code>
         </o-playground>
         <h2>Syntaxe de modèle étendue</h2>
-        <p>En étendant des propriétés ou des fonctions via <code>extend</code>, vous pouvez augmenter les fonctionnalités de la syntaxe des templates, voire fournir une syntaxe de template exclusive pour les composants. Cependant, il est important de noter qu&#39;il est préférable de <strong>ne pas utiliser</strong> de syntaxes de template non officielles, car elles imposent un certain coût d&#39;apprentissage aux utilisateurs, et une grande quantité de syntaxes de template non officielles peut réduire l&#39;expérience de développement.</p>
+        <p>En étendant les attributs ou fonctions via <code>extend</code>, on peut enrichir la syntaxe des modèles, voire offrir à un composant sa propre « syntaxe sucrée ». Il faut toutefois veiller à <strong>ne pas utiliser</strong> de syntaxes non officielles : elles imposent un coût d’apprentissage et, en grand nombre, dégradent l’expérience de développement.</p>
         <h3>Attributs étendus</h3>
-        <p>Vous pouvez définir des propriétés étendues dans le modèle en utilisant <code>:</code>. Nous allons maintenant étendre une propriété <code>red</code>, lorsque <code>red</code> est <code>true</code>, la couleur de la police devient rouge :</p>
+        <p>Vous pouvez utiliser les attributs d’extension et les définir dans le modèle avec <code>:</code>. Ci-dessous, nous étendons l’attribut <code>red</code> : lorsque <code>red</code> vaut <code>true</code>, la couleur de la police devient rouge :</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
     <span class="hljs-keyword">if</span>(bool){
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;red&quot;</span>;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;rouge&quot;</span>;
     }<span class="hljs-keyword">else</span>{
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
     }
   }
-});</code></pre><o-playground name="extend - Propriétés étendues" style="--editor-height: 400px">
+});</code></pre><o-playground name="extend - propriétés étendues" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-one.html"></l-m>
@@ -177,7 +177,7 @@
   </code>
           <code path="temp-one.html">
     <template component>
-      <button on:click="addCount">Ajouter Compteur</button>
+      <button on:click="addCount">Add Count</button>
       <div :red="count % 3">{{count}}</div>
       <script>
         export default {
@@ -195,11 +195,11 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous avons ajouté une propriété <code>red</code> à la syntaxe du modèle ; lorsque <code>count % 3</code> n’est pas égal à 0, la couleur de la police devient rouge.</p>
+        <p>Dans cet exemple, nous avons ajouté un attribut <code>red</code> à la syntaxe du modèle. Lorsque <code>count % 3</code> n&#39;est pas égal à 0, la couleur de la police devient rouge.</p>
         <h3>Méthodes d&#39;extension</h3>
-        <p>Vous pouvez également utiliser la méthode d&#39;extension <code>extend</code> pour la rendre disponible dans la syntaxe des modèles. Le nom de la méthode est la partie avant les deux-points. Ici, nous avons étendu une syntaxe de modèle <code>color</code>, et les paramètres qui suivent seront transmis à la méthode d&#39;extension définie.</p>
-        <p>Ici, l&#39;attribut <code>always</code> est défini à <code>true</code>, ce qui signifie que la méthode définie sera appelée à chaque fois que le composant a besoin de rafraîchir l&#39;interface. Si <code>always</code> n&#39;est pas défini, cette fonction de syntaxe de modèle ne sera exécutée qu&#39;une seule fois.</p>
-        <p>Parmi eux, <code>options</code> fournit davantage de paramètres qui vous permettent de développer une syntaxe de modèle plus personnalisée :</p>
+        <p>Vous pouvez également utiliser la méthode d&#39;extension <code>extend</code> pour la rendre disponible dans la syntaxe des modèles. Le nom de la méthode est la partie précédant les deux-points. Ici, nous avons étendu une syntaxe de modèle <code>color</code>, et les paramètres qui suivent seront passés à la méthode d&#39;extension définie.</p>
+        <p>Ici, l&#39;attribut <code>always</code> est défini sur <code>true</code>, ce qui signifie que cette méthode définie sera appelée à chaque fois que le composant a besoin de rafraîchir l&#39;interface. Si <code>always</code> n&#39;est pas défini, cette fonction de syntaxe de template ne s&#39;exécutera qu&#39;une seule fois.</p>
+        <p>Parmi ceux-ci, <code>options</code> fournit plus de paramètres, ce qui peut vous aider à développer une syntaxe de modèle plus personnalisée :</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
     <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
@@ -211,7 +211,7 @@
   }
 });
 
-$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - Méthodes d'extension" style="--editor-height: 400px">
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - méthode d'extension" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-two.html"></l-m>
@@ -251,14 +251,14 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
     </template>
   </code>
         </o-playground>
-        <h2>Principe de la syntaxe des modèles</h2>
-        <p>Jusqu’à présent, tu devrais déjà comprendre que de nombreuses syntaxes de modèle sur ofa.js sont en réalité étendues via <code>extend</code> :</p>
+        <h2>Principe de la syntaxe des templates</h2>
+        <p>Jusqu’à présent, vous devriez déjà comprendre que de nombreuses syntaxes de modèle sur ofa.js sont en réalité étendues via <code>extend</code> :</p>
         <ul>
           <li>Les méthodes <code>class</code>, <code>attr</code> s&#39;exécutent à chaque rafraîchissement de la vue</li>
-          <li>Les liaisons de fonctions comme <code>on</code>, <code>one</code> ne s&#39;exécutent qu&#39;une seule fois</li>
+          <li>Les fonctions de liaison comme <code>on</code>, <code>one</code> ne s&#39;exécutent qu&#39;une seule fois</li>
         </ul>
-        <p>Vous pouvez consulter l&#39;exemple ci-dessous pour mieux comprendre le principe de rendu des modèles d’ofa.js :</p>
-        <o-playground name="extend - Principes de syntaxe de modèle" style="--editor-height: 480px">
+        <p>Vous pouvez consulter l’exemple ci-dessous pour mieux comprendre le principe de rendu des modèles d’ofa.js :</p>
+        <o-playground name="extend - Principe de la syntaxe des templates" style="--editor-height: 480px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./temp-three.html"></l-m>
@@ -267,9 +267,9 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
   </code>
           <code path="temp-three.html" active>
     <template component>
-      <div>class always => {{classalways}}</div>
-      <div>attr always => {{attralways}}</div>
-      <div>on always => {{onalways}}</div>
+      <div>classe toujours => {{classalways}}</div>
+      <div>attribut toujours => {{attralways}}</div>
+      <div>on toujours => {{onalways}}</div>
       <script>
         export default {
           tag: "temp-three",

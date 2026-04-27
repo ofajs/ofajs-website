@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>wrap</h1>
-        <p>The <code>wrap</code> method wraps the target element with another element. Before performing the <code>wrap</code> operation, the initialization of the <a href="../instance/dollar.html" olink="">$ method</a> is automatically executed, so you can directly specify an element string or object.</p>
+        <p>The <code>wrap</code> method is used to wrap a layer of elements around the target element. Before performing the <code>wrap</code> operation, the initialization of the <a href="../instance/dollar.html" olink="">$ method</a> is automatically executed, so you can directly fill in the specific element string or object.</p>
         <o-playground name="wrap - wrap element" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
@@ -107,9 +107,9 @@
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Error, no parent element, cannot wrap</span>
-$el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Correct, has parent element</span></code></pre>
-        <p>Please note, do not operate within template components such as o-fill or o-if.</p>
+$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Error: no parent element, cannot wrap</span>
+$el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Correct: has parent element</span></code></pre>
+        <p><strong>Please note, do not operate inside template components such as o-fill or o-if.</strong></p>
       </article>
       <div class="footer"></div>
       <script>

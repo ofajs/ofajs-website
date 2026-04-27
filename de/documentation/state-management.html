@@ -81,25 +81,25 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Zustandsverwaltung</h1>
-        <h2>Was ist ein Status</h2>
-        <p>In ofa.js bezieht sich <strong>State</strong> (Zustand) auf das <code>data</code>-Attribut der Komponente oder des Seitenmoduls selbst. Dieser Zustand kann nur innerhalb der aktuellen Komponente verwendet werden und dient zum Speichern und Verwalten der internen Daten der Komponente.</p>
-        <p>Wenn mehrere Komponenten oder Seiten dieselben Daten teilen müssen, besteht die herkömmliche Vorgehensweise darin, sie über Events oder durch mehrere Ebenen von props weiterzugeben. In komplexen Anwendungen führt dies zu schwer wartbarem Code. Daher ist <strong>State-Management</strong> erforderlich – durch Definition eines gemeinsamen State-Objekts können mehrere Komponenten oder Seitenmodule auf diese Daten zugreifen und sie ändern, wodurch der Status geteilt wird.</p>
+        <h2>Was ist Zustand</h2>
+        <p>In ofa.js bezeichnet <strong>Status</strong> das <code>data</code>-Attribut einer Komponente oder Seitenmoduls selbst. Dieser Status kann nur innerhalb der aktuellen Komponente verwendet werden, um interne Daten der Komponente zu speichern und zu verwalten.</p>
+        <p>Wenn mehrere Komponenten oder Seiten dieselben Daten gemeinsam nutzen müssen, werden Daten traditionell durch Ereignisweitergabe oder schrittweise Props-Weitergabe übergeben. Diese Methode führt in komplexen Anwendungen zu schwer wartbarem Code. Daher ist eine <strong>Zustandsverwaltung</strong> erforderlich – durch die Definition eines gemeinsamen Zustandsobjekts, auf das mehrere Komponenten oder Seitenmodule zugreifen und dieses ändern können, wird eine gemeinsame Nutzung des Zustands ermöglicht.</p>
         <blockquote>
-          <p><strong>Hinweis</strong>: State-Management ist für Szenarien geeignet, in denen Daten über Komponenten und Seiten hinweg geteilt werden müssen, wie z. B. Benutzerinformationen, Warenkorb, Theme-Konfiguration, globale Konfiguration usw.</p>
+          <p><strong>Tipp</strong>: Statusverwaltung eignet sich für Szenarien, in denen Daten über Komponenten und Seiten hinweg geteilt werden müssen, wie z. B. Benutzerinformationen, Warenkorb, Theme-Konfiguration, globale Einstellungen etc.</p>
         </blockquote>
         <h2>Generieren des Statusobjekts</h2>
-        <p>Erstelle ein reaktives Statusobjekt mit <code>$.stanz({})</code>. Diese Methode erhält ein gewöhnliches Objekt als Ausgangsdaten und gibt einen reaktiven Status-Proxy zurück.</p>
+        <p>Erstellen Sie mit <code>$.stanz({})</code> ein reaktives Zustandsobjekt. Diese Methode nimmt ein einfaches Objekt als Ausgangsdaten entgegen und gibt einen reaktiven Zustandsproxy zurück.</p>
         <h3>Grundlegende Verwendung</h3>
-        <o-playground name="Zustandsmanagement-Beispiel" style="--editor-height: 500px">
+        <o-playground name="Zustandsverwaltungsbeispiel" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // Startseitenadresse der Anwendung
+    // Startseite der App
     export const home = "./list.html";
-    // Konfiguration für Seitenwechselanimationen
+    // Konfiguration der Seitenübergangsanimation
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -119,12 +119,12 @@
   export const contacts = $.stanz({
     list: [{
         id: 10010,
-        name: "Peter",
-        info: "Jeder Tag ist ein Neuanfang, nach dem Regen kommt die Sonne.",
+        name: "Pete",
+        info: "Jeder Tag ist ein neuer Anfang, nach dem Regen kommt die Sonne.",
     },{
         id: 10020,
         name: "Mike",
-        info: "Das Leben ist wie ein Ozean, nur wer starken Willens ist, erreicht das andere Ufer.",
+        info: "Das Leben ist wie ein Ozean, nur wer einen starken Willen hat, kann das andere Ufer erreichen.",
     },{
         id: 10030,
         name: "John",
@@ -141,11 +141,11 @@
           padding: 10px;
         }
       </style>
-      <h2>Adressbuch</h2>
+      <h2>Kontaktliste</h2>
       <ul>
         <o-fill :value="list">
           <li>
-          Name: {{$data.name}} <button on:click="$host.gotoDetail($data)">Details</button>
+          Name: {{$data.name}} <button on:click="$host.gotoDetail($data)">Detail</button>
           </li>
         </o-fill>
       </ul>
@@ -165,7 +165,7 @@
               this.list = contacts.list;
             },
             detached(){
-              this.list = []; // Beim Zerstören der Komponente werden die bereitgestellten Zustandsdaten geleert
+              this.list = []; // Wenn die Komponente zerstört wird, die angehängten Zustandsdaten löschen
             }
           };
         };
@@ -200,7 +200,7 @@
       <div class="user-info">
         <div class="avatar">Avatar</div>
         <div style="font-size: 24px;">
-        Benutzername:
+        Benutzername: 
           <o-if :value="editorMode">
             <input type="text" sync:value="userData.name"/>
             <button on:click="editorMode = false">✅</button>
@@ -225,7 +225,7 @@
               this.userData = contacts.list.find(e=>e.id == query.id);
             },
             detached(){
-              this.userData = {}; // Beim Zerstören der Komponente werden die bereitgestellten Zustandsdaten geleert
+              this.userData = {}; // Wenn die Komponente zerstört wird, die angehängten Zustandsdaten löschen
             }
           };
         };
@@ -233,9 +233,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Eigenschaften von Zustandsobjekten</h2>
-        <h3>1. Reaktive Aktualisierung</h3>
-        <p><code>$.stanz()</code> erstellte Zustandsobjekte sind reaktiv. Wenn sich die Zustandsdaten ändern, werden alle Komponenten, die diese Daten referenzieren, automatisch aktualisiert.</p>
+        <h2>Eigenschaften des Zustandsobjekts</h2>
+        <h3>1. Reaktives Update</h3>
+        <p><code>$.stanz()</code> erzeugte Statusobjekte sind reaktiv. Wenn sich die Statusdaten ändern, werden alle Komponenten, die diese Daten referenzieren, automatisch aktualisiert.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
 <span class="hljs-comment">// In der Komponente</span>
@@ -245,7 +245,7 @@
   },
   <span class="hljs-attr">proto</span>:{
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Alle Komponenten, die auf store.count verweisen, werden automatisch aktualisiert</span>
+        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Alle Komponenten, die store.count referenzieren, werden automatisch aktualisiert</span>
     }
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
@@ -253,11 +253,11 @@
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// Beim Zerstören der Komponente, die angehängten Zustandsdaten leeren</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// Beim Zerstören der Komponente die gemounteten Zustandsdaten leeren</span>
   }
 };</code></pre>
-        <h3>2. Tiefe Reaktivität</h3>
-        <p>Das Statusobjekt unterstützt tiefe Reaktivität; Änderungen an verschachtelten Objekten und Arrays werden ebenfalls überwacht.</p>
+        <h3>2. Tiefe Responsivität</h3>
+        <p>Zustandsobjekte unterstützen tiefe Reaktivität, Änderungen in verschachtelten Objekten und Arrays werden ebenfalls überwacht.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
     <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>,
@@ -268,38 +268,38 @@
   <span class="hljs-attr">list</span>: []
 });
 
-<span class="hljs-comment">// Änderungen an verschachtelten Eigenschaften lösen ebenfalls Updates aus</span>
+<span class="hljs-comment">// Das Ändern verschachtelter Eigenschaften löst ebenfalls Aktualisierungen aus</span>
 store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;Li Si&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
 store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Neue Aufgabe&quot;</span> });</code></pre>
-        <h2>Best Practices</h2>
-        <h3>1. Den Status in der Attached-Phase der Komponente einhängen</h3>
-        <p>Es wird empfohlen, den gemeinsamen Status im <code>attached</code>-Lebenszyklus der Komponente zu mounten:</p>
+        <h2>Beste Praktiken</h2>
+        <h3>1. Status beim attached-Zyklus des Components mounten</h3>
+        <p>Es wird empfohlen, den gemeinsamen Zustand im <code>attached</code>-Lebenszyklus der Komponente zu mounten.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
     <span class="hljs-attr">list</span>: []
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Den gemeinsamen Status an die data des Components hängen</span>
+    <span class="hljs-comment">// Den gemeinsamen Zustand in die data der Komponente einhängen</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Beim Zerstören des Components die angehängten Zustandsdaten löschen, um Speicherlecks zu verhindern</span>
+    <span class="hljs-comment">// Beim Zerstören der Komponente den eingehängten Zustand leeren, um Speicherlecks zu verhindern</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
   }
 };</code></pre>
-        <h3>2. Angemessene Verwaltung des Statusgültigkeitsbereichs</h3>
+        <h3>2. Sinnvolle Verwaltung des Zustandsbereichs</h3>
         <ul>
           <li><strong>Globaler Zustand</strong>: Geeignet für Daten, auf die die gesamte Anwendung zugreifen muss (z. B. Benutzerinformationen, globale Konfiguration)</li>
           <li><strong>Modulzustand</strong>: Geeignet für Daten, die innerhalb eines bestimmten Funktionsmoduls gemeinsam genutzt werden</li>
         </ul>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Globaler Aufrufstatus</span>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Globaler Aufrufzustand</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
 
-<span class="hljs-comment">// Innerhalb des Moduls verwendeter Status</span>
+<span class="hljs-comment">// Im Modul verwendeter Zustand</span>
 <span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
-        <h2>Zustandsverwaltung innerhalb des Moduls</h2>
-        <o-playground name="Beispiel für Statusverwaltung innerhalb eines Moduls" style="--editor-height: 500px">
+        <h2>Statusverwaltung innerhalb des Moduls</h2>
+        <o-playground name="Beispiel für Zustandsverwaltung innerhalb eines Moduls" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-page src="page1.html"></o-page>
@@ -364,7 +364,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
                 this.cartStore = cartStore;
             },
             detached(){
-                this.cartStore = {}; // Beim Zerstören der Komponente die gemounteten Statusdaten löschen
+                this.cartStore = {}; // Beim Zerstören der Komponente den gemounteten Zustand leeren
             }
           };
         };
@@ -375,16 +375,16 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <h2>Hinweise</h2>
         <ol>
           <li>
-            <p><strong>Zustandsbereinigung</strong>: Bereinigen Sie im <code>detached</code>-Lebenszyklus der Komponente zeitnah Referenzen auf Zustandsdaten, um Speicherlecks zu vermeiden.</p>
+            <p><strong>Zustandsbereinigung</strong>: Entfernen Sie rechtzeitig Verweise auf Zustandsobjekte im <code>detached</code>-Lebenszyklus der Komponente, um Speicherlecks zu vermeiden.</p>
           </li>
           <li>
-            <p><strong>Vermeidung von Zirkelabhängigkeiten</strong>: Erzeugen Sie keine zirkulären Verweise zwischen Zustandsobjekten, da dies das Reaktivitätssystem beeinträchtigen kann.</p>
+            <p><strong>Vermeidung zirkulärer Abhängigkeiten</strong>: Bilden Sie keine zirkulären Referenzen zwischen Zustandsobjekten, da dies zu Problemen im reaktiven System führen kann.</p>
           </li>
           <li>
-            <p><strong>Große Datenstrukturen</strong>: Verwenden Sie bei großen Datenstrukturen berechnete Eigenschaften oder fragmentiertes Management, um unnötige Leistungseinbußen zu vermeiden.</p>
+            <p><strong>Große Datenstrukturen</strong>: Verwenden Sie für große Datenstrukturen berechnete Eigenschaften oder verwalten Sie diese in Teilen, um unnötige Leistungseinbußen zu vermeiden.</p>
           </li>
           <li>
-            <p><strong>Zustandskonsistenz</strong>: Achten Sie bei asynchronen Operationen auf die Konsistenz des Zustands; nutzen Sie Transaktionen oder Stapelaktualisierungen, um die Datenintegrität sicherzustellen.</p>
+            <p><strong>Zustandskonsistenz</strong>: Achten Sie bei asynchronen Operationen auf die Konsistenz des Zustands und verwenden Sie Transaktionen oder Batch-Updates, um die Datenintegrität zu gewährleisten.</p>
           </li>
         </ol>
       </article>

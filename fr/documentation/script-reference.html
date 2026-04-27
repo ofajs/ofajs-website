@@ -81,18 +81,18 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Introduction du script</h1>
-        <p>ofa.js peut être inclus directement via une balise script. Il suffit d’ajouter le code suivant dans la section <code>&lt;head&gt;</code> ou <code>&lt;body&gt;</code> de votre fichier HTML :</p>
+        <p>ofa.js prend en charge l’intégration directe via la balise script. Il suffit d’ajouter le code suivant dans la section <code>&lt;head&gt;</code> ou <code>&lt;body&gt;</code> du fichier HTML :</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <h2>Utilisation de base</h2>
-        <p>Après l&#39;introduction du script, ofa.js crée une variable <code>$</code> dans le scope global, et toutes les fonctionnalités principales sont fournies via cet objet. Vous pouvez accéder aux différentes méthodes et propriétés d&#39;ofa.js par cet objet. Les tutoriels suivants détailleront son utilisation concrète.</p>
+        <p>Après l&#39;introduction du script, ofa.js crée une variable <code>$</code> dans le scope global ; toutes les fonctionnalités principales sont fournies via cet objet. Vous pouvez accéder aux différentes méthodes et propriétés d&#39;ofa.js par cet objet. Les tutoriels suivants détailleront son utilisation concrète.</p>
         <h2>Mode de débogage</h2>
-        <p>Au cours du développement, vous pouvez activer le mode débogage en ajoutant le paramètre <code>#debug</code> à l’URL du script :</p>
+        <p>Pendant le développement, vous pouvez activer le mode de débogage en ajoutant le paramètre <code>#debug</code> à l’URL du script :</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs#debug&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-        <p>Le mode débogage active la fonction source map, vous permettant de visualiser et de déboguer directement le code source original des fichiers dans les outils de développement du navigateur, ce qui améliore considérablement l’efficacité du développement.</p>
+        <p>Le mode débogage active la fonctionnalité de source map, vous permettant de visualiser et de déboguer directement le code source original des fichiers dans les outils de développement du navigateur, améliorant ainsi considérablement l&#39;efficacité du développement.</p>
         <h2>Modules ESM</h2>
-        <p>ofa.js prend également en charge l&#39;importation via des modules ESM. Vous pouvez utiliser l&#39;instruction <code>import</code> dans votre projet pour importer ofa.js :</p>
+        <p>ofa.js prend également en charge l’importation via des modules ESM. Vous pouvez utiliser l’instruction <code>import</code> dans votre projet pour importer ofa.js :</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&#x27;</span>;</code></pre>
-        <p>Lors de l&#39;utilisation de modules ESM, vous pouvez utiliser directement la variable <code>$</code> dans le code, sans passer par la portée globale.</p>
+        <p>Lorsque vous utilisez des modules ESM, vous pouvez directement utiliser la variable <code>$</code> dans votre code, sans avoir besoin d&#39;y accéder via la portée globale.</p>
       </article>
       <div class="footer"></div>
       <script>

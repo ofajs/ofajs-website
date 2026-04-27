@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Implicit Component</title>
+  <title>Non-explicit Components</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,14 +80,14 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Implicit Component</h1>
+        <h1>Non-explicit Components</h1>
         <p>ofa.js has two built-in implicit components:</p>
         <ul>
-          <li>Conditional rendering components: <code>x-if</code>, <code>x-else-if</code>, <code>x-else</code></li>
-          <li>Filling component: <code>x-fill</code></li>
+          <li>Conditional rendering components: <code>x-if</code>、<code>x-else-if</code>、<code>x-else</code></li>
+          <li>Fill component: <code>x-fill</code></li>
         </ul>
-        <p>The functions of these two components are the same as the <code>o-if</code> and <code>o-fill</code> components, but they themselves are not actually rendered into the DOM. Instead, their internal elements are directly rendered into the corresponding areas.</p>
-        <p>For example:</p>
+        <p>The functions of these two components are respectively the same as those of the <code>o-if</code> and <code>o-fill</code> components, but they themselves are not rendered to the DOM; instead, their internal elements are directly rendered to the corresponding area.</p>
+        <p>for example:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-class">.container</span> &gt; <span class="hljs-selector-class">.item</span>{
         <span class="hljs-attribute">color</span>:red;
@@ -95,14 +95,14 @@
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">o-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
-        <span class="hljs-comment">&lt;!-- The style is not red because the o-if component itself exists in the DOM --&gt;</span>
+        <span class="hljs-comment">&lt;!-- The style is not red, because the o-if component itself exists in the DOM --&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">o-if</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
-        <span class="hljs-comment">&lt;!-- The style is red because the x-if component is not rendered into the DOM --&gt;</span>
+        <span class="hljs-comment">&lt;!-- The style is red, because the x-if component does not render to the DOM --&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="Non-explicit Components" style="--editor-height: 500px">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="Non-explicit Component" style="--editor-height: 500px">
           <code>
     <template page="">
         <style>
@@ -112,7 +112,7 @@
             padding: 10px;
         }
         .container > .item {
-            /* Select first-level .item elements as red */
+            /* Selects first-level .item elements in red */
             color:red;
         }
         /* Need to select .item elements inside the o-if component */
@@ -122,12 +122,12 @@
         </style>
         <div class="container">
             <o-if :value="true">
-                <!-- Style is not red because the o-if component itself exists in the DOM -->
-                <div class="item">Will not appear red</div>
+                <!-- Not red because the o-if component itself exists in the DOM -->
+                <div class="item">Will not appear in red</div>
             </o-if>
             <x-if :value="true">
-                <!-- Style is red because the x-if component does not render into the DOM -->
-                <div class="item">Appears red</div>
+                <!-- Red because the x-if component is not rendered into the DOM -->
+                <div class="item">Appears in red</div>
             </x-if>
         </div>
         <script>
@@ -141,13 +141,13 @@
   </code>
         </o-playground>
         <h2>x-if Conditional Rendering Component</h2>
-        <p><code>x-if</code> has the same functionality as <a href="./conditional-rendering.html" olink="">o-if</a>, used to determine whether to render content based on the truthiness of a conditional expression. The difference is that <code>x-if</code> itself will not exist as a DOM element, and its internal content will be directly rendered into the parent container.</p>
+        <p><code>x-if</code> has exactly the same functionality as <a href="./conditional-rendering.html" olink="">o-if</a>, used to decide whether to render content based on the truthiness of a conditional expression. The difference is that <code>x-if</code> itself does not exist as a DOM element; its inner content will be directly rendered into the parent container.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"isLoggedIn"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Welcome back, user!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <p><code>x-if</code> can also be used with <code>x-else-if</code> and <code>x-else</code>.</p>
+        <p><code>x-if</code> can also be used together with <code>x-else-if</code> and <code>x-else</code>:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"role === 'admin'"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Admin Panel<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
@@ -159,8 +159,8 @@
         <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Please log in<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-else</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <h2>x-fill Fill Component</h2>
-        <p><code>x-fill</code> works exactly like <a href="./list-rendering.html" olink="">o-fill</a>: it renders array data as multiple DOM elements. Like <code>x-if</code>, <code>x-fill</code> itself is not rendered into the DOM; its inner template is rendered directly into the parent container.</p>
+        <h2>x-fill fill component</h2>
+        <p><code>x-fill</code> has exactly the same functionality as <a href="./list-rendering.html" olink="">o-fill</a>, used to render array data into multiple DOM elements. Similar to <code>x-if</code>, <code>x-fill</code> itself will not be rendered into the DOM; its internal template will be directly rendered into the parent container.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
@@ -176,16 +176,16 @@
         <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">attr:href</span>=<span class="hljs-string">"$data.href"</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>Performance Description</h2>
-        <p>In addition to functional differences, the rendering performance of non-explicit components is <strong>significantly worse</strong> than that of explicit components (<code>o-if</code>, <code>o-fill</code>). This is because non-explicit components are not actually rendered into the DOM, requiring additional simulated rendering logic to handle the positioning and updating of internal elements.</p>
-        <p>Additionally, non-explicit components can introduce subtle bugs: because they never actually enter the DOM, operations that rely on DOM structure—such as event binding, style calculations, or queries by third-party libraries—may fail or behave unexpectedly.</p>
-        <p>Therefore, it is recommended to <strong>prioritize explicit components</strong> (<code>o-if</code>, <code>o-else-if</code>, <code>o-else</code>, <code>o-fill</code>) and use non-explicit components only in specific scenarios.</p>
-        <h2>Usage Scenarios</h2>
-        <p>Although implicit components have poor performance, they may be used in the following scenarios:</p>
+        <h2>Performance Notes</h2>
+        <p>In addition to functional differences, the rendering performance of non-explicit components will be <strong>much worse</strong> than that of explicit components (<code>o-if</code>, <code>o-fill</code>). This is because non-explicit components are not actually rendered into the DOM, requiring additional simulated rendering logic to handle the positioning and updating of internal elements.</p>
+        <p>In addition, non-explicit components may introduce subtle bugs: since they do not actually enter the DOM, operations that depend on DOM structure (such as event binding, style calculation, or third-party library queries) may fail or behave unexpectedly.</p>
+        <p>Therefore, it is recommended to <strong>prioritize explicit components</strong> (<code>o-if</code>, <code>o-else-if</code>, <code>o-else</code>, <code>o-fill</code>), and only use non-explicit components in specific scenarios.</p>
+        <h2>Use Cases</h2>
+        <p>Although non-explicit components have poor performance, they may be used in the following scenarios:</p>
         <ol>
-          <li>Avoid extra DOM levels: when you don’t want <code>o-if</code> or <code>o-fill</code> elements to become part of the DOM structure </li>
-          <li>Style inheritance: when inner elements must inherit parent styles directly, without interference from intermediate component elements </li>
-          <li>CSS selector constraints: when you need precise styling via parent-child selectors (e.g., <code>.container &gt; .item</code>) and want no extra wrapper elements</li>
+          <li><strong>Avoid extra DOM levels</strong>: When you don’t want <code>o-if</code> or <code>o-fill</code> elements to become part of the DOM structure </li>
+          <li><strong>Style inheritance</strong>: When you need inner elements to inherit the parent container’s styles directly, without interference from intermediate component elements </li>
+          <li><strong>CSS selector constraints</strong>: When you must use parent-child selectors (e.g., <code>.container &gt; .item</code>) for precise styling but don’t want an extra wrapper element in between</li>
         </ol>
       </article>
       <div class="footer"></div>

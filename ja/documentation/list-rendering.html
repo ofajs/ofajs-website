@@ -81,20 +81,20 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>リストレンダリング</h1>
-        <p>ofa.jsでは、<code>o-fill</code>コンポーネントは強力なリストレンダリング機能を提供し、配列データを複数の類似した要素として効率的にレンダリングできます。直接レンダリングとテンプレートレンダリングという2つの主要な使用方法をサポートしています。</p>
-        <h2>o-fill コンポーネント紹介</h2>
-        <p><code>o-fill</code> は ofa.js におけるリストレンダリングのコアコンポーネントであり、配列型の <code>value</code> 属性を受け取り、配列内の各項目に対応する DOM 要素を生成します。レンダリングプロセスにおいて、ofa.js は自動的に配列の変更を追跡し、効率的に DOM を更新します。</p>
-        <h3>主な機能：</h3>
+        <p>在 ofa.js では、<code>o-fill</code> コンポーネントが強力なリストレンダリング機能を提供し、配列データを効率的に複数の類似した要素にレンダリングできます。このコンポーネントは、直接レンダリングとテンプレートレンダリングという2つの主な使用方法をサポートしています。</p>
+        <h2>o-fill コンポーネントの紹介</h2>
+        <p><code>o-fill</code> は ofa.js でリストレンダリングに使用されるコアコンポーネントであり、配列型の <code>value</code> プロパティを受け取り、配列の各要素に対応する DOM 要素を生成します。レンダリング中、ofa.js は自動的に配列の変更を追跡し、効率的に DOM を更新します。</p>
+        <h3>主な特徴：</h3>
         <ul>
-          <li><strong>効率的な更新</strong>：キー値による配列変更の追跡により、変更が必要な部分のみを更新</li>
-          <li><strong>インデックスアクセス</strong>：<code>$index</code> を通じて現在の項目のインデックスにアクセス</li>
-          <li><strong>データアクセス</strong>：<code>$data</code> を通じて現在の項目のデータにアクセス</li>
-          <li><strong>ホストアクセス</strong>：<code>$host</code> を通じて現在のコンポーネントインスタンスにアクセスし、コンポーネントメソッドの呼び出しやコンポーネントデータへのアクセスが可能</li>
-          <li><strong>テンプレート再利用</strong>：名前付きテンプレートを使用した複雑なリストレンダリングをサポート</li>
+          <li><strong>効率的な更新</strong>：キー値による配列の変更追跡で、変更が必要な部分のみを更新します</li>
+          <li><strong>インデックスアクセス</strong>：<code>$index</code> を介して現在のアイテムのインデックスにアクセスします</li>
+          <li><strong>データアクセス</strong>：<code>$data</code> を介して現在のアイテムのデータにアクセスします</li>
+          <li><strong>ホストアクセス</strong>：<code>$host</code> を介して現在のコンポーネントインスタンスにアクセスし、コンポーネントのメソッドを呼び出したりデータにアクセスしたりできます</li>
+          <li><strong>テンプレートの再利用</strong>：名前付きテンプレートを使用した複雑なリストレンダリングをサポートします</li>
         </ul>
         <h2>直接レンダリング</h2>
-        <p>直接レンダリングは最もシンプルな使用方式で、テンプレートの内容を <code>o-fill</code> タグの内部に直接記述します。配列が変化すると、<code>o-fill</code> は各データ項目に対応する要素を自動的に作成します。</p>
-        <o-playground name="o-fill - 直接レンダリング" style="--editor-height: 600px">
+        <p>直接レンダリングは最も簡単な使用方法であり、テンプレートの内容を直接 <code>o-fill</code> タグの内部に記述します。配列が変化すると、<code>o-fill</code> は自動的に各データ項目に対応する要素を作成します。</p>
+        <o-playground name="o-fill - 直接渲染" style="--editor-height: 600px">
           <code>
     <template page>
       <style>
@@ -143,14 +143,14 @@
     </template>
   </code>
         </o-playground>
-        <p>この例では、次のことがわかります：- <code>$index</code> は現在の項目のインデックスを表します（0から開始）</p>
+        <p>この例では、次のことがわかります：- <code>$index</code> は現在の項目のインデックスを表す（0から始まる）</p>
         <ul>
-          <li><code>$data</code> は現在の項目のデータオブジェクトを表します</li>
-          <li><code>$host</code> は現在のコンポーネントインスタンスを表し、コンポーネントメソッドの呼び出しやコンポーネントデータへのアクセスに使用できます</li>
-          <li>配列が変更されると、リストは自動的に更新されます</li>
+          <li><code>$data</code> は現在の項目のデータオブジェクトを表す</li>
+          <li><code>$host</code> は現在のコンポーネントインスタンスを表し、コンポーネントメソッドの呼び出しやコンポーネントデータへのアクセスに使用できる</li>
+          <li>配列に変化があった場合、リストは自動的に更新される</li>
         </ul>
         <h2>テンプレートレンダリング</h2>
-        <p>より複雑なリスト項目の構造には、名前付きテンプレートの方法を使用できます。テンプレートを <code>template</code> タグ内に定義し、<code>o-fill</code> 内で <code>name</code> 属性を通じて参照します。</p>
+        <p>より複雑なリスト項目構造には、名前付きテンプレートの方式を使用できます。テンプレートを <code>template</code> タグ内に定義し、それを <code>o-fill</code> 内で <code>name</code> 属性を通じて参照します。</p>
         <o-playground name="o-fill - テンプレートレンダリング" style="--editor-height: 600px">
           <code>
     <template page>
@@ -161,7 +161,7 @@
         .product-price { color: #832c22; font-weight: bold; }
         .product-desc { color: #929292; font-size: 0.9em; margin-top: 5px; }
       </style>
-      <h3>商品リスト</h3>
+      <h3>商品一覧</h3>
       <button on:click="addProduct">商品を追加</button>
       <div class="products-container">
         <o-fill :value="products" name="product-template"></o-fill>
@@ -178,16 +178,16 @@
         export default async () => ({
           data: {
             products: [
-              { name: "MacBook Pro", price: 12999, description: "高性能ノートパソコン、プロフェッショナルワークに適しています" },
-              { name: "iPhone 15", price: 5999, description: "最新モデルのスマートフォン、写真撮影効果が優れています" },
-              { name: "AirPods Pro", price: 1999, description: "ワイヤレスノイズキャンセリングイヤホン、音質優秀" }
+              { name: "MacBook Pro", price: 12999, description: "高性能ノートパソコン、プロフェッショナルな作業に最適" },
+              { name: "iPhone 15", price: 5999, description: "最新のスマートフォン、写真撮影性能が優れている" },
+              { name: "AirPods Pro", price: 1999, description: "ワイヤレスノイズキャンセリングイヤホン、高音質" }
             ],
             productIndex: 0,
           },
           proto: {
             addProduct() {
               const productNames = ["iPad Air", "Apple Watch", "Magic Mouse", "Pro Display"];
-              const productDescs = ["軽量で携帯性に優れたタブレット", "スマートウォッチ、健康モニタリング", "人間工学に基づいたデザインのマウス", "プロフェッショナルグレードのディスプレイ"];
+              const productDescs = ["薄型軽量のタブレット", "スマートウォッチ、健康管理", "人間工学に基づいたマウス", "プロフェッショナル向けディスプレイ"];
               const name = productNames[this.productIndex % productNames.length];
               const desc = productDescs[this.productIndex % productDescs.length];
               this.products.push({
@@ -204,8 +204,8 @@
   </code>
         </o-playground>
         <h2>ネストされたリストのレンダリング</h2>
-        <p><code>o-fill</code> はネストして使用することができ、ツリーメニューやカテゴリリストなどの複雑な階層データ構造を扱うことができます。</p>
-        <o-playground name="o-fill - ネストされたリストレンダリング" style="--editor-height: 800px">
+        <p><code>o-fill</code> はネスト使用をサポートしており、複雑な階層データ構造（ツリーメニュー、分類リストなど）を処理できます。</p>
+        <o-playground name="o-fill - ネストリストレンダリング" style="--editor-height: 800px">
           <code>
     <template page>
       <style>
@@ -234,7 +234,7 @@
           color: #34495e;
         }
       </style>
-      <h3>商品カテゴリナビゲーション</h3>
+      <h3>商品カテゴリーナビゲーション</h3>
       <div class="navigation">
         <o-fill :value="categories" name="category-template"></o-fill>
       </div>
@@ -266,12 +266,12 @@
                     },
                     {
                       name: "パソコン",
-                      items: ["ノートPC", "デスクトップPC", "タブレット"]
+                      items: ["ノートパソコン", "デスクトップパソコン", "タブレット"]
                     }
                   ]
                 },
                 {
-                  name: "家庭用品",
+                  name: "ホーム用品",
                   subcategories: [
                     {
                       name: "キッチン用品",
@@ -284,15 +284,15 @@
                   ]
                 },
                 {
-                  name: "ファッション・アクセサリー",
+                  name: "衣料・アクセサリー",
                   subcategories: [
                     {
-                      name: "メンズファッション",
+                      name: "メンズ",
                       items: ["Tシャツ", "シャツ", "アウター"]
                     },
                     {
-                      name: "レディースファッション",
-                      items: ["ワンピース", "ズボン", "アクセサリー"]
+                      name: "ウィメンズ",
+                      items: ["ワンピース", "パンツ", "アクセサリー"]
                     }
                   ]
                 }
@@ -304,20 +304,20 @@
     </template>
   </code>
         </o-playground>
-        <h2>パフォーマンス最適化とキー値管理</h2>
-        <p>頻繁に更新する必要があるリストについては、<code>fill-key</code> 属性を使用して一意の識別子を指定することで、レンダリングパフォーマンスを向上させることができます。</p>
+        <h2>性能最適化とキー値管理</h2>
+        <p>頻繁に更新が必要なリストに対しては、<code>fill-key</code> 属性で一意の識別子を指定することで、レンダリングパフォーマンスを向上させることができます。</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- カスタムキーを使用してパフォーマンスを向上 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;items&quot;</span> <span class="hljs-attr">fill-key</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
-        <p>上の例では、<code>fill-key=&quot;id&quot;</code> が ofa.js に各データ項目の <code>id</code> 属性を一意の識別子として使用するように指示しています。これにより、配列の順序が変更された場合でも、対応する要素を正しく識別して更新することができます。</p>
+        <p>在上記の例では、<code>fill-key=&quot;id&quot;</code> は ofa.js に対し、各データの <code>id</code> 属性を一意の識別子として使用するように指示します。これにより、配列の順序が変わっても、対応する要素を正しく識別して更新できます。</p>
         <h2>リストレンダリングのベストプラクティス</h2>
         <ol>
-          <li><strong>イベント処理</strong>：リスト項目でイベントを使用する場合、<code>$host</code>は現在のコンポーネントインスタンスを指し、<code>$data</code>は現在の項目データを指すことに注意</li>
-          <li><strong>適切なレンダリング方法の選択</strong>：シンプルなリストは直接レンダリングを使用し、複雑な構造はテンプレートレンダリングを使用する</li>
-          <li><strong>パフォーマンスの考慮</strong>：大きなリストや頻繁に更新されるリストの場合、<code>fill-key</code>を使用してキー値を指定する</li>
-          <li><strong>データ構造</strong>：配列内の各項目が有効なデータオブジェクトであることを確認する</li>
-          <li><strong>深いネストの回避</strong>：ネストはサポートされているが、過度に深いネストレベルは避けるべき</li>
+          <li><strong>イベント処理</strong>: リスト項目でイベントを使用する場合、<code>$host</code>は現在のコンポーネントインスタンスを指し、<code>$data</code>は現在の項目のデータを指すことに注意してください。</li>
+          <li><strong>適切なレンダリング方法の選択</strong>: 簡単なリストは直接レンダリング、複雑な構造はテンプレートレンダリングを使用します。</li>
+          <li><strong>パフォーマンスの考慮</strong>: 大きなリストや頻繁に更新されるリストには、<code>fill-key</code>を使用してキー値を指定します。</li>
+          <li><strong>データ構造</strong>: 配列内の各項目が有効なデータオブジェクトであることを確認してください。</li>
+          <li><strong>深いネストの回避</strong>: ネストはサポートされていますが、過度に深いネストレベルは避けるべきです。</li>
         </ol>
       </article>
       <div class="footer"></div>

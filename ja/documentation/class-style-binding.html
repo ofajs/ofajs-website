@@ -83,10 +83,10 @@
         <h1>クラスとスタイルのバインディング</h1>
         <p>ofa.jsでは、クラス名、スタイル、属性を動的にバインドすることで、柔軟なUI状態管理を実現できます。これにより、データの変化に応じてインターフェースの見た目が自動的に調整されます。</p>
         <h2>クラスバインディング</h2>
-        <p>クラスバインディングを使うと、データの状態に応じて CSS クラスを動的に追加・削除できます。<code>class:className=&quot;booleanExpression&quot;</code> という構文を使って特定のクラスをバインドできます。</p>
-        <p><code>booleanExpression</code> が <code>true</code> の場合、クラス名が要素に追加されます；<code>false</code> の場合、クラス名が要素から削除されます。</p>
-        <h3>基本クラスバインディング</h3>
-        <o-playground name="基礎クラスバインディング" style="--editor-height: 500px">
+        <p>类绑定允许你根据数据状态动态地添加或移除 CSS 类。你可以使用 <code>class:className=&quot;booleanExpression&quot;</code> 的语法来绑定特定的类。</p>
+        <p><code>booleanExpression</code> が <code>true</code> のとき、クラス名が要素に追加され、<code>false</code> のときはクラス名が削除されます。</p>
+        <h3>基礎クラスバインディング</h3>
+        <o-playground name="基本クラスバインディング" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -99,7 +99,7 @@
           display: none;
         }
       </style>
-      <button on:click="isHide = !isHide">表示切り替え</button>
+      <button on:click="isHide = !isHide">Toggle Display</button>
       <p class="green" class:hide="isHide">{{val}}</p>
       <script>
         export default async () => {
@@ -114,8 +114,8 @@
     </template>
   </code>
         </o-playground>
-        <h3>複数のクラスバインディング</h3>
-        <p>複数のクラスを同時にバインドすることもでき、要素が異なる条件に応じて異なる見た目の状態を持つようにできます。</p>
+        <h3>複数クラスバインディング</h3>
+        <p>複数のクラスを同時にバインドして、要素が異なる条件に応じて異なる外観状態を持つようにすることもできます。</p>
         <o-playground name="複数クラスバインディング" style="--editor-height: 500px">
           <code>
     <template page>
@@ -164,9 +164,9 @@
   </code>
         </o-playground>
         <h2>スタイルバインディング</h2>
-        <p>スタイルバインディングは、インラインスタイルの値を直接設定し、動的な更新をサポートします。ofa.jsは2種類のスタイルバインディング方法を提供しています：</p>
+        <p>スタイルバインディングを使用すると、インラインスタイルの値を直接設定でき、動的な更新をサポートします。ofa.js は2つのスタイルバインディング方法を提供しています。</p>
         <h3>単一スタイル属性バインディング</h3>
-        <p>特定のスタイルプロパティをバインドするには、<code>:style.propertyName</code> 構文を使用します。</p>
+        <p><code>:style.propertyName</code> という構文を使って、特定のスタイルプロパティをバインドします。</p>
         <o-playground name="単一スタイル属性バインディング" style="--editor-height: 500px">
           <code>
     <template page>
@@ -192,9 +192,9 @@
     </template>
   </code>
         </o-playground>
-        <h3>多様なスタイル属性バインディング</h3>
-        <p>あなたは一度に複数のスタイル属性をバインドすることもできます：</p>
-        <o-playground name="多様なスタイル属性バインディング" style="--editor-height: 500px">
+        <h3>複数スタイルの属性バインディング</h3>
+        <p>複数のスタイルプロパティを一度にバインドすることもできます：</p>
+        <o-playground name="多様なスタイル属性のバインディング" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -205,9 +205,9 @@
         }
       </style>
       <p :style.color="textColor" :style.fontSize="fontSize + 'px'" :style.backgroundColor="bgColor">
-        動的スタイリングの例
+        Dynamic Styling Example
       </p>
-      <button on:click="changeStyles">スタイルを変更</button>
+      <button on:click="changeStyles">Change Styles</button>
       <script>
         export default async () => {
           return {
@@ -229,9 +229,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>プロパティバインディング</h2>
-        <p>クラスとスタイルのバインディングに加えて、他のHTML属性を動的にバインディングすることもできます。ofa.jsは<code>attr:attributeName</code>構文を使用して属性バインディングを実装します。</p>
-        <h3>基礎属性バインディング</h3>
+        <h2>属性バインディング</h2>
+        <p>クラスとスタイルのバインディングに加えて、他のHTML属性を動的にバインドすることもできます。ofa.jsは <code>attr:attributeName</code> 構文を使用して属性バインディングを実現します。</p>
+        <h3>基本的な属性バインディング</h3>
         <o-playground name="基本属性バインディング" style="--editor-height: 700px">
           <code>
     <template page>
@@ -249,14 +249,14 @@
         }
       </style>
       <p attr:bg-color="bgColor" attr:title="tooltipText">{{val}}</p>
-      <button on:click="changeColor">色を変更</button>  
+      <button on:click="changeColor">Change Color</button>  
       <script>
         export default async () => {
           return {
             data: {
               bgColor: "green",
               tooltipText: "これはヒント情報です",
-              val: "マウスを乗せてタイトルを表示",
+              val: "Hover over me to see the title",
             },
             proto: {
               changeColor() {
@@ -270,8 +270,8 @@
   </code>
         </o-playground>
         <h3>ブール属性の処理</h3>
-        <p>ブール型の属性（例: <code>disabled</code>, <code>hidden</code>）については、ofa.jsはバインドされた値の真偽に基づいて、その属性を追加するかどうかを決定します。</p>
-        <o-playground name="ブール属性処理" style="--editor-height: 700px">
+        <p>真偽値型の属性（<code>disabled</code>、<code>hidden</code> など）について、ofa.js はバインドされた値の真偽に基づいてその属性を追加するかどうかを決定します。</p>
+        <o-playground name="ブール属性の処理" style="--editor-height: 700px">
           <code>
     <template page>
       <style>
@@ -314,7 +314,7 @@
   </code>
         </o-playground>
         <h2>data() 関数</h2>
-        <p>スタイル内で <code>data(key)</code> を使用してコンポーネントデータをバインドできます。これは、コンポーネントデータに基づいてスタイルを動的に変更する必要がある場面に最適です。</p>
+        <p>スタイル内で <code>data(key)</code> を使用してコンポーネントデータをバインドできます。これは、コンポーネントデータに基づいてスタイルを動的に変更する必要があるシナリオに最適です。</p>
         <o-playground name="スタイルタグ内のデータ関数" style="--editor-height: 500px">
           <code>
     <template page>
@@ -337,9 +337,9 @@
           transition: all data(time)s ease;
         }
       </style>
-      Hover FontSize: <input type="number" sync:value="size" placeholder="これは双方向バインディングの入力ボックスです" />
+      ホバー時のフォントサイズ: <input type="number" sync:value="size" placeholder="これは双方向バインディングの入力ボックスです" />
       <br />
-      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="これは双方向バインディングの入力ボックスです" />
+      トランジション時間: <input type="number" step="0.3" min="0" sync:value="time" placeholder="これは双方向バインディングの入力ボックスです" />
       <p>{{val}} - size: {{size}}</p>
       <script>
         export default async () => {
@@ -356,8 +356,8 @@
   </code>
         </o-playground>
         <h2>注意事項</h2>
-        <p><code>style</code> タグ内の <code>data(key)</code> は原理的に、スタイル全体を置き換えます。無関係なスタイルが繰り返しレンダリングされるのを避けるため、<code>data(key)</code> を含むスタイルは別の <code>style</code> タグに分け、データバインディングが不要なスタイルは別の <code>style</code> タグに配置して、パフォーマンスを向上させることをお勧めします。</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ data(key) なしの p:hover もリフレッシュされます --&gt;</span>
+        <p><code>style</code> タグ内の <code>data(key)</code> は原理的に style 全体の内容を置き換えます。無関係なスタイルが重複してレンダリングされるのを防ぐため、<code>data(key)</code> を含むスタイルは独立した <code>style</code> タグに、データバインドが不要なスタイルは別の <code>style</code> タグに分けて配置し、より良いパフォーマンスを得ることをお勧めします。</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ data(key)を持たない p:hover もリフレッシュされます --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);
@@ -369,7 +369,7 @@
   }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 ``````html
-<span class="hljs-comment">&lt;!-- ✅ data(xxx) のみを含むスタイルは再レンダリングされます --&gt;</span>
+<span class="hljs-comment">&lt;!-- ✅ data(xxx) のみが含まれるスタイルが再レンダリングされます --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);

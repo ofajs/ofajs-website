@@ -81,16 +81,16 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Computed Properties</h1>
-        <p>Computed properties are a way to derive new data from reactive data, automatically updating based on changes in the dependent data. In ofa.js, computed properties are defined as special methods within the <code>proto</code> object, using JavaScript&#39;s <code>get</code> or <code>set</code> keywords.</p>
-        <h2>Features &amp; Benefits</h2>
+        <p>Computed properties are a way to derive new data from reactive data; they automatically update when the dependent data changes. In ofa.js, computed properties are special methods defined in the <code>proto</code> object, using JavaScript&#39;s <code>get</code> or <code>set</code> keywords.</p>
+        <h2>Features and Advantages</h2>
         <ul>
-          <li><strong>Cached</strong>: The result of a computed property is cached and only recalculated when its dependencies change. </li>
-          <li><strong>Reactive</strong>: The computed property automatically updates when its dependencies change. </li>
-          <li><strong>Declarative</strong>: Dependencies are declared explicitly, making the code clearer and easier to understand.</li>
+          <li><strong>Caching</strong>: The result of a computed property is cached and only recalculated when its dependent data changes</li>
+          <li><strong>Reactivity</strong>: When dependent data updates, the computed property automatically updates</li>
+          <li><strong>Declarative</strong>: Dependencies are created declaratively, making the code clearer and easier to understand</li>
         </ul>
-        <h2>get Computed Property</h2>
-        <p>The get computed property is used to derive new values from reactive data. It does not accept parameters and only returns a value calculated based on other data.</p>
-        <o-playground name="get Computed Property Example" style="--editor-height: 600px">
+        <h2>get computed property</h2>
+        <p>get computed property is used to derive a new value from reactive data, it does not accept parameters and only returns a value calculated based on other data.</p>
+        <o-playground name="get computed property example" style="--editor-height: 600px">
           <code>
     <template page>
       <style>
@@ -101,7 +101,7 @@
         }
       </style>
       <button on:click="clickMe">Click Me - {{count}} - {{countDouble}}</button>
-      <p>The value of computed property countDouble is: {{countDouble}}</p>
+      <p>The computed property countDouble value is: {{countDouble}}</p>
       <script>
         export default async () => {
           return {
@@ -110,7 +110,7 @@
             },
             proto: {
               get countDouble() {
-                console.log('countDouble is accessed');
+                console.log('countDouble was accessed');
                 return this.count * 2;
               },
               clickMe() {
@@ -123,8 +123,8 @@
     </template>
   </code>
         </o-playground>
-        <h3>Practical Application Scenario Examples</h3>
-        <p>Computed properties are commonly used to handle complex data transformation logic, such as filtering arrays or formatting display text.</p>
+        <h3>Example of Practical Application Scenario</h3>
+        <p>Computed properties are often used to handle complex data transformation logic, such as filtering arrays, formatting displayed text, etc.:</p>
         <o-playground name="Computed Property Example" style="--editor-height: 500px">
           <code>
     <template page>
@@ -154,7 +154,7 @@
           return {
             data: {
               filterText: '',
-              names: ['Zhang3', 'Li4', 'Wang54']
+              names: ['Zhang 3', 'Li 4', 'Wang 54']
             },
             proto: {
               get filteredNames() {
@@ -172,8 +172,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Computed Properties for Sets</h2>
-        <p>Setter computed properties allow you to modify the underlying data state through assignment operations. It accepts a parameter and is typically used to inversely update the original data that depends on it.</p>
+        <h2>set computed properties</h2>
+        <p>Set computed property allows you to modify the underlying data state through assignment operations. It receives a parameter, usually used for reverse-updating the original data that depends on it.</p>
         <o-playground name="set computed property example" style="--editor-height: 700px">
           <code>
     <template page>
@@ -193,7 +193,7 @@
         <p>Double value: {{countDouble}}</p>
         <button on:click="resetCount">Reset count</button>
         <button on:click="setCountDouble">Set double value to 10</button>
-        <button on:click="incrementCount">Increment base value</button>
+        <button on:click="incrementCount">Increase base value</button>
       </div>
       <script>
         export default async () => {
@@ -225,24 +225,24 @@
   </code>
         </o-playground>
         <h2>Computed Properties vs Methods</h2>
-        <p>Although methods can achieve similar functionality, computed properties are cached and only re-evaluate when their dependencies change, resulting in better performance.</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Using a computed property (recommended) – cached</span>
+        <p>Although methods can also achieve similar functions, computed properties have caching characteristics and will only recalculate when their dependent data changes, which makes performance better.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Using computed properties (recommended) - cached</span>
 <span class="hljs-keyword">get</span> <span class="hljs-title function_">fullName</span>() {
   <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
 }
 
-<span class="hljs-comment">// Using a method – runs every time it&#x27;s called</span>
+<span class="hljs-comment">// Using methods - executed on each call</span>
 <span class="hljs-title function_">fullName</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
 }</code></pre>
         <h2>Notes</h2>
         <ol>
-          <li><strong>Avoid asynchronous operations</strong>: Computed properties must remain synchronous and side-effect-free; asynchronous calls or direct state mutation are forbidden. </li>
-          <li><strong>Dependency tracking</strong>: Rely only on reactive data; otherwise updates will be unpredictable. </li>
-          <li><strong>Error protection</strong>: Circular dependencies or improper assignments inside a computed property can crash rendering or trigger infinite loops—set boundary conditions and handle exceptions in advance.</li>
+          <li><strong>Avoid Asynchronous Operations</strong>: Computed properties should remain synchronous and side-effect-free; asynchronous calls or direct state mutations are prohibited. </li>
+          <li><strong>Dependency Tracking</strong>: Rely solely on reactive data; otherwise, updates will be unpredictable. </li>
+          <li><strong>Error Protection</strong>: Circular dependencies or abnormal assignments inside a computed property can cause rendering failures or even infinite loops—set boundary conditions and handle exceptions in advance.</li>
         </ol>
-        <h2>Practical Application Example</h2>
-        <p>Here is a simple form validation example demonstrating the utility of computed properties:</p>
+        <h2>Practical Application Examples</h2>
+        <p>The following is a simple form validation example that demonstrates the practicality of computed properties:</p>
         <o-playground name="Form Validation Example" style="--editor-height: 600px">
           <code>
     <template page>
@@ -287,7 +287,7 @@
                 return this.username.length >= 3;
               },
               get statusMessage() {
-                return this.isValid ? 'Username valid' : 'Username too short';
+                return this.isValid ? 'Username is valid' : 'Username is too short';
               },
             }
           };

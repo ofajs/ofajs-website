@@ -81,18 +81,18 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>o-page コンポーネント</h1>
-        <p><code>o-page</code> は ofa.js のコアコンポーネントの1つであり、独立したページまたはページモジュールを表します。以下は <code>o-page</code> の主なプロパティとメソッドです：</p>
+        <p><code>o-page</code> は ofa.js におけるコアコンポーネントの一つで、独立したページまたはページモジュールを表します。以下は <code>o-page</code> の主なプロパティおよびメソッドです：</p>
         <h2>src 属性</h2>
-        <p><code>src</code>属性は、ページモジュールの具体的なアドレスを指定するために使用されます。これはページの内容と動作を指定する重要な属性で、アプリケーションに特定ページのコンテンツをどこから読み込むかを伝えます。</p>
+        <p><code>src</code> 属性は、ページモジュールの具体的なアドレスを指定するために使用されます。これはページのコンテンツと動作を指定する重要な属性であり、アプリケーションに特定のページのコンテンツをどこから読み込むかを指示します。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> page = <span class="hljs-variable language_">this</span>;</code></pre>
         <h2>goto メソッド</h2>
-        <p><code>goto</code> メソッドは、現在のページから別のページへジャンプするために使用されます。<code>app</code> の <code>goto</code> メソッドと比べて、<code>page</code> の <code>goto</code> メソッドは<strong>相対アドレス</strong>を使って他のページへナビゲートできます。</p>
+        <p><code>goto</code> メソッドは、現在のページから別のページにジャンプするために使用されます。<code>app</code> の <code>goto</code> メソッドと比較して、<code>page</code> の <code>goto</code> メソッドは<strong>相対アドレス</strong>を使用して他のページにナビゲートできます。</p>
         <pre><code class="hljs language-javascript">page.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./page2.html&quot;</span>);</code></pre>
         <h2>replace メソッド</h2>
-        <p><code>replace</code> メソッドは、現在のページを別のページに置き換えるために使用されます。これは <code>app</code> の <code>replace</code> メソッドに似ていますが、ページ内で置き換え操作を行う点が異なります。</p>
+        <p><code>replace</code> メソッドは、現在のページを別のページに置き換えるために使用されます。これは <code>app</code> の <code>replace</code> メソッドと似ていますが、ページ内で置き換え操作を行います。</p>
         <pre><code class="hljs language-javascript">page.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./new-page.html&quot;</span>);</code></pre>
-        <h2>backメソッド</h2>
-        <p><code>back</code> メソッドは前のページに戻るために使用されます。これはブラウザの戻る操作と同様に、ユーザーを前のページにナビゲートします。</p>
+        <h2>back メソッド</h2>
+        <p><code>back</code> メソッドは、前のページに戻るために使用されます。これにより、ユーザーはブラウザの「戻る」操作と同様に、前のページにナビゲートされます。</p>
         <pre><code class="hljs language-javascript">page.<span class="hljs-title function_">back</span>();</code></pre>
       </article>
       <div class="footer"></div>

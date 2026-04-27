@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Custom Events</h1>
-        <p>In ofa.js, besides built-in DOM events, you can also create and use custom events to achieve communication between components. Custom events are an important mechanism in component-based development, allowing components to broadcast messages or state changes upward.</p>
-        <h2>emit Method - Triggering Custom Events</h2>
-        <p>The <code>emit</code> method is used to trigger custom events, notifying external listeners of state changes or user actions within the component.</p>
+        <p>In ofa.js, in addition to built-in DOM events, custom events can also be created and used to implement communication between components. Custom events are an important mechanism in component-based development, allowing components to broadcast messages or state changes upward.</p>
+        <h2>emit method - Trigger custom events</h2>
+        <p>The <code>emit</code> method is used to trigger custom events, notifying external listeners of state changes or user operations inside the component.</p>
         <h3>Basic Usage</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Trigger a simple custom event</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'custom-event'</span>);
@@ -91,25 +91,25 @@
 <span class="hljs-comment">// Trigger a custom event with data</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'data-changed'</span>, {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-comment">// Custom data, can be structured arbitrarily based on requirements</span>
+    <span class="hljs-comment">// Custom data, any structure as needed</span>
     <span class="hljs-attr">newValue</span>: <span class="hljs-number">100</span>,
     <span class="hljs-attr">oldValue</span>: <span class="hljs-number">50</span>
   }
 });</code></pre>
-        <h3>emit Method Parameters</h3>
+        <h3>emit method parameters</h3>
         <p>The <code>emit</code> method accepts two parameters:</p>
         <ol>
           <li><strong>Event Name</strong>: String, representing the name of the event to be triggered</li>
-          <li><strong>Options Object</strong> (Optional): Contains event configuration options<ul>
-              <li><code>data</code>: The data to pass</li>
-              <li><code>bubbles</code>: Boolean, controls whether the event bubbles (defaults to true)</li>
+          <li><strong>Options Object</strong> (optional): Contains event configuration options<ul>
+              <li><code>data</code>: Data to be passed</li>
+              <li><code>bubbles</code>: Boolean, controls whether the event bubbles (default is true)</li>
               <li><code>composed</code>: Boolean, controls whether the event can cross the Shadow DOM boundary</li>
               <li><code>cancelable</code>: Boolean, controls whether the event can be canceled</li>
             </ul>
           </li>
         </ol>
-        <p>Then the parent element can use the <code>on</code> method <a href="./event-binding.html" olink="">(event binding)</a> to listen for this custom event.</p>
-        <h3>emit Usage Example</h3>
+        <p>Then the parent element can use the <code>on</code> method <a href="./event-binding.html" olink=""> (Event Binding) </a> to listen to this custom event.</p>
+        <h3>emit usage example</h3>
         <o-playground name="emit Usage Example" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
@@ -175,14 +175,14 @@
   </code>
         </o-playground>
         <h2>bubbles - Event Bubbling Mechanism</h2>
-        <p>The <code>bubbles</code> property controls whether an event bubbles up to parent elements. When set to <code>true</code>, the event propagates up the DOM tree. The default value is <code>true</code>. If set to <code>false</code>, the event will not bubble.</p>
-        <h3>Detailed Explanation of the Bubble Mechanism</h3>
+        <p><code>bubbles</code> property controls whether the event will bubble up to parent elements. When set to <code>true</code>, the event will propagate up the DOM tree. The default value is <code>true</code>. If set to <code>false</code>, the event will not bubble.</p>
+        <h3>Detailed Explanation of Bubbling Mechanism</h3>
         <ul>
-          <li><strong>Default behavior</strong>: events emitted with <code>emit</code> bubble by default (<code>bubbles: true</code>)</li>
-          <li><strong>Bubble path</strong>: the event propagates upward from the triggering element level by level</li>
-          <li><strong>Stop propagation</strong>: calling <code>event.stopPropagation()</code> in an event handler prevents bubbling</li>
+          <li><strong>Default behavior</strong>: Events emitted with <code>emit</code> have bubbling enabled by default (<code>bubbles: true</code>)</li>
+          <li><strong>Bubble path</strong>: The event starts from the triggering element and propagates upward level by level</li>
+          <li><strong>Stop propagation</strong>: Calling <code>event.stopPropagation()</code> in the event handler prevents bubbling</li>
         </ul>
-        <h3>Bubble Sort Example</h3>
+        <h3>Bubble Example</h3>
         <o-playground name="Custom Event Example" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
@@ -202,9 +202,9 @@
       <div on:child-event="handleChildEventFromComponent">
         <bubble-component on:child-event="handleDirectChildEvent"></bubble-component>
       </div>
-      <p>Outer Container (Listening for Bubbling Events): {{bubbledEventCount}} times</p>
-      <p>Inner Component (Listening for Direct Events): {{directEventCount}} times</p>
-      <p>Received Data: <span style="color:red;">{{result}}</span></p>
+      <p>Outer container (listening for bubbling events): {{bubbledEventCount}} times</p>
+      <p>Inner component (listening for direct events): {{directEventCount}} times</p>
+      <p>Received data: <span style="color:red;">{{result}}</span></p>
       <script>
         export default async () => {
           return {
@@ -237,15 +237,15 @@
           border: 1px solid green;
         }
       </style>
-      <button on:click="triggerNonBubblingEvent">Trigger Non-Bubbling Event</button>
-      <button on:click="triggerBubblingEvent">Trigger Bubbling Event</button>
+      <button on:click="triggerNonBubblingEvent">Trigger non-bubbling event</button>
+      <button on:click="triggerBubblingEvent">Trigger bubbling event</button>
       <script>
         export default async () => {
           return {
             tag: "bubble-component",
             proto: {
               triggerNonBubblingEvent() {
-                // Non-bubbling event, only captured by direct listeners
+                // Non-bubbling event, only captured by direct listener
                 this.emit('child-event', {
                   data: { type: 'non-bubbling', message: 'Non-bubbling event triggered', timestamp: Date.now() },
                   bubbles: false
@@ -266,12 +266,12 @@
   </code>
         </o-playground>
         <h2>composed - Penetrates Shadow DOM boundaries</h2>
-        <p>The <code>composed</code> property controls whether events can cross the Shadow DOM boundary. This is particularly important for Web Components development, with a default value of <code>false</code>.</p>
-        <h3>Detailed Explanation of Penetration Mechanics</h3>
+        <p>The <code>composed</code> property controls whether events can cross Shadow DOM boundaries. This is particularly important for Web Components development, and the default value is <code>false</code>.</p>
+        <h3>Detailed Explanation of Penetration Mechanism</h3>
         <ul>
-          <li><strong>Shadow DOM isolation</strong>: By default, events cannot cross Shadow DOM boundaries </li>
-          <li><strong>Enable propagation</strong>: Setting <code>composed: true</code> allows events to pass through Shadow DOM boundaries </li>
-          <li><strong>Use case</strong>: When a component needs to dispatch events to its host environment, <code>composed: true</code> must be set</li>
+          <li><strong>Shadow DOM Isolation</strong>:By default, events cannot cross Shadow DOM boundaries</li>
+          <li><strong>Enable Penetration</strong>:Setting <code>composed: true</code> allows events to cross Shadow DOM boundaries</li>
+          <li><strong>Use Case</strong>:When a component needs to send events to the host environment, <code>composed: true</code> must be set</li>
         </ul>
         <h3>Penetration Example</h3>
         <o-playground name="Custom Event with Data Example" style="--editor-height: 500px">
@@ -293,8 +293,8 @@
       <div on:child-event="handleChildEventFromComponent">
         <bubble-component></bubble-component>
       </div>
-      <p>Event listened: {{bubbledEventCount}} times</p>
-      <p>Received data: <span style="color:red;">{{result}}</span></p>
+      <p>Events listened: {{bubbledEventCount}} times</p>
+      <p>Data received: <span style="color:red;">{{result}}</span></p>
       <script>
         export default async () => {
           return {
@@ -324,8 +324,8 @@
         }
       </style>
       <child-component on:child-event="handleChildEventFromComponent"></child-component>
-      <p>Event listened: {{bubbledEventCount}} times</p>
-      <p>Received data: <span style="color:pink;">{{result}}</span></p>
+      <p>Events listened: {{bubbledEventCount}} times</p>
+      <p>Data received: <span style="color:pink;">{{result}}</span></p>
       <script>
         export default async () => {
           return {

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Composant o-app</title>
+  <title>o-app composant</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
@@ -80,26 +80,26 @@
       </style>
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
-        <h1>Composant o-app</h1>
-        <p><code>o-app</code> est l’un des composants principaux d’ofa.js, utilisé pour configurer et gérer l’ensemble de l’application. Voici quelques attributs et méthodes clés de l’app :</p>
+        <h1>o-app composant</h1>
+        <p><code>o-app</code> est l&#39;un des composants centraux d&#39;ofa.js, utilisé pour configurer et gérer l&#39;ensemble de l&#39;application. Voici quelques-unes des propriétés et méthodes clés de l&#39;app :</p>
         <h2>src</h2>
-        <p>L&#39;attribut <code>src</code> est utilisé pour spécifier l&#39;adresse exacte du module de configuration des paramètres de l&#39;application.</p>
+        <p>L&#39;attribut <code>src</code> est utilisé pour spécifier l&#39;adresse spécifique du module de configuration des paramètres de l&#39;application.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> app = $(<span class="hljs-string">&quot;o-app&quot;</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(app.<span class="hljs-property">src</span>);</code></pre>
         <h2>current</h2>
-        <p>La propriété <code>current</code> sert à obtenir l&#39;instance de la page en cours d&#39;affichage. Cela vous permet d&#39;accéder à la page actuellement affichée et d&#39;effectuer des opérations dessus, par exemple mettre à jour son contenu ou exécuter des actions spécifiques.</p>
+        <p>La propriété <code>current</code> permet d’obtenir l’instance de la page actuellement affichée. Cela vous aide à accéder à la page en cours d’affichage et à l’utiliser, par exemple pour mettre à jour son contenu ou exécuter des actions spécifiques.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
         <h2>goto</h2>
-        <p>La méthode <code>goto</code> sert à sauter vers la page spécifiée. Vous pouvez transmettre l’adresse de la page cible, l’application chargera et affichera cette page. C’est une méthode importante pour la navigation dans l’application.</p>
+        <p><code>goto</code> est une méthode utilisée pour naviguer vers une page spécifiée. Vous pouvez passer l&#39;adresse de la page cible, l&#39;application chargera et affichera cette page. C&#39;est une méthode importante pour la navigation dans l&#39;application.</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;/page2.html&quot;</span>);</code></pre>
         <h2>replace</h2>
-        <p>La méthode <code>replace</code> est similaire à <code>goto</code>, mais elle sert à remplacer la page actuelle plutôt que d&#39;ajouter une nouvelle page à la pile. Cela peut être utilisé pour implémenter un remplacement de page plutôt qu&#39;une navigation dans la pile.</p>
-        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;/nouvelle-page.html&quot;</span>);</code></pre>
+        <p><code>replace</code> méthode est similaire à <code>goto</code>, mais elle est utilisée pour remplacer la page actuelle plutôt que d&#39;ajouter une nouvelle page dans la pile. Cela peut être utilisé pour implémenter le remplacement de page plutôt que la navigation par pile.</p>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;/new-page.html&quot;</span>);</code></pre>
         <h2>back</h2>
-        <p>La méthode <code>back</code> est utilisée pour revenir à la page précédente, permettant une navigation arrière. Cela ramènera l&#39;utilisateur à la page précédente.</p>
+        <p>La méthode <code>back</code> est utilisée pour revenir à la page précédente, réalisant ainsi l&#39;opération de retour de la navigation de page. Cela ramène l&#39;utilisateur à la page précédente.</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">back</span>();</code></pre>
         <h2>routers</h2>
-        <p>La propriété &quot;routers&quot; contient les informations de configuration des itinéraires de l&#39;application. C&#39;est une propriété importante qui définit les règles et les correspondances d&#39;itinéraire des différentes pages de l&#39;application. La configuration des itinéraires détermine la navigation entre les pages et la façon dont les URL sont traitées.</p>
+        <p>L&#39;attribut <code>routers</code> contient la configuration des routes de l&#39;application. Il s&#39;agit d&#39;une propriété importante qui définit les règles de routage et les correspondances des différentes pages au sein de l&#39;application. La configuration de routage détermine la navigation entre les pages et la manière dont les URL sont traitées.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> routeConfig = app.<span class="hljs-property">routers</span>;</code></pre>
       </article>
       <div class="footer"></div>

@@ -97,26 +97,26 @@
     </template>
   </code>
         </o-playground>
-        <h2>Precauciones</h2>
-        <p>El elemento objetivo <strong>debe tener un nodo padre</strong>, de lo contrario no se puede ejecutar la operación de unwrap.</p>
+        <h2>Notas importantes</h2>
+        <p>El elemento objetivo <strong>debe tener un nodo padre</strong>, de lo contrario no se puede realizar la operación unwrap.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Error, no elemento padre, no se puede desenvuelve</span>
-$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Correcto, eliminar el elemento envolvente</span></code></pre>
+$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Error, no hay elemento padre, no se puede usar unwrap</span>
+$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Correcto, elimina el elemento que envuelve</span></code></pre>
         <p>Cuando el elemento objetivo tiene otros elementos hermanos, tampoco se puede ejecutar unwrap.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
-    &lt;div&gt;I am siblings&lt;/div&gt;
+    &lt;div&gt;Soy hermano&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
 $el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Error, porque tiene otros nodos adyacentes</span></code></pre>
-        <p><strong>Tenga en cuenta que no se debe operar dentro de componentes de plantilla como o-fill o o-if.</strong></p>
+        <p><strong>Tenga en cuenta, no opere dentro de los componentes de plantilla como o-fill o o-if.</strong></p>
       </article>
       <div class="footer"></div>
       <script>

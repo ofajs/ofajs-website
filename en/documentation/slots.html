@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slot</title>
+  <title>Slots</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,8 +80,8 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Slot</h1>
-        <p>A slot is a placeholder within a component for receiving external content. By using slots, you can create reusable components while allowing the component user to customize the content inside.</p>
+        <h1>Slots</h1>
+        <p>Slots are placeholders in components for receiving external content. By using slots, you can create reusable components while allowing the person using the component to customize its internal content.</p>
         <h2>Default Slot</h2>
         <o-playground name="Default Slot Example" style="--editor-height: 500px">
           <code path="demo.html" preview>
@@ -100,8 +100,7 @@
           border: 1px solid green;
           padding: 8px;
         }
-      </style>
-      Slot content:
+      </style>Slot Content：
       <br />
       <span style="color: red;">
         <slot></slot>
@@ -126,7 +125,7 @@
       <demo-comp>
         <div>This is custom content</div>
       </demo-comp>
-      <h3>Without slot content (shows default):</h3>
+      <h3>Without slot content (showing default content):</h3>
       <demo-comp></demo-comp>
     </template>
   </code>
@@ -156,7 +155,7 @@
   </code>
         </o-playground>
         <h2>Named Slots</h2>
-        <p>When a component requires multiple slot positions, named slots can be used to distinguish between different slots. Define named slots using <code>&lt;slot name=&quot;xxx&quot;&gt;</code>, and when using them, specify which slot the content should be placed into with the <code>slot=&quot;xxx&quot;</code> attribute.</p>
+        <p>When a component needs multiple slot positions, named slots can be used to distinguish different slots. Define named slots with <code>&lt;slot name=&quot;xxx&quot;&gt;</code>, and when using them, specify which slot the content goes into with the <code>slot=&quot;xxx&quot;</code> attribute.</p>
         <o-playground name="Named Slot Example" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
@@ -175,7 +174,7 @@
           border: 1px solid green;
           padding: 8px;
         }
-      </style>Slot Content:
+      </style>Slot content:
       <br />
       <span style="color: red;">
         <slot></slot>
@@ -195,8 +194,8 @@
   </code>
         </o-playground>
         <h2>Multi-level Slot Passing</h2>
-        <p>Slot content can be passed across multiple component layers. After a parent component passes slot content to a child component, the child can forward that slot content to its own children, enabling multi-level slot propagation.</p>
-        <o-playground name="Multi-level Slot Forwarding Example" style="--editor-height: 500px">
+        <p>Slot content can be passed across multiple layers of components. When a parent component passes slot content to a child component, the child component can further pass this slot content to its own child components, enabling multi-layer transparent transmission of slots.</p>
+        <o-playground name="Multi-level Slot Passing Example" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./outer-comp.html"></l-m>
@@ -252,10 +251,10 @@
     </template>
   </code>
         </o-playground>
-        <p>In the example above:- The outermost parent component defines the content for <code>slot=&quot;header&quot;</code></p>
+        <p>In the example above:- The outermost parent component defines the content with <code>slot=&quot;header&quot;</code></p>
         <ul>
-          <li>The outer component (outer-comp) receives this slot content and passes it on to the inner component (inner-comp)</li>
-          <li>The inner component finally renders the slot content originating from the outermost layer</li>
+          <li>After receiving this slot content, the outer component (outer-comp) passes it on to the inner component (inner-comp)</li>
+          <li>The inner component finally renders the slot content from the outermost layer</li>
         </ul>
       </article>
       <div class="footer"></div>

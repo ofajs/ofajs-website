@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>host</h1>
-        <p>Mit der <code>host</code>-Eigenschaft kann man die Host-Komponenten-Instanz eines Elements abrufen. Das ist sehr nützlich, um innerhalb einer Komponente auf Daten und Methoden ihrer Host-Komponente zuzugreifen.</p>
-        <p>Hier ist ein Beispiel, das zeigt, wie Sie mit dem <code>host</code>-Attribut eine Instanz der Host-Komponente abrufen können:</p>
+        <p>Mit der Eigenschaft <code>host</code> kann man die Instanz der Host-Komponente eines Elements abrufen. Das ist sehr nützlich, um innerhalb einer Komponente auf Daten und Methoden ihrer Host-Komponente zuzugreifen.</p>
+        <p>Hier ist ein Beispiel, das zeigt, wie man mit der <code>host</code>-Eigenschaft eine Instanz der Host-Komponente abruft:</p>
         <o-playground name="host - Host abrufen" style="--editor-height: 700px">
           <code path="demo.html" preview>
     <template>
@@ -139,14 +139,14 @@
     </template>
   </code>
         </o-playground>
-        <p>In diesem Beispiel haben wir eine benutzerdefinierte Komponente <code>user-card</code> erstellt und innerhalb der Komponente über <code>this.host</code> auf die Methode <code>sayHi</code> der Host-Komponente (Seite) zugegriffen, um die Interaktion zwischen Komponente und Host zu realisieren.</p>
-        <p>Wenn sich das Element nicht innerhalb einer Komponente oder Seitenmoduls befindet, ist der Wert von <code>host</code> <code>null</code>. Beispiel:</p>
-        <o-playground name="host - Kein Host-Fall" style="--editor-height: 300px">
+        <p>In diesem Beispiel erstellen wir eine benutzerdefinierte Komponente <code>user-card</code> und greifen innerhalb der Komponente über <code>this.host</code> auf die Methode <code>sayHi</code> der Host-Komponente (Seite) zu, wodurch eine Interaktion zwischen der Komponente und dem Host realisiert wird.</p>
+        <p>Wenn sich das Element nicht innerhalb einer Komponente oder eines Seitenmoduls befindet, ist der Wert von <code>host</code> <code>null</code>. Zum Beispiel:</p>
+        <o-playground name="host - Kein Host" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
         <li id="target">
-          Ich bin das Ziel
+          I am target
         </li>
       </ul>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
@@ -158,7 +158,7 @@
     </template>
   </code>
         </o-playground>
-        <p>In diesem Beispiel befindet sich das <code>#target</code>-Element direkt unter body und nicht innerhalb einer Komponente oder Seite, daher ist der Wert von <code>$(&quot;#target&quot;).host</code> <code>null</code>.</p>
+        <p>In diesem Beispiel befindet sich das <code>#target</code>-Element im body, nicht innerhalb einer Komponente oder Seite, daher ist der Wert von <code>$(&quot;#target&quot;).host</code> <code>null</code>.</p>
       </article>
       <div class="footer"></div>
       <script>

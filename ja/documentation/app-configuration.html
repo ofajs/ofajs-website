@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>アプリケーション設定</title>
+  <title>アプリケーション構成</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,33 +80,33 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>アプリケーション設定</h1>
-        <p><code>app-config.js</code> 設定ファイルは、ホームページのアドレスとページ切り替えアニメーション以外にも、アプリケーションのロード状態、エラー処理、初期化ロジック、およびナビゲーション機能を制御するためのより多くの設定オプションをサポートしています。</p>
+        <h1>アプリケーション構成</h1>
+        <p><code>app-config.js</code> 設定ファイルは、トップページのアドレスやページ切り替えアニメーション以外にも、アプリケーションのローディング状態、エラー処理、初期化ロジック、ナビゲーション機能を制御するためのより多くの設定オプションをサポートしています。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// ロード中に表示する内容</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;Loading...&lt;/div&gt;&quot;</span>;
+<span class="hljs-comment">// 読み込み中に表示される内容</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;読み込み中...&lt;/div&gt;&quot;</span>;
 
-<span class="hljs-comment">// ページのロードに失敗した場合に表示するコンポーネント</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
+<span class="hljs-comment">// ページの読み込みに失敗した場合に表示されるコンポーネント</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;読み込みに失敗しました: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
 
-<span class="hljs-comment">// アプリケーションの初期化完了後のコールバック</span>
+<span class="hljs-comment">// アプリの初期化完了後のコールバック</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;App is ready!&quot;</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;アプリの準備ができました！&quot;</span>);
 }
 
-<span class="hljs-comment">// アプリケーションプロトタイプに追加するメソッドとプロパティ</span>
+<span class="hljs-comment">// アプリのプロトタイプに追加するメソッドとプロパティ</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
   <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Custom method called&quot;</span>);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;カスタムメソッドが呼ばれました&quot;</span>);
   },
-};</code></pre><o-playground name="アプリ設定の例" style="--editor-height: 500px">
+};</code></pre><o-playground name="アプリケーション設定例" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
   </code>
           <code path="app-config.js">
-    // アプリのホームアドレス
+    // アプリケーションのホームページアドレス
     export const home = "./home.html";
     // ページ切り替えアニメーション設定
     export const pageAnime = {
@@ -198,8 +198,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>loading - 読み込み状態</h2>
-        <p>ページ読み込み中に表示されるコンポーネント、文字列テンプレートまたはテンプレートを返す関数にすることができます。</p>
+        <h2>loading - ローディング状態</h2>
+        <p>ページの読み込み中に表示されるコンポーネント。文字列テンプレートまたはテンプレートを返す関数です。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// シンプルな文字列テンプレート</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Loading...&lt;/div&gt;&quot;</span>;
 
@@ -209,7 +209,7 @@
     &lt;span&gt;読み込み中...&lt;/span&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
-        <p>以下は、美しくプロジェクトに直接コピーして使用できるローディング実装です：</p>
+        <p>以下は、美しくてそのままプロジェクトにコピーして使用できる loading 実装です：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">const</span> loadingEl = $({
     <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
@@ -237,7 +237,7 @@
   <span class="hljs-keyword">return</span> loadingEl;
 };</code></pre>
         <h2>fail - エラー処理</h2>
-        <p>ページの読み込みに失敗したときに表示されるコンポーネントで、関数は <code>src</code>（失敗したページのアドレス）と <code>error</code>（エラーメッセージ）を含むオブジェクトパラメータを受け取ります。</p>
+        <p>ページの読み込みに失敗した場合に表示されるコンポーネント。関数はオブジェクトパラメータを受け取り、<code>src</code>（失敗したページのアドレス）と<code>error</code>（エラーメッセージ）を含みます。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{src, error}</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
     &lt;p&gt;ページの読み込みに失敗しました&lt;/p&gt;
@@ -246,7 +246,7 @@
   &lt;/div&gt;`</span>;
 };</code></pre>
         <h2>proto - プロトタイプ拡張</h2>
-        <p>アプリケーションインスタンスにカスタムメソッドや計算プロパティを追加し、これらのメソッドはページコンポーネント内で <code>this.app</code> を通じてアクセスできます。</p>
+        <p>アプリケーションインスタンスにカスタムメソッドと計算プロパティを追加します。これらのメソッドはページコンポーネント内で <code>this.app</code> を通じてアクセスできます。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
   <span class="hljs-comment">// カスタムメソッド</span>
   <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
@@ -259,44 +259,44 @@
 };</code></pre>
         <p>ページ内で呼び出す：</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>ホームページに戻る<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>ホームページにいるか: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>ホームに戻る<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>ホームにいるか: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>ready - 初期化コールバック</h2>
-        <p>アプリケーション設定の読み込み完了後に実行されるコールバック関数。ここで初期化操作を行うことができます。<code>this</code> を通じてアプリケーションインスタンスのメソッドとプロパティにアクセスできます。</p>
+        <p>アプリケーション設定の読み込みが完了した後に実行されるコールバック関数で、ここで初期化処理を行うことができます。<code>this</code>を通じてアプリケーションインスタンスのメソッドやプロパティにアクセスできます。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;アプリケーションが初期化されました&quot;</span>);
-  <span class="hljs-comment">// this にアクセス可能（o-app 要素インスタンス）</span>
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// 現在のページ o-page 要素インスタンスを取得</span>
+  <span class="hljs-comment">// this にアクセスできます (o-app 要素インスタンス)</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// 現在のページ o-page 要素インスタンスを取得する</span>
   <span class="hljs-comment">// this.someMethod();</span>
 }</code></pre>
         <h2>allowForward - 前進機能</h2>
-        <p>ブラウザの前進機能を有効にするかどうかを制御します。<code>true</code> に設定すると、ブラウザの戻るボタンと進むボタンを使用してナビゲーションできます。</p>
+        <p>控制是否启用浏览器前进功能。设置为 <code>true</code> 后，可以使用浏览器的后退和前进按钮进行导航。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
-        <p>有効にすると、ユーザーはブラウザの前進/後退ボタンを使用してナビゲーションでき、アプリケーションのナビゲーションメソッド <code>forward()</code> も有効になります。</p>
+        <p>有効にすると、ユーザーはブラウザの進む／戻るボタンでナビゲーションできるようになり、アプリケーションのナビゲーションメソッド <code>forward()</code> も有効になります。</p>
         <h2>プログラミングによるナビゲーション</h2>
-        <p><code>olink</code> を使用する以外に、JavaScript でナビゲーションメソッドを呼び出すこともできます：</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 指定ページへジャンプ（履歴に追加）</span>
+        <p>除了使用 <code>olink</code> 链接，还可以在 JavaScript 中调用导航方法：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 指定ページに遷移（履歴に追加）</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
-<span class="hljs-comment">// 現在のページを置換（履歴に追加しない）</span>
+<span class="hljs-comment">// 現在のページを置き換え（履歴に追加しない）</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
 <span class="hljs-comment">// 前のページに戻る</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();
 
-<span class="hljs-comment">// 次のページに進む（allowForward: trueの設定が必要）</span>
+<span class="hljs-comment">// 次のページに進む（allowForward: true の設定が必要）</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">forward</span>();</code></pre>
         <h2>ルーティング履歴</h2>
-        <p><code>routers</code> プロパティを使用すると、閲覧履歴を取得できます：</p>
+        <p><code>routers</code> 属性を通じてブラウジング履歴を取得できます：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// すべてのルーティング履歴を取得</span>
 <span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
-<span class="hljs-comment">// 返却形式: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span>
+<span class="hljs-comment">// 戻り値の形式: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span>
 
 <span class="hljs-comment">// 現在のページを取得</span>
 <span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
         <h2>ルートの変更を監視する</h2>
-        <p><code>router-change</code> イベントを監視することで、ルート変更に応答できます：</p>
+        <p><code>router-change</code> イベントをリッスンすることで、ルートの変更に対応できます。</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> { data } = e;
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;ルート変更:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>

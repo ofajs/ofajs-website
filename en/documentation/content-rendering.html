@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Template Rendering</h1>
-        <p>ofa.js provides a powerful template rendering engine with rich template syntax, enabling developers to build applications quickly. Let&#39;s start with the most commonly used text rendering.</p>
+        <p>ofa.js provides a powerful template rendering engine with rich template syntax, which can help developers quickly build applications. First, let&#39;s start with the most commonly used text rendering.</p>
         <h2>Page Data Binding</h2>
-        <p>In ofa.js, every page has a <code>data</code> object where you can define variables to be used within the page. When the page starts rendering, the data in the <code>data</code> object is automatically bound to the template, and the template renders the corresponding variable values using the <code>{{variableName}}</code> syntax.</p>
+        <p>In ofa.js, each page has a <code>data</code> object, in which you can define variables that need to be used on the page. When the page starts rendering, the data in the <code>data</code> object is automatically bound to the template, and then the syntax <code>{{variable name}}</code> is used in the template to render the value of the corresponding variable.</p>
         <h2>Text Rendering</h2>
-        <p>Text rendering is the most basic rendering method. You can use the <code>{{variableName}}</code> syntax in templates to display the value of the corresponding variable in the <code>data</code> object.</p>
+        <p>Text rendering is the most basic form of rendering; you can use the <code>{{variableName}}</code> syntax in templates to display the value of the corresponding variable in the <code>data</code> object.</p>
         <o-playground name="Text Rendering Example" style="--editor-height: 500px">
           <code>
     <template page>
@@ -110,7 +110,7 @@
   </code>
         </o-playground>
         <h2>Rendering HTML Content</h2>
-        <p>By adding the <code>:html</code> directive to an element, the HTML string in the corresponding variable is parsed and safely inserted into the element, enabling effortless dynamic rich-text rendering or embedding of external HTML fragments.</p>
+        <p>By adding the <code>:html</code> directive to an element, the HTML string in the corresponding variable is parsed and safely inserted inside the element, enabling effortless dynamic rich-text rendering or embedding of external HTML fragments.</p>
         <o-playground name="Render HTML Content Example" style="--editor-height: 500px">
           <code>
     <template page>

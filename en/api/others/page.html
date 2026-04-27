@@ -81,18 +81,18 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>o-page Component</h1>
-        <p><code>o-page</code> is one of the core components in ofa.js, representing an independent page or page module. Below are some key properties and methods of <code>o-page</code>:</p>
+        <p><code>o-page</code> is one of the core components in ofa.js, representing an independent page or page module. The following are some key properties and methods of <code>o-page</code>:</p>
         <h2>src attribute</h2>
-        <p>The <code>src</code> attribute specifies the exact address of the page module. It is the key attribute that defines the page&#39;s content and behavior, telling the application where to load the content for a specific page.</p>
+        <p>The <code>src</code> attribute is used to specify the concrete address of the page module. It is the key attribute that designates the content and behavior of the page, telling the application where to load the content for that specific page.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> page = <span class="hljs-variable language_">this</span>;</code></pre>
         <h2>goto method</h2>
-        <p>The <code>goto</code> method is used to navigate from the current page to another page. Compared with the <code>goto</code> method of <code>app</code>, the <code>goto</code> method of <code>page</code> can use <strong>relative paths</strong> to navigate to other pages.</p>
+        <p>The <code>goto</code> method is used to navigate from the current page to another page. Compared to the <code>app</code>&#39;s <code>goto</code> method, the <code>page</code>&#39;s <code>goto</code> method can use <strong>relative addresses</strong> to navigate to other pages.</p>
         <pre><code class="hljs language-javascript">page.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./page2.html&quot;</span>);</code></pre>
         <h2>replace method</h2>
-        <p>The <code>replace</code> method replaces the current page with another page. It is similar to the <code>replace</code> method of <code>app</code>, but performs the replacement within the page.</p>
+        <p><code>replace</code> method is used to replace the current page with another page. This is similar to the <code>replace</code> method of <code>app</code>, but performs the replacement operation within the page.</p>
         <pre><code class="hljs language-javascript">page.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./new-page.html&quot;</span>);</code></pre>
         <h2>back method</h2>
-        <p>The <code>back</code> method is used to return to the previous page. It navigates the user back to the last page, similar to the browser&#39;s back operation.</p>
+        <p><code>back</code> method is used to return to the previous page. This navigates the user back to the previous page, similar to the browser&#39;s back button.</p>
         <pre><code class="hljs language-javascript">page.<span class="hljs-title function_">back</span>();</code></pre>
       </article>
       <div class="footer"></div>

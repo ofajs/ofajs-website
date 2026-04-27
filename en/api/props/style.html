@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>style</h1>
-        <p>The <code>style</code> attribute remains consistent with the native implementation.</p>
-        <p>Note: the <code>style</code> attribute can only retrieve values explicitly set on it, not the actual computed styles. Although the <code>style</code> method resembles the <a href="./css.html" olink="">css method</a>, it cannot perform a full style override. Compared with <code>css</code>, the <code>style</code> method is more efficient internally.</p>
+        <p><code>style</code> attribute is consistent with the native one.</p>
+        <p>Please note that the <code>style</code> attribute can only retrieve the values set on the <code>style</code> attribute itself, not the actual computed styles. Although the <code>style</code> method is similar to the <a href="./css.html" olink="">css method</a>, it cannot perform a full style override. Compared to <code>css</code>, the <code>style</code> method has higher internal execution efficiency.</p>
         <p>Here is an example demonstrating how to use <code>style</code>:</p>
         <o-playground name="style - direct usage" style="--editor-height: 300px">
           <code path="demo.html">
@@ -101,9 +101,9 @@
     </template>
   </code>
         </o-playground>
-        <p>Please remember that the <code>style</code> method only gets and sets values on the <code>style</code> attribute, not the actual computed styles.</p>
-        <h2>Template Syntax Usage</h2>
-        <p>You can also use template syntax to set the style of the target element.</p>
+        <p>Please remember that the <code>style</code> method only gets and sets the values on the <code>style</code> attribute, not the actual computed styles.</p>
+        <h2>Using Template Syntax</h2>
+        <p>You can also use template syntax to style the target element.</p>
         <o-playground name="style - Template Syntax" style="--editor-height: 400px">
           <code path="demo.html" preview="">
     <template>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Escuchador</title>
+  <title>Oyente</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,11 +80,11 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Escuchador</h1>
-        <p>El observador (Watcher) es una función en ofa.js utilizada para escuchar cambios en los datos y ejecutar la lógica correspondiente. Cuando los datos reactivos cambian, el observador activa automáticamente la función de devolución de llamada, permitiéndote realizar tareas como transformación de datos, operaciones secundarias o procesamiento asíncrono.</p>
+        <h1>Oyente</h1>
+        <p>El observador (Watcher) es una función en ofa.js que se utiliza para detectar cambios en los datos y ejecutar la lógica correspondiente. Cuando los datos reactivos cambian, el observador activa automáticamente la función de devolución de llamada, permitiéndote realizar tareas como transformación de datos, operaciones secundarias o procesamiento asíncrono.</p>
         <h2>Uso básico</h2>
-        <p>Los watchers se definen en el objeto <code>watch</code> del componente, donde el nombre de la clave corresponde al nombre de la propiedad de datos que se desea observar, y el valor es la función de callback que se ejecuta cuando cambian esos datos.</p>
-        <o-playground name="observadores - uso básico" style="--editor-height: 700px">
+        <p>Los observadores se definen en el objeto <code>watch</code> del componente, donde el nombre de la clave corresponde al nombre de la propiedad de datos que se debe observar, y el valor es la función de devolución de llamada que se ejecuta cuando los datos cambian.</p>
+        <o-playground name="watchers - uso básico" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -95,9 +95,9 @@
         }
       </style>
       <p>
-        contador:{{count}}
+        count:{{count}}
         <br>
-        dobleContador:{{doubleCount}}
+        doubleCount:{{doubleCount}}
       </p>
       <input sync:value="count" type="number">
       <script>
@@ -120,14 +120,14 @@
     </template>
   </code>
         </o-playground>
-        <h2>Parámetros de función de retorno de llamada</h2>
-        <p>La función de devolución de llamada del detector recibe dos parámetros:- <code>newValue</code>：el nuevo valor después del cambio</p>
+        <h2>Parámetros de función callback</h2>
+        <p>La función de callback del listener recibe dos parámetros:- <code>newValue</code>：el nuevo valor después del cambio</p>
         <ul>
           <li><code>{watchers}</code>：todos los objetos observadores del componente actual</li>
         </ul>
-        <p>Después de que los datos cambien, primero se procesará con debounce y luego se ejecutará la devolución de llamada en <code>watch</code>; el parámetro <code>watchers</code> es el conjunto de todos los cambios combinados dentro del período de debounce actual.</p>
-        <p>Las funciones en <code>watch</code> se invocan inmediatamente después de que el componente se inicializa, para establecer la escucha de datos. Puede distinguirse si es la primera invocación comprobando si <code>watchers</code> tiene longitud.</p>
-        <o-playground name="watchers - parámetros de devolución de llamada" style="--editor-height: 700px">
+        <p>Después de los cambios de datos, se realizará primero el procesamiento de antirrebote (debounce) y luego se ejecutarán las devoluciones de llamada en <code>watch</code>; el parámetro <code>watchers</code> es el conjunto de todos los cambios fusionados dentro de este ciclo de antirrebote.</p>
+        <p>La función en <code>watch</code> se llama inmediatamente después de que se complete la inicialización del componente, para establecer la supervisión de datos. Se puede distinguir si es la primera llamada verificando si <code>watchers</code> tiene longitud.</p>
+        <o-playground name="watchers - parámetros de callback" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -146,14 +146,14 @@
       </style>
       <p>Nombre: {{name}}</p>
       <p>Edad: {{age}}</p>
-      <input sync:value="name" placeholder="Ingresa nombre">
-      <input sync:value="age" type="number" placeholder="Ingresa edad">
+      <input sync:value="name" placeholder="Ingrese el nombre">
+      <input sync:value="age" type="number" placeholder="Ingrese la edad">
       <div class="log">{{log}}</div>
       <script>
         export default async () => {
           return {
             data: {
-              name: "Zhang San",
+              name: "Juan",
               age: 25,
               log: "",
             },
@@ -162,14 +162,14 @@
                 if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // Obtener uno de ellos
+                const watcher = watchers[0]; // obtener uno de ellos
                 this.log += `La propiedad "${watcher.name}" cambió de "${watcher.oldValue}" a "${watcher.value}"\n`;
               },
               age(newVal,{watchers}) {
                 if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // Obtener uno de ellos
+                const watcher = watchers[0]; // obtener uno de ellos
                 this.log += `La propiedad "${watcher.name}" cambió de "${watcher.oldValue}" a "${watcher.value}"\n`;
               },
             },
@@ -179,9 +179,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Escucha Profunda</h2>
+        <h2>Observación profunda</h2>
         <p>Para datos anidados de tipo objeto o array, watch realizará automáticamente una escucha profunda.</p>
-        <o-playground name="watchers - Escucha profunda" style="--editor-height: 700px">
+        <o-playground name="watchers - Observación profunda" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -204,13 +204,13 @@
         <p>Información del usuario:</p>
         <p>Nombre: {{user.name}}</p>
         <p>Edad: {{user.age}}</p>
-        <p>Pasatiempos: {{user.hobbies.join(', ')}}</p>
+        <p>Aficiones: {{user.hobbies.join(', ')}}</p>
       </div>
       <div>
-        <button on:click="updateName">Cambiar nombre</button>
-        <button on:click="updateAge">Cambiar edad</button>
-        <button on:click="addHobby">Agregar pasatiempo</button>
-        <button on:click="updateHobby">Modificar pasatiempo</button>
+        <button on:click="updateName">Modificar nombre</button>
+        <button on:click="updateAge">Modificar edad</button>
+        <button on:click="addHobby">Agregar afición</button>
+        <button on:click="updateHobby">Modificar afición</button>
       </div>
       <div class="info" :html="log"></div>
       <script>
@@ -218,9 +218,9 @@
           return {
             data: {
               user: {
-                name: "Zhang San",
+                name: "Juan",
                 age: 25,
-                hobbies: ["Baloncesto", "Fútbol"],
+                hobbies: ["baloncesto", "fútbol"],
               },
               log: "",
             },
@@ -229,27 +229,27 @@
                 if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // Obtener uno de ellos
-                console.log("Modificar: ",watcher.target);
+                const watcher = watchers[0]; // obtener uno de ellos
+                console.log("Modificación: ",watcher.target);
                 if(watcher.type === 'set'){
-                  this.log += `Modificar valor -> Propiedad "${watcher.name}" de "${watcher.oldValue}" a "${watcher.value}" <br>`;
+                  this.log += `Valor modificado -> propiedad "${watcher.name}" de "${watcher.oldValue}" a "${watcher.value}" <br>`;
                 }else{
-                  this.log += `Ejecutar método ${watcher.type} -> Nombre de función "${watcher.name}" Parámetros "${watcher.args}" <br>`;
+                  this.log += `Ejecutar método ${watcher.type} -> nombre de función "${watcher.name}" argumentos "${watcher.args}" <br>`;
                 }
               },
             },
             proto: {
               updateName() {
-                this.user.name = "Li Si";
+                this.user.name = "Luis";
               },
               updateAge() {
                 this.user.age = 30;
               },
               addHobby() {
-                this.user.hobbies.push("Natación");
+                this.user.hobbies.push("natación");
               },
               updateHobby() {
-                this.user.hobbies[0] = "Bádminton";
+                this.user.hobbies[0] = "bádminton";
               },
             },
           };
@@ -258,8 +258,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Monitorear múltiples fuentes de datos</h2>
-        <p>Puedes escuchar simultáneamente los cambios en múltiples datos y, en la función de devolución de llamada, ejecutar la lógica correspondiente según los cambios de esos datos.</p>
+        <h2>Escuchar múltiples fuentes de datos</h2>
+        <p>Puedes escuchar simultáneamente los cambios en varios datos y, en la función de devolución de llamada, ejecutar la lógica correspondiente según los cambios en esos datos.</p>
         <o-playground name="watchers - múltiples fuentes de datos" style="--editor-height: 600px">
           <code>
     <template page="">
@@ -275,10 +275,10 @@
         }
       </style>
       <p>Ancho: {{rectWidth}}</p>
-      <p>Altura: {{rectHeight}}</p>
+      <p>Alto: {{rectHeight}}</p>
       <p>Área: {{area}}</p>
       <input sync:value="rectWidth" type="number" placeholder="Ancho">
-      <input sync:value="rectHeight" type="number" placeholder="Altura">
+      <input sync:value="rectHeight" type="number" placeholder="Alto">
       <script>
         export default async () => {
           return {
@@ -299,9 +299,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Escenarios de aplicación reales</h2>
+        <h2>Escenarios de aplicación práctica</h2>
         <h3>1. Validación de formularios</h3>
-        <o-playground name="watchers - Validación de formulario" style="--editor-height: 800px">
+        <o-playground name="watchers - validación de formulario" style="--editor-height: 800px">
           <code>
     <template page="">
       <style>
@@ -344,7 +344,7 @@
               email(val) {
                 const emailRegex = /^.+@.+\..+$/;
                 if (!emailRegex.test(val)) {
-                  this.emailError = "Por favor, ingrese una dirección de correo electrónico válida";
+                  this.emailError = "Por favor, introduce una dirección de correo válida";
                 } else {
                   this.emailError = "";
                 }
@@ -357,7 +357,7 @@
   </code>
         </o-playground>
         <h3>2. Configurar el tema</h3>
-        <o-playground name="watchers - establecer tema" style="--editor-height: 800px">
+        <o-playground name="watchers - configurar tema" style="--editor-height: 800px">
           <code>
     <template page="">
       <style>
@@ -413,8 +413,8 @@
         </o-playground>
         <h2>Precauciones</h2>
         <ul>
-          <li><strong>Evitar modificar los datos observados</strong>: Modificar los datos observados dentro del callback de un observador puede causar un bucle infinito. Si necesitas modificarlos, asegúrate de tener una condición de parada adecuada.</li>
-          <li><strong>Considerar usar propiedades computadas</strong>: Si necesitas calcular un nuevo valor basado en cambios en múltiples datos, se recomienda usar <a href="./computed-properties.html" olink="">propiedades computadas</a> en lugar de observadores.</li>
+          <li><strong>Evitar modificar los datos observados</strong>: Modificar los datos que se están observando dentro de la función de callback de un observador puede provocar un bucle infinito. Si necesita modificarlos, asegúrese de tener una condición adecuada.</li>
+          <li><strong>Se puede usar una propiedad computada en su lugar</strong>: Si necesita calcular un nuevo valor basado en cambios de múltiples datos, se recomienda usar una <a href="./computed-properties.html" olink="">propiedad computada</a> en lugar de un observador.</li>
         </ul>
       </article>
       <div class="footer"></div>

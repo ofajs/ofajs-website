@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Páginas/Rutas anidadas</title>
+  <title>Página/Ruta anidada</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,15 +80,15 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Páginas/Rutas anidadas</h1>
-        <p>En ofa.js, las páginas anidadas (también conocidas como rutas anidadas) son una función poderosa que te permite crear estructuras de páginas con relaciones jerárquicas padre-hijo. La página padre actúa como un contenedor de diseño y renderiza el contenido de las páginas hijas a través de la ranura <code>&lt;slot&gt;</code>.</p>
+        <h1>Página/Ruta anidada</h1>
+        <p>En ofa.js, las páginas anidadas (también conocidas como rutas anidadas) son una función poderosa que te permite crear estructuras de páginas con relaciones jerárquicas de padre e hijo. La página padre actúa como un contenedor de diseño, renderizando el contenido de la página hija a través del slot <code>&lt;slot&gt;</code>.</p>
         <h2>Conceptos básicos</h2>
         <ul>
-          <li><strong>Página padre (Layout)</strong>: actúa como contenedor de diseño e incluye elementos UI comunes como la barra de navegación y la barra lateral </li>
-          <li><strong>Página hija</strong>: contenido específico de la página de negocio que se renderiza en la posición del <code>&lt;slot&gt;</code> de la página padre</li>
+          <li><strong>Página padre (Layout)</strong>：página que actúa como contenedor de diseño, que incluye elementos de interfaz de usuario comunes como la barra de navegación, la barra lateral, etc.</li>
+          <li><strong>Página hija</strong>：contenido específico de la página de negocio, que se renderizará en la posición del slot <code>&lt;slot&gt;</code> de la página padre</li>
         </ul>
-        <h2>Cómo escribir la página padre</h2>
-        <p>La página padre necesita utilizar la etiqueta <code>&lt;slot&gt;&lt;/slot&gt;</code> para reservar un lugar de renderizado para la página hija.</p>
+        <h2>Escritura de la página padre</h2>
+        <p>La página padre necesita usar la etiqueta <code>&lt;slot&gt;&lt;/slot&gt;</code> para reservar una posición de renderizado para la página hija.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- layout.html --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
@@ -105,7 +105,7 @@
   ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Escritura de subpáginas</h2>
-        <p>Las subpáginas especifican la ruta de la página principal exportando la propiedad <code>parent</code>.</p>
+        <p>Las subpáginas especifican la ruta de la página padre exportando la propiedad <code>parent</code>.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -121,14 +121,14 @@
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
       <span class="hljs-keyword">return</span> {
         <span class="hljs-attr">data</span>: {
-          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hola Código de Demostración de ofa.js&quot;</span>,
+          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hello ofa.js Demo Code&quot;</span>,
         },
       };
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Ejemplo de página anidada</h2>
-        <p>Aquí hay un ejemplo completo de rutas anidadas, que incluye el diseño raíz, la página principal y las páginas secundarias:</p>
+        <p>A continuación se muestra un ejemplo completo de enrutamiento anidado, que incluye un layout raíz, una página padre y una página hija:</p>
         <o-playground name="Ejemplo de página anidada" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -136,7 +136,7 @@
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // Dirección de la página de inicio de la aplicación
+    // Dirección de la página de inicio
     export const home = "./sub-page01.html";
     // Configuración de animación de cambio de página
     export const pageAnime = {
@@ -280,7 +280,7 @@
     </template>
   </code>
         </o-playground>
-        <h2>Escucha de rutas en la página padre</h2>
+        <h2>Escucha de rutas de la página principal</h2>
         <p>La página padre puede escuchar los cambios de ruta mediante el gancho del ciclo de vida <code>routerChange</code>, lo cual es útil cuando necesitas actualizar el estado de navegación según la ruta actual.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   ...
@@ -310,15 +310,15 @@
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>Precauciones</h2>
+        <h2>Notas importantes</h2>
         <ul>
           <li>El valor del atributo <code>parent</code> puede ser una ruta relativa (como <code>./layout.html</code>) o una ruta absoluta (como <code>/pages/layout.html</code>)</li>
-          <li>La página padre debe contener la etiqueta <code>&lt;slot&gt;&lt;/slot&gt;</code>, de lo contrario, el contenido de la página secundaria no se mostrará</li>
-          <li>Los estilos de la página padre se heredarán a la página secundaria, y la página secundaria también puede definir sus propios estilos</li>
-          <li>Usar el hook <code>routerChange</code> permite escuchar los cambios de ruta y lograr funciones como el resaltado de navegación</li>
+          <li>La página padre debe contener la etiqueta <code>&lt;slot&gt;&lt;/slot&gt;</code>, de lo contrario, el contenido de la página hija no se mostrará</li>
+          <li>Los estilos de la página padre se heredarán en la página hija, y la página hija también puede definir sus propios estilos</li>
+          <li>Usar el hook <code>routerChange</code> permite escuchar los cambios de ruta, logrando funcionalidades como resaltar la navegación</li>
         </ul>
-        <h2>Anidación multinivel</h2>
-        <p>Una página padre también puede tener su propia página padre, formando una estructura multinivel anidada.</p>
+        <h2>Anidamiento multinivel</h2>
+        <p>La página padre también puede tener su propia página padre, formando una estructura de anidamiento multinivel.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Subpágina --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Contenido de la subpágina<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
@@ -329,7 +329,7 @@
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Página principal --&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Página padre --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;layout&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>Barra de navegación<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
@@ -342,15 +342,15 @@
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>Ejemplo de anidamiento multinivel</h2>
-        <o-playground name="Ejemplo completo de rutas anidadas" style="--editor-height: 500px">
+        <h2>Ejemplo de anidamiento de múltiples niveles</h2>
+        <o-playground name="Ejemplo completo de enrutamiento anidado" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js" style="height:96%;"></o-app>
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // Dirección de la página de inicio de la aplicación
+    // Dirección de la página de inicio
     export const home = "./sub-page01.html";
     // Configuración de animación de cambio de página
     export const pageAnime = {
@@ -484,8 +484,8 @@
           padding: 10px;
         }
       </style>
-      <h1>Soy la página hija 1</h1>
-      <p>Ruta actual：{{src}}</p>
+      <h1>Soy la subpágina 1</h1>
+      <p>Ruta actual: {{src}}</p>
       <a href="./sub-page02.html" olink>Ir a la página 2</a>
       <script>
         export const parent = "./layout.html";
@@ -506,8 +506,8 @@
           padding: 10px;
         }
       </style>
-      <h1>Soy la página hija 2</h1>
-      <p>Ruta actual：{{src}}</p>
+      <h1>Soy la subpágina 2</h1>
+      <p>Ruta actual: {{src}}</p>
       <a href="./sub-page01.html" olink>Ir a la página 1</a>
       <script>
         export const parent = "./layout.html";

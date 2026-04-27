@@ -81,20 +81,20 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Anwendungskonfiguration</h1>
-        <p>Die <code>app-config.js</code>-Konfigurationsdatei unterstützt neben der Startseitenadresse und der Seitenübergangsanimation auch weitere Konfigurationsoptionen zur Steuerung des Ladezustands der Anwendung, der Fehlerbehandlung, der Initialisierungslogik und der Navigationsfunktionen.</p>
+        <p><code>app-config.js</code> Konfigurationsdatei unterstützt neben der Startseiten-URL und der Seitenübergangsanimation weitere Konfigurationsoptionen zur Steuerung des Ladezustands der Anwendung, der Fehlerbehandlung, der Initialisierungslogik und der Navigationsfunktionen.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// Wird angezeigt während des Ladens</span>
+<span class="hljs-comment">// Angezeigter Inhalt beim Laden</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;Loading...&lt;/div&gt;&quot;</span>;
 
-<span class="hljs-comment">// Komponente, die angezeigt wird, wenn das Laden der Seite fehlschlägt</span>
+<span class="hljs-comment">// Komponente, die bei fehlgeschlagenem Laden angezeigt wird</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
 
-<span class="hljs-comment">// Callback nach erfolgreicher Initialisierung der Anwendung</span>
+<span class="hljs-comment">// Rückruf nach Abschluss der App-Initialisierung</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;App is ready!&quot;</span>);
 }
 
-<span class="hljs-comment">// Methoden und Eigenschaften, die zum Anwendungsprototyp hinzugefügt werden</span>
+<span class="hljs-comment">// Methoden und Eigenschaften zum App-Prototyp hinzugefügt</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
   <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Custom method called&quot;</span>);
@@ -106,9 +106,9 @@
     </template>
   </code>
           <code path="app-config.js">
-    // Startseiten-Adresse der Anwendung
+    // Startseitenadresse der Anwendung
     export const home = "./home.html";
-    // Konfiguration für Seitenwechsel-Animation
+    // Seitenwechsel-Animationseinstellungen
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -199,17 +199,17 @@
   </code>
         </o-playground>
         <h2>loading - Ladezustand</h2>
-        <p>Eine Komponente, die während des Seitenladevorgangs angezeigt wird; kann eine String-Vorlage oder eine Funktion sein, die eine Vorlage zurückgibt.</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Einfache String-Vorlage</span>
+        <p>Die Komponente, die während des Seitenladevorgangs angezeigt wird, kann eine String-Vorlage oder eine Funktion sein, die eine Vorlage zurückgibt.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Einfacher String-Template</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Loading...&lt;/div&gt;&quot;</span>;
 
-<span class="hljs-comment">// Dynamische Generierung mit Funktion</span>
+<span class="hljs-comment">// Mit Funktion dynamisch erzeugen</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;loading&#x27;&gt;
-    &lt;span&gt;Lädt...&lt;/span&gt;
+    &lt;span&gt;Ladevorgang läuft...&lt;/span&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
-        <p>Hier ist eine ansprechende und sofort in Ihr Projekt einsetzbare Loading-Implementierung:</p>
+        <p>Unten ist eine schöne und direkt in Projekte kopierbare Loading-Implementierung:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">const</span> loadingEl = $({
     <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
@@ -237,69 +237,69 @@
   <span class="hljs-keyword">return</span> loadingEl;
 };</code></pre>
         <h2>fail - Fehlerbehandlung</h2>
-        <p>Die Komponente, die bei einem fehlgeschlagenen Seitenladevorgang angezeigt wird. Die Funktion erhält ein Objekt-Argument mit <code>src</code> (Adresse der fehlgeschlagenen Seite) und <code>error</code> (Fehlermeldung).</p>
+        <p>Komponente, die angezeigt wird, wenn das Seitenladen fehlschlägt. Die Funktion empfängt ein Objekt als Parameter, das <code>src</code> (Adresse der fehlgeschlagenen Seite) und <code>error</code> (Fehlermeldung) enthält.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{src, error}</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
-    &lt;p&gt;Seitenladefehler&lt;/p&gt;
+    &lt;p&gt;Seite konnte nicht geladen werden&lt;/p&gt;
     &lt;p&gt;Adresse: <span class="hljs-subst">${src}</span>&lt;/p&gt;
     &lt;button on:click=&quot;back()&quot;&gt;Zurück&lt;/button&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
-        <h2>proto - Prototyperweiterung</h2>
-        <p>Fügen Sie der Anwendungsinstanz benutzerdefinierte Methoden und berechnete Eigenschaften hinzu, die in Seitenkomponenten über <code>this.app</code> zugänglich sind.</p>
+        <h2>proto - Prototyp-Erweiterung</h2>
+        <p>Fügen Sie benutzerdefinierte Methoden und berechnete Eigenschaften zur App-Instanz hinzu, die in Seitenkomponenten über <code>this.app</code> zugegriffen werden können.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
-  <span class="hljs-comment">// Benutzerdefinierte Methoden</span>
+  <span class="hljs-comment">// Benutzerdefinierte Methode</span>
   <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
   },
-  <span class="hljs-comment">// Berechnete Eigenschaften</span>
+  <span class="hljs-comment">// Berechnete Eigenschaft</span>
   <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
   },
 };</code></pre>
-        <p>Auf der Seite aufrufen:</p>
+        <p>In der Seite aufrufen:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>Zurück zur Startseite<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Auf der Startseite: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Ist auf der Startseite: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>ready - Initialisierungs-Callback</h2>
-        <p>Eine Callback-Funktion, die nach dem Laden der Anwendungskonfiguration ausgeführt wird. Hier können Initialisierungsvorgänge durchgeführt werden. Auf die Methoden und Eigenschaften der Anwendungsinstanz kann über <code>this</code> zugegriffen werden.</p>
+        <h2>ready - Initialisierungsrückruf</h2>
+        <p>Die Callback-Funktion wird nach dem Laden der Anwendungskonfiguration ausgeführt; hier können Initialisierungsvorgänge vorgenommen werden. Über <code>this</code> kann auf Methoden und Eigenschaften der Anwendungsinstanz zugegriffen werden.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Anwendung wurde initialisiert&quot;</span>);
-  <span class="hljs-comment">// Zugriff auf this (o-app Elementinstanz) ist möglich</span>
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// Aktuelle o-page Elementinstanz abrufen</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Anwendung initialisiert&quot;</span>);
+  <span class="hljs-comment">// this (o-app Elementinstanz) kann zugegriffen werden</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// Aktuelle Seite o-page Elementinstanz abrufen</span>
   <span class="hljs-comment">// this.someMethod();</span>
 }</code></pre>
         <h2>allowForward - Vorwärtsfunktion</h2>
-        <p>Steuert, ob die Vorwärts-Funktion des Browsers aktiviert ist. Wenn auf <code>true</code> gesetzt, können die Zurück- und Vorwärts-Schaltflächen des Browsers zur Navigation verwendet werden.</p>
+        <p>Steuert, ob die Browser-Vorwärts-Funktion aktiviert ist. Nach dem Setzen auf <code>true</code> können die Zurück- und Vorwärts-Buttons des Browsers zur Navigation verwendet werden.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
-        <p>Wenn aktiviert, können Benutzer über die Vorwärts-/Rückwärts-Buttons des Browsers navigieren, und die Navigationsmethode <code>forward()</code> der Anwendung wird ebenfalls wirksam.</p>
+        <p>Wenn aktiviert, kann der Benutzer über die Vorwärts-/Rückwärts-Schaltflächen des Browsers navigieren, und die Navigationsmethode <code>forward()</code> der Anwendung wird ebenfalls wirksam.</p>
         <h2>Programmatische Navigation</h2>
-        <p>Neben der Verwendung von <code>olink</code>-Links können Sie auch Navigationsmethoden in JavaScript aufrufen:</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Zu einer bestimmten Seite springen (zum Verlauf hinzufügen)</span>
+        <p>Neben der Verwendung von <code>olink</code>-Links können Sie auch die Navigationsmethode in JavaScript aufrufen:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Zur angegebenen Seite springen (zum Verlauf hinzufügen)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
 <span class="hljs-comment">// Aktuelle Seite ersetzen (nicht zum Verlauf hinzufügen)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
-<span class="hljs-comment">// Zur vorherigen Seite zurückgehen</span>
+<span class="hljs-comment">// Zur vorherigen Seite zurückkehren</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();
 
-<span class="hljs-comment">// Zur nächsten Seite vorwärts gehen (erfordert allowForward: true)</span>
+<span class="hljs-comment">// Zur nächsten Seite gehen (erfordert allowForward: true)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">forward</span>();</code></pre>
-        <h2>Routing-Verlauf</h2>
-        <p>Über die Eigenschaft <code>routers</code> kann man den Browserverlauf abrufen:</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Alle Routenverläufe abrufen</span>
+        <h2>Router-Verlauf</h2>
+        <p>Über die Eigenschaft <code>routers</code> kann der Browserverlauf abgerufen werden:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Alle Router-Historie abrufen</span>
 <span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
 <span class="hljs-comment">// Rückgabeformat: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span>
 
 <span class="hljs-comment">// Aktuelle Seite abrufen</span>
 <span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
         <h2>Überwachung von Routenänderungen</h2>
-        <p>Sie können auf Routenänderungen reagieren, indem Sie auf das <code>router-change</code>-Ereignis hören:</p>
+        <p>Sie können auf Routenänderungen reagieren, indem Sie das Ereignis <code>router-change</code> abhören:</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> { data } = e;
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Routing-Änderung:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Routeränderung:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Seitenadresse:&quot;</span>, data.<span class="hljs-property">src</span>);
 });</code></pre>
       </article>

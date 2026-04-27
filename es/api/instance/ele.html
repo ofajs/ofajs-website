@@ -81,18 +81,18 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>ele</h1>
-        <p>A través de la propiedad <code>ele</code>, puedes obtener el <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element" target="_blank">Elemento Element</a> real de la instancia, permitiéndote así utilizar propiedades o métodos nativos.</p>
+        <p>A través de la propiedad <code>ele</code>, puedes obtener el <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element" target="_blank">Element</a> real de la instancia, y así usar propiedades o métodos nativos.</p>
         <o-playground name="ele - obtener elemento" style="--editor-height: 320px">
           <code path="demo.html">
     <template>
       <ul>
-        <li id="target">Soy el objetivo</li>
+        <li id="target">I am target</li>
       </ul>
       <div id="logger" style="color:red;"></div>
       <script>
         setTimeout(()=>{
           var ele = $("#target").ele;
-          ele.innerHTML = '<b>cambiar objetivo</b>';
+          ele.innerHTML = '<b>change target</b>';
           \$("#logger").text = ele.clientWidth;
         },500);
       </script>

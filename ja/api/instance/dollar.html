@@ -81,88 +81,10 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>$</h1>
-        <p><code>$</code> メソッドは ofa.js のコア関数であり、DOM 要素インスタンスを取得および操作するために使用されます。以下では、<code>$</code> の主な機能について詳しく説明します：</p>
+        <p><code>$</code> メソッドは、ofa.js における中核となる関数で、DOM 要素インスタンスの取得および操作に用いられます。以下では、<code>$</code> の主な機能について詳しく説明します：</p>
         <h2>要素インスタンスの取得</h2>
-        <p><code>`<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script
-      src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs"
-      type="module"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs"
-      type="module"
-    ></script>
-
-    <link rel="icon" href="https://ofajs.com/publics/logo.svg" />
-    <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
-    <link rel="stylesheet" href="../../../css/theme.css" />
-    <link rel="stylesheet" href="../../../css/github-markdown.css" />
-    <link rel="stylesheet" href="../../../css/hljs.css" />
-    <style>
-      html,
-      body {
-        height: 100%;
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
-        font-family:
-          -apple-system,
-          BlinkMacSystemFont,
-          Segoe UI,
-          Microsoft Yahei,
-          Helvetica,
-          Arial,
-          sans-serif,
-          Apple Color Emoji,
-          Segoe UI Emoji;
-      }
-
-      o-app {
-        height: 100%;
-      }
-
-      @keyframes fadein {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      o-app {
-        animation: fadein 0.1s ease-in-out;
-      }
-    </style>
-    <script type="module" src="../../../js/util.js"></script>
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>         <script>           window.dataLayer = window.dataLayer || [];           function gtag() {             dataLayer.push(arguments);           }           gtag("js", new Date());            gtag("config", "G-7L1TCCJZT6");         </script>
-  </head>
-  <body>
-    <o-app src="../../../js/app-config.js">
-      <template page>
-        <link rel="stylesheet" href="../../../css/github-markdown.css" />
-        <link rel="stylesheet" href="../../../css/hljs.css" />
-        <l-m src="../../../comps/center-block.html"></l-m>
-        <l-m src="../../../comps/article-code.html"></l-m>
-        <l-m
-          src="https://playground.ofajs.com/comps/o-playground/o-playground.html"
-        ></l-m>
-        <style>
-          :host {
-            display: block;
-            height: 100%;
-            box-sizing: border-box;
-            overflow: auto;
-          }
-        </style>
-        <link rel="stylesheet" href="../../../css/page.css" />
-        </code> メソッドを使用すると、ページ上の <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">CSS セレクタ</a> に一致する最初の要素のインスタンスを取得し、それを操作することができます。以下に例を示します：</p>
-        <o-playground name="$ - 要素の取得">
+        <p>通过 <code>$</code> 方法，你可以获取页面上符合 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">CSS 选择器</a> 的第一个元素实例，并对其进行操作。以下是一个示例：</p>
+        <o-playground name="$ - 要素を取得">
           <code path="demo.html">
     <template>
       <div id="target1">target 1 text</div>
@@ -174,10 +96,10 @@
     </template>
   </code>
         </o-playground>
-        <p>上の例では、<code>$</code> 記号を使用して <code>id</code> が "target1" の要素インスタンスを選択し、<code>text</code> 属性を設定することでそのテキスト内容を変更しました。</p>
-        <h2>子要素検索の例</h2>
-        <p>インスタンスも <code>$</code> メソッドを持っており、インスタンス上の <code>$</code> メソッドを通じて、要素インスタンスの最初の条件を満たす子要素インスタンスを取得できます。</p>
-        <o-playground name="$ - 子要素の検索">
+        <p>上記の例では、<code>$</code>記号を使用して<code>id</code>が"target1"の要素インスタンスを選択し、<code>text</code>プロパティを設定することでそのテキスト内容を変更しています。</p>
+        <h2>子要素の検索例</h2>
+        <p>インスタンスも <code>$</code> メソッドを持っており、インスタンスの <code>$</code> メソッドを通じて、要素インスタンスの最初の条件に一致する子要素インスタンスを取得できます。</p>
+        <o-playground name="$ - 子要素を検索">
           <code path="demo.html">
     <template>
       <div id="target1">
@@ -191,7 +113,7 @@
     </template>
   </code>
         </o-playground>
-        <p>取得した要素インスタンスを直接他の場所に挿入しないでください。このような操作は元の要素に影響を与えます。コピーを作成する必要がある場合は、<a href="./clone.html" olink="">clone</a> メソッドを使用できます。</p>
+        <p>要素のインスタンスを直接他の場所に挿入しないでください。そのような操作は元の要素に影響を与えます。コピーを作成する必要がある場合は、<a href="./clone.html" olink="">clone</a> メソッドを使用してください。</p>
         <o-playground name="$ - インスタンス特性" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
@@ -212,19 +134,19 @@
   </code>
         </o-playground>
         <h2>シャドウノード内の子要素を取得する</h2>
-        <p><a href="./shadow.html" olink="">shadow</a> 属性でインスタンスを取得した後、<code>$</code> メソッドを使用して目的の要素を取得できます：</p>
+        <p><a href="./shadow.html" olink="">shadow</a> プロパティでインスタンスを取得した後、<code>$</code> メソッドを使って目的の要素を取得できます：</p>
         <pre><code class="hljs language-javascript">$(<span class="hljs-string">'my-component'</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">"selector"</span>).<span class="hljs-title function_">method</span>(xxx)</code></pre>
         <h2>直接インスタンス化要素</h2>
-        <p>以下の方法で、ネイティブ要素を直接 <code>$</code> インスタンスオブジェクトとして初期化できます：</p>
+        <p>次の方法で、ネイティブ要素を直接 <code>$</code> インスタンスオブジェクトとして初期化できます：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">'div'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'#target'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
-        <p>このように、既存のHTML要素を<code>$</code>インスタンスに簡単に変換でき、<code>$</code>が提供する機能を使って操作や処理を行うことができます。</p>
-        <h2>生成要素インスタンス</h2>
-        <p><code>$</code> は既存の要素インスタンスを取得するだけでなく、新しい要素インスタンスを作成し、ページに追加するためにも使用できます。</p>
+        <p>これにより、既存のHTML要素を<code>$</code>インスタンスに簡単に変換して、<code>$</code>が提供する機能を使用して操作や処理を行うことができます。</p>
+        <h2>要素インスタンスの生成</h2>
+        <p>さらに、<code>$</code>は既存の要素インスタンスを取得するだけでなく、新しい要素インスタンスを作成してページに追加することもできます。</p>
         <h3>文字列による生成</h3>
-        <p>文字列を使って新しい要素のインスタンスを <code>$</code> 関数で作成することができます。次のようにします：</p>
+        <p>文字列を使って <code>$</code> 関数で新しい要素インスタンスを作成できます。以下のようにします：</p>
         <o-playground name="$ - 文字列生成" style="--editor-height: 260px">
           <code path="demo.html">
     <template>
@@ -232,15 +154,15 @@
         <b>target1:</b>
       </div>
       <script>
-        const newEl = $(`<div style="color:red">target 1 にテキストを追加</div>`);
+        const newEl = $(`<div style="color:red">add target 1 text</div>`);
         \$('#target1').push(newEl);
       </script>
     </template>
   </code>
         </o-playground>
-        <p>この例では、<code>$</code> 関数を使用して、指定されたスタイルとテキストコンテンツを持つ新しい要素インスタンスを作成し、それを <code>id</code> が "target1" の既存の要素インスタンス内に追加しました。</p>
-        <h3>オブジェクトによる生成</h3>
-        <p>また、<code>$</code> 関数を使用してオブジェクト方式で新しい要素インスタンスを生成することもできます。次のように：</p>
+        <p>この例では、<code>$</code> 関数を使用して指定したスタイルとテキストコンテンツを持つ新しい要素インスタンスを作成し、それを <code>id</code> が "target1" の既存の要素インスタンス内に追加しています。</p>
+        <h3>オブジェクト生成による</h3>
+        <p><code>$</code> 関数を使用して、オブジェクトの方法で新しい要素インスタンスを生成することもできます。以下に示します：</p>
         <o-playground name="$ - オブジェクト生成" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
@@ -260,7 +182,37 @@
     </template>
   </code>
         </o-playground>
-        <p>この例では、<code>$</code> 関数を使用して、タグタイプ、テキスト内容、スタイル属性を含む新しい要素インスタンスをオブジェクトの方法で定義し、それを <code>id</code> が "target1" の既存の要素インスタンス内に追加しました。</p>
+        <p>この例では、<code>$</code> 関数を使用してオブジェクト形式で新しい要素インスタンスを定義しています。タグタイプ、テキスト内容、スタイル属性を含み、それを <code>id</code> が "target1" の既存の要素インスタンス内に追加します。</p>
+        <h2>取得したサンプルとページ／コンポーネントインスタンスの関係</h2>
+        <p><code>$</code> メソッドは、グローバルから対応するページやコンポーネント要素のインスタンスを取得するために使用でき、その機能はページやコンポーネントモジュール内のライフサイクルメソッドにおける <code>this</code> の指す先と同じです。</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+...
+<span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./test-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">test-comp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"target"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">test-comp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>{
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">'#target'</span>).<span class="hljs-property">title</span>);  <span class="hljs-comment">// =&gt; OFAJS コンポーネント例</span>
+  },<span class="hljs-number">300</span>);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- test-comp.html --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"test-comp"</span>,
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"OFAJS コンポーネント例"</span>,
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>){
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span> === $(<span class="hljs-string">'#target'</span>)); <span class="hljs-comment">// true</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>PATH</h1>
-        <p>The <code>PATH</code> attribute is typically used on custom components or page components to obtain the file address of the registered component. During development, this can help you understand the source of the component, especially when you need to reference or load other resource files. You can use the <code>PATH</code> attribute to construct file paths.</p>
-        <p>Below is a simple example demonstrating how to use the <code>PATH</code> property in a custom component:</p>
+        <p>The <code>PATH</code> property is typically used on custom components or page components to obtain the file path where the component is registered. During development, this helps you understand the origin of the component, especially when you need to reference or load other resource files, as you can use the <code>PATH</code> property to construct file paths.</p>
+        <p>Here is a simple example demonstrating how to use the <code>PATH</code> attribute in a custom component:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> componentPath = $(<span class="hljs-string">&quot;#myCustomComponent&quot;</span>).<span class="hljs-property">PATH</span>;</code></pre>
-        <p>In this example, we selected a <code>my-comp</code> element with the <code>id</code> &quot;myCustomComponent&quot;, and then obtained the file path of this custom component through the <code>PATH</code> attribute. You can use the <code>componentPath</code> variable in the script section as needed, for example, to construct paths for other resource files or perform other operations.</p>
+        <p>In this example, we selected a <code>my-comp</code> element with an <code>id</code> of &quot;myCustomComponent&quot;, and then obtained the file path of this custom component through the <code>PATH</code> attribute. You can use the <code>componentPath</code> variable in the script section as needed, for example, to construct paths for other resource files or perform other operations.</p>
       </article>
       <div class="footer"></div>
       <script>

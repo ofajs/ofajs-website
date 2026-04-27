@@ -82,7 +82,7 @@
       <article class="markdown-body">
         <h1>unwrap</h1>
         <p>La méthode <code>unwrap</code> sert à supprimer l&#39;élément d&#39;emballage externe de l&#39;élément cible.</p>
-        <o-playground name="unwrap - retirer l'enveloppe" style="--editor-height: 440px">
+        <o-playground name="unwrap - supprimer l’enveloppe" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
       <style> div{border: #aaa solid 1px; margin:8px; padding:8px;} </style>
@@ -97,25 +97,25 @@
     </template>
   </code>
         </o-playground>
-        <h2>Remarques</h2>
-        <p>L’élément cible <strong>doit posséder un nœud parent</strong>, sinon l’opération de suppression de l’enveloppe (unwrap) ne peut pas être exécutée.</p>
+        <h2>Points d&#39;attention</h2>
+        <p>L&#39;élément cible <strong>doit avoir un nœud parent</strong>, sinon l&#39;opération unwrap ne peut pas être exécutée.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// erreur, pas d&#x27;élément parent, impossible de unwrap</span>
-$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// correct, supprime l&#x27;élément qui englobe</span></code></pre>
-        <p>Lorsque l&#39;élément cible possède d&#39;autres éléments frères, il n&#39;est pas non plus possible d&#39;exécuter unwrap.</p>
+$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Erreur : pas d&#x27;élément parent, impossible de unwrap</span>
+$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Correct : supprime l&#x27;élément englobant</span></code></pre>
+        <p>Lorsque l&#39;élément cible a d&#39;autres éléments frères, il n&#39;est pas non plus possible d&#39;exécuter unwrap.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
-    &lt;div&gt;Je suis un nœud frère&lt;/div&gt;
+    &lt;div&gt;I am siblings&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
-$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Erreur, car il possède d&#x27;autres nœuds adjacents</span></code></pre>
+$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Erreur, car il a d&#x27;autres nœuds adjacents</span></code></pre>
         <p><strong>Veuillez noter de ne pas manipuler à l’intérieur des composants de modèle tels que o-fill ou o-if.</strong></p>
       </article>
       <div class="footer"></div>

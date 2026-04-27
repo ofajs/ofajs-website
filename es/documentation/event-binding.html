@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enlace de eventos</title>
+  <title>Vinculación de eventos</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,10 +80,10 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Enlace de eventos</h1>
-        <p>En ofa.js, la vinculación de eventos es un mecanismo importante para lograr la interacción del usuario. Puedes vincular controladores de eventos a los elementos de varias maneras para responder a las acciones del usuario.</p>
-        <h2>Vincular eventos desde proto</h2>
-        <p>Esta es la forma recomendada de vincular eventos, adecuada para lógicas de manejo de eventos complejas. Definir las funciones de manejo de eventos en el objeto <code>proto</code> permite organizar mejor la lógica del código y facilita su mantenimiento y reutilización.</p>
+        <h1>Vinculación de eventos</h1>
+        <p>En ofa.js, el enlace de eventos es un mecanismo importante para lograr la interacción del usuario. Puedes vincular manejadores de eventos a los elementos de varias maneras para responder a las acciones del usuario.</p>
+        <h2>Enlace de eventos desde proto</h2>
+        <p>Esta es la forma recomendada de enlace de eventos, adecuada para lógica de manejo de eventos compleja. Definir las funciones de manejo de eventos en el objeto <code>proto</code> permite organizar mejor la lógica del código y facilita el mantenimiento y la reutilización.</p>
         <o-playground name="Enlazar eventos desde proto" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -112,8 +112,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Ejecutar la función directamente</h2>
-        <p>Para operaciones simples (como incremento de contador, cambio de estado, etc.), se pueden escribir expresiones breves directamente en los atributos de eventos. Este enfoque es conciso y claro, adecuado para manejar lógica simple.</p>
+        <h2>Ejecutar función directamente</h2>
+        <p>Para operaciones simples (como incrementar un contador, cambiar un estado, etc.), se pueden escribir expresiones breves directamente en los atributos de evento. Este método es conciso y claro, adecuado para manejar lógica simple.</p>
         <o-playground name="Ejecutar función directamente" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -137,17 +137,17 @@
     </template>
   </code>
         </o-playground>
-        <h2>Tipos de eventos admitidos</h2>
-        <p>ofa.js admite todos los eventos DOM estándar, incluyendo pero no limitándose a:</p>
+        <h2>Tipos de eventos compatibles</h2>
+        <p>ofa.js soporta todos los eventos DOM estándar, incluyendo pero no limitado a:</p>
         <ul>
-          <li>Eventos del ratón: <code>click</code>、<code>dblclick</code>、<code>mousedown</code>、<code>mouseup</code>、<code>mouseover</code>、<code>mouseout</code>, etc.</li>
-          <li>Eventos del teclado: <code>keydown</code>、<code>keyup</code>、<code>keypress</code>, etc.</li>
-          <li>Eventos de formulario: <code>submit</code>、<code>change</code>、<code>input</code>、<code>focus</code>、<code>blur</code>, etc.</li>
-          <li>Eventos táctiles: <code>touchstart</code>、<code>touchmove</code>、<code>touchend</code>, etc.</li>
+          <li>Eventos de ratón: <code>click</code>, <code>dblclick</code>, <code>mousedown</code>, <code>mouseup</code>, <code>mouseover</code>, <code>mouseout</code>, etc.</li>
+          <li>Eventos de teclado: <code>keydown</code>, <code>keyup</code>, <code>keypress</code>, etc.</li>
+          <li>Eventos de formulario: <code>submit</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code>, etc.</li>
+          <li>Eventos táctiles: <code>touchstart</code>, <code>touchmove</code>, <code>touchend</code>, etc.</li>
         </ul>
-        <p>ofa.js es compatible con los mismos tipos de eventos que los eventos DOM nativos. Para más detalles, consulta la <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank">documentación de eventos de MDN</a>.</p>
-        <h2>Pasar parámetros a controladores de eventos</h2>
-        <p>También puedes pasar parámetros a los controladores de eventos:</p>
+        <p>ofa.js admite los mismos tipos de eventos que los eventos DOM nativos; para más detalles, consulte la <a href="https://developer.mozilla.org/es/docs/Web/API/Event" target="_blank">documentación de eventos de MDN</a>.</p>
+        <h2>Pasar parámetros al manejador de eventos</h2>
+        <p>También puedes pasar parámetros al manejador de eventos:</p>
         <o-playground name="Pasar parámetros al manejador de eventos" style="--editor-height: 600px">
           <code>
     <template page="">
@@ -197,7 +197,7 @@
           justify-content: center;
         }
       </style>
-      <div class="container" on:click="handleClick">Haz clic en cualquier lugar para ver las coordenadas</div>
+      <div class="container" on:click="handleClick">Haga clic en cualquier lugar para ver las coordenadas</div>
       <p>X: {{x}}, Y: {{y}}</p>
       <script>
         export default async () => {
@@ -218,12 +218,12 @@
     </template>
   </code>
         </o-playground>
-        <p>También puedes usar el parámetro <code>$event</code> en la expresión para acceder al objeto de evento nativo, por ejemplo, para obtener las coordenadas del clic del ratón:</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>Haz clic en cualquier lugar para ver las coordenadas<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <p>También puedes usar el parámetro <code>$event</code> en las expresiones para acceder al objeto de evento nativo, por ejemplo, para obtener las coordenadas del clic del mouse:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>Haga clic en cualquier lugar para ver las coordenadas<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
         <h2>Escuchar eventos personalizados</h2>
         <p>Además de escuchar eventos nativos del DOM, también puedes escuchar fácilmente eventos personalizados emitidos por componentes:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">custom-comp</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">"handleCustomEvent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">custom-comp</span>&gt;</span></code></pre>
-        <p>Para profundizar en los eventos personalizados, consulte el capítulo <a href="custom-events.html" olink="">Eventos personalizados</a>. Se recomienda seguir el tutorial en orden progresivo, ya que los contenidos posteriores se desarrollarán de forma natural; no obstante, también puede consultarlo en cualquier momento para adelantarse.</p>
+        <p>Para profundizar en los eventos personalizados, consulte el capítulo <a href="custom-events.html" olink="">Eventos personalizados</a>. Se recomienda seguir el tutorial en orden, ya que los contenidos posteriores se desarrollarán de forma natural; sin embargo, también puede consultarlo en cualquier momento para adelantarse.</p>
       </article>
       <div class="footer"></div>
       <script>

@@ -81,27 +81,27 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>extend</h1>
-        <p><code>extend</code> はインスタンスのプロパティやメソッドを拡張するための高階メソッドです。</p>
+        <p><code>extend</code> は高階メソッドであり、インスタンスの属性やメソッドを拡張するために使用されます。</p>
         <blockquote>
-          <p>通常、ユーザーがインスタンスのプロパティやメソッドを拡張することは推奨されません。これは学習コストを増加させるためです。チーム内でインスタンスの動作をカスタマイズする特別なシナリオがある場合を除き、このような行為は推奨されません。</p>
+          <p>通常、ユーザーがインスタンスのプロパティやメソッドを拡張することは推奨されません。学習コストが増加するためです。チーム内でインスタンスの動作をカスタマイズする特別なシナリオがある場合を除き、これを行うことは推奨されません。</p>
         </blockquote>
         <o-playground name="extend - 拡張インスタンス" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>私は1です</li>
-        <li id="target">私はターゲットです</li>
-        <li>私は3です</li>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
       </ul>
-      <div id="logger">ロガー</div>
+      <div id="logger">logger</div>
       <script>
         const target = $("#target");
         target.extend({
           get good(){
-            return "ofa.jsは良いです";
+            return "ofa.js is good";
           },
           say(){
-            return 'こんにちは';
+            return 'hello';
           }
         });
         setTimeout(() => {
@@ -115,9 +115,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>拡張 $ レイヤー</h2>
-        <p>jQueryと同様に、fn.extendを使って基盤となるインスタンスのプロパティやメソッドを拡張することもできます；fnから拡張されたプロパティやメソッドはすべてのインスタンスに適用されます。</p>
-        <o-playground name="extend - 拡張レイヤー" style="--editor-height: 560px">
+        <h2>$ の底を拡張する</h2>
+        <p>jQueryと同様に、fn.extendを使って基底インスタンスのプロパティやメソッドを拡張することもできます。fnから拡張されたプロパティやメソッドは、すべてのインスタンスに適用されます。</p>
+        <o-playground name="extend - 拡張基盤" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
@@ -146,9 +146,9 @@
   </code>
         </o-playground>
         <h2>拡張テンプレート構文</h2>
-        <p><code>extend</code> を使用してプロパティや関数を拡張することで、テンプレート構文の機能を増やしたり、コンポーネント専用のテンプレート構文糖衣構文を提供したりできます。ただし、非公式のテンプレート構文は<strong>できるだけ使用しない</strong>ように注意してください。なぜなら、それらは使用者に一定の学習コストをもたらし、大量の非公式テンプレート構文糖衣構文は開発体験を低下させるからです。</p>
+        <p><code>extend</code>で属性や関数を拡張することで、テンプレート構文の機能を追加したり、コンポーネント専用のテンプレートシンタックスシュガーを提供することも可能です。ただし、<strong>非公式のテンプレート構文</strong>を使用しないように注意してください。それらは利用者に一定の学習コストをもたらし、多数の非公式テンプレートシンタックスシュガーは開発体験を低下させるからです。</p>
         <h3>拡張属性</h3>
-        <p>拡張属性を使うと、テンプレート内で <code>:</code> を用いて設定できます。以下では <code>red</code> 属性を拡張し、<code>red</code> が <code>true</code> のときにフォントの色を赤くします：</p>
+        <p>拡張属性を使うことで、テンプレート内で <code>:</code> を用いて設定できます。以下では <code>red</code> 属性を拡張し、<code>red</code> が <code>true</code> のときにフォントの色を赤くします：</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
     <span class="hljs-keyword">if</span>(bool){
@@ -157,7 +157,7 @@
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
     }
   }
-});</code></pre><o-playground name="extend - 拡張プロパティ" style="--editor-height: 400px">
+});</code></pre><o-playground name="extend - 拡張属性" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-one.html"></l-m>
@@ -177,7 +177,7 @@
   </code>
           <code path="temp-one.html">
     <template component>
-      <button on:click="addCount">カウントを追加</button>
+      <button on:click="addCount">Add Count</button>
       <div :red="count % 3">{{count}}</div>
       <script>
         export default {
@@ -195,11 +195,11 @@
     </template>
   </code>
         </o-playground>
-        <p>この例では、テンプレート構文に <code>red</code> 属性を追加し、<code>count % 3</code> が 0 ではない場合、文字色が赤色になります。</p>
+        <p>この例では、テンプレート構文に <code>red</code> 属性を追加しました。<code>count % 3</code> が 0 でない場合、フォントの色が赤に変わります。</p>
         <h3>拡張メソッド</h3>
-        <p><code>extend</code> を使う拡張メソッドにより、テンプレート構文内で利用できるようになります。メソッド名はコロンの前の部分です。ここでは <code>color</code> というテンプレート構文を拡張しており、後に続く引数は定義された拡張メソッドに渡されます。</p>
-        <p>ここでは <code>always</code> 属性を <code>true</code> に設定しており、コンポーネントがインターフェースを更新する必要があるたびに、この定義済みメソッドが呼び出されることを示しています。<code>always</code> を設定しない場合、このテンプレート構文関数は一度しか実行されません。</p>
-        <p>その中で、<code>options</code> はより多くのパラメータを提供し、よりカスタマイズ可能なテンプレート構文の開発を支援します：</p>
+        <p>あなたはまた、<code>extend</code>拡張メソッドを使用して、テンプレート構文で利用可能にすることができます。メソッド名はコロンの前の部分です。ここでは、<code>color</code>テンプレート構文を拡張しており、後ろに続くパラメータは定義された拡張メソッドに渡されます。</p>
+        <p>ここでは <code>always</code> 属性を <code>true</code> に設定しており、コンポーネントが画面を更新する必要があるたびに、この定義されたメソッドが呼び出されることを示しています。<code>always</code> を設定しない場合、このテンプレート構文関数は一度だけ実行されます。</p>
+        <p>その中で、<code>options</code>はより多くのパラメータを提供し、よりカスタマイズされたテンプレート構文の開発を支援します：</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
     <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
@@ -233,7 +233,7 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
   </code>
           <code path="temp-two.html">
     <template component>
-      <button on:click="addCount" color:blue="count % 3">カウント追加</button>
+      <button on:click="addCount" color:blue="count % 3">Add Count</button>
       <div color:red="!(count % 3)">{{count}}</div>
       <script>
         export default {
@@ -252,12 +252,12 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
   </code>
         </o-playground>
         <h2>テンプレート構文の原理</h2>
-        <p>ここまでで、ofa.js の多くのテンプレート構文が実際には <code>extend</code> によって拡張されていることを理解しているはずです：</p>
+        <p>ここまでで、ofa.jsにおける多くのテンプレート構文が実際には<code>extend</code>によって拡張されていることを理解しているはずです：</p>
         <ul>
-          <li><code>class</code>、<code>attr</code> メソッドはビューが更新されるたびに実行される</li>
-          <li><code>on</code>、<code>one</code> のような関数バインドは一度しか実行されない</li>
+          <li><code>class</code>、<code>attr</code> メソッドはビューを更新するたびに実行されます</li>
+          <li><code>on</code>、<code>one</code> のような関数バインディングは1回だけ実行されます</li>
         </ul>
-        <p>以下の例を見れば、ofa.js のテンプレートレンダリングの仕組みがよりよく理解できます：</p>
+        <p>以下の例を確認することで、ofa.jsのテンプレートレンダリングの原理をよりよく理解できます。</p>
         <o-playground name="extend - テンプレート構文の原理" style="--editor-height: 480px">
           <code path="demo.html" preview>
     <template>

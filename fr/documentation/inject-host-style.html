@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Injecter les styles de l'hôte</title>
+  <title>Injecter le style de l'hôte</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,10 +80,10 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Injecter les styles de l'hôte</h1>
-        <p>Dans les Web Components, en raison des limitations des <code>slot</code>, il est impossible de définir directement les styles des éléments multi-niveaux à l’intérieur d’un slot. Pour résoudre ce problème, ofa.js fournit le composant <code>&lt;inject-host&gt;</code>, qui permet d’injecter des styles dans l’élément hôte depuis l’intérieur du composant, afin de contrôler les styles des éléments multi-niveaux dans le contenu du slot.</p>
+        <h1>Injecter le style de l'hôte</h1>
+        <p>Dans les Web Components, en raison des limitations des slots, il n'est pas possible de définir directement le style des éléments à plusieurs niveaux à l'intérieur d'un slot. Pour résoudre ce problème, ofa.js fournit le composant <code>&lt;inject-host&gt;</code>, qui permet d'injecter des styles dans l'élément hôte depuis l'intérieur du composant, permettant ainsi de contrôler le style des éléments à plusieurs niveaux dans le contenu du slot.</p>
         <blockquote>
-          <p>Attention, il est recommandé d’utiliser en priorité le sélecteur <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> pour styliser le contenu des slots. N’utilisez le composant <code>&lt;inject-host&gt;</code> que si ce dernier ne répond pas à vos besoins.</p>
+          <p>Remarque : il est recommandé d'utiliser d'abord le sélecteur <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> pour styliser le contenu du slot. Utilisez le composant <code>&lt;inject-host&gt;</code> uniquement si cela ne répond pas aux besoins.</p>
         </blockquote>
         <h2>Utilisation de base</h2>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
@@ -93,7 +93,7 @@
             <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#007acc</span>;
             <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
         }
-        <span class="hljs-comment">/* Définir le style des éléments enfants directs */</span>
+        <span class="hljs-comment">/* Définit le style des éléments enfants directs */</span>
         <span class="hljs-comment">/* ::slotted(user-list-item) {
             background-color: aqua;
         } */</span>
@@ -103,7 +103,7 @@
             user-list user-list-item {
                 <span class="hljs-attribute">background-color</span>: aqua;
             }
-            <span class="hljs-comment">/* Il est également possible de définir des styles pour les imbrications multi-niveaux */</span>
+            <span class="hljs-comment">/* Il est également possible de définir des styles pour plusieurs niveaux d'imbrication */</span>
             user-list user-list-item <span class="hljs-selector-class">.user-list-item-content</span> {
                 <span class="hljs-attribute">color</span>: red;
             }
@@ -119,8 +119,8 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Cas</h2>
-        <p>L'exemple ci-dessous montre comment utiliser <code>&lt;inject-host&gt;</code> pour définir le style des éléments imbriqués dans un slot. Nous créons deux composants : le composant <code>user-list</code> comme conteneur de liste et le composant <code>user-list-item</code> comme élément de liste. Grâce à <code>&lt;inject-host&gt;</code>, nous pouvons définir le style de <code>user-list-item</code> et de ses éléments internes dans le composant <code>user-list</code>.</p>
-        <o-playground name="Injection de styles hôte" style="--editor-height: 500px">
+        <p>L'exemple ci-dessous montre comment utiliser <code>&lt;inject-host&gt;</code> pour styliser les éléments imbriqués dans un emplacement. Nous créons deux composants : le composant <code>user-list</code> comme conteneur de liste, et le composant <code>user-list-item</code> comme élément de liste. Grâce à <code>&lt;inject-host&gt;</code>, nous pouvons dans le composant <code>user-list</code> définir le style de <code>user-list-item</code> et de ses éléments internes.</p>
+        <o-playground name="Injecter le style hôte" style="--editor-height: 500px">
           <code path="index.html" preview="">
     <template>
       <l-m src="./user-list.html"></l-m>
@@ -179,7 +179,7 @@
       </style>
       <slot></slot>
       <div class="item-age">
-        Âge: <slot name="age"></slot>
+        Âge : <slot name="age"></slot>
       </div>
       <script>
         export default async () => {
@@ -191,26 +191,26 @@
     </template>
   </code>
         </o-playground>
-        <p>On peut voir dans les résultats d'exécution :- La couleur de fond du composant <code>user-list-item</code> est aqua (définie via le <code>&lt;inject-host&gt;</code> du composant <code>user-list</code>)</p>
+        <p>On peut voir dans les résultats d'exécution :- La couleur de fond du composant <code>user-list-item</code> est aqua (définie via <code>&lt;inject-host&gt;</code> du composant <code>user-list</code>)</p>
         <ul>
-          <li>La couleur du texte du nom est rouge (définie via le <code>&lt;inject-host&gt;</code> du composant <code>user-list</code> pour le style <code>user-list-item .item-name</code>)</li>
+          <li>La couleur du texte du nom est rouge (définie via <code>&lt;inject-host&gt;</code> du composant <code>user-list</code> en appliquant le style <code>user-list-item .item-name</code>)</li>
         </ul>
         <h2>Principe de fonctionnement</h2>
-        <p>Le composant <code>&lt;inject-host&gt;</code> injecte le contenu des balises <code>&lt;style&gt;</code> qu’il contient dans l’élément hôte du composant. Ainsi, les règles de style injectées peuvent franchir la frontière du composant et s’appliquer aux éléments à l’intérieur des slots.</p>
-        <p>De cette façon, vous pouvez :- Appliquer des styles aux éléments à n'importe quelle profondeur dans le contenu des slots</p>
+        <p><code>&lt;inject-host&gt;</code> composant injecte le contenu de la balise <code>&lt;style&gt;</code> qu'il contient dans l'élément hôte du composant. Ainsi, les règles de style injectées peuvent traverser les limites du composant et s'appliquer aux éléments à l'intérieur des slots.</p>
+        <p>De cette manière, vous pouvez :- Définir le style des éléments à n'importe quelle profondeur dans le contenu d'un emplacement (slot)</p>
         <ul>
-          <li>Utiliser des chemins de sélecteurs complets pour garantir que les styles s'appliquent uniquement aux éléments cibles</li>
-          <li>Maintenir l'encapsulation des styles du composant tout en permettant une perforation flexible des styles</li>
+          <li>Utiliser un chemin de sélecteur complet pour garantir que le style ne s'applique qu'à l'élément cible</li>
+          <li>Maintenir l'encapsulation des styles des composants tout en réalisant une pénétration de style flexible</li>
         </ul>
-        <h2>Remarques</h2>
-        <p>⚠️ <strong>Risque de pollution de style</strong> : les styles injectés s’appliquent au scope de l’élément hôte et peuvent affecter des éléments d’autres composants. Lors de l’utilisation, respectez impérativement les principes suivants :</p>
+        <h2>Points d'attention</h2>
+        <p>⚠️ <strong>Risque de pollution de styles</strong> : puisque les styles injectés s’appliquent au scope de l’élément hôte, ils peuvent affecter des éléments dans d’autres composants. Lors de l’utilisation, respectez impérativement les principes suivants :</p>
         <ol>
-          <li><strong>Utiliser des sélecteurs spécifiques</strong> : préférez un chemin complet de balises de composants et évitez les sélecteurs trop larges </li>
-          <li><strong>Ajouter un préfixe d’espace de noms</strong> : ajoutez un préfixe unique à vos classes de styles pour réduire les risques de conflit avec d’autres composants </li>
-          <li><strong>Éviter les sélecteurs universels de balise</strong> : utilisez plutôt des sélecteurs de classe ou d’attribut à la place des sélecteurs de balise </li>
-          <li><strong>Réfléchir à la conception du composant</strong> : envisagez d’optimiser la conception du composant pour éviter l’utilisation de <code>&lt;inject-host&gt;</code>. Par exemple, combiner sur le composant enfant le sélecteur <a href="https://developer.mozilla.org/fr/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> est souvent plus élégant.</li>
+          <li><strong>Utiliser des sélecteurs spécifiques</strong> : Essayez d'utiliser des chemins de composants complets et évitez les sélecteurs trop génériques.</li>
+          <li><strong>Ajouter un préfixe d'espace de noms</strong> : Ajoutez un préfixe unique à vos classes de style pour réduire les risques de conflit avec d'autres composants.</li>
+          <li><strong>Éviter d'utiliser des sélecteurs d'étiquettes génériques</strong> : Préférez les sélecteurs de classes ou d'attributs aux sélecteurs d'étiquettes.</li>
+          <li><strong>Reconsidérer la conception du composant</strong> : Réfléchissez à la possibilité d'éviter l'utilisation de <code>&lt;inject-host&gt;</code> en optimisant la conception du composant. Par exemple, l'utilisation de la combinaison du sélecteur <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> sur les composants enfants est souvent plus élégante.</li>
         </ol>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Recommandé ✅ : Utiliser des sélecteurs spécifiques --&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Recommandé ✅ : Utiliser un sélecteur spécifique --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
         user-list <span class="hljs-selector-class">.list-item-content</span> {
@@ -219,7 +219,7 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- Non recommandé ❌ : Utiliser des sélecteurs trop génériques --&gt;</span>
+<span class="hljs-comment">&lt;!-- Non recommandé ❌ : Utiliser un sélecteur trop générique --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
         <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* Risque de conflit avec d'autres composants */</span>
@@ -227,8 +227,8 @@
         }
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span></code></pre>
-        <h3>Conseils de performance</h3>
-        <p>Étant donné que <code>&lt;inject-host&gt;</code> déclenche la réinjection des styles de l'hôte, ce qui peut entraîner un reflow ou un repaint du composant, veuillez l'utiliser avec prudence dans des scénarios de mises à jour fréquentes.<br>Si vous avez uniquement besoin de définir des styles pour les éléments de premier niveau à l'intérieur du slot, privilégiez l'utilisation du sélecteur de pseudo-classe <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a>. Cela permet d'éviter les coûts de rendu supplémentaires liés à l'injection de type "percée", offrant ainsi de meilleures performances.</p>
+        <h3>Astuces de performance</h3>
+        <p>Étant donné que <code>&lt;inject-host&gt;</code> déclenche une réinjection des styles de l'hôte, ce qui peut entraîner un réordonnancement ou un repeint des composants, veuillez l'utiliser avec prudence dans les scénarios où les mises à jour sont fréquentes.<br>Si vous avez uniquement besoin de styliser les éléments de premier niveau dans le slot, privilégiez le sélecteur de pseudo-classe <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a>, ce qui permet d'éviter les surcoûts de rendu supplémentaires liés à une injection pénétrante et d'obtenir de meilleures performances.</p>
       </article>
       <div class="footer"></div>
       <script>

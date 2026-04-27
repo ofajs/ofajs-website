@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>style</h1>
-        <p><code>style</code> 属性はネイティブと一致するようにします。</p>
-        <p>ご注意ください、<code>style</code>属性は実際のスタイル値を取得することはできず、<code>style</code>属性に設定された値のみを取得します。<code>style</code>メソッドは<a href="./css.html" olink="">cssメソッド</a>と似ていますが、全量のスタイルを上書きすることはできません。<code>css</code>と比較して、<code>style</code>メソッドの内部実行効率はより高くなっています。</p>
-        <p>以下は、<code>style</code>の使い方を示す例です：</p>
+        <p><code>style</code> 属性はネイティブと一貫性を保つ。</p>
+        <p>ご注意ください。<code>style</code> 属性はスタイルの実際の値を取得できず、<code>style</code> 属性で設定された値のみを取得できます。<code>style</code> メソッドは <a href="./css.html" olink="">css メソッド</a> と似ていますが、全量のスタイルを上書きすることはできません。<code>css</code> と比較して、<code>style</code> メソッドの内部実行効率はより高くなっています。</p>
+        <p>以下は、<code>style</code>の使い方を示すサンプルです：</p>
         <o-playground name="style - 直接使用" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <div id="target">元のテキスト</div>
+      <div id="target">origin text</div>
       <br>
-      <h4>ロガー</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = $("#target").style.color;
@@ -101,9 +101,9 @@
     </template>
   </code>
         </o-playground>
-        <p>覚えておいてください。<code>style</code> メソッドは <code>style</code> 属性の値のみを取得・設定し、実際の計算スタイルではありません。</p>
+        <p><code>style</code> メソッドは <code>style</code> 属性の値を取得および設定するだけで、実際の計算されたスタイルではないことに注意してください。</p>
         <h2>テンプレート構文方式での使用</h2>
-        <p>あなたはテンプレート構文を使用してターゲット要素のスタイルを設定することもできます。</p>
+        <p>テンプレート構文を使用して、ターゲット要素のスタイルを設定することもできます。</p>
         <o-playground name="style - テンプレート構文" style="--editor-height: 400px">
           <code path="demo.html" preview="">
     <template>

@@ -81,13 +81,13 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Mikro-App</h1>
-        <p>Verwenden Sie <code>o-app</code>, um eine Anwendung zu erstellen; dieses Tag steht für eine Mikro-App. Es lädt die Konfigurationsdatei <code>app-config.js</code>, in der die Startseiten-Adresse und die Konfiguration für Seitenübergangsanimationen definiert sind.</p>
+        <p>Verwenden Sie <code>o-app</code> für die Applikation, dieses Tag repräsentiert eine Mikro-App, die die Konfigurationsdatei <code>app-config.js</code> lädt, welche die Startseitenadresse und die Seitenwechsel-Animationseinstellungen der App definiert.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// Anwendungsstartseitenadresse</span>
+<span class="hljs-comment">// Startseite-URL der App</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./home.html&quot;</span>;
 
-<span class="hljs-comment">// Konfiguration für Seitenwechselanimationen</span>
+<span class="hljs-comment">// Konfiguration der Seitenwechsel-Animation</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
   <span class="hljs-attr">current</span>: {
     <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
@@ -101,16 +101,16 @@
     <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
     <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
   },
-};</code></pre><o-playground name="Mikro-App-Beispiel" style="--editor-height: 500px">
+};</code></pre><o-playground name="Micro-App-Beispiel" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
   </code>
           <code path="app-config.js">
-    // Startseiten-URL der App
+    // Startseiten-Adresse der App
     export const home = "./home.html";
-    // Konfiguration für Seitenwechselanimationen
+    // Konfiguration der Seitenübergangs-Animation
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -174,14 +174,14 @@
   </code>
         </o-playground>
         <h2>home - Startseitenadresse</h2>
-        <p>Gibt den Pfad des Startmoduls an, das beim Start der Anwendung geladen wird, unterstützt relative und absolute Pfade.</p>
+        <p>Geben Sie den Pfad des Startmoduls an, das beim Start der Anwendung geladen wird. Es werden relative und absolute Pfade unterstützt.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
-        <h2>pageAnime - Seitenübergangsanimation</h2>
-        <p>Steuern Sie die Übergangsanimation beim Wechseln der Seiten, umfasst drei Zustände:</p>
+        <h2>pageAnime - Seitenwechsel-Animation</h2>
+        <p>Steuert die Übergangsanimationseffekte beim Seitenwechsel, die drei Zustände umfassen:</p>
         <table>
           <thead>
             <tr>
-              <th>Status</th>
+              <th>Zustand</th>
               <th>Beschreibung</th>
             </tr>
           </thead>
@@ -192,7 +192,7 @@
             </tr>
             <tr>
               <td><code>next</code></td>
-              <td>Startstil beim Eintritt der neuen Seite</td>
+              <td>Ausgangsstil beim Eintritt der neuen Seite</td>
             </tr>
             <tr>
               <td><code>previous</code></td>
@@ -214,11 +214,11 @@
         <pre><code class="hljs">
 ## Parameterübergabe
 
-In `o-app` unterstützt das Seitenwechseln die Übergabe von Parametern über URL Query, und die Zielseite empfängt diese über den `query`-Parameter der Modulfunktion.
+In der `o-app` unterstützt die Seiten Navigation die Übergabe von Parametern über URL-Query. Die Zielseite empfängt diese über den Parameter `query` der Modulfunktion.
 
 ## Seitennavigation
 
-In o-app kann jede Seitenkomponente mit einem `&lt;a&gt;`-Tag mit dem Attribut `olink` für Seitenwechsel verwendet werden. Dieses Tag löst einen Routing-Wechsel in der Anwendung aus, führt Übergangsanimationen aus und aktualisiert nicht die gesamte Seite.
+In der o-app kann jedes Seitenmodul ein `&lt;a&gt;`-Tag mit dem `olink`-Attribut verwenden, um zwischen Seiten zu wechseln. Dieses Tag löst das Routing der App aus, zeigt eine Übergangsanimation und lädt die gesamte Seite nicht neu.
 
 ```html
 &lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;Zur Über-Seite springen&lt;/a&gt;</code></pre>

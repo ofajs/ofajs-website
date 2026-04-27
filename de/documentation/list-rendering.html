@@ -81,19 +81,19 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Listen-Rendering</h1>
-        <p>In ofa.js bietet die <code>o-fill</code>-Komponente leistungsstarke Listen-Rendering-Funktionen und kann Array-Daten effizient in mehrere ähnliche Elemente rendern. Sie unterstützt zwei Hauptverwendungsarten: direktes Rendering und Template-Rendering.</p>
-        <h2>o-fill-Komponente-Einführung</h2>
-        <p><code>o-fill</code> ist die Kernkomponente von ofa.js für die Listenrendering. Sie empfängt eine <code>value</code>-Eigenschaft vom Array-Typ und generiert entsprechende DOM-Elemente für jedes Element im Array. Während des Rendering-Prozesses verfolgt ofa.js automatisch Arrayänderungen und aktualisiert das DOM effizient.</p>
+        <p>In ofa.js bietet die <code>o-fill</code>-Komponente leistungsstarke Listen-Render-Funktionen und kann Array-Daten effizient in mehrere ähnliche Elemente rendern. Sie unterstützt zwei Hauptverwendungsarten: Direktes Rendern und Template-Rendering.</p>
+        <h2>Einführung in die o-fill Komponente</h2>
+        <p><code>o-fill</code> ist eine Kernkomponente in ofa.js zur Listen-Rendering. Sie erhält ein Array-Attribut <code>value</code> und erzeugt für jeden Eintrag im Array ein entsprechendes DOM-Element. Während des Renderings verfolgt ofa.js automatisch Änderungen am Array und aktualisiert das DOM effizient.</p>
         <h3>Hauptmerkmale:</h3>
         <ul>
-          <li><strong>Effiziente Aktualisierung</strong>: Verfolgt Array-Änderungen über Schlüssel-Wert-Paare und aktualisiert nur die Teile, die geändert werden müssen</li>
-          <li><strong>Indexzugriff</strong>: Zugriff auf den Index des aktuellen Elements über <code>$index</code></li>
-          <li><strong>Datenzugriff</strong>: Zugriff auf die Daten des aktuellen Elements über <code>$data</code></li>
-          <li><strong>Hostzugriff</strong>: Zugriff auf die aktuelle Komponenteninstanz über <code>$host</code>, um Komponentenmethoden aufzurufen oder auf Komponentendaten zuzugreifen</li>
-          <li><strong>Vorlagenwiederverwendung</strong>: Unterstützt die Verwendung benannter Vorlagen für komplexe Listenrendering</li>
+          <li><strong>Effiziente Aktualisierung</strong>: Verfolgen Sie Array-Änderungen über Schlüssel-Werte-Paare und aktualisieren Sie nur die Teile, die geändert werden müssen.</li>
+          <li><strong>Indexzugriff</strong>: Greifen Sie über <code>$index</code> auf den Index des aktuellen Elements zu.</li>
+          <li><strong>Datenzugriff</strong>: Greifen Sie über <code>$data</code> auf die Daten des aktuellen Elements zu.</li>
+          <li><strong>Hostzugriff</strong>: Greifen Sie über <code>$host</code> auf die aktuelle Komponenteninstanz zu, um Komponentenmethoden aufzurufen oder auf Komponentendaten zuzugreifen.</li>
+          <li><strong>Wiederverwendung von Vorlagen</strong>: Unterstützt die Verwendung benannter Vorlagen für komplexe Listendarstellungen.</li>
         </ul>
         <h2>Direktes Rendern</h2>
-        <p>Die direkte Renderung ist die einfachste Verwendungsweise: Der Vorlageninhalt wird direkt innerhalb des <code>o-fill</code>-Tags geschrieben. Wenn sich das Array ändert, erstellt <code>o-fill</code> automatisch für jeden Datensatz das entsprechende Element.</p>
+        <p>Die direkte Renderung ist die einfachste Anwendung: Der Template-Inhalt wird direkt innerhalb des <code>o-fill</code>-Tags geschrieben. Wenn sich das Array ändert, erstellt <code>o-fill</code> automatisch für jeden Datensatz das entsprechende Element.</p>
         <o-playground name="o-fill - Direktes Rendern" style="--editor-height: 600px">
           <code>
     <template page>
@@ -146,11 +146,11 @@
         <p>In diesem Beispiel können wir sehen:- <code>$index</code> steht für den Index des aktuellen Elements (beginnend bei 0)</p>
         <ul>
           <li><code>$data</code> steht für das Datenobjekt des aktuellen Elements</li>
-          <li><code>$host</code> steht für die aktuelle Komponenteninstanz und kann verwendet werden, um Komponentenmethoden aufzurufen oder auf Komponentendaten zuzugreifen</li>
+          <li><code>$host</code> steht für die aktuelle Komponenteninstanz, die zum Aufrufen von Komponentenmethoden oder zum Zugreifen auf Komponentendaten verwendet werden kann</li>
           <li>Wenn sich das Array ändert, wird die Liste automatisch aktualisiert</li>
         </ul>
         <h2>Vorlagen-Rendering</h2>
-        <p>Für komplexere Listenelementstrukturen kann eine benannte Vorlage verwendet werden. Definieren Sie die Vorlage im <code>template</code>-Tag und verweisen Sie dann im <code>o-fill</code> über das <code>name</code>-Attribut darauf.</p>
+        <p>Für komplexere Listenelementstrukturen kann der Ansatz benannter Vorlagen verwendet werden. Definieren Sie die Vorlage im <code>template</code>-Tag und referenzieren Sie sie dann in <code>o-fill</code> über das <code>name</code>-Attribut.</p>
         <o-playground name="o-fill - Vorlagen-Rendering" style="--editor-height: 600px">
           <code>
     <template page>
@@ -171,23 +171,23 @@
           <div class="product-name">{{$data.name}}</div>
           <div class="product-price">¥{{$data.price}}</div>
           <div class="product-desc">{{$data.description}}</div>
-          <small>Index: {{$index + 1}}</small>
+          <small>Nr.: {{$index + 1}}</small>
         </div>
       </template>
       <script>
         export default async () => ({
           data: {
             products: [
-              { name: "MacBook Pro", price: 12999, description: "Hochleistungs-Laptop, geeignet für professionelle Arbeit" },
-              { name: "iPhone 15", price: 5999, description: "Neuestes Smartphone, herausragende Fotoqualität" },
-              { name: "AirPods Pro", price: 1999, description: "Kabellose Geräuschunterdrückungs-Kopfhörer, exzellente Klangqualität" }
+              { name: "MacBook Pro", price: 12999, description: "Hochleistungs-Laptop, geeignet für professionelle Arbeiten" },
+              { name: "iPhone 15", price: 5999, description: "Neuestes Smartphone mit hervorragender Fotoqualität" },
+              { name: "AirPods Pro", price: 1999, description: "Kabellose Rauschunterdrückungskopfhörer mit exzellentem Klang" }
             ],
             productIndex: 0,
           },
           proto: {
             addProduct() {
               const productNames = ["iPad Air", "Apple Watch", "Magic Mouse", "Pro Display"];
-              const productDescs = ["Dünnes und tragbares Tablet", "Smartwatch mit Gesundheitsüberwachung", "Ergonomisch designte Maus", "Monitor für Profis"];
+              const productDescs = ["Leichtes und tragbares Tablet", "Intelligente Uhr, Gesundheitsüberwachung", "Ergonomisch gestaltete Maus", "Professioneller Monitor"];
               const name = productNames[this.productIndex % productNames.length];
               const desc = productDescs[this.productIndex % productDescs.length];
               this.products.push({
@@ -204,9 +204,10 @@
   </code>
         </o-playground>
         <h2>Verschachtelte Listen rendern</h2>
-        <p><code>o-fill</code> unterstützt die verschachtelte Verwendung und kann komplexe hierarchische Datenstrukturen wie Baummenüs, Kategorielisten usw. verarbeiten.</p>
-        <o-playground name="o-fill - Verschachtelte Listenrendering" style="--editor-height: 800px">
+        <p><code>o-fill</code> unterstützt verschachtelte Verwendung und kann komplexe hierarchische Datenstrukturen wie Baummenüs, Kategorielisten usw. verarbeiten.</p>
+        <o-playground name="o-fill - Verschachtelte Listendarstellung" style="--editor-height: 800px">
           <code>
+    <!-- Verschachtelte Listendarstellung -->
     <template page>
       <style>
         :host {
@@ -234,7 +235,7 @@
           color: #34495e;
         }
       </style>
-      <h3>Produktkategorienavigation</h3>
+      <h3>Navigationsbereich für Produktkategorien</h3>
       <div class="navigation">
         <o-fill :value="categories" name="category-template"></o-fill>
       </div>
@@ -258,15 +259,15 @@
             data: {
               categories: [
                 {
-                  name: "Elektronik",
+                  name: "Elektronikprodukte",
                   subcategories: [
                     {
                       name: "Handys",
-                      items: ["iPhone", "Android-Handys", "Feature Phones"]
+                      items: ["iPhone", "Android-Handys", "Feature-Phones"]
                     },
                     {
                       name: "Computer",
-                      items: ["Laptops", "Desktop-PCs", "Tablets"]
+                      items: ["Laptops", "Desktop-Computer", "Tablets"]
                     }
                   ]
                 },
@@ -274,12 +275,12 @@
                   name: "Haushaltswaren",
                   subcategories: [
                     {
-                      name: "Küchenartikel",
-                      items: ["Töpfe & Pfannen", "Geschirr", "Kleine Haushaltsgeräte"]
+                      name: "Küchenutensilien",
+                      items: ["Kochtöpfe", "Geschirr", "Kleingeräte"]
                     },
                     {
                       name: "Schlafzimmerartikel",
-                      items: ["Bettwäsche", "Kleiderschränke", "Dekoration"]
+                      items: ["Bettwäsche", "Kleiderschränke", "Dekorationen"]
                     }
                   ]
                 },
@@ -305,29 +306,19 @@
   </code>
         </o-playground>
         <h2>Leistungsoptimierung und Schlüssel-Wert-Verwaltung</h2>
-        <p>Für Listen, die häufig aktualisiert werden, kann über das Attribut <code>fill-key</code> ein eindeutiger Bezeichner angegeben werden, um die Renderleistung zu verbessern.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Leistung durch benutzerdefinierte Schlüssel-Wert-Paare optimieren --&gt;</span>
+        <p>Für Listen, die häufig aktualisiert werden müssen, kann das eindeutige Identifikationsmerkmal über das Attribut <code>fill-key</code> angegeben werden, um die Rendering-Leistung zu verbessern.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Verwendung eines benutzerdefinierten Schlüssels zur Leistungssteigerung --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;items&quot;</span> <span class="hljs-attr">fill-key</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
         <p>Im obigen Beispiel teilt <code>fill-key=&quot;id&quot;</code> ofa.js mit, die <code>id</code>-Eigenschaft jedes Datensatzes als eindeutigen Identifikator zu verwenden, sodass auch bei einer Änderung der Reihenfolge des Arrays die entsprechenden Elemente korrekt erkannt und aktualisiert werden können.</p>
-        <h2>Best Practices für Listen-Rendering</h2>
+        <h2>Best Practices für das Rendern von Listen</h2>
         <ol>
-          <li>
-            <p><strong>Ereignisbehandlung</strong>: Bei der Verwendung von Ereignissen in Listenelementen ist zu beachten, dass <code>$host</code> auf die aktuelle Komponenteninstanz zeigt und <code>$data</code> auf die aktuellen Elementdaten.</p>
-          </li>
-          <li>
-            <p><strong>Auswahl der geeigneten Render-Methode</strong>: Einfache Listen verwenden direktes Rendering, komplexe Strukturen verwenden Vorlagen-Rendering.</p>
-          </li>
-          <li>
-            <p><strong>Leistungsüberlegungen</strong>: Für große Listen oder häufig aktualisierte Listen verwenden Sie <code>fill-key</code> um Schlüsselwerte anzugeben.</p>
-          </li>
-          <li>
-            <p><strong>Datenstruktur</strong>: Stellen Sie sicher, dass jedes Element im Array ein gültiges Datenobjekt ist.</p>
-          </li>
-          <li>
-            <p><strong>Vermeidung tiefer Verschachtelung</strong>: Obwohl Verschachtelung unterstützt wird, sollten zu tiefe Verschachtelungsebenen vermieden werden.</p>
-          </li>
+          <li><strong>Ereignisbehandlung</strong>: Bei der Verwendung von Ereignissen in Listenelementen beachten Sie, dass <code>$host</code> auf die aktuelle Komponenteninstanz und <code>$data</code> auf die aktuellen Datenpunkte verweist.</li>
+          <li><strong>Auswahl der geeigneten Darstellungsmethode</strong>: Verwenden Sie für einfache Listen die direkte Darstellung, für komplexe Strukturen die Vorlagendarstellung.</li>
+          <li><strong>Leistungsaspekte</strong>: Verwenden Sie für große oder häufig aktualisierte Listen <code>fill-key</code>, um Schlüsselwerte anzugeben.</li>
+          <li><strong>Datenstruktur</strong>: Stellen Sie sicher, dass jedes Element im Array ein gültiges Datenobjekt ist.</li>
+          <li><strong>Vermeidung tiefer Verschachtelungen</strong>: Obwohl Verschachtelungen unterstützt werden, sollten zu tiefe Verschachtelungsebenen vermieden werden.</li>
         </ol>
       </article>
       <div class="footer"></div>

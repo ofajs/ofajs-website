@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Style Query</title>
+  <title>Style Queries</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,16 +80,16 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Style Query</h1>
-        <p><code>match-var</code> is a utility in ofa.js for styling based on CSS variables. It dynamically applies different styles according to the current component’s CSS variable values, enabling context-aware styling without JavaScript—ideal for theme colors and similar use cases.</p>
+        <h1>Style Queries</h1>
+        <p><code>match-var</code> is a feature component in ofa.js used for style matching based on CSS variables. With <code>match-var</code>, you can dynamically match and apply different styles according to the current component&#39;s CSS variable values. This feature is specifically designed for style-related context state passing, requires no JavaScript, is more convenient to use, and is suitable for style-propagation needs such as theme colors.</p>
         <h2>Core Concepts</h2>
         <ul>
-          <li><strong>match-var</strong>: A style-matching component that applies internal styles only when a CSS variable equals a given value. </li>
-          <li><strong>Attribute Matching</strong>: Define the CSS variable and expected value to match via component attributes. </li>
-          <li><strong>Style Application</strong>: When the match succeeds, the rules inside the <code>&lt;style&gt;</code> tag are applied to the component.</li>
+          <li><strong>match-var</strong>: Style matching component, determines whether to apply internal styles based on CSS variable values</li>
+          <li><strong>Attribute matching</strong>: Through component properties, define the CSS variables to match and the expected values</li>
+          <li><strong>Style application</strong>: When matched successfully, the styles inside the <code>&lt;style&gt;</code> tag will be applied to the component</li>
         </ul>
         <h2>Basic Usage</h2>
-        <p>The <code>match-var</code> component uses attributes to define the CSS variable to match and its expected value. When the component&#39;s CSS variable equals the specified attribute value, the internally defined styles are applied.</p>
+        <p>The <code>match-var</code> component defines the CSS variable to match and its expected value through attributes. When the component&#39;s CSS variable value matches the specified attribute value, the internally defined styles are applied.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -99,12 +99,12 @@
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
         <h3>Attributes</h3>
-        <p>The <code>match-var</code> component uses arbitrary attributes to define matching rules for CSS variables. The attribute name corresponds to the CSS variable name (without the <code>--</code> prefix), and the attribute value is the expected value to match.</p>
-        <h3>How it works</h3>
+        <p><code>match-var</code> component uses arbitrary attributes to define matching rules for CSS variables. The attribute name corresponds to the CSS variable name (without the <code>--</code> prefix), and the attribute value is the expected match value.</p>
+        <h3>Working Principle</h3>
         <ol>
-          <li><strong>Browser support</strong>: If the browser supports <code>@container style()</code> queries, the native CSS capability is used directly. </li>
-          <li><strong>Fallback</strong>: If not supported, it polls for changes in CSS variable values and dynamically injects styles once a match is found. </li>
-          <li><strong>Manual refresh</strong>: Style detection can be triggered manually via the <code>$.checkMatch()</code> method.</li>
+          <li><strong>Browser Support</strong>: If the browser supports <code>@container style()</code> queries, it will directly use native CSS capabilities.</li>
+          <li><strong>Fallback Handling</strong>: If not supported, it will poll to detect changes in CSS variable values and dynamically inject styles upon successful matching.</li>
+          <li><strong>Manual Refresh</strong>: You can manually trigger style detection via the <code>$.checkMatch()</code> method.</li>
         </ol>
         <h2>Basic Example</h2>
         <o-playground name="Basic Example" style="--editor-height: 500px">
@@ -129,7 +129,7 @@
       <button on:click="changeTheme">Switch Theme</button> - Theme:{{currentTheme}}
       <div class="container">
         <theme-box>
-          Display different styles based on CSS variables
+          Display different styles based on CSS variable
         </theme-box>
       </div>
         <theme-box style="--theme: light;">
@@ -197,8 +197,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Multi-condition matching</h2>
-        <p>Multiple attributes can be used simultaneously to define more complex matching conditions, and the styles will only be applied when all CSS variables match.</p>
+        <h2>Multi-Condition Matching</h2>
+        <p>Multiple attributes can be used simultaneously to define more complex matching conditions; styles are applied only when all CSS variables match.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;large&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -207,8 +207,8 @@
     }
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
-        <h2>Multi-Condition Matching Example</h2>
-        <o-playground name="Property Matching Example" style="--editor-height: 500px">
+        <h2>Multi-condition Matching Example</h2>
+        <o-playground name="Attribute Matching Example" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-page src="./page1.html"></o-page>
@@ -228,11 +228,11 @@
         }
       </style>
       <l-m src="./test-card.html"></l-m>
-      <div>Theme: {{theme}} <button on:click="changeTheme">Toggle Theme</button></div>
-      <div>Size: {{size}} <button on:click="changeSize">Toggle Size</button></div>
+      <div>Theme: {{theme}} <button on:click="changeTheme">Switch Theme</button></div>
+      <div>Size: {{size}} <button on:click="changeSize">Switch Size</button></div>
       <div class="content">
         <test-card>
-          <div>Multi-condition Style Matching Example</div>
+          <div>Multi-condition style matching example</div>
         </test-card>
       </div>
       <script>
@@ -308,10 +308,10 @@
     </template>
   </code>
         </o-playground>
-        <h2>checkMatch Manual Refresh</h2>
-        <p>In some cases, changes to CSS variables may not be automatically detected; you can manually call the <code>$.checkMatch()</code> method to trigger style detection.</p>
+        <h2>checkMatch manual refresh</h2>
+        <p>In some cases, changes to CSS variables may not be automatically detected. You can then manually call the <code>$.checkMatch()</code> method to trigger style detection.</p>
         <blockquote>
-          <p>Currently, Firefox does not yet support <code>@container style()</code> queries, so it is necessary to manually call <code>$.checkMatch()</code>; once future browsers natively support it, the system will automatically detect variable changes, eliminating the need for manual triggering.</p>
+          <p>Currently, Firefox does not support the <code>@container style()</code> query, so you need to manually call <code>$.checkMatch()</code>; once browsers natively support it in the future, the system will automatically detect variable changes without requiring manual triggering.</p>
         </blockquote>
         <pre><code class="hljs language-javascript"><span class="hljs-attr">proto</span>: {
   <span class="hljs-title function_">updateTheme</span>(<span class="hljs-params"></span>) {
@@ -322,9 +322,9 @@
 }</code></pre>
         <h2>Best Practices</h2>
         <ol>
-          <li><strong>Prioritize Native CSS Capabilities</strong>: <code>match-var</code> prioritizes the use of the browser&#39;s native <code>@container style()</code> queries, offering better performance in modern browsers. </li>
-          <li><strong>Organize Styles Reasonably</strong>: Keep related matching styles together for easier maintenance and understanding. </li>
-          <li><strong>Utilize data() Binding</strong>: Combine with the <code>data()</code> directive to achieve responsive style switching.</li>
+          <li><strong>Prioritize native CSS capabilities</strong>: <code>match-var</code> will prefer the browser-native <code>@container style()</code> query, offering better performance in modern browsers </li>
+          <li><strong>Organize styles logically</strong>: Keep related matching styles together for easier maintenance and comprehension </li>
+          <li><strong>Use data() binding</strong>: Combine with the <code>data()</code> directive to achieve responsive style switching</li>
         </ol>
       </article>
       <div class="footer"></div>

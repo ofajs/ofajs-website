@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Understanding Property Binding</title>
+  <title>Understanding Attribute Binding</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,11 +80,11 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Understanding Property Binding</h1>
-        <p>In the previous content, we briefly introduced the basic usage of <a href="./property-binding.html" olink="">property binding</a>. The earlier example bound the <code>value</code> property of a native browser element (<code>textarea</code>); this section explores the essence of property binding—it actually binds to the JavaScript property of the instantiated component, not the HTML attribute.</p>
+        <h1>Understanding Attribute Binding</h1>
+        <p>In the previous content, the basic usage of <a href="./property-binding.html" olink="">property binding</a> was initially introduced. The previous example was used to bind the <code>value</code> property of a native browser element (such as <code>textarea</code>). This section will delve into the essence of property binding—it is actually binding to the JavaScript properties of a component after instantiation, not to HTML attributes.</p>
         <h2>Component Property Binding Mechanism</h2>
-        <p>In ofa.js, when we use the <code>:toProp="fromProp"</code> syntax in a parent component, we are setting a JavaScript property of the child component instance, not an HTML attribute. This is an important distinction from directly setting HTML attributes (such as <code>attr:toKey="fromKey"</code>).</p>
-        <p>The following example demonstrates how to pass data to a custom component through property binding:</p>
+        <p>In ofa.js, when we use the <code>:toProp="fromProp"</code> syntax in a parent component, we are setting the JavaScript property of the child component instance, not the HTML attribute. This is an important distinction from directly setting HTML attributes (such as <code>attr:toKey="fromKey"</code>).</p>
+        <p>The following example shows how to pass data to a custom component through property binding：</p>
         <o-playground name="Understanding Property Binding" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
@@ -138,41 +138,41 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example:- The <code>val</code> data in the parent component is bound to the <code>fullName</code> prop of the child component <code>&lt;demo-comp&gt;</code>.</p>
+        <p>In this example:- The <code>val</code> data in the parent component is bound to the <code>fullName</code> prop of the child component <code>&lt;demo-comp&gt;</code></p>
         <ul>
-          <li>The parent's <code>val</code> is passed to the child's <code>fullName</code> prop using the syntax <code>:full-name="val"</code>.</li>
-          <li>After receiving the value, the child component displays it in the template via <code>{{fullName}}</code>.</li>
+          <li>The syntax <code>:full-name="val"</code> is used to pass the parent component's <code>val</code> value to the child component's <code>fullName</code> prop</li>
+          <li>After receiving this value, the child component displays it in the template via <code>{{fullName}}</code></li>
         </ul>
-        <h2>Attribute Binding vs. Feature Attribute Inheritance</h2>
-        <p>It is worth noting that property binding (<code>:</code>) and attribute inheritance (<code>attr:</code>) have the following key differences:</p>
-        <h3>Property Binding (<code>:</code>)</h3>
+        <h2>Attribute Binding vs Feature Property Inheritance</h2>
+        <p>It should be noted that attribute binding (<code>:</code>) and characteristic attribute inheritance (<code>attr:</code>) have the following key differences:</p>
+        <h3>Property Binding (':')</h3>
         <ul>
-          <li>JavaScript properties bound to component instances</li>
-          <li>Passed data maintains its original type (strings, numbers, booleans, etc.)</li>
-          <li>Can be directly accessed and modified within the component, even without the component internally defining <code>data</code> in advance</li>
+          <li>JavaScript properties bound to the component instance</li>
+          <li>The passed data retains its original type (string, number, boolean, etc.)</li>
+          <li>It can be directly accessed and modified within the component, even without predefining <code>data</code> inside the component</li>
         </ul>
-        <h3>Feature Attribute Inheritance (<code>attr:</code>)</h3>
+        <h3>Feature attribute inheritance (<code>attr:</code>)</h3>
         <ul>
-          <li>Setting HTML attributes</li>
+          <li>Set HTML attributes</li>
           <li>All values are converted to strings</li>
-          <li>Primarily used for passing attributes to underlying DOM elements</li>
+          <li>Mainly used to pass attributes to the underlying DOM elements</li>
           <li>Requires special handling to parse complex data</li>
-          <li>Must define <code>attrs</code> inside the component in advance to receive attribute values</li>
+          <li>Must define <code>attrs</code> in advance inside the component to receive attribute values</li>
         </ul>
-        <p>Syntax comparison:```html</p>
-        <!-- Property binding: pass JavaScript values while preserving data types -->
+        <p>Grammar Comparison:```html</p>
+        <!-- Attribute binding: pass JavaScript values, keep data types -->
         <p><my-component :data-value="complexObject"></my-component>
           <my-component :count="42"></my-component>
           <my-component :is-active="true"></my-component>
         </p>
         <!-- Attribute inheritance: set HTML attributes, all values become strings -->
         <p><my-component attr:data-value="simpleString"></my-component>
-          <my-component attr:count="42"></my-component> <!-- actually receives the string "42" -->
+          <my-component attr:count="42"></my-component> <!-- Actual passed string "42" -->
         </p>
         <pre><code class="hljs"><span class="language-xml">
 ## Case Comparison Differences
 
-<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Case Comparison Differences"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Case Comparison Difference"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
@@ -236,17 +236,17 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
 
-`vone` is a property of the component instance, while `vtwo` is an HTML attribute; the attribute’s value is matched by the `[vtwo]` selector and receives the corresponding styles, whereas `vone`, being a component-instance property, is not matched by the `[vone]` selector.
+Among them, `vone` is a property of the component instance, `vtwo` is an HTML attribute, and the value of the attribute will be selected by the `[vtwo]` selector and have styles applied, while `vone` is a property of the component instance and will not be selected by the `[vone]` selector.
 
 ## Two-way Data Binding
 
-Instantiated components also support two-way data binding using the `sync:toProp="fromProp"` syntax. Two-way binding allows data synchronization between parent and child components—when data changes on either side, the other side updates accordingly.
+The instantiated component also supports two-way data binding, using the `sync:toProp="fromProp"` syntax. Two-way binding allows data synchronization between parent and child components; when the data on either side changes, the other side updates accordingly.
 
-Unlike Angular and Vue, ofa.js natively supports two-way data binding syntax without requiring special configuration or extra operations for components.
+&gt; Unlike Angular and Vue, ofa.js natively supports two-way data binding syntax without requiring any special configuration or additional operations for components.
 
-### Two-Way Binding Example
+### Two-way Binding Example
 
-The example below shows how to set up two-way data binding between a parent and a child component.
+The following example shows how to establish two-way data binding between parent and child components:
 
 <span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Two-way Binding Example"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 600px"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
@@ -265,9 +265,9 @@ The example below shows how to set up two-way data binding between a parent and 
         }
       </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:blue;"</span>&gt;</span>Value in parent component: </span><span class="hljs-template-variable">{{<span class="hljs-name">val</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modify parent component's value through input box:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter text in input box..."</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modify parent component's value through child component:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modify the parent component's value via input:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter text in the input box..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modify the parent component's value via child component:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">sync:full-name</span>=<span class="hljs-string">"val"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
         <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
@@ -291,7 +291,7 @@ The example below shows how to set up two-way data binding between a parent and 
         }
       </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Value displayed in child component: </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter in child component's input box..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter text in the child component input box..."</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
         <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
           <span class="hljs-keyword">return</span> {
@@ -306,22 +306,22 @@ The example below shows how to set up two-way data binding between a parent and 
   <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
 
-In this example:- The parent's `val` and the child's `fullName` are two-way bound via `sync:full-name="val"`
-- When text is entered in the parent's input, the child instantly reflects the new value
-- When text is entered in the child's input, the parent is immediately updated
+In this example:- The `val` of the parent component and the `fullName` of the child component achieve two-way binding through `sync:full-name="val"`
+- When content is entered in the parent component's input box, the child component immediately displays the new value
+- When content is entered in the child component's input box, the parent component also updates the display immediately
 
 ### The Difference Between Two-Way Binding and Regular Property Binding
 
-| Feature | Normal Property Binding (`:`) | Two-way Binding (`sync:`) |
-|---|---|---|
+| Feature | Normal Property Binding (`:`) | Two-Way Binding (`sync:`) |
+|--------|-------------------------------|----------------------------|
 | Data Flow | One-way: Parent → Child | Two-way: Parent ↔ Child |
 | Syntax | `:prop="value"` | `sync:prop="value"` |
 | Child Component Modification | Does not affect parent component | Affects parent component |
-| Use Cases | Parent passes configuration to child | Need to synchronize data between parent and child |### Precautions
+| Suitable Scenarios | Parent passes configuration to child | Need synchronous data between parent and child |### Precautions
 
-1. **Performance considerations**: Two-way binding triggers re-renders on data changes; use sparingly in complex scenarios.  
-2. **Data-flow control**: Excessive two-way binding can make data flow hard to trace; design inter-component communication carefully.  
-3. **Component compatibility**: Not every component suits two-way binding; consider the component’s design intent.</span></code></pre>
+1. **Performance Consideration**: Two-way binding triggers re-rendering when data changes; use it cautiously in complex scenarios  
+2. **Data Flow Control**: Excessive two-way binding can make data flow hard to track; design inter-component communication wisely  
+3. **Component Compatibility**: Not all components are suited for two-way binding; consider the component’s design purpose</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

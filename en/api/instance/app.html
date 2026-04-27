@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>app</h1>
-        <p>Elements inside <code>o-app</code> — including those within the shadow DOM of an <code>o-page</code> nested inside <code>o-app</code>, or any deeper descendant components — have their <code>app</code> property pointing to the <code>o-app</code> element instance.</p>
-        <p>Below is an example demonstrating how to access the <code>app</code> property within elements inside <code>o-app</code>:</p>
+        <p>Elements within <code>o-app</code>, including those inside the shadow nodes of <code>o-page</code> within <code>o-app</code>, or further nested child components, all have their <code>app</code> property pointing to this <code>o-app</code> element instance.</p>
+        <p>Here is an example demonstrating how to access the <code>app</code> property within elements inside <code>o-app</code>:</p>
         <o-playground name="app - Get Application Instance" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -90,9 +90,9 @@
     </template>
   </code>
           <code path="app-config.js">
-    // Application home page address
+    // Home page address of the app
     export const home = "./home.html";
-    // Available methods on the application
+    // Available methods on the app
     export const proto = {
       getSomeData(){
         return "Hello ofa.js App Demo";

@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>all</h1>
-        <p>En utilisant la méthode <code>all</code>, vous pouvez obtenir tous les éléments de la page correspondant au sélecteur CSS et renvoyer un tableau contenant ces instances d&#39;éléments.</p>
+        <p>En utilisant la méthode <code>all</code>, vous pouvez obtenir tous les éléments de la page qui correspondent à un sélecteur CSS, et retourner un tableau contenant les instances de ces éléments.</p>
         <o-playground name="all - obtenir tous les éléments" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
@@ -100,23 +100,23 @@
     </template>
   </code>
         </o-playground>
-        <h2>Obtenir les éléments enfants</h2>
-        <p>L&#39;instance possède également la méthode <code>all</code>, qui permet de sélectionner et d&#39;obtenir des éléments enfants via la méthode <code>all</code> sur l&#39;instance.</p>
+        <h2>Récupérer les éléments enfants</h2>
+        <p>L&#39;instance possède également la méthode <code>all</code>, qui permet de sélectionner et d&#39;obtenir les éléments enfants via la méthode <code>all</code> sur l&#39;instance.</p>
         <o-playground name="all - Obtenir les éléments enfants" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
       <div id="target1">
         <ul>
-          <li>Je suis 1</li>
-          <li>Je suis 2</li>
-          <li>Je suis 3</li>
+          <li>I am 1</li>
+          <li>I am 2</li>
+          <li>I am 3</li>
         </ul>
       </div>
       <script>
         const tar = $("#target1");
         setTimeout(()=>{
           tar.all("li").forEach((item,index)=>{
-            item.text = `modifier l'élément ${index}`;
+            item.text = `change item ${index}`;
           });
         }, 500);
       </script>

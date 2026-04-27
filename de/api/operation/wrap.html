@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>wrap</h1>
-        <p>Die <code>wrap</code>-Methode wird verwendet, um ein Zielelement mit einer weiteren Elementebene zu umschließen. Vor der Ausführung der <code>wrap</code>-Operation wird automatisch die Initialisierungsoperation der <a href="../instance/dollar.html" olink="">$-Methode</a> durchgeführt, sodass direkt konkrete Elementzeichenfolgen oder Objekte angegeben werden können.</p>
-        <o-playground name="wrap - Element einwickeln" style="--editor-height: 440px">
+        <p>Die Methode <code>wrap</code> wird verwendet, um das Ziel-Element von einem weiteren Element umgeben. Vor Ausführung der <code>wrap</code>-Operation wird automatisch die Initialisierung der <a href="../instance/dollar.html" olink="">$-Methode</a> ausgeführt, daher kann direkt ein konkreter Element-String oder ein Objekt angegeben werden.</p>
+        <o-playground name="wrap - Umschließen von Elementen" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
       <style> div{border: #aaa solid 1px; margin:8px; padding:8px;} </style>
       <div>
-        <div>I am 1</div>
-        <div id="target">I am 2</div>
-        <div>I am 3</div>
+        <div>Ich bin 1</div>
+        <div id="target">Ich bin 2</div>
+        <div>Ich bin 3</div>
       </div>
       <script>
         setTimeout(()=>{
@@ -100,16 +100,16 @@
   </code>
         </o-playground>
         <h2>Hinweise</h2>
-        <p>Das Zielelement <strong>muss einen übergeordneten Knoten haben</strong>, sonst schlägt der Wrapping-Vorgang fehl.</p>
+        <p>Das Zielelement <strong>muss einen Elternknoten haben</strong>, sonst schlägt die Einwicklungsoperation fehl.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id="target"&gt;&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Fehler, kein Elternelement, kann nicht eingebunden werden</span>
+$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Fehler, kein Elternelement, kann nicht eingewickelt werden</span>
 $el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Korrekt, Elternelement vorhanden</span></code></pre>
-        <p><strong>Bitte beachten Sie, dass Sie nicht innerhalb von Template-Komponenten wie o-fill oder o-if operieren sollten.</strong></p>
+        <p><strong>Bitte beachten Sie: Führen Sie keine Operationen innerhalb von Vorlagenkomponenten wie o-fill oder o-if durch.</strong></p>
       </article>
       <div class="footer"></div>
       <script>

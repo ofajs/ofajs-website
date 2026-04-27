@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>data</h1>
-        <p>Obtenir le <code>dataset</code> de l'élément, utiliser l'attribut <code>data</code> pour rester cohérent avec le <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/dataset" target="_blank">dataset</a> natif.</p>
-        <o-playground name="data - Exemple d'utilisation" style="--editor-height: 400px">
+        <p>Obtenir le <code>dataset</code> de l'élément, en utilisant l'attribut <code>data</code> et en restant cohérent avec le <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/dataset" target="_blank">dataset</a> natif.</p>
+        <o-playground name="data - exemple d'utilisation" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
       <style>
@@ -90,9 +90,9 @@
           color:red;
         }
       </style>
-      <div id="target" data-one="Je suis un">Texte d'origine</div>
+      <div id="target" data-one="I am one">origin text</div>
       <br>
-      <h4>Journal</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         setTimeout(()=> {

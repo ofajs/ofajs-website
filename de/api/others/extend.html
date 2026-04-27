@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>extend</h1>
-        <p><code>extend</code> ist eine Higher-Order-Methode, die zum Erweitern von Eigenschaften oder Methoden einer Instanz verwendet wird.</p>
+        <p><code>extend</code> ist eine höhere Methode, die verwendet wird, um die Attribute oder Methoden einer Instanz zu erweitern.</p>
         <blockquote>
-          <p>In der Regel wird es nicht empfohlen, dass Benutzer die Eigenschaften oder Methoden von Instanzen erweitern, da dies die Lernkosten erhöht. Es sei denn, es gibt spezielle Szenarien innerhalb des Teams, die eine Anpassung des Verhaltens von Instanzen erfordern, wird davon abgeraten.</p>
+          <p>In der Regel wird es nicht empfohlen, dass Benutzer die Eigenschaften oder Methoden der Instanz erweitern, da dies die Lernkurve erhöht. Es sei denn, es gibt im Team spezielle Szenarien, in denen das Verhalten der Instanz angepasst werden muss, andernfalls ist dies nicht ratsam.</p>
         </blockquote>
-        <o-playground name="extend - Instanz erweitern" style="--editor-height: 560px">
+        <o-playground name="extend - Erweiterungsbeispiel" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
@@ -115,29 +115,29 @@
     </template>
   </code>
         </o-playground>
-        <h2>Erweitern Sie $ Unterbau</h2>
-        <p>Ähnlich wie jQuery können Sie auch die Eigenschaften oder Methoden der zugrunde liegenden Instanz über fn.extend erweitern; Eigenschaften oder Methoden, die von fn erweitert werden, werden auf alle Instanzen angewendet.</p>
+        <h2>Erweitern Sie die $-Unterstützung</h2>
+        <p>Ähnlich wie jQuery kannst du auch mit fn.extend die Eigenschaften oder Methoden der zugrunde liegenden Instanz erweitern; die von fn erweiterten Eigenschaften oder Methoden werden auf alle Instanzen angewendet.</p>
         <o-playground name="extend - Basis erweitern" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Ich bin 1</li>
-        <li id="target">Ich bin das Ziel</li>
-        <li>Ich bin 3</li>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
       </ul>
-      <div id="logger">Logger</div>
+      <div id="logger">logger</div>
       <script>
         \$.fn.extend({
           get good(){
-            return "ofa.js ist gut";
+            return "ofa.js is good";
           },
           say(){
-            return 'Hallo';
+            return 'hello';
           }
         });
         setTimeout(() => {
           \$("#logger").html = `
-          target gut : ${$("#target").good} <br>
+          target good : ${$("#target").good} <br>
           logger say() : ${$("#logger").say()}
           `;
         }, 500);
@@ -146,18 +146,18 @@
   </code>
         </o-playground>
         <h2>Erweiterte Vorlagensyntax</h2>
-        <p>Durch <code>extend</code> erweiterte Eigenschaften oder Funktionen können die Funktionalität der Template-Syntax erweitern und Komponenten sogar exklusive Template-Syntax-Sugar bieten. Es sollte jedoch beachtet werden, dass <strong>nicht offizielle</strong> Template-Syntax möglichst <strong>nicht verwendet</strong> wird, da sie für die Anwender mit einem gewissen Lernaufwand verbunden ist und eine große Menge an inoffiziellem Template-Syntax-Sugar die Entwicklungserfahrung beeinträchtigt.</p>
+        <p>Durch das Erweitern von Eigenschaften oder Funktionen mit <code>extend</code> kann die Funktionalität der Vorlagensyntax erweitert werden, sogar bis hin zur Bereitstellung spezifischer Vorlagen-Syntaktischer Zucker für Komponenten. Es ist jedoch zu beachten, dass <strong>nicht offizielle</strong> Vorlagensyntax möglichst vermieden werden sollte, da sie für Benutzer einen gewissen Lernaufwand mit sich bringt und eine große Anzahl nicht offizieller Vorlagen-Syntaktischer Zucker die Entwicklungserfahrung beeinträchtigt.</p>
         <h3>Erweiterte Attribute</h3>
-        <p>Sie können erweiterte Attribute verwenden, um sie in der Vorlage mit <code>:</code> festzulegen. Im Folgenden erweitern wir ein <code>red</code>-Attribut. Wenn <code>red</code> <code>true</code> ist, ändert sich die Schriftfarbe in Rot:</p>
+        <p>Sie können über Erweiterungsattribute im Template mit <code>:</code> Einstellungen vornehmen. Im Folgenden erweitern wir ein <code>red</code>-Attribut: Wenn <code>red</code> den Wert <code>true</code> hat, wird die Schriftfarbe rot.</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
     <span class="hljs-keyword">if</span>(bool){
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;rot&quot;</span>;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;red&quot;</span>;
     }<span class="hljs-keyword">else</span>{
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
     }
   }
-});</code></pre><o-playground name="extend - Erweiterte Eigenschaften" style="--editor-height: 400px">
+});</code></pre><o-playground name="extend - erweiterte Attribute" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-one.html"></l-m>
@@ -177,7 +177,7 @@
   </code>
           <code path="temp-one.html">
     <template component>
-      <button on:click="addCount">Zähler erhöhen</button>
+      <button on:click="addCount">Add Count</button>
       <div :red="count % 3">{{count}}</div>
       <script>
         export default {
@@ -195,11 +195,11 @@
     </template>
   </code>
         </o-playground>
-        <p>In diesem Beispiel fügen wir der Vorlagensyntax ein <code>red</code>-Attribut hinzu, das die Schriftfarbe auf Rot setzt, wenn <code>count % 3</code> nicht 0 ist.</p>
+        <p>In diesem Beispiel haben wir der Templatsyntax eine <code>red</code>-Eigenschaft hinzugefügt. Wenn <code>count % 3</code> nicht 0 ist, wird die Schriftfarbe rot.</p>
         <h3>Erweiterungsmethoden</h3>
-        <p>Du kannst auch über die <code>extend</code>-Erweiterungsmethode dafür sorgen, dass sie in der Vorlagen-Syntax verfügbar ist. Der Methodenname ist der Teil vor dem Doppelpunkt. Hier erweitern wir eine <code>color</code>-Vorlagen-Syntax; die folgenden Parameter werden an die definierte Erweiterungsmethode übergeben.</p>
-        <p>Hier wird das Attribut <code>always</code> auf <code>true</code> gesetzt, was bedeutet, dass die definierte Methode jedes Mal aufgerufen wird, wenn die Komponente die Benutzeroberfläche aktualisieren muss. Wenn <code>always</code> nicht gesetzt ist, wird diese Template-Syntax-Funktion nur einmal ausgeführt.</p>
-        <p>Hierbei bietet <code>options</code> weitere Parameter, die Ihnen helfen können, eine stärker anpassbare Template-Syntax zu entwickeln:</p>
+        <p>Du kannst sie auch durch die <code>extend</code>-Erweiterungsmethode in der Templatesyntax verfügbar machen. Der Methodenname ist der Teil vor dem Doppelpunkt. Hier haben wir eine <code>color</code>-Templatesyntax erweitert, und die nachfolgenden Parameter werden an die definierte Erweiterungsmethode übergeben.</p>
+        <p>Hier wurde das <code>always</code>-Attribut auf <code>true</code> gesetzt, was bedeutet, dass diese definierte Methode jedes Mal aufgerufen wird, wenn die Komponente die Oberfläche aktualisieren muss. Wenn <code>always</code> nicht gesetzt wird, wird diese Template-Syntax-Funktion nur einmal ausgeführt.</p>
+        <p>Dabei bietet <code>options</code> mehr Parameter, die Ihnen helfen, eine individuellere Vorlagensyntax zu entwickeln:</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
     <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
@@ -211,7 +211,7 @@
   }
 });
 
-$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - Erweiterungsmethode" style="--editor-height: 400px">
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - Erweiterungsmethoden" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-two.html"></l-m>
@@ -233,7 +233,7 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
   </code>
           <code path="temp-two.html">
     <template component>
-      <button on:click="addCount" color:blue="count % 3">Zähler erhöhen</button>
+      <button on:click="addCount" color:blue="count % 3">Add Count</button>
       <div color:red="!(count % 3)">{{count}}</div>
       <script>
         export default {
@@ -251,14 +251,14 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
     </template>
   </code>
         </o-playground>
-        <h2>Prinzip der Template-Syntax</h2>
-        <p>Bisher sollten Sie verstanden haben, dass viele der Template-Syntaxen auf ofa.js tatsächlich durch <code>extend</code> erweitert werden:</p>
+        <h2>Prinzip der Vorlagen-Syntax</h2>
+        <p>Bis jetzt solltest du bereits verstanden haben, dass viele der Template-Syntaxen auf ofa.js tatsächlich über <code>extend</code> erweitert werden:</p>
         <ul>
-          <li>Die Methoden <code>class</code> und <code>attr</code> werden bei jedem Aktualisieren der Ansicht ausgeführt</li>
+          <li>Die Methoden <code>class</code> und <code>attr</code> werden bei jedem Neuladen der Ansicht ausgeführt</li>
           <li>Funktionsbindungen wie <code>on</code> oder <code>one</code> werden nur einmal ausgeführt</li>
         </ul>
-        <p>Sie können sich das folgende Beispiel ansehen, um die Template-Render-Prinzipien von ofa.js besser zu verstehen:</p>
-        <o-playground name="extend - Template-Syntax-Prinzipien" style="--editor-height: 480px">
+        <p>Du kannst dir das folgende Beispiel ansehen, um das Prinzip des Template-Renderings von ofa.js besser zu verstehen:</p>
+        <o-playground name="extend - Vorlagen-Syntax-Prinzip" style="--editor-height: 480px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./temp-three.html"></l-m>

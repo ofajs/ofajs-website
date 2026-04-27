@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stilabfragen</title>
+  <title>Stil-Abfrage</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,15 +80,16 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Stilabfragen</h1>
+        <h1>Stil-Abfrage</h1>
+        <p><code>match-var</code> ist eine Funktionskomponente in ofa.js, die zur Stilzuordnung basierend auf CSS-Variablen dient. Mit <code>match-var</code> können Sie je nach aktuellen CSS-Variablenwerten der Komponente dynamisch verschiedene Stile zuordnen und anwenden. Diese Funktion ist speziell für die Übergabe von stilbezogenen Kontextzuständen gedacht, erfordert keine Verwendung von JavaScript, ist bequemer zu verwenden und eignet sich für die Übergabe von Stilen wie z. B. Themenfarben.</p>
         <h2>Kernkonzepte</h2>
         <ul>
-          <li><strong>match-var</strong>: Stil-Matching-Komponente, die entscheidet, ob interne Stile angewendet werden, basierend auf dem Wert der CSS-Variablen</li>
-          <li><strong>Attribut-Matching</strong>: Definiert über Komponentenattribute, welche CSS-Variablen und erwarteten Werte abgeglichen werden sollen</li>
-          <li><strong>Stilanwendung</strong>: Bei erfolgreichem Matching werden die Stile des internen <code>&lt;style&gt;</code>-Tags auf die Komponente angewendet</li>
+          <li><strong>match-var</strong>: Eine Komponente zur Stilübereinstimmung, die basierend auf dem Wert einer CSS-Variable entscheidet, ob der interne Stil angewendet wird.</li>
+          <li><strong>Attributübereinstimmung</strong>: Definiert die abzugleichende CSS-Variable und den erwarteten Wert über die Komponenteneigenschaften.</li>
+          <li><strong>Stilanwendung</strong>: Bei erfolgreicher Übereinstimmung wird der Stil des internen <code>&lt;style&gt;</code>-Tags auf die Komponente angewendet.</li>
         </ul>
         <h2>Grundlegende Verwendung</h2>
-        <p>Die <code>match-var</code>-Komponente definiert über Attribute die abzugleichenden CSS-Variablen und die erwarteten Werte. Sobald der CSS-Variablenwert der Komponente mit dem angegebenen Attributwert übereinstimmt, werden die innerhalb definierten Stile angewendet.</p>
+        <p><code>match-var</code> Komponente definiert über Attribute die zu übereinstimmenden CSS-Variablen und die erwarteten Werte. Wenn der CSS-Variablenwert der Komponente mit dem angegebenen Attributwert übereinstimmt, werden die intern definierten Stile angewendet.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -97,19 +98,13 @@
     }
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
-        <h3>Attribute</h3>
-        <p>Die <code>match-var</code>-Komponente verwendet beliebige Attribute, um die Übereinstimmungsregeln für CSS-Variablen zu definieren. Der Attributname entspricht dem CSS-Variablennamen (ohne das <code>--</code>-Präfix), und der Attributwert ist der erwartete Übereinstimmungswert.</p>
+        <h3>Eigenschaften</h3>
+        <p><code>match-var</code>-Komponente verwendet beliebige Attribute, um die Übereinstimmungsregeln für CSS-Variablen zu definieren. Der Attributname entspricht dem CSS-Variablennamen (ohne das <code>--</code>-Präfix), und der Attributwert ist der erwartete übereinstimmende Wert.</p>
         <h3>Funktionsweise</h3>
         <ol>
-          <li>
-            <p><strong>Browser-Unterstützung</strong>: Wenn der Browser <code>@container style()</code>-Abfragen unterstützt, werden die nativen CSS-Fähigkeiten direkt verwendet.</p>
-          </li>
-          <li>
-            <p><strong>Fallback-Behandlung</strong>: Wenn dies nicht unterstützt wird, werden Änderungen der CSS-Variablenwerte durch Abfrage erkannt, und nach erfolgreicher Übereinstimmung werden Stile dynamisch injiziert.</p>
-          </li>
-          <li>
-            <p><strong>Manuelle Aktualisierung</strong>: Die Stilerkennung kann manuell durch die Methode <code>$.checkMatch()</code> ausgelöst werden.</p>
-          </li>
+          <li><strong>Browser-Unterstützung</strong>: Unterstützt der Browser <code>@container style()</code>-Abfragen, werden die nativen CSS-Funktionen direkt verwendet</li>
+          <li><strong>Fallback</strong>: Falls nicht, wird durch Polling auf Änderungen des CSS-Variablenwerts geprüft; bei Übereinstimmung werden Stile dynamisch eingefügt</li>
+          <li><strong>Manuelles Neuladen</strong>: Über die Methode <code>$.checkMatch()</code> kann die Stilprüfung manuell ausgelöst werden</li>
         </ol>
         <h2>Grundlegendes Beispiel</h2>
         <o-playground name="Grundlegendes Beispiel" style="--editor-height: 500px">
@@ -134,14 +129,14 @@
       <button on:click="changeTheme">Thema wechseln</button> - Thema:{{currentTheme}}
       <div class="container">
         <theme-box>
-          Zeigt unterschiedliche Stile basierend auf CSS-Variablen an
+          Zeige unterschiedliche Stile basierend auf CSS-Variablen
         </theme-box>
       </div>
         <theme-box style="--theme: light;">
-          Zeigt helles Thema an
+          Helles Thema zeigen
         </theme-box>
         <theme-box style="--theme: dark;">
-          Zeigt dunkles Thema an
+          Dunkles Thema zeigen
         </theme-box>
       </div>
       <script>
@@ -202,8 +197,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Mehrfachbedingungs-Abgleich</h2>
-        <p>Mehrere Attribute können gleichzeitig verwendet werden, um komplexere Übereinstimmungsbedingungen zu definieren; Stile werden nur angewendet, wenn alle CSS-Variablen übereinstimmen.</p>
+        <h2>Mehrfachbedingungsabgleich</h2>
+        <p>Man kann mehrere Attribute gleichzeitig verwenden, um komplexere Übereinstimmungsbedingungen zu definieren. Der Stil wird nur angewendet, wenn alle CSS-Variablen übereinstimmen.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;large&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -212,8 +207,8 @@
     }
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
-        <h2>Beispiel für die Mehrfachbedingungsabgleichung</h2>
-        <o-playground name="Beispiel für Attribut-Übereinstimmung" style="--editor-height: 500px">
+        <h2>Mehrfachbedingungs-Matching-Beispiel</h2>
+        <o-playground name="Attribut-Matching Beispiel" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-page src="./page1.html"></o-page>
@@ -233,11 +228,11 @@
         }
       </style>
       <l-m src="./test-card.html"></l-m>
-      <div>Theme: {{theme}} <button on:click="changeTheme">Theme wechseln</button></div>
+      <div>Thema: {{theme}} <button on:click="changeTheme">Thema wechseln</button></div>
       <div>Größe: {{size}} <button on:click="changeSize">Größe wechseln</button></div>
       <div class="content">
         <test-card>
-          <div>Beispiel für Mehrfach-Stil-Übereinstimmung</div>
+          <div>Beispiel für mehrfaches Stil-Matching</div>
         </test-card>
       </div>
       <script>
@@ -313,21 +308,23 @@
     </template>
   </code>
         </o-playground>
-        <h2>checkMatch Manuelle Aktualisierung</h2>
-        <p>In manchen Fällen können Änderungen an CSS-Variablen möglicherweise nicht automatisch erkannt werden. In solchen Fällen kann die Methode <code>$.checkMatch()</code> manuell aufgerufen werden, um die Stilerkennung auszulösen.</p>
-        <p>Derzeit unterstützt Firefox die <code>@container style()</code>-Abfrage noch nicht, daher muss <code>$.checkMatch()</code> manuell aufgerufen werden; sobald die native Browser-Unterstützung in Zukunft verfügbar ist, wird das System automatisch Variablenänderungen erkennen und manuelle Aufrufe sind nicht mehr erforderlich.</p>
+        <h2>checkMatch manuell aktualisieren</h2>
+        <p>In bestimmten Fällen können Änderungen an CSS-Variablen möglicherweise nicht automatisch erkannt werden. In diesem Fall kann die Methode <code>$.checkMatch()</code> manuell aufgerufen werden, um die Stilprüfung auszulösen.</p>
+        <blockquote>
+          <p>Derzeit unterstützt Firefox die <code>@container style()</code>-Abfrage noch nicht, daher muss <code>$.checkMatch()</code> manuell aufgerufen werden. Sobald der Browser diese Funktion nativ unterstützt, erkennt das System Änderungen an Variablen automatisch, ohne dass ein manueller Aufruf erforderlich ist.</p>
+        </blockquote>
         <pre><code class="hljs language-javascript"><span class="hljs-attr">proto</span>: {
   <span class="hljs-title function_">updateTheme</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&#x27;dark&#x27;</span>;
-    <span class="hljs-comment">// Manuell die Stilerkennung auslösen</span>
+    <span class="hljs-comment">// Stilprüfung manuell auslösen</span>
     $.<span class="hljs-title function_">checkMatch</span>();
   }
 }</code></pre>
-        <h2>Best Practices</h2>
+        <h2>Beste Praktiken</h2>
         <ol>
-          <li><strong>Prioritize native CSS capabilities</strong>: <code>match-var</code> prioritizes using the browser&#39;s native <code>@container style()</code> queries, which offer better performance in modern browsers.</li>
-          <li><strong>Organize styles logically</strong>: Group related matching styles together for easier maintenance and understanding.</li>
-          <li><strong>Utilize data() binding</strong>: Combine with the <code>data()</code> directive to achieve responsive style switching.</li>
+          <li><strong>Bevorzugung nativer CSS-Funktionen</strong>: <code>match-var</code> verwendet bevorzugt die native <code>@container style()</code>-Abfrage des Browsers, die in modernen Browsern eine bessere Leistung bietet</li>
+          <li><strong>Sinnvolle Organisation der Styles</strong>: Platzieren Sie zusammengehörige Match-Styles gemeinsam, um die Wartung und das Verständnis zu erleichtern</li>
+          <li><strong>Verwendung der data()-Bindung</strong>: In Kombination mit der <code>data()</code>-Direktive können reaktive Stilwechsel realisiert werden</li>
         </ol>
       </article>
       <div class="footer"></div>

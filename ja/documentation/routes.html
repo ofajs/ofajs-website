@@ -81,14 +81,14 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>シングルページアプリケーション</h1>
-        <p>シングルページアプリケーションは、<code>o-app</code>コンポーネントをブラウザのアドレスバーにバインディングし、WebページのURLとアプリ内のページパスを同期させます。シングルページアプリケーションを有効にすると：</p>
+        <p>单页面应用是将 <code>o-app</code> 组件与浏览器地址栏绑定，使网页 URL 与应用内的页面路径保持同步。启用单页面应用后：</p>
         <ul>
-          <li>ウェブページを更新しても現在のルーティング状態が維持される</li>
-          <li>アドレスバーのURLをコピーして別のブラウザやタブで開いても、アプリケーションの状態を復元できる</li>
-          <li>ブラウザの進む/戻るボタンが正常に動作する</li>
+          <li>ページをリフレッシュすると、現在のルート状態を保持できます</li>
+          <li>アドレスバーのURLをコピーして、他のブラウザやタブで開いても、同様にアプリケーションの状態を復元できます</li>
+          <li>ブラウザの進む/戻るボタンは正常に使用できます</li>
         </ul>
         <h2>基本的な使い方</h2>
-        <p>公式の <code>o-router</code> コンポーネントで <code>o-app</code> コンポーネントを囲むだけで、シングルページアプリケーションが実現できます。</p>
+        <p>公式の <code>o-router</code> コンポーネントで <code>o-app</code> コンポーネントをラップすると、シングルページアプリケーションを実現できます。</p>
         <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
@@ -105,16 +105,16 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
         <h2>fix-body 属性</h2>
-        <p><code>fix-body</code> 属性を追加すると、<code>o-router</code> は自動的に <code>html</code> と <code>body</code> のスタイルをリセットし、デフォルトの margin と padding を削除します。</p>
+        <p><code>fix-body</code> 属性を追加すると、<code>o-router</code> は自動的に <code>html</code> および <code>body</code> のスタイルをリセットし、デフォルトの margin と padding を除去します。</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-router</span> <span class="hljs-attr">fix-body</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span></code></pre>
-        <p>これは以下のシナリオで特に便利です：- <code>o-app</code>がビューポートを完全に埋める必要がある</p>
+        <p>これは以下のようなシナリオで特に役立ちます：- <code>o-app</code> でビューポートを完全に埋める必要があります</p>
         <ul>
-          <li>アプリケーションがページの唯一のコンテンツである場合</li>
+          <li>アプリがページの唯一のコンテンツである場合</li>
         </ul>
         <h2>例</h2>
-        <o-playground name="シングルページアプリケーションの例" style="--editor-height: 500px">
+        <o-playground name="単一ページアプリケーションの例" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <l-m src="https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/router/dist/router.min.mjs"></l-m>
@@ -124,9 +124,9 @@
     </template>
   </code>
           <code path="app-config.js">
-    // アプリケーションのホームアドレス
+    // アプリケーションのホームページアドレス
     export const home = "./home.html";
-    // ページ切り替えアニメーションの設定
+    // ページ切り替えアニメーション設定
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -174,15 +174,15 @@
         }
       </style>
       <p>{{val}}</p>
-      <a href="./about.html" olink>Aboutへ移動</a>
+      <a href="./about.html" olink>Go to About</a>
       <br>
       <br>
-      <button on:click="gotoAbout">Aboutボタンへ移動</button>
+      <button on:click="gotoAbout">Go to About Button</button>
       <script>
         export default async () => {
           return {
             data: {
-              val: "こんにちは ofa.js アプリデモ",
+              val: "Hello ofa.js App Demo",
             },
             proto:{
                 gotoAbout(){
@@ -202,13 +202,13 @@
           padding: 10px;
         }
       </style>
-      <div style="padding: 8px;"> <button on:click="back()">戻る</button> </div>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
       <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
       <script>
         export default async () => {
           return {
             data: {
-              val: "こんにちは ofa.js アプリデモ",
+              val: "Hello ofa.js App Demo",
             },
           };
         };
@@ -216,15 +216,15 @@
     </template>
   </code>
         </o-playground>
-        <h2>動作原理</h2>
-        <p>シングルページアプリケーションはブラウザのハッシュモードに基づいて実装：</p>
+        <h2>仕組み</h2>
+        <p>シングルページアプリケーションはブラウザのHashモードに基づいて実装されます：</p>
         <ol>
           <li>アプリ内でページが切り替わると、<code>o-router</code> は自動的にアドレスバーのハッシュ値を更新します（例：<code>#/about.html</code>）</li>
-          <li>ユーザーがページを更新したり URL でアクセスしたりすると、<code>o-router</code> はハッシュ値を読み取り、対応するページを読み込みます</li>
-          <li>ブラウザの進む／戻るボタンはハッシュの変化をトリガーし、アプリのページナビゲーションを制御します</li>
+          <li>ユーザーがページを更新したり URL でアクセスしたりすると、<code>o-router</code> はハッシュ値を読み取り、対応するページをロードします</li>
+          <li>ブラウザの進む／戻るボタンがハッシュの変化をトリガーし、アプリのページナビゲーションを制御します</li>
         </ol>
-        <h2>URL 変化の例</h2>
-        <p>アプリケーションに <code>home.html</code> と <code>about.html</code> という2つのページがあると仮定します：</p>
+        <h2>URL変化の例</h2>
+        <p>アプリケーションに <code>home.html</code> と <code>about.html</code> の2つのページがあるとします：</p>
         <table>
           <thead>
             <tr>
@@ -238,21 +238,21 @@
               <td><code>index.html</code> → <code>index.html#/home.html</code></td>
             </tr>
             <tr>
-              <td>Aboutページに移動</td>
+              <td>概要ページへ移動</td>
               <td><code>index.html#/home.html</code> → <code>index.html#/about.html</code></td>
             </tr>
             <tr>
-              <td>戻るをクリック</td>
+              <td>戻るボタンをクリック</td>
               <td><code>index.html#/about.html</code> → <code>index.html#/home.html</code></td>
             </tr>
             <tr>
-              <td>ページを更新</td>
-              <td>現在のhashを維持</td>
+              <td>ページをリフレッシュ</td>
+              <td>現在のハッシュを維持</td>
             </tr>
           </tbody>
         </table>
         <ul>
-          <li>シングルページアプリケーションは、<strong>1つ</strong>の <code>o-app</code> コンポーネントとのみ連携して使用できます</li>
+          <li>シングルページアプリケーションは<strong>1つ</strong>の <code>o-app</code> コンポーネントとのみ連携できます</li>
         </ul>
       </article>
       <div class="footer"></div>

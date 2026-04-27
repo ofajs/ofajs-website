@@ -81,36 +81,38 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Introduction</h1>
-        <h2>What is ofa.js?</h2>
-        <p>ofa.js is an easy-to-use web front-end framework, specifically designed for building web applications, aiming to improve development efficiency and lower the development barrier.</p>
+        <h2>What is ofa.js？</h2>
+        <p>ofa.js is an easy-to-use Web frontend framework, designed specifically for building Web applications, aiming to improve development efficiency and lower the barrier to entry.</p>
         <blockquote>
-          <p>If you are already <strong>basically familiar</strong> with HTML, CSS, and JavaScript, then ofa.js is an excellent choice.</p>
+          <p>If you are <strong>already basically familiar</strong> with HTML, CSS, and JavaScript, then ofa.js is a very good choice.</p>
         </blockquote>
-        <h2>Why I Developed ofa.js</h2>
-        <p>The original intention of ofa.js is simple: to solve the <strong>engineering</strong> problems of Web development without relying on compilation tools.</p>
+        <h2>Why I developed ofa.js</h2>
+        <p>The original design intention of ofa.js is simple: to solve the <strong>engineering</strong> problems of Web development without relying on build tools.</p>
         <blockquote>
           <p>Engineering refers to the systematic integration of specifications, processes, tools, and methods in the software development process to improve development efficiency, code quality, and maintainability.</p>
         </blockquote>
-        <p>Over the past decade, front-end Web development has evolved from early-stage wild growth to gradual engineering. Drawing on the experience of traditional application development, this process has solved the engineering challenges of large-scale projects by introducing Node.js and build workflows.</p>
-        <p>However, as the project grew larger, the drawbacks of this model gradually became apparent, leading to the <strong>monolithic application</strong> problem faced in traditional development, making the project difficult to maintain and hindering the iteration of interactive requirements.</p>
+        <p>Over the past decade, front-end Web development has evolved from its early wild growth to a gradual engineering process. Drawing on the experience of traditional application development, this process has solved the engineering challenges of large-scale projects by introducing Node.js and a compilation workflow.</p>
+        <p>However, as the project grows, the drawbacks of this pattern gradually surface, and the <strong>monolithic application</strong> problem faced in traditional development emerges, making the project difficult to maintain and iterations of interaction requirements challenging.</p>
         <blockquote>
-          <p>A monolithic application refers to a large, tightly coupled single application where all functional modules are concentrated in a single codebase. Changing one part affects the whole, making independent development and deployment difficult.</p>
+          <p>Monolithic Application refers to a large and tightly coupled single application where all functional modules are centralized in a single codebase. A change in one part affects the whole, making it difficult to develop and deploy independently.</p>
         </blockquote>
-        <p>At this point, the project needs to be broken down and micro-frontend-ized, just like <strong>microservices</strong>. However, due to compilation processing, micro-frontends become difficult and cumbersome; independent deployment of frontend modules requires compiling each small module, which is extremely hard, causing the development of Web frontend technology to almost stall.</p>
-        <p>Microservices is a software architectural style that breaks down large, complex applications into multiple fine-grained, independently deployable, and runnable small services.</p>
-        <p>At this moment, I began to ponder: traditional programming languages need to adapt to different hardware and operating systems, so they must rely on compilation to achieve cross-platform uniformity. However, web development is different. It is based on browsers and inherently does not require compilation; it can run and deploy independently, naturally adopting a micro-frontend architecture. Then I realized that it is the compilation process that actually complicates things.</p>
-        <p>That is to say, as long as the engineering issues are resolved and the necessary compilation step is removed, front-end development becomes very suitable for building large-scale applications, which is inherently a micro-frontend pattern. Thus, ofa.js was born.</p>
-        <h2>Core Strengths</h2>
-        <h3>Zero Threshold, Ready to Use Out of the Box</h3>
-        <p>No need to set up a development environment, install dependencies, or configure scaffolding. Simply open the official build tool through your browser and select a local directory to start development. All computation, data, and storage operations are performed locally without relying on cloud services.</p>
-        <h3>AI-Friendly, Easy to Verify</h3>
-        <p>No compilation black box, AI-generated code can be quickly deployed and self-verified; reducing intermediate layers, bypassing the compilation process, making code easier to locate issues and fix.</p>
-        <h3>Native Micro-Frontend Support</h3>
-        <p>ofa.js allows Web front-end development to be split into multiple independent modules, just like microservices, each of which can be developed and deployed independently. Once the traditional boundaries of Web front-end are broken, front-end technology will gradually transcend the limitations of server-side technology.</p>
+        <p>At this point, it is necessary to break down the project and implement micro-frontends, much like <strong>microservices</strong>. However, due to compilation processes, micro-frontends become difficult and cumbersome. Independent deployment of frontend modules requires compiling each small module individually, which is very challenging, causing the development of web frontend technology to face near stagnation.</p>
+        <blockquote>
+          <p>Microservices is a software architecture style that decomposes large, complex applications into multiple fine-grained, independently deployed and operated small services.</p>
+        </blockquote>
+        <p>At this point, I began to think: traditional programming languages need to cope with different hardware and operating systems, so they must be compiled to achieve platform-independent uniformity. However, web development is different—it is based on browsers and inherently does not require compilation, can run and deploy independently, and is naturally a micro-frontend pattern. So I realized that it is the compilation process that actually complicates things.</p>
+        <p>That is to say, as long as the engineering problems are solved, and the necessary step of compilation is removed, front-end development becomes very suitable for developing large applications, and this is the natural micro-frontend pattern. Hence, ofa.js came into being.</p>
+        <h2>Core Advantages</h2>
+        <h3>Zero threshold, out-of-the-box</h3>
+        <p>No need to set up a development environment, install dependencies, or configure a scaffolding tool—open the official builder in your browser, select a local directory, and start developing right away. All computation, data handling, and storage run locally, with no reliance on cloud services.</p>
+        <h3>AI-friendly, easy to verify</h3>
+        <p>No compilation black box, AI-generated code can be quickly deployed and self-verified; reducing intermediate layers and skipping the compilation process makes it easier to locate and fix issues in the code.</p>
+        <h3>Micro Frontend Native Support</h3>
+        <p>ofa.js enables Web front-end development to be split into multiple independent modules, just like micro-services, each of which can be developed and deployed independently. Once the boundaries of traditional Web front-end are broken, front-end technologies will gradually transcend the limitations of server technologies.</p>
         <h2>Getting Started</h2>
         <ul>
-          <li>If you have some development background, you can start with <a href="./script-reference.html" olink="">Script Introduction</a>.</li>
-          <li>If you are a beginner, it is recommended to start with <a href="./create-first-app.html" olink="">Creating Your First Application</a>.</li>
+          <li>If you have some development experience, you can start from <a href="./script-reference.html" olink="">script introduction</a>.</li>
+          <li>If you are a beginner, we recommend starting from <a href="./create-first-app.html" olink="">Create your first app</a>.</li>
         </ul>
       </article>
       <div class="footer"></div>

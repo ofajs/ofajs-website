@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>one</h1>
-        <p>En utilisant la méthode <code>one</code>, vous pouvez enregistrer un gestionnaire d’événement unique pour l’élément cible, ce qui signifie que le gestionnaire sera automatiquement désactivé après la première déclenchement et ne se déclenchera plus.</p>
-        <p>Voici un exemple démontrant comment utiliser la méthode <code>one</code> pour enregistrer un gestionnaire d&#39;événement de clic sur un élément de bouton：</p>
+        <p>En utilisant la méthode <code>one</code>, vous pouvez enregistrer un gestionnaire d’événement unique pour l’élément cible, ce qui signifie que le gestionnaire sera automatiquement désactivé après la première occurrence et ne se déclenchera plus.</p>
+        <p>Voici un exemple montrant comment utiliser la méthode <code>one</code> pour enregistrer un gestionnaire d’événement de clic sur un élément bouton :</p>
         <o-playground name="one - click événement unique" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -99,10 +99,10 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous utilisons la méthode <code>one</code> pour attacher un gestionnaire d’événement de clic à l’élément bouton. Lorsque l’utilisateur clique sur le bouton, le gestionnaire d’événement se déclenche, mais ne se déclenchera plus par la suite, car il a été désactivé.</p>
-        <h2>Utilisation de la syntaxe de modèle</h2>
-        <p>Vous pouvez également utiliser la syntaxe des modèles pour lier des gestionnaires d’événements ponctuels à l’élément cible.</p>
-        <o-playground name="one - Syntaxe des modèles" style="--editor-height: 400px">
+        <p>Dans cet exemple, nous utilisons la méthode <code>one</code> pour ajouter un gestionnaire d&#39;événement de clic à un élément bouton. Lorsque l&#39;utilisateur clique sur le bouton, le gestionnaire d&#39;événement se déclenche, mais ne se déclenchera plus par la suite car il a été désassocié.</p>
+        <h2>Utilisation via la syntaxe de modèle</h2>
+        <p>Vous pouvez également utiliser la syntaxe de modèle pour lier un gestionnaire d’événements unique à l’élément cible.</p>
+        <o-playground name="one - syntaxe de template" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./one-demo.html"></l-m>
@@ -111,7 +111,7 @@
   </code>
           <code path="one-demo.html" active>
     <template component>
-      <button one:click="addCount">Ajouter le compteur</button>
+      <button one:click="addCount">Add Count</button>
       <div>{{count}}</div>
       <script>
         export default {
@@ -129,7 +129,7 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous avons lié une méthode appelée <code>addCount</code> à l&#39;élément bouton en utilisant <code>one:click</code>. Lorsque l&#39;utilisateur clique sur le bouton, cette méthode sera appelée, mais ne se déclenchera plus par la suite, car c&#39;est un gestionnaire d&#39;événements à usage unique.</p>
+        <p>Dans cet exemple, nous utilisons la liaison <code>one:click</code> sur l&#39;élément bouton pour lier une méthode nommée <code>addCount</code>. Lorsque l&#39;utilisateur clique sur le bouton, cette méthode sera appelée, mais elle ne se déclenchera plus par la suite, car il s&#39;agit d&#39;un gestionnaire d&#39;événements à usage unique.</p>
       </article>
       <div class="footer"></div>
       <script>

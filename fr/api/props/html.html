@@ -81,12 +81,12 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>html</h1>
-        <p>La méthode <code>html</code> sert à obtenir ou à définir le code HTML à l’intérieur de l’élément cible.</p>
+        <p><code>html</code> méthode utilisée pour obtenir ou définir le code HTML à l&#39;intérieur de l&#39;élément cible.</p>
         <o-playground name="html - utilisation directe" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
       <div id="target1">
-        <span style="color:green;">cible 1</span>
+        <span style="color:green;">target 1</span>
       </div>
       <div id="target2">texte d'origine</div>
       <br>
@@ -101,10 +101,10 @@
     </template>
   </code>
         </o-playground>
-        <h2>Remarques</h2>
-        <p><code>html</code> est une méthode relativement dangereuse ; si un <code>script</code> est inséré, le code JavaScript interne s’exécute automatiquement. Faites attention à prévenir les XSS lors de son utilisation.</p>
-        <h2>Utilisation de la syntaxe de modèle</h2>
-        <p>Vous pouvez également utiliser l’attribut <code>:html</code> pour définir la valeur HTML correspondante sur l’élément cible. Cela est particulièrement utile dans le rendu des composants.</p>
+        <h2>Points d&#39;attention</h2>
+        <p><code>html</code> est une méthode relativement dangereuse : même si un <code>script</code> y est injecté, le code JavaScript interne s’exécute automatiquement ; veillez à prévenir les XSS lors de son utilisation.</p>
+        <h2>Utilisation via la syntaxe de modèle</h2>
+        <p>Vous pouvez également utiliser l&#39;attribut <code>:html</code> pour définir la valeur HTML correspondante sur l&#39;élément cible. Cela est particulièrement utile dans le rendu des composants.</p>
         <o-playground name="html - syntaxe de modèle" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
@@ -119,18 +119,18 @@
   </code>
           <code path="html-demo.html" active>
     <template component>
-      <div>HTML rendu :
+      <div>Rendered html:
         <span :html="txt" style="color:red;"></span>
       </div>
       <script>
         export default {
           tag: "html-demo",
           data: {
-            txt: "Je suis txt"
+            txt: "I am txt"
           },
           ready(){
             setTimeout(()=>{
-              this.txt = "<b style='color:blue;'>changer txt</b>";
+              this.txt = "<b style='color:blue;'>change txt</b>";
             }, 500);
           }
         };

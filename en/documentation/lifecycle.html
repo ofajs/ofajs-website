@@ -81,43 +81,43 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Lifecycle</h1>
-        <p>ofa.js components come with full lifecycle hooks, letting you run specific logic at different stages. These hooks allow you to step in and act at key moments—creation, mounting, updating, and destruction.</p>
+        <p>ofa.js components have complete lifecycle hook functions, allowing you to execute specific logic at different stages of the component. These hook functions enable you to intervene and perform corresponding operations at critical moments such as component creation, mounting, updating, and destruction.</p>
         <h2>Lifecycle Hook Functions</h2>
-        <p>ofa.js provides the following main lifecycle hook functions, listed in the order most commonly used:</p>
+        <p>ofa.js provides the following main lifecycle hook functions, listed in order of common usage:</p>
         <h3>attached</h3>
-        <p>The <code>attached</code> hook is called when a component is inserted into the document, indicating that the component has been mounted to the page. This is the most commonly used lifecycle hook, typically used to perform initialization operations that can only be carried out after the component is actually displayed on the page, avoiding unnecessary calculations when the component is not visible. This hook is also ideal for element size measurements, animation initialization, and other operations that depend on the component being rendered to the page.</p>
+        <p><code>attached</code> hook is called when the component is inserted into the document, indicating that the component has been mounted to the page. This is the most commonly used lifecycle hook, typically used to perform initialization operations that need to happen after the component is actually displayed on the page, avoiding unnecessary computations when the component is invisible. This hook is also well-suited for operations that depend on the component being rendered to the page, such as element size measurement, animation startup, etc.</p>
         <ul>
-          <li><strong>Call timing</strong>: When the component is added to the DOM tree </li>
-          <li><strong>Main uses</strong>: Start timers, add event listeners, perform operations that require visibility</li>
+          <li><strong>Timing</strong>: When the component is added to the DOM tree</li>
+          <li><strong>Primary Uses</strong>: Start timers, add event listeners, perform operations that require visibility</li>
         </ul>
         <h3>detached</h3>
-        <p>The <code>detached</code> hook is called when the component is removed from the document, indicating that the component is about to be unmounted. This hook is suitable for cleaning up resources, such as clearing timers, removing event listeners, etc.</p>
+        <p><code>detached</code> hook is called when the component is removed from the document, indicating that the component is about to be unmounted. This hook is suitable for cleaning up resources, such as clearing timers, removing event listeners, etc.</p>
         <ul>
-          <li><strong>Timing</strong>: When the component is removed from the DOM tree </li>
-          <li><strong>Primary use</strong>: Clean up resources, cancel subscriptions, remove event listeners</li>
+          <li><strong>Call Timing</strong>: The component is removed from the DOM tree </li>
+          <li><strong>Main Purpose</strong>: Clean up resources, cancel subscriptions, remove event listeners</li>
         </ul>
         <h3>ready</h3>
-        <p>The <code>ready</code> hook is called when the component is ready, at which point the component&#39;s template has been rendered, DOM elements have been created, but may not yet have been inserted into the document. This hook is suitable for performing DOM operations or initializing third-party libraries.</p>
+        <p>The <code>ready</code> hook is called when the component is ready; at this point, the component’s template has been rendered and the DOM elements have been created, but they may not yet have been inserted into the document. This hook is suitable for DOM manipulation or initializing third-party libraries.</p>
         <ul>
-          <li><strong>Invocation timing</strong>: After the component template has rendered and the DOM is created</li>
-          <li><strong>Primary use</strong>: Perform initialization operations that depend on the DOM</li>
+          <li><strong>Timing</strong>: Component template rendering is complete, DOM has been created</li>
+          <li><strong>Main Purpose</strong>: Execute initialization operations that depend on the DOM</li>
         </ul>
         <h3>loaded</h3>
-        <p>The <code>loaded</code> hook is triggered after the component, all its child components, and asynchronous resources have finished loading. At this point, you can safely remove the loading state or perform follow-up operations that depend on the complete component tree. If there are no dependencies, it is called after the <code>ready</code> hook.</p>
+        <p>The <code>loaded</code> hook is triggered after the component and all its child components and asynchronous resources have finished loading. At this point, it’s safe to remove the loading state or perform subsequent operations that depend on the complete component tree. If there are no dependencies, it will be invoked after the <code>ready</code> hook.</p>
         <ul>
-          <li><strong>Invocation timing</strong>: When the component and all its child components have fully loaded </li>
+          <li><strong>Call timing</strong>: After the component and its child components have fully loaded</li>
           <li><strong>Primary use</strong>: Perform operations that depend on the complete component tree</li>
         </ul>
         <h2>Lifecycle Execution Order</h2>
-        <p>The component&#39;s lifecycle hooks execute in the following order:</p>
+        <p>The component lifecycle hooks are executed in the following order:</p>
         <ol start="2">
-          <li><code>ready</code> - The component is ready (DOM has been created)</li>
-          <li><code>attached</code> - The component is mounted to the DOM</li>
-          <li><code>loaded</code> - The component has fully loaded</li>
+          <li><code>ready</code> - Component is ready (DOM created)</li>
+          <li><code>attached</code> - Component attached to DOM</li>
+          <li><code>loaded</code> - Component fully loaded</li>
         </ol>
-        <p>When a component is removed from the DOM, the <code>detached</code> hook is called.</p>
+        <p>When the component is removed from the DOM, the <code>detached</code> hook is called.</p>
         <h2>Usage Example</h2>
-        <p>The example below shows how to use lifecycle hooks in a component:</p>
+        <p>The following example shows how to use lifecycle hook functions in a component:</p>
         <o-playground name="Lifecycle Example" style="--editor-height: 700px">
           <code>
     <template page>
@@ -137,10 +137,10 @@
       </style>
       <h3>Lifecycle Demo</h3>
       <div class="counter">Counter: {{count}}</div>
-      <button on:click="count += 10">Add 10</button>
+      <button on:click="count += 10">Increase 10</button>
       <button on:click="removeSelf">Remove Component</button>
       <div class="log">
-        <h4>Lifecycle Log:</h4>
+        <h4>Lifecycle Logs:</h4>
         <ul>
           <o-fill :value="logs">
             <li>{{$data}}</li>
@@ -156,7 +156,7 @@
             },
             proto: {
               removeSelf() {
-                this.remove(); // Remove self from DOM to trigger detached hook
+                this.remove(); // Remove itself from DOM to trigger detached hook
               },
               addLog(message) {
                 this.logs = [...this.logs, `${new Date().toLocaleTimeString()} - ${message}`];
@@ -164,20 +164,20 @@
             },
             ready() {
               this.addLog("ready: Component is ready, DOM created");
-              console.log("Component ready");
+              console.log("Component is ready");
             },
             attached() {
-              this.addLog("attached: Component mounted to DOM");
+              this.addLog("attached: Component attached to DOM");
               this._timer = setInterval(() => {
                 this.count++;
               }, 1000);
-              console.log("Component mounted");
+              console.log("Component attached");
             },
             detached() {
               this.addLog("detached: Component removed from DOM");
               // Clear timer to prevent memory leak
               clearInterval(this._timer); 
-              console.log("Component unmounted");
+              console.log("Component detached");
             },
             loaded() {
               this.addLog("loaded: Component fully loaded");
@@ -189,10 +189,10 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example, you can observe the execution order and timing of different lifecycle hooks. When you click the &quot;Remove Component&quot; button, you will see the <code>detached</code> hook being triggered.</p>
-        <h2>Real-World Application Scenarios</h2>
+        <p>In this example, you can observe the execution order and timing of different lifecycle hooks. When you click the &quot;Remove Component&quot; button, you can see the <code>detached</code> hook being triggered.</p>
+        <h2>Actual Application Scenarios</h2>
         <h3>Initialization Operation</h3>
-        <p>Initialize data in the <code>ready</code> hook:</p>
+        <p>Perform data initialization in the <code>ready</code> hook:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
   <span class="hljs-keyword">return</span> {
     <span class="hljs-attr">data</span>: {
@@ -214,7 +214,7 @@
     <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
       <span class="hljs-comment">// Start the timer</span>
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Scheduled task executed&#x27;</span>);
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Timer task executed&#x27;</span>);
       }, <span class="hljs-number">1000</span>);
     },
     <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
@@ -226,7 +226,7 @@
     }
   };
 };</code></pre>
-        <p>Lifecycle hook functions are an important concept in ofa.js component development. Properly using them can help you better manage component state and resources and improve application performance.</p>
+        <p>Lifecycle hook functions are a key concept in ofa.js component development. Using them correctly helps you manage component state and resources more effectively, improving application performance.</p>
       </article>
       <div class="footer"></div>
       <script>

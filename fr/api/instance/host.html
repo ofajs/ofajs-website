@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>host</h1>
-        <p>L&#39;attribut <code>host</code> permet d&#39;obtenir l&#39;instance du composant hôte de l&#39;élément. Cela est très utile pour accéder aux données et méthodes de son composant hôte à l&#39;intérieur d&#39;un composant.</p>
-        <p>Voici un exemple montrant comment utiliser la propriété <code>host</code> pour obtenir l’instance du composant hôte :</p>
-        <o-playground name="host - Obtenir l'hôte" style="--editor-height: 700px">
+        <p>Utilisez la propriété <code>host</code> pour obtenir l&#39;instance du composant hôte d&#39;un élément. Ceci est très utile pour accéder aux données et aux méthodes de son composant hôte à l&#39;intérieur du composant.</p>
+        <p>Voici un exemple montrant comment utiliser la propriété <code>host</code> pour obtenir une instance du composant hôte :</p>
+        <o-playground name="host - obtenir l'hôte" style="--editor-height: 700px">
           <code path="demo.html" preview>
     <template>
       <o-page src="./page1.html"></o-page>
@@ -97,11 +97,11 @@
         export default async function(){
           return {
             data: {
-              greeting: "Bonjour"
+              greeting: "Hello"
             },
             proto: {
               sayHi(){
-                return `${this.greeting}, je suis l'hôte !`;
+                return `${this.greeting}, I'm the host!`;
               }
             }
           };
@@ -114,9 +114,9 @@
       <style>
         :host{display:block;border:1px solid #ddd;padding:12px;margin:8px;border-radius:4px;}
       </style>
-      <div>Nom d'utilisateur : {{username}}</div>
-      <button on:click="onClick">Dire Bonjour</button>
-      <div>Réponse : {{response}}</div>
+      <div>Username: {{username}}</div>
+      <button on:click="onClick">Say Hi</button>
+      <div>Response: {{response}}</div>
       <script>
         export default {
           tag: "user-card",
@@ -132,21 +132,21 @@
             }
           },
           ready(){
-            console.log("Méthode de l'hôte :", this.host.sayHi());
+            console.log("Host method:", this.host.sayHi());
           },
         };
       </script>
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous créons un composant personnalisé <code>user-card</code> et, à l’intérieur du composant, accédons à la méthode <code>sayHi</code> du composant hôte (page) via <code>this.host</code>, réalisant ainsi l’interaction entre le composant et son hôte.</p>
-        <p>Si l&#39;élément n&#39;est pas dans un composant ou un module de page, la valeur de <code>host</code> sera <code>null</code>. Par exemple :</p>
-        <o-playground name="host - pas de host" style="--editor-height: 300px">
+        <p>Dans cet exemple, nous avons créé un composant personnalisé <code>user-card</code>, et à l’intérieur du composant nous accédons à la méthode <code>sayHi</code> du composant hôte (page) via <code>this.host</code>, réalisant ainsi l’interaction entre le composant et son hôte.</p>
+        <p>Si l&#39;élément ne se trouve pas dans un composant ou un module de page, la valeur de <code>host</code> sera <code>null</code>. Par exemple :</p>
+        <o-playground name="host - sans hôte" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
         <li id="target">
-          Je suis la cible
+          I am target
         </li>
       </ul>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
@@ -158,7 +158,7 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, l&#39;élément <code>#target</code> se trouve sous body, n&#39;est dans aucun composant ou page, donc la valeur de <code>$(&quot;#target&quot;).host</code> est <code>null</code>.</p>
+        <p>Dans cet exemple, l&#39;élément <code>#target</code> se trouve sous le body, pas dans un composant ou une page, donc la valeur de <code>$(&quot;#target&quot;).host</code> est <code>null</code>.</p>
       </article>
       <div class="footer"></div>
       <script>

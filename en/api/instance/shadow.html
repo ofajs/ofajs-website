@@ -82,7 +82,7 @@
       <article class="markdown-body">
         <h1>shadow</h1>
         <p>Using the <code>shadow</code> property, you can obtain the shadow root instance of an element.</p>
-        <o-playground name="shadow - Shadow Node" style="--editor-height: 400px">
+        <o-playground name="shadow - shadow node" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./test-shadow.html"></l-m>
@@ -109,9 +109,9 @@
     </template>
   </code>
         </o-playground>
-        <p>Note that you should avoid directly modifying elements inside the shadow DOM of elements with template syntax to ensure consistency and maintainability.</p>
-        <h2>Obtaining an element instance inside a component&#39;s shadow DOM from outside</h2>
-        <p>You can also obtain a custom element instance from outside and then access elements inside the shadow DOM via the <code>shadow</code> property, as shown below:</p>
+        <p>It is important to note that direct modification of elements within shadow nodes should be avoided in elements with template syntax to ensure consistency and maintainability of operations.</p>
+        <h2>Getting Element Instances Inside the Shadow Root of a Component from the Outside</h2>
+        <p>You can also obtain a custom element instance from the outside, and then access elements within the shadow node through the <code>shadow</code> property, as shown below:</p>
         <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="shadow - external access" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>

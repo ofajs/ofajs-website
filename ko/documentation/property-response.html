@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>속성 반응</title>
+  <title>속성 응답</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,9 +80,9 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>속성 반응</h1>
-        <p>앞서의 <a href="./property-binding.html" olink="">속성 바인딩</a>에서는 간단한 속성 반응 메커니즘, 즉 컴포넌트의 속성 값을 텍스트로 렌더링하는 방법을 소개했습니다.</p>
-        <p>ofa.js는 기본 속성 값에 대한 반응을 지원할 뿐만 아니라 다중 중첩 객체 내부 속성 값에 대한 반응형 렌더링도 지원합니다.</p>
+        <h1>속성 응답</h1>
+        <p>앞서 <a href="./property-binding.html" olink="">속성 바인딩</a>에서는 간단한 속성 반응 메커니즘, 즉 컴포넌트의 속성 값을 텍스트로 렌더링하는 방법을 소개했습니다.</p>
+        <p>ofa.js는 기본 속성 값에 대한 반응형 지원뿐만 아니라 다층 중첩 객체 내부 속성 값에 대한 반응형 렌더링도 지원합니다.</p>
         <o-playground name="비반응형 데이터 예제" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -117,11 +117,11 @@
     </template>
   </code>
         </o-playground>
-        <p>ofa.js 인스턴스 객체에 바인딩된 모든 데이터는 자동으로 반응형 데이터로 변환됩니다. 반응형 데이터는 문자열, 숫자, 불리언, 배열, 객체 등 기본 데이터 타입만 지원합니다. 함수, 클래스 인스턴스 등 복잡한 데이터 타입은 <strong>비반응형 속성</strong>으로 저장해야 하며, 이러한 속성의 변경은 컴포넌트의 재렌더링을 유발하지 않습니다.</p>
+        <p>ofa.js 인스턴스 객체에 바인딩된 모든 데이터는 자동으로 반응형 데이터로 변환됩니다. 반응형 데이터는 문자열, 숫자, 불리언, 배열, 객체 등 기본 데이터 유형만 지원합니다. 함수, 클래스 인스턴스와 같은 복잡한 데이터 유형은 <strong>비반응형 속성</strong>으로 저장해야 하며, 이러한 속성의 변경은 컴포넌트의 재렌더링을 트리거하지 않습니다.</p>
         <h2>비반응형 데이터</h2>
-        <p>때때로 Promise 인스턴스, 정규 표현식 객체 또는 기타 복잡한 객체와 같이 반응형 업데이트가 필요 없는 데이터를 저장해야 하는 경우가 있습니다. 이때는 비반응형 속성을 사용해야 합니다. 이러한 속성의 변경은 컴포넌트의 재렌더링을 트리거하지 않으므로 뷰 연동이 필요 없는 데이터 저장에 적합합니다.</p>
-        <p>비반응형 속성의 명명은 일반적으로 속성 이름 앞에 밑줄 <code>_</code>를 접두사로 붙여 반응형 속성과 구분합니다.</p>
-        <o-playground name="비반응형 데이터 예제" style="--editor-height: 500px">
+        <p>때로는 반응형 업데이트가 필요 없는 데이터를 저장해야 할 때가 있습니다. 예를 들어 Promise 인스턴스, 정규 표현식 객체 또는 기타 복잡한 객체 등입니다. 이때는 비반응형 속성을 사용해야 합니다. 이러한 속성의 변경은 컴포넌트의 재렌더링을 트리거하지 않으며, 뷰와 연동할 필요 없는 데이터를 저장하는 데 적합합니다.</p>
+        <p>비반응형 속성의 명명은 일반적으로 속성 이름 앞에 밑줄 <code>_</code>을 접두사로 추가하여 반응형 속성과 구분합니다.</p>
+        <o-playground name="비반응형 데이터 예시" style="--editor-height: 500px">
           <code>
     <template page="">
       <style>
@@ -133,8 +133,8 @@
       </style>
       <p style="color: blue;">count: {{count}}</p>
       <p style="color: green;">count2: {{_count2}}</p>
-      <button on:click="count++">Blue increases</button>
-      <button on:click="_count2++">Green increments</button>
+      <button on:click="count++">파란색 증가</button>
+      <button on:click="_count2++">초록색 증가</button>
       <script>
         export default async () => {
           return {
@@ -148,8 +148,8 @@
     </template>
   </code>
         </o-playground>
-        <p><code>Green increments</code> 버튼을 클릭할 때는 <code>_count2</code>의 값이 실제로는 증가했지만, 이는 비반응형 속성이므로 뷰 갱신을 트리거하지 않아 화면에 표시된 값은 변하지 않는다. <code>Blue increases</code> 버튼을 클릭하면 <code>count</code>가 반응형 속성이므로 전체 컴포넌트의 재렌더링을 트리거하고, 이때 Green의 표시 내용도 함께 갱신된다.</p>
-        <p>비반응형 객체 데이터는 반응형 객체 데이터보다 성능이 더 좋습니다, 비반응형 데이터는 컴포넌트의 재렌더링을 트리거하지 않기 때문입니다.</p>
+        <p><code>Green increments</code> 버튼을 클릭할 때, <code>_count2</code>의 값은 실제로 증가했지만, 이는 반응형 속성이 아니므로 뷰 업데이트를 트리거하지 않습니다. 따라서 화면의 표시는 변경되지 않습니다. <code>Blue increases</code> 버튼을 클릭할 때, <code>count</code>는 반응형 속성이므로 전체 컴포넌트의 재렌더링을 트리거하며, 이때 Green의 표시 내용도 동기적으로 업데이트됩니다.</p>
+        <p>비반응형 객체 데이터는 반응형 객체 데이터보다 성능이 더 좋습니다. 비반응형 데이터는 컴포넌트의 재렌더링을 유발하지 않기 때문입니다.</p>
       </article>
       <div class="footer"></div>
       <script>

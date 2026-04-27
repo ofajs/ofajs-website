@@ -81,12 +81,12 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>one</h1>
-        <p>Con el método <code>one</code>, puedes registrar manejadores de eventos de una sola vez para elementos objetivo, lo que significa que el manejador de eventos se desvinculará automáticamente después de activarse por primera vez y no se volverá a activar.</p>
-        <p>Aquí hay un ejemplo que demuestra cómo usar el método <code>one</code> para registrar un controlador de eventos de clic en un elemento de botón:</p>
-        <o-playground name="one - click Evento único" style="--editor-height: 300px">
+        <p>Usando el método <code>one</code>, puedes registrar un controlador de eventos de una sola vez para el elemento objetivo, lo que significa que el controlador de eventos se desvinculará automáticamente después de la primera activación y no se volverá a activar.</p>
+        <p>A continuación se muestra un ejemplo que demuestra cómo usar el método <code>one</code> para registrar un controlador de eventos de clic en un elemento de botón:</p>
+        <o-playground name="one - click evento de una sola vez" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <button id="target">añadir contador</button>
+      <button id="target">add count</button>
       <br>
       <br>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
@@ -99,10 +99,10 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, utilizamos el método <code>one</code> para añadir un manejador de eventos de clic al elemento botón. Cuando el usuario hace clic en el botón, el manejador de eventos se activa, pero no volverá a activarse después, ya que se ha desvinculado.</p>
-        <h2>Uso mediante sintaxis de plantilla</h2>
-        <p>También puedes usar la sintaxis de plantilla para vincular manejadores de eventos de un solo uso a elementos objetivo.</p>
-        <o-playground name="one - Sintaxis de plantillas" style="--editor-height: 400px">
+        <p>En este ejemplo, usamos el método <code>one</code> para agregar un controlador de eventos de clic al elemento botón. Cuando el usuario hace clic en el botón, el controlador de eventos se activa, pero no se activará de nuevo después, ya que ha sido desvinculado.</p>
+        <h2>Uso de la sintaxis de plantillas</h2>
+        <p>También puedes usar la sintaxis de plantilla para enlazar un controlador de eventos de una sola vez al elemento objetivo.</p>
+        <o-playground name="one - sintaxis de plantillas" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./one-demo.html"></l-m>
@@ -129,7 +129,7 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, utilizamos la vinculación <code>one:click</code> en el elemento de botón para un método llamado <code>addCount</code>. Cuando el usuario hace clic en el botón, este método se llamará, pero no se activará nuevamente después, ya que es un controlador de eventos de un solo uso.</p>
+        <p>En este ejemplo, utilizamos <code>one:click</code> en el elemento del botón para enlazar un método llamado <code>addCount</code>. Cuando el usuario hace clic en el botón, este método se invocará, pero no se volverá a activar después, ya que es un controlador de eventos de una sola vez.</p>
       </article>
       <div class="footer"></div>
       <script>

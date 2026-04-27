@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Créer un composant</h1>
-        <p>Dans ofa.js, les composants sont le mécanisme central pour la réutilisation de pages et la modularisation. Un composant est essentiellement un Web Component personnalisé ; en définissant un modèle, des styles et une logique, on peut créer des éléments d’interface réutilisables.</p>
-        <h2>Structure de base d&#39;un composant</h2>
-        <p>Contrairement aux modules de page, les modules de composants utilisent l’attribut <code>component</code> pour l’élément <code>&lt;template&gt;</code> et déclarent l’attribut <code>tag</code> pour spécifier le nom de la balise du composant.</p>
-        <p>À l&#39;endroit où le composant doit être utilisé, chargez de manière asynchrone le module du composant via la balise <code>l-m</code> ; le système procèdera automatiquement à l&#39;enregistrement. Vous pourrez ensuite utiliser le composant directement comme une balise HTML ordinaire.</p>
-        <o-playground name="Exemple de base du composant" style="--editor-height: 500px">
+        <p>Dans ofa.js, les composants sont le mécanisme central pour réaliser la réutilisation des pages et la modularisation. Un composant est essentiellement un Web Component personnalisé, qui permet de créer des éléments d&#39;interface utilisateur réutilisables en définissant des templates, des styles et de la logique.</p>
+        <h2>Structure de base du composant</h2>
+        <p>Contrairement aux modules de page, le module de composant utilise l’attribut <code>component</code> sur l’élément <code>&lt;template&gt;</code> et déclare l’attribut <code>tag</code> pour spécifier le nom de la balise du composant.</p>
+        <p>À l&#39;emplacement où vous devez utiliser le composant, chargez de manière asynchrone le module du composant via la balise <code>l-m</code> ; le système effectuera automatiquement l&#39;enregistrement. Ensuite, vous pouvez utiliser directement ce composant comme une balise HTML normale.</p>
+        <o-playground name="Exemple de composant de base" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./demo-comp.html"></l-m>
@@ -115,17 +115,17 @@
     </template>
   </code>
         </o-playground>
-        <h2>Concepts fondamentaux des composants</h2>
-        <h3>tag - nom de la balise du composant</h3>
-        <p><code>tag</code> est le nom de balise du composant, <strong>il doit correspondre exactement au nom de balise utilisé pour le composant</strong>. Par exemple, si le <code>tag</code> de votre composant est défini comme <code>&quot;demo-comp&quot;</code>, alors lors de son utilisation en HTML, vous devez écrire <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>.</p>
-        <h3>Référence du module de composant</h3>
-        <p>En utilisant la balise <code>l-m</code> pour importer un module de composant, le module de composant enregistre automatiquement le composant. Cela est similaire à l&#39;utilisation de la balise <code>script</code> pour importer un script, mais <code>l-m</code> est spécifiquement conçu pour le chargement et l&#39;enregistrement des modules de composants.</p>
+        <h2>Concepts clés des composants</h2>
+        <h3>tag - nom de l&#39;étiquette du composant</h3>
+        <p><code>tag</code> est le nom de la balise du composant, <strong>doit être identique au nom de la balise utilisée pour le composant</strong>. Par exemple, si votre composant <code>tag</code> est défini comme <code>&quot;demo-comp&quot;</code>, alors lors de l&#39;utilisation en HTML, vous devez écrire <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>.</p>
+        <h3>Référence du module composant</h3>
+        <p>En introduisant le module de composants via la balise <code>l-m</code>, le module de composants enregistre automatiquement les composants. Cela ressemble à l&#39;utilisation de la balise <code>script</code> pour introduire un script, mais <code>l-m</code> est spécifiquement destiné au chargement et à l&#39;enregistrement des modules de composants.</p>
         <blockquote>
-          <p>Remarque : le tag de référence <code>l-m</code> est une <strong>référence asynchrone</strong>, adaptée au chargement à la demande des composants lors du chargement de la page.</p>
+          <p>Attention : la balise de référence <code>l-m</code> est une <strong>référence asynchrone</strong>, adaptée au chargement à la demande des composants lors du chargement de la page.</p>
         </blockquote>
         <h2>Composant de référence synchrone</h2>
-        <p>Dans certains scénarios, vous pourriez avoir besoin de charger les composants de manière synchrone (par exemple, pour vous assurer qu&#39;un composant est enregistré avant de l&#39;utiliser). Dans ce cas, vous pouvez utiliser la méthode <code>load</code> avec le mot-clé <code>await</code> pour réaliser un référencement synchrone.</p>
-        <p>Dans les modules de composants et les modules de page, la fonction <code>load</code> est automatiquement injectée, permettant aux développeurs de charger de manière synchrone les ressources nécessaires.</p>
+        <p>Dans certains scénarios, vous pouvez avoir besoin de charger un composant de manière synchrone (par exemple, pour vous assurer que le composant est bien enregistré avant utilisation). Vous pouvez alors utiliser la méthode <code>load</code> avec le mot-clé <code>await</code> pour réaliser une référence synchrone.</p>
+        <p>Dans les modules de composants et les modules de pages, la fonction <code>load</code> est automatiquement injectée pour permettre aux développeurs de charger de manière synchrone les ressources nécessaires.</p>
         <o-playground name="Exemple de composant de référence synchrone" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
@@ -179,23 +179,23 @@
     </template>
   </code>
         </o-playground>
-        <h2>Référence asynchrone vs Référence synchrone</h2>
+        <h2>référence asynchrone vs référence synchrone</h2>
         <table>
           <thead>
             <tr>
-              <th>Mode de citation</th>
+              <th>Mode de référence</th>
               <th>Mot-clé</th>
-              <th>Caractéristiques</th>
+              <th>Caractéristique</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Chargement asynchrone</td>
-              <td>Tag <code>l-m</code></td>
-              <td>Chargement non bloquant, adapté au chargement à la demande des composants</td>
+              <td>Référence asynchrone</td>
+              <td>Balise <code>l-m</code></td>
+              <td>Chargement non bloquant, adapté pour le chargement à la demande des composants</td>
             </tr>
             <tr>
-              <td>Chargement synchrone</td>
+              <td>Référence synchrone</td>
               <td>Méthode <code>load</code> avec le mot-clé <code>await</code></td>
               <td>Chargement bloquant, garantit que le composant est enregistré avant utilisation</td>
             </tr>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Einzelseitenanwendung</title>
+  <title>Single-Page-Anwendung</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,21 +80,21 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Einzelseitenanwendung</h1>
-        <p>Single-Page-Anwendungen binden die <code>o-app</code>-Komponente an die Browser-Adressleiste, um die Webseiten-URL mit dem Seitenpfad innerhalb der Anwendung synchron zu halten. Nach Aktivierung der Single-Page-Anwendung:</p>
+        <h1>Single-Page-Anwendung</h1>
+        <p>Eine Single-Page-Anwendung bindet die <code>o-app</code>-Komponente an die Adressleiste des Browsers, sodass die URL der Webseite mit den Seitenpfaden innerhalb der Anwendung synchron bleibt. Nach dem Aktivieren der Single-Page-Anwendung:</p>
         <ul>
-          <li>Das Neuladen der Seite behält den aktuellen Routing-Zustand bei</li>
-          <li>Wenn Sie die URL aus der Adressleiste kopieren und in einem anderen Browser oder Tab öffnen, wird der Anwendungszustand ebenfalls wiederhergestellt</li>
-          <li>Die Vor-/Zurück-Schaltflächen des Browsers funktionieren einwandfrei</li>
+          <li>Das Aktualisieren der Webseite kann den aktuellen Routenstatus beibehalten.</li>
+          <li>Durch Kopieren der URL in der Adressleiste und Öffnen in einem anderen Browser oder Tab kann der Anwendungsstatus ebenfalls wiederhergestellt werden.</li>
+          <li>Die Vorwärts-/Rückwärts-Schaltflächen des Browsers funktionieren normal.</li>
         </ul>
         <h2>Grundlegende Verwendung</h2>
-        <p>Verwenden Sie die offizielle <code>o-router</code>-Komponente, um die <code>o-app</code>-Komponente zu umschließen, um eine Single-Page-Anwendung zu implementieren.</p>
+        <p>Verwenden Sie die offizielle <code>o-router</code>-Komponente, um die <code>o-app</code>-Komponente zu umschließen, und schon erhalten Sie eine Single-Page-Anwendung.</p>
         <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;de&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Router-Test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>router test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
@@ -104,17 +104,17 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-        <h2>fix-body-Attribut</h2>
-        <p>Nach dem Hinzufügen des <code>fix-body</code>-Attributs setzt <code>o-router</code> automatisch die Stile von <code>html</code> und <code>body</code> zurück und entfernt die Standard-margin und -padding.</p>
+        <h2>fix-body Eigenschaft</h2>
+        <p>Fügen Sie das Attribut <code>fix-body</code> hinzu, dann wird <code>o-router</code> automatisch die Stile von <code>html</code> und <code>body</code> zurücksetzen und die standardmäßigen Ränder und Abstände entfernen.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-router</span> <span class="hljs-attr">fix-body</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span></code></pre>
-        <p>Dies ist besonders nützlich in den folgenden Szenarien:- <code>o-app</code> muss den Viewport vollständig ausfüllen</p>
+        <p>Dies ist besonders nützlich in den folgenden Szenarien:- Erfordert, dass <code>o-app</code> den Viewport vollständig ausfüllt</p>
         <ul>
           <li>Wenn die Anwendung der einzige Inhalt der Seite ist</li>
         </ul>
         <h2>Beispiel</h2>
-        <o-playground name="Single Page Application Beispiel" style="--editor-height: 500px">
+        <o-playground name="Einseitige Anwendungsdemo" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <l-m src="https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/router/dist/router.min.mjs"></l-m>
@@ -124,9 +124,9 @@
     </template>
   </code>
           <code path="app-config.js">
-    // Startseiten-URL der Anwendung
+    // Startseite der Anwendung
     export const home = "./home.html";
-    // Konfiguration für Seitenwechselanimationen
+    // Konfiguration der Seitenwechselanimation
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -174,10 +174,10 @@
         }
       </style>
       <p>{{val}}</p>
-      <a href="./about.html" olink>Zu About gehen</a>
+      <a href="./about.html" olink>Go to About</a>
       <br>
       <br>
-      <button on:click="gotoAbout">Zu About gehen (Button)</button>
+      <button on:click="gotoAbout">Go to About Button</button>
       <script>
         export default async () => {
           return {
@@ -202,8 +202,8 @@
           padding: 10px;
         }
       </style>
-      <div style="padding: 8px;"> <button on:click="back()">Zurück</button> </div>
-      <p> Über <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
       <script>
         export default async () => {
           return {
@@ -217,18 +217,18 @@
   </code>
         </o-playground>
         <h2>Funktionsweise</h2>
-        <p>Single-Page-Anwendung basierend auf dem Browser-Hash-Modus implementieren:</p>
+        <p>Implementierung des browserbasierten Hash-Modus für Single-Page-Anwendungen:</p>
         <ol>
-          <li>Wenn innerhalb der Anwendung zwischen Seiten gewechselt wird, aktualisiert <code>o-router</code> automatisch den Hash-Wert in der Adressleiste (z. B. <code>#/about.html</code>)</li>
-          <li>Wenn der Nutzer die Seite neu lädt oder über die URL darauf zugreift, liest <code>o-router</code> den Hash-Wert und lädt die entsprechende Seite</li>
-          <li>Die Vorwärts-/Zurück-Buttons des Browsers lösen eine Hash-Änderung aus und steuern so die Seitennavigation innerhalb der Anwendung</li>
+          <li>Wenn innerhalb der Anwendung ein Seitenwechsel stattfindet, aktualisiert <code>o-router</code> automatisch den Hash-Wert in der Adressleiste (z. B. <code>#/about.html</code>).</li>
+          <li>Wenn der Benutzer die Seite aktualisiert oder über eine URL darauf zugreift, liest <code>o-router</code> den Hash-Wert und lädt die entsprechende Seite.</li>
+          <li>Die Vorwärts-/Rückwärts-Schaltflächen des Browsers lösen eine Änderung des Hash-Werts aus und steuern so die Seitennavigation der Anwendung.</li>
         </ol>
         <h2>URL-Änderungsbeispiele</h2>
-        <p>Angenommen, die Anwendung verfügt über zwei Seiten <code>home.html</code> und <code>about.html</code>:</p>
+        <p>Angenommen, die Anwendung hat zwei Seiten: <code>home.html</code> und <code>about.html</code>:</p>
         <table>
           <thead>
             <tr>
-              <th>Benutzeroperation</th>
+              <th>Benutzeraktion</th>
               <th>Adressleistenänderung</th>
             </tr>
           </thead>
@@ -238,7 +238,7 @@
               <td><code>index.html</code> → <code>index.html#/home.html</code></td>
             </tr>
             <tr>
-              <td>Zur Infoseite navigieren</td>
+              <td>Zur Über-Seite navigieren</td>
               <td><code>index.html#/home.html</code> → <code>index.html#/about.html</code></td>
             </tr>
             <tr>
@@ -247,7 +247,7 @@
             </tr>
             <tr>
               <td>Seite aktualisieren</td>
-              <td>Der aktuelle Hash bleibt unverändert</td>
+              <td>Aktuellen Hash beibehalten</td>
             </tr>
           </tbody>
         </table>

@@ -81,20 +81,20 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>List Rendering</h1>
-        <p>In ofa.js, the <code>o-fill</code> component offers powerful list-rendering capabilities, efficiently turning array data into multiple similar elements. It supports two main usage modes: direct rendering and template rendering.</p>
-        <h2>o-fill Component Introduction</h2>
-        <p><code>o-fill</code> is the core component in ofa.js for list rendering; it accepts an array-typed <code>value</code> property and generates a corresponding DOM element for each item. During rendering, ofa.js automatically tracks array changes and updates the DOM efficiently.</p>
-        <h3>Key Features:</h3>
+        <p>In ofa.js, the <code>o-fill</code> component provides powerful list rendering capabilities, efficiently rendering array data into multiple similar elements. It supports two main usage methods: direct rendering and template rendering.</p>
+        <h2>Introduction to o-fill Component</h2>
+        <p><code>o-fill</code> is a core component in ofa.js for list rendering, it accepts a <code>value</code> property of array type and generates corresponding DOM elements for each item in the array. During rendering, ofa.js automatically tracks changes to the array and efficiently updates the DOM.</p>
+        <h3>Main Features:</h3>
         <ul>
-          <li><strong>Efficient updates</strong>: Track array changes by key and update only what has changed. </li>
-          <li><strong>Index access</strong>: Use <code>$index</code> to get the current item’s index. </li>
-          <li><strong>Data access</strong>: Use <code>$data</code> to get the current item’s data. </li>
-          <li><strong>Host access</strong>: Use <code>$host</code> to reach the host component instance, call its methods, or read its data. </li>
-          <li><strong>Template reuse</strong>: Support named templates for complex list rendering.</li>
+          <li><strong>Efficient Updates</strong>: Track array changes via key values, only update the parts that need to change</li>
+          <li><strong>Index Access</strong>: Access the index of the current item via <code>$index</code></li>
+          <li><strong>Data Access</strong>: Access the data of the current item via <code>$data</code></li>
+          <li><strong>Host Access</strong>: Access the current component instance via <code>$host</code>, allowing calls to component methods or access to component data</li>
+          <li><strong>Template Reuse</strong>: Support complex list rendering using named templates</li>
         </ul>
         <h2>Direct Rendering</h2>
-        <p>Direct rendering is the simplest way to use it: place the template content directly inside the <code>o-fill</code> tag. When the array changes, <code>o-fill</code> automatically creates a corresponding element for each data item.</p>
-        <o-playground name="o-fill - Direct Rendering" style="--editor-height: 600px">
+        <p>Direct rendering is the simplest way to use it—write the template content directly inside the <code>o-fill</code> tag. When the array changes, <code>o-fill</code> automatically creates the corresponding element for each data item.</p>
+        <o-playground name="o-fill - direct rendering" style="--editor-height: 600px">
           <code>
     <template page>
       <style>
@@ -143,14 +143,14 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example, we can see that:- <code>$index</code> represents the index of the current item (starting from 0)</p>
+        <p>In this example, we can see:- <code>$index</code> represents the index of the current item (starting from 0)</p>
         <ul>
           <li><code>$data</code> represents the data object of the current item</li>
           <li><code>$host</code> represents the current component instance, which can be used to call component methods or access component data</li>
-          <li>The list automatically updates when the array changes</li>
+          <li>When the array changes, the list updates automatically</li>
         </ul>
         <h2>Template Rendering</h2>
-        <p>For more complex list-item structures, use named templates: define the template inside a <code>template</code> tag and reference it in <code>o-fill</code> via the <code>name</code> attribute.</p>
+        <p>For more complex list-item structures, you can use named templates. Define the template inside a <code>template</code> tag and reference it in <code>o-fill</code> via the <code>name</code> attribute.</p>
         <o-playground name="o-fill - Template Rendering" style="--editor-height: 600px">
           <code>
     <template page>
@@ -171,23 +171,23 @@
           <div class="product-name">{{$data.name}}</div>
           <div class="product-price">¥{{$data.price}}</div>
           <div class="product-desc">{{$data.description}}</div>
-          <small>Index: {{$index + 1}}</small>
+          <small>No.: {{$index + 1}}</small>
         </div>
       </template>
       <script>
         export default async () => ({
           data: {
             products: [
-              { name: "MacBook Pro", price: 12999, description: "High-performance laptop suitable for professional work" },
+              { name: "MacBook Pro", price: 12999, description: "High-performance laptop, suitable for professional work" },
               { name: "iPhone 15", price: 5999, description: "Latest smartphone with excellent camera performance" },
-              { name: "AirPods Pro", price: 1999, description: "Wireless noise-canceling headphones with excellent sound quality" }
+              { name: "AirPods Pro", price: 1999, description: "Wireless noise-cancelling headphones with excellent sound quality" }
             ],
             productIndex: 0,
           },
           proto: {
             addProduct() {
               const productNames = ["iPad Air", "Apple Watch", "Magic Mouse", "Pro Display"];
-              const productDescs = ["Lightweight and portable tablet", "Smartwatch with health monitoring", "Ergonomically designed mouse", "Professional-grade monitor"];
+              const productDescs = ["Lightweight and portable tablet", "Smartwatch, health monitoring", "Ergonomic mouse", "Professional-grade monitor"];
               const name = productNames[this.productIndex % productNames.length];
               const desc = productDescs[this.productIndex % productDescs.length];
               this.products.push({
@@ -204,8 +204,8 @@
   </code>
         </o-playground>
         <h2>Nested List Rendering</h2>
-        <p><code>o-fill</code> supports nested usage and can handle complex hierarchical data structures, such as tree menus and category lists.</p>
-        <o-playground name="o-fill - Nested List Rendering" style="--editor-height: 800px">
+        <p><code>o-fill</code> supports nested usage and can handle complex hierarchical data structures, such as tree menus, category lists, etc.</p>
+        <o-playground name="o-fill - nested list rendering" style="--editor-height: 800px">
           <code>
     <template page>
       <style>
@@ -261,25 +261,25 @@
                   name: "Electronics",
                   subcategories: [
                     {
-                      name: "Phones",
-                      items: ["iPhone", "Android Phone", "Feature Phone"]
+                      name: "Mobile Phones",
+                      items: ["iPhone", "Android Phones", "Feature Phones"]
                     },
                     {
                       name: "Computers",
-                      items: ["Laptop", "Desktop", "Tablet"]
+                      items: ["Laptops", "Desktops", "Tablets"]
                     }
                   ]
                 },
                 {
-                  name: "Home Goods",
+                  name: "Home & Living",
                   subcategories: [
                     {
                       name: "Kitchenware",
-                      items: ["Cookware", "Tableware", "Small Appliances"]
+                      items: ["Pots & Pans", "Tableware", "Small Appliances"]
                     },
                     {
-                      name: "Bedroom Goods",
-                      items: ["Bedding", "Wardrobe", "Decor"]
+                      name: "Bedroom Supplies",
+                      items: ["Bedding", "Wardrobes", "Decorations"]
                     }
                   ]
                 },
@@ -287,12 +287,12 @@
                   name: "Clothing & Accessories",
                   subcategories: [
                     {
-                      name: "Men's Wear",
-                      items: ["T-Shirt", "Shirt", "Jacket"]
+                      name: "Men's Clothing",
+                      items: ["T-shirts", "Shirts", "Outerwear"]
                     },
                     {
-                      name: "Women's Wear",
-                      items: ["Dress", "Pants", "Accessories"]
+                      name: "Women's Clothing",
+                      items: ["Dresses", "Pants", "Accessories"]
                     }
                   ]
                 }
@@ -306,18 +306,18 @@
         </o-playground>
         <h2>Performance Optimization and Key-Value Management</h2>
         <p>For lists that require frequent updates, you can specify a unique identifier through the <code>fill-key</code> attribute to improve rendering performance.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Use custom key values to improve performance --&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Use custom key to improve performance --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;items&quot;</span> <span class="hljs-attr">fill-key</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
         <p>In the example above, <code>fill-key=&quot;id&quot;</code> tells ofa.js to use the <code>id</code> property of each data item as the unique identifier, so that even if the order of the array changes, the corresponding elements can still be correctly identified and updated.</p>
-        <h2>List Rendering Best Practices</h2>
+        <h2>Best Practices for List Rendering</h2>
         <ol>
-          <li><strong>Event Handling</strong>: When using events in list items, note that <code>$host</code> refers to the current component instance and <code>$data</code> to the current item’s data. </li>
-          <li><strong>Choose the Appropriate Rendering Method</strong>: Use direct rendering for simple lists and template rendering for complex structures. </li>
-          <li><strong>Performance Considerations</strong>: For large or frequently updated lists, specify a key with <code>fill-key</code>. </li>
-          <li><strong>Data Structure</strong>: Ensure every item in the array is a valid data object. </li>
-          <li><strong>Avoid Deep Nesting</strong>: Although nesting is supported, overly deep levels should be avoided.</li>
+          <li><strong>Event Handling</strong>: When using events in list items, note that <code>$host</code> points to the current component instance and <code>$data</code> points to the current item data.</li>
+          <li><strong>Choose the Appropriate Rendering Method</strong>: Use direct rendering for simple lists and template rendering for complex structures.</li>
+          <li><strong>Performance Considerations</strong>: For large lists or lists that update frequently, use <code>fill-key</code> to specify a key value.</li>
+          <li><strong>Data Structure</strong>: Ensure that every item in the array is a valid data object.</li>
+          <li><strong>Avoid Deep Nesting</strong>: Although nesting is supported, excessively deep nesting levels should be avoided.</li>
         </ol>
       </article>
       <div class="footer"></div>

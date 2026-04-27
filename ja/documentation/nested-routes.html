@@ -81,14 +81,14 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>ネストされたページ/ルーティング</h1>
-        <p>ofa.jsにおいて、ネストされたページ（ネストルートとも呼ばれる）は強力な機能であり、親子の階層関係を持つページ構造を作成できる。親ページはレイアウトコンテナとして機能し、<code>&lt;slot&gt;</code>スロットを通じて子ページのコンテンツをレンダリングする。</p>
+        <p>在 ofa.js 中，ネストされたページ（ネストされたルーティングとも呼ばれる）は強力な機能で、親子階層関係を持つページ構造を作成できるようにします。親ページはレイアウトコンテナとして、<code>&lt;slot&gt;</code> スロットを介して子ページのコンテンツをレンダリングします。</p>
         <h2>基本概念</h2>
         <ul>
-          <li><strong>親ページ（Layout）</strong>：レイアウトコンテナとしてのページで、ナビゲーションバー、サイドバーなどの共通UI要素を含む</li>
+          <li><strong>親ページ（レイアウト）</strong>：レイアウトコンテナとしてのページで、ナビゲーションバー、サイドバーなどの共通UI要素を含む</li>
           <li><strong>子ページ</strong>：具体的な業務ページの内容で、親ページの <code>&lt;slot&gt;</code> スロット位置にレンダリングされる</li>
         </ul>
         <h2>親ページの書き方</h2>
-        <p>親ページは <code>&lt;slot&gt;&lt;/slot&gt;</code> タグを使用して子ページのレンダリング位置を予約する必要があります。</p>
+        <p>親ページは、子ページのレンダリング位置を確保するために <code>&lt;slot&gt;&lt;/slot&gt;</code> タグを使用する必要があります。</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- layout.html --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
@@ -105,7 +105,7 @@
   ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>サブページの書き方</h2>
-        <p>子ページは <code>parent</code> プロパティをエクスポートして親ページのパスを指定します。</p>
+        <p>子ページは <code>parent</code> プロパティをエクスポートすることで親ページのパスを指定します。</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -116,20 +116,20 @@
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{val}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;layout.html&#x27;</span>; <span class="hljs-comment">// ⚠️ キーコード</span>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;layout.html&#x27;</span>; <span class="hljs-comment">// ⚠️ 关键なコード</span>
 
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
       <span class="hljs-keyword">return</span> {
         <span class="hljs-attr">data</span>: {
-          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hello ofa.js Demo Code&quot;</span>,
+          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hello ofa.js デモコード&quot;</span>,
         },
       };
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>ネストされたページの例</h2>
-        <p>以下は、ルートレイアウト、親ページ、子ページを含む完全なネストルーティングの例です：</p>
-        <o-playground name="ネストページの例" style="--editor-height: 500px">
+        <p>以下は完全なネストルートの例で、ルートレイアウト、親ページ、子ページを含みます：</p>
+        <o-playground name="ネストされたページの例" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js" style="height:96%;"></o-app>
@@ -244,9 +244,9 @@
           padding: 10px;
         }
       </style>
-      <h1>私は子ページ1です</h1>
+      <h1>私はサブページ1です</h1>
       <p>現在のルート：{{src}}</p>
-      <a href="./sub-page02.html" olink>ページ2へジャンプ</a>
+      <a href="./sub-page02.html" olink>ページ2にジャンプ</a>
       <script>
         export const parent = "./layout.html";
         export default async () => {
@@ -266,9 +266,9 @@
           padding: 10px;
         }
       </style>
-      <h1>私は子ページ2です</h1>
+      <h1>私はサブページ2です</h1>
       <p>現在のルート：{{src}}</p>
-      <a href="./sub-page01.html" olink>ページ1へジャンプ</a>
+      <a href="./sub-page01.html" olink>ページ1にジャンプ</a>
       <script>
         export const parent = "./layout.html";
         export default async () => {
@@ -280,8 +280,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>親ページのルート監視</h2>
-        <p>親ページは <code>routerChange</code> ライフサイクルフックを使用してルート変更を監視できます。これは、現在のルートに基づいてナビゲーション状態を更新する必要がある場合に非常に便利です。</p>
+        <h2>父ページのルート監視</h2>
+        <p>親ページは <code>routerChange</code> ライフサイクルフックを使用してルート変更を監視できます。これは、現在のルートに応じてナビゲーション状態を更新する必要がある場合に非常に便利です。</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   ...
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
@@ -312,16 +312,16 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>注意事項</h2>
         <ul>
-          <li><code>parent</code> 属性値は相対パス（例：<code>./layout.html</code>）または絶対パス（例：<code>/pages/layout.html</code>）を指定できます</li>
-          <li>親ページには <code>&lt;slot&gt;&lt;/slot&gt;</code> タグを含める必要があります。含めない場合、子ページのコンテンツは表示されません</li>
-          <li>親ページのスタイルは子ページに継承されます。子ページは独自のスタイルを定義することもできます</li>
-          <li><code>routerChange</code> フックを使用すると、ルート変更を監視し、ナビゲーションのハイライトなどの機能を実装できます</li>
+          <li><code>parent</code> 属性の値は相対パス（例：<code>./layout.html</code>）または絶対パス（例：<code>/pages/layout.html</code>）にすることができます</li>
+          <li>親ページには <code>&lt;slot&gt;&lt;/slot&gt;</code> タグが含まれている必要があります。そうしないと、子ページのコンテンツが表示されません</li>
+          <li>親ページのスタイルは子ページに継承され、子ページは独自のスタイルを定義することもできます</li>
+          <li><code>routerChange</code> フックを使用してルートの変更を監視し、ナビゲーションのハイライトなどの機能を実装できます</li>
         </ul>
-        <h2>多階層ネスト</h2>
-        <p>親ページもまた自分自身の親ページを持ち、多階層のネスト構造を形成することができる。</p>
+        <h2>多段階ネスト</h2>
+        <p>親ページもまた、自身の親ページを持つことができ、多段階のネスト構造を形成します。</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 子ページ --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>子ページの内容<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>子ページコンテンツ<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;./parent.html&#x27;</span>;
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
@@ -342,15 +342,15 @@
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>多階層ネストの例</h2>
-        <o-playground name="ネストされたルーティング完全な例" style="--editor-height: 500px">
+        <h2>多階層ネスト例</h2>
+        <o-playground name="ネストされたルート完全サンプル" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js" style="height:96%;"></o-app>
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // アプリケーションのホームページアドレス
+    // アプリのホームページアドレス
     export const home = "./sub-page01.html";
     // ページ切り替えアニメーション設定
     export const pageAnime = {
@@ -484,9 +484,9 @@
           padding: 10px;
         }
       </style>
-      <h1>私はサブページ 1です</h1>
+      <h1>私は子ページ 1</h1>
       <p>現在のルート：{{src}}</p>
-      <a href="./sub-page02.html" olink>ページ2にジャンプ</a>
+      <a href="./sub-page02.html" olink>ページ2に移動</a>
       <script>
         export const parent = "./layout.html";
         export default async () => {
@@ -506,9 +506,9 @@
           padding: 10px;
         }
       </style>
-      <h1>私はサブページ 2です</h1>
+      <h1>私は子ページ 2</h1>
       <p>現在のルート：{{src}}</p>
-      <a href="./sub-page01.html" olink>ページ1にジャンプ</a>
+      <a href="./sub-page01.html" olink>ページ1に移動</a>
       <script>
         export const parent = "./layout.html";
         export default async () => {

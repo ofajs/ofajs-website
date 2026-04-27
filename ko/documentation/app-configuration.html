@@ -81,23 +81,23 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>애플리케이션 구성</h1>
-        <p><code>app-config.js</code> 설정 파일은 홈페이지 주소와 페이지 전환 애니메이션 외에도, 애플리케이션의 로딩 상태, 오류 처리, 초기화 로직 및 내비게이션 기능을 제어하는 더 많은 구성 옵션을 지원합니다.</p>
+        <p><code>app-config.js</code> 설정 파일은 홈페이지 주소와 페이지 전환 애니메이션 외에도, 앱의 로딩 상태, 오류 처리, 초기화 로직, 네비게이션 기능을 제어하는 더 많은 구성 옵션을 지원합니다.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// 로딩 중 표시할 내용</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;Loading...&lt;/div&gt;&quot;</span>;
+<span class="hljs-comment">// 로딩 중에 표시되는 내용</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;로딩 중...&lt;/div&gt;&quot;</span>;
 
-<span class="hljs-comment">// 페이지 로드 실패 시 표시할 컴포넌트</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
+<span class="hljs-comment">// 페이지 로드 실패 시 표시되는 컴포넌트</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;로드 실패: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
 
-<span class="hljs-comment">// 애플리케이션 초기화 완료 후 콜백</span>
+<span class="hljs-comment">// 앱 초기화 완료 후 콜백</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;App is ready!&quot;</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;앱이 준비되었습니다!&quot;</span>);
 }
 
-<span class="hljs-comment">// 애플리케이션 프로토타입에 추가할 메서드와 속성</span>
+<span class="hljs-comment">// 앱 프로토타입에 추가되는 메소드와 속성</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
   <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Custom method called&quot;</span>);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;커스텀 메소드가 호출되었습니다&quot;</span>);
   },
 };</code></pre><o-playground name="애플리케이션 구성 예시" style="--editor-height: 500px">
           <code path="demo.html" preview>
@@ -106,9 +106,9 @@
     </template>
   </code>
           <code path="app-config.js">
-    // 애플리케이션 홈 주소
+    // 애플리케이션 홈페이지 주소
     export const home = "./home.html";
-    // 페이지 전환 애니메이션 설정
+    // 페이지 전환 애니메이션 구성
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -156,15 +156,15 @@
         }
       </style>
       <p>{{val}}</p>
-      <a href="./about.html" olink>소개로 이동</a>
+      <a href="./about.html" olink>Go to About</a>
       <br>
       <br>
-      <button on:click="gotoAbout">소개로 이동 버튼</button>
+      <button on:click="gotoAbout">Go to About Button</button>
       <script>
         export default async () => {
           return {
             data: {
-              val: "안녕하세요 ofa.js 앱 데모",
+              val: "Hello ofa.js App Demo",
             },
             proto:{
                 gotoAbout(){
@@ -184,22 +184,24 @@
           padding: 10px;
         }
       </style>
-      <div style="padding: 8px;"> <button on:click="back()">뒤로</button> </div>
-      <p> 소개 <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
       <script>
         export default async () => {
           return {
             data: {
-              val: "안녕하세요 ofa.js 앱 데모",
+              val: "Hello ofa.js App Demo",
             },
           };
         };
       </script>
     </template>
   </code>
-        </o-playground> ## loading - 로딩 상태 <p>페이지 로드 중에 표시되는 컴포넌트로, 문자열 템플릿이거나 템플릿을 반환하는 함수일 수 있습니다.</p>
+        </o-playground>
+        <h2>loading - 로딩 상태</h2>
+        <p>페이지 로딩 중에 표시되는 컴포넌트로, 문자열 템플릿 또는 템플릿을 반환하는 함수일 수 있습니다.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// 간단한 문자열 템플릿</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Loading...&lt;/div&gt;&quot;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;로딩 중...&lt;/div&gt;&quot;</span>;
 
 <span class="hljs-comment">// 함수를 사용하여 동적으로 생성</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
@@ -207,7 +209,7 @@
     &lt;span&gt;로딩 중...&lt;/span&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
-        <p>아래는 프로젝트에 바로 복사해 사용할 수 있는 예쁜 loading 구현입니다:</p>
+        <p>다음은 예쁘고 프로젝트에 바로 복사하여 사용할 수 있는 로딩 구현입니다:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">const</span> loadingEl = $({
     <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
@@ -235,16 +237,16 @@
   <span class="hljs-keyword">return</span> loadingEl;
 };</code></pre>
         <h2>fail - 오류 처리</h2>
-        <p>페이지 로딩 실패 시 표시되는 컴포넌트로, 함수는 <code>src</code>(실패한 페이지의 주소)와 <code>error</code>(오류 정보)를 포함하는 객체 매개변수를 받습니다.</p>
+        <p>페이지 로딩 실패 시 표시되는 컴포넌트, 함수는 객체 파라미터를 받으며, <code>src</code>(실패 페이지의 주소)와 <code>error</code>(오류 정보)를 포함합니다.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{src, error}</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
-    &lt;p&gt;페이지 로드 실패&lt;/p&gt;
+    &lt;p&gt;페이지 로딩 실패&lt;/p&gt;
     &lt;p&gt;주소: <span class="hljs-subst">${src}</span>&lt;/p&gt;
-    &lt;button on:click=&quot;back()&quot;&gt;돌아가기&lt;/button&gt;
+    &lt;button on:click=&quot;back()&quot;&gt;뒤로가기&lt;/button&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
         <h2>proto - 프로토타입 확장</h2>
-        <p>애플리케이션 인스턴스에 사용자 정의 메서드와 계산된 속성을 추가하면, 페이지 컴포넌트 내에서 <code>this.app</code>로 이들에 접근할 수 있습니다.</p>
+        <p>애플리케이션 인스턴스에 사용자 정의 메서드와 계산된 속성을 추가하면, 페이지 컴포넌트에서 <code>this.app</code>로 이들에 접근할 수 있습니다.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
   <span class="hljs-comment">// 사용자 정의 메서드</span>
   <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
@@ -257,36 +259,36 @@
 };</code></pre>
         <p>페이지에서 호출:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>첫 페이지로 돌아가기<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>첫 페이지에 있는지 여부: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>홈으로 돌아가기<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>홈에 있습니까?: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>ready - 초기화 콜백</h2>
-        <p>애플리케이션 설정 로드가 완료된 후 실행되는 콜백 함수로, 여기에서 초기화 작업을 수행할 수 있습니다. <code>this</code>를 통해 애플리케이션 인스턴스의 메서드와 속성에 접근할 수 있습니다.</p>
+        <p>애플리케이션 구성 로드 완료 후 실행되는 콜백 함수입니다. 여기서 초기화 작업을 수행할 수 있습니다. <code>this</code>를 통해 애플리케이션 인스턴스의 메서드와 속성에 접근할 수 있습니다.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;애플리케이션이 초기화되었습니다&quot;</span>);
-  <span class="hljs-comment">// this에 접근 가능 (o-app 요소 인스턴스)</span>
+  <span class="hljs-comment">// this(o-app 요소 인스턴스)에 접근할 수 있습니다</span>
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// 현재 페이지 o-page 요소 인스턴스 가져오기</span>
   <span class="hljs-comment">// this.someMethod();</span>
 }</code></pre>
         <h2>allowForward - 전진 기능</h2>
-        <p>브라우저 앞으로 기능 활성화 여부를 제어합니다. <code>true</code>로 설정하면 브라우저의 뒤로 및 앞으로 버튼을 사용하여 탐색할 수 있습니다.</p>
+        <p>브라우저 앞으로 가기 기능 활성화 여부를 제어합니다. <code>true</code>로 설정하면 브라우저의 뒤로 가기 및 앞으로 가기 버튼을 사용하여 탐색할 수 있습니다.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
-        <p>활성화되면 사용자가 브라우저의 앞/뒤 버튼으로 탐색할 수 있으며, 앱의 탐색 메서드 <code>forward()</code>도 작동합니다.</p>
-        <h2>프로그래밍 방식 내비게이션</h2>
+        <p>활성화되면 사용자는 브라우저의 앞으로/뒤로 버튼을 통해 탐색할 수 있으며, 앱의 네비게이션 메서드 <code>forward()</code>도 적용됩니다.</p>
+        <h2>프로그래밍 방식 네비게이션</h2>
         <p><code>olink</code> 링크 외에도 JavaScript에서 네비게이션 메서드를 호출할 수 있습니다:</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 지정된 페이지로 이동(히스토리에 추가)</span>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 지정된 페이지로 이동 (히스토리에 추가)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
-<span class="hljs-comment">// 현재 페이지를 교체(히스토리에 추가되지 않음)</span>
+<span class="hljs-comment">// 현재 페이지 교체 (히스토리에 추가하지 않음)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
 <span class="hljs-comment">// 이전 페이지로 뒤로 가기</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();
 
-<span class="hljs-comment">// 다음 페이지로 앞으로 가기(allowForward: true 설정 필요)</span>
+<span class="hljs-comment">// 다음 페이지로 앞으로 가기 (allowForward: true 설정 필요)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">forward</span>();</code></pre>
-        <h2>라우팅 기록</h2>
-        <p><code>routers</code> 속성을 통해 브라우저 히스토리 기록을 얻을 수 있습니다:</p>
+        <h2>라우팅 히스토리</h2>
+        <p><code>routers</code> 속성을 통해 브라우징 기록을 얻을 수 있습니다:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// 모든 라우트 히스토리 가져오기</span>
 <span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
 <span class="hljs-comment">// 반환 형식: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span>
@@ -294,10 +296,10 @@
 <span class="hljs-comment">// 현재 페이지 가져오기</span>
 <span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
         <h2>라우트 변경 감시</h2>
-        <p><code>router-change</code> 이벤트를 모니터링하여 라우팅 변경에 대응할 수 있습니다：</p>
+        <p><code>router-change</code> 이벤트를 수신하여 라우트 변경에 대응할 수 있습니다:</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> { data } = e;
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;라우터 변경:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;라우트 변경:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;페이지 주소:&quot;</span>, data.<span class="hljs-property">src</span>);
 });</code></pre>
       </article>

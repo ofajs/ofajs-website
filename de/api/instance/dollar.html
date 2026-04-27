@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>$</h1>
-        <p>Die <code>$</code>-Methode ist die Kernfunktion in ofa.js, die zum Abrufen und Manipulieren von DOM-Elementinstanzen verwendet wird. Im Folgenden werden die Hauptfunktionen von <code>$</code> im Detail erläutert:</p>
-        <h2>Instanz eines Elements abrufen</h2>
-        <p>Mit der <code>$</code>-Methode können Sie die erste Elementinstanz auf der Seite abrufen, die mit einem <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">CSS-Selektor</a> übereinstimmt, und sie bearbeiten. Hier ist ein Beispiel:</p>
+        <p><code>$</code> ist die Kernfunktion in ofa.js, die zum Abrufen und Manipulieren von DOM-Elementinstanzen verwendet wird. Im Folgenden werden die Hauptfunktionen von <code>$</code> im Detail beschrieben:</p>
+        <h2>Elementinstanz abrufen</h2>
+        <p>Mit der <code>$</code>-Methode kannst du die erste Elementinstanz auf der Seite abrufen, die dem <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">CSS-Selektor</a> entspricht, und sie bearbeiten. Hier ist ein Beispiel:</p>
         <o-playground name="$ - Element abrufen">
           <code path="demo.html">
     <template>
@@ -96,33 +96,33 @@
     </template>
   </code>
         </o-playground>
-        <p>Im obigen Beispiel haben wir mit dem <code>$</code>-Symbol eine Instanz des Elements mit der <code>id</code> "target1" ausgewählt und durch Setzen der <code>text</code>-Eigenschaft seinen Textinhalt geändert.</p>
-        <h2>Beispiel zum Finden von Unterelementen</h2>
-        <p>Die Instanz besitzt ebenfalls die <code>$</code>-Methode; über die <code>$</code>-Methode der Instanz kann man die erste passende untergeordnete Elementinstanz abrufen.</p>
-        <o-playground name="$ - Unterelemente finden">
+        <p>Im obigen Beispiel haben wir mit dem <code>$</code>-Symbol das Element mit der <code>id</code> "target1" ausgewählt und dessen Textinhalt durch Setzen der <code>text</code>-Eigenschaft geändert.</p>
+        <h2>Beispiel zum Auffinden von untergeordneten Elementen</h2>
+        <p>Instanzen haben auch die <code>$</code>-Methode, mit der über die <code>$</code>-Methode auf der Instanz die erste untergeordnete Elementinstanz abgerufen werden kann, die den Bedingungen entspricht.</p>
+        <o-playground name="$ - Unterelemente suchen">
           <code path="demo.html">
     <template>
       <div id="target1">
         <h3>target</h3>
-        <p>Ich bin target1</p>
+        <p>I am target1</p>
       </div>
       <script>
         const tar = $("#target1");
-        tar.$('h3').text = 'Titel des Ziels ändern';
+        tar.$('h3').text = 'change target title';
       </script>
     </template>
   </code>
         </o-playground>
-        <p>Bitte fügen Sie die erhaltene Elementinstanz nicht direkt an anderen Stellen ein, da dies das ursprüngliche Element beeinflussen kann. Wenn Sie eine Kopie erstellen müssen, können Sie die <a href="./clone.html" olink="">clone</a>-Methode verwenden.</p>
-        <o-playground name="$ - Instanz-Eigenschaften" style="--editor-height: 360px">
+        <p>Bitte fügen Sie die abgerufene Elementinstanz nicht direkt an anderer Stelle ein; eine solche Operation wirkt sich auf das ursprüngliche Element aus. Wenn Sie eine Kopie erstellen möchten, können Sie die Methode <a href="./clone.html" olink="">clone</a> verwenden.</p>
+        <o-playground name="$ - Instanzeigenschaften" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
       <div id="pos1" style="border:red solid 1px;">
-        <h3>Position 1</h3>
+        <h3>position 1</h3>
         <p id="target1" style="color:green">I am target1</p>
       </div>
       <div id="pos2" style="border:blue solid 1px;margin:8px;">
-        <h3>Position 2</h3>
+        <h3>position 2</h3>
       </div>
       <script>
         setTimeout(()=>{
@@ -133,20 +133,20 @@
     </template>
   </code>
         </o-playground>
-        <h2>Untergeordnete Elemente innerhalb eines Shadow-Knotens abrufen</h2>
-        <p>Sie können die Instanz über das <a href="./shadow.html" olink="">shadow</a>-Attribut abrufen und dann das gewünschte Element über die <code>$</code>-Methode erhalten:</p>
+        <h2>Unterelemente im Shadow-Knoten abrufen</h2>
+        <p>Man kann nach dem Abrufen der Instanz über die <a href="./shadow.html" olink="">shadow</a>-Eigenschaft dann mit der <code>$</code>-Methode das gewünschte Element erhalten:</p>
         <pre><code class="hljs language-javascript">$(<span class="hljs-string">'my-component'</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">"selector"</span>).<span class="hljs-title function_">method</span>(xxx)</code></pre>
-        <h2>Direkte Instanziierung von Elementen</h2>
-        <p>Sie können native Elemente direkt als <code>$</code>-Instanzobjekte initialisieren durch:</p>
+        <h2>Direktes Instanziieren von Elementen</h2>
+        <p>Sie können native Elemente direkt wie folgt in eine <code>$</code>-Instanz initialisieren:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">'div'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'#target'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
-        <p>Auf diese Weise können Sie vorhandene HTML-Elemente bequem in <code>$</code>-Instanzen umwandeln, um die von <code>$</code> bereitgestellten Funktionen zur Manipulation und Verarbeitung zu nutzen.</p>
-        <h2>Instanz eines Erzeugniselements</h2>
-        <p>Außer, <code>$</code> kann nicht nur verwendet werden, um vorhandene Elementinstanzen abzurufen, sondern auch um neue Elementinstanzen zu erstellen und sie zur Seite hinzuzufügen.</p>
-        <h3>Generierung über String</h3>
-        <p>Sie können mit der <code>$</code>-Funktion neue Elementinstanzen aus Zeichenketten erstellen, wie unten gezeigt:</p>
+        <p>So kannst du bestehende HTML-Elemente bequem in <code>$</code>-Instanzen umwandeln, um die von <code>$</code> bereitgestellten Funktionen zum Manipulieren und Verarbeiten zu nutzen.</p>
+        <h2>Generieren von Elementinstanzen</h2>
+        <p>Außer, <code>$</code> kann verwendet werden, um bestehende Elementinstanzen zu erhalten, und auch neue Elementinstanzen zu erstellen und sie der Seite hinzuzufügen.</p>
+        <h3>Generierung über Zeichenkette</h3>
+        <p>Du kannst die <code>$</code>-Funktion verwenden, um neue Elementinstanzen aus einem String zu erstellen, wie folgt:</p>
         <o-playground name="$ - String-Generierung" style="--editor-height: 260px">
           <code path="demo.html">
     <template>
@@ -160,10 +160,10 @@
     </template>
   </code>
         </o-playground>
-        <p>In diesem Beispiel verwenden wir die <code>$</code>-Funktion, um eine neue Elementinstanz mit den angegebenen Stilen und dem Textinhalt zu erstellen und sie in eine bestehende Elementinstanz mit der <code>id</code> „target1“ einzufügen.</p>
-        <h3>Durch Objekte generieren</h3>
-        <p>Sie können auch die <code>$</code>-Funktion verwenden, um neue Elementinstanzen auf objektorientierte Weise zu generieren, wie folgt:</p>
-        <o-playground name="$ - Objektgenerierung" style="--editor-height: 360px">
+        <p>In diesem Beispiel erstellen wir eine neue Elementinstanz mit dem angegebenen Stil und Textinhalt mithilfe der <code>$</code>-Funktion und fügen sie in die vorhandene Elementinstanz mit der <code>id</code> "target1" ein.</p>
+        <h3>Generierung durch Objekte</h3>
+        <p>Du kannst auch die <code>$</code>-Funktion verwenden, um über ein Objekt neue Element-Instanzen zu erzeugen, wie folgt:</p>
+        <o-playground name="$ - Objekterzeugung" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
       <div id="target1">
@@ -172,7 +172,7 @@
       <script>
         const newEl = $({
           tag: "div",
-          text: "Text zu target1 hinzufügen",
+          text: "add target 1 text",
           css: {
             color: "red"
           }
@@ -182,7 +182,37 @@
     </template>
   </code>
         </o-playground>
-        <p>In diesem Beispiel verwenden wir die <code>$</code>-Funktion, um eine neue Elementinstanz über ein Objekt zu definieren, einschließlich des Tag-Typs, des Textinhalts und der Stilattribute, und fügen sie innerhalb der vorhandenen Elementinstanz mit der <code>id</code> "target1" hinzu.</p>
+        <p>In diesem Beispiel verwenden wir die <code>$</code>-Funktion, um eine neue Elementinstanz durch ein Objekt zu definieren, einschließlich Tag-Typ, Textinhalt und Stilattributen, und fügen sie der vorhandenen Elementinstanz mit der <code>id</code> "target1" hinzu.</p>
+        <h2>Beziehung zwischen abgerufenen Beispielen und Seiten-/Komponenteninstanzen</h2>
+        <p><code>$</code>-Methode kann verwendet werden, um von globaler Ebene eine Instanz des entsprechenden Seiten- oder Komponentenelements abzurufen. Ihre Funktion entspricht dem <code>this</code>-Verweis in den Lebenszyklusmethoden innerhalb des Seiten- oder Komponentenmoduls.</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+...
+<span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./test-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">test-comp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"target"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">test-comp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>{
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">'#target'</span>).<span class="hljs-property">title</span>);  <span class="hljs-comment">// =&gt; OFAJS Komponentenbeispiel</span>
+  },<span class="hljs-number">300</span>);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- test-comp.html --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"test-comp"</span>,
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"OFAJS Komponentenbeispiel"</span>,
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>){
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span> === $(<span class="hljs-string">'#target'</span>)); <span class="hljs-comment">// true</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

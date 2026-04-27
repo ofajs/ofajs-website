@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klassen- und Stilbindungen</title>
+  <title>Klassen- und Stilbindung</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,13 +80,13 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Klassen- und Stilbindungen</h1>
-        <p>In ofa.js kannst du eine flexible UI-Zustandsverwaltung durch dynamisches Binden von Klassennamen, Stilen und Attributen erreichen. Dies ermöglicht es der Benutzeroberfläche, ihr Aussehen automatisch an Datenänderungen anzupassen.</p>
-        <h2>Klassen-Bindung</h2>
-        <p>Klassen-Bindung ermöglicht es dir, CSS-Klassen dynamisch basierend auf dem Datenstatus hinzuzufügen oder zu entfernen. Du kannst die Syntax <code>class:className=&quot;booleanExpression&quot;</code> verwenden, um bestimmte Klassen zu binden.</p>
-        <p>Wenn <code>booleanExpression</code> <code>true</code> ist, wird der Klassenname zum Element hinzugefügt; wenn sie <code>false</code> ist, wird der Klassenname entfernt.</p>
-        <h3>Grundlegende Klassen-Bindung</h3>
-        <o-playground name="Grundlegende Klassenbindung" style="--editor-height: 500px">
+        <h1>Klassen- und Stilbindung</h1>
+        <p>In ofa.js können Sie durch dynamisches Binden von Klassennamen, Stilen und Attributen ein flexibles UI-State-Management realisieren. Dadurch passt sich die Benutzeroberfläche automatisch an Änderungen der Daten an.</p>
+        <h2>Klassenbindung</h2>
+        <p>Klassenbindungen erlauben es dir, CSS-Klassen basierend auf dem Datenzustand dynamisch hinzuzufügen oder zu entfernen. Du kannst die Syntax <code>class:className=&quot;booleanExpression&quot;</code> verwenden, um eine bestimmte Klasse zu binden.</p>
+        <p>Wenn <code>booleanExpression</code> <code>true</code> ist, wird der Klassenname zum Element hinzugefügt; wenn <code>false</code> ist, wird der Klassenname entfernt.</p>
+        <h3>Basisklassenbindung</h3>
+        <o-playground name="Basis-Klassenbindung" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -99,7 +99,7 @@
           display: none;
         }
       </style>
-      <button on:click="isHide = !isHide">Anzeige umschalten</button>
+      <button on:click="isHide = !isHide">Toggle Display</button>
       <p class="green" class:hide="isHide">{{val}}</p>
       <script>
         export default async () => {
@@ -114,8 +114,8 @@
     </template>
   </code>
         </o-playground>
-        <h3>Mehrere Klassen-Bindungen</h3>
-        <p>Sie können auch mehrere Klassen gleichzeitig binden, sodass Elemente abhängig von verschiedenen Bedingungen unterschiedliche visuelle Zustände haben.</p>
+        <h3>Mehrere Klassenbindungen</h3>
+        <p>Sie können auch mehrere Klassen gleichzeitig binden, sodass das Element je nach unterschiedlichen Bedingungen verschiedene Erscheinungszustände hat.</p>
         <o-playground name="Mehrere Klassen-Bindungen" style="--editor-height: 500px">
           <code>
     <template page>
@@ -140,7 +140,7 @@
       </style>
       <button on:click="toggleStates">Toggle States</button>
       <p class:active="isActive" class:disabled="isDisabled" class:highlight="isHighlighted">
-        Aktueller Zustand – Aktiv: {{isActive}}, Deaktiviert: {{isDisabled}}, Hervorgehoben: {{isHighlighted}}
+        Current State - Active: {{isActive}}, Disabled: {{isDisabled}}, Highlighted: {{isHighlighted}}
       </p>
       <script>
         export default async () => {
@@ -164,10 +164,10 @@
   </code>
         </o-playground>
         <h2>Stilbindung</h2>
-        <p>Stil-Bindung ermöglicht es dir, Werte für Inline-Stile direkt zu setzen und unterstützt dynamische Aktualisierungen. ofa.js bietet zwei Arten der Stil-Bindung:</p>
-        <h3>Einzelne Stil-Attribut-Bindung</h3>
-        <p>Verwenden Sie die Syntax <code>:style.propertyName</code>, um bestimmte Stileigenschaften zu binden.</p>
-        <o-playground name="Einfache Stilattributbindung" style="--editor-height: 500px">
+        <p>Stil-Bindung ermöglicht es dir, die Werte von Inline-Stilen direkt zu setzen und dynamisch zu aktualisieren. ofa.js bietet zwei Arten der Stil-Bindung:</p>
+        <h3>Einzelne Stilattributbindung</h3>
+        <p>Verwenden Sie die Syntax <code>:style.propertyName</code>, um bestimmte Stilattribute zu binden.</p>
+        <o-playground name="Einzelne Stilattributbindung" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -178,13 +178,13 @@
         }
       </style>
       <p class="green" :style.color="isGreen ? 'green' : 'red'">{{val}}</p>
-      <button on:click="isGreen = !isGreen">Toggle Color</button>
+      <button on:click="isGreen = !isGreen">Farbe umschalten</button>
       <script>
         export default async () => {
           return {
             data: {
               isGreen: false,
-              val: "Hello ofa.js Demo Code",
+              val: "Hallo ofa.js Demo-Code",
             },
           };
         };
@@ -192,9 +192,9 @@
     </template>
   </code>
         </o-playground>
-        <h3>Mehrstilige Attributbindung</h3>
-        <p>Du kannst auch mehrere Style-Eigenschaften auf einmal binden:</p>
-        <o-playground name="Mehrere Stil-Attribut-Bindungen" style="--editor-height: 500px">
+        <h3>Mehrfache Stilattributbindung</h3>
+        <p>Du kannst auch mehrere Stileigenschaften auf einmal binden:</p>
+        <o-playground name="Bindung mehrerer Stil-Eigenschaften" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -205,9 +205,9 @@
         }
       </style>
       <p :style.color="textColor" :style.fontSize="fontSize + 'px'" :style.backgroundColor="bgColor">
-        Dynamisches Styling-Beispiel
+        Dynamic Styling Example
       </p>
-      <button on:click="changeStyles">Stile ändern</button>
+      <button on:click="changeStyles">Change Styles</button>
       <script>
         export default async () => {
           return {
@@ -229,10 +229,10 @@
     </template>
   </code>
         </o-playground>
-        <h2>Attribut-Bindung</h2>
-        <p>Neben Klassen- und Stil-Bindungen können Sie auch andere HTML-Attribute dynamisch binden. ofa.js verwendet die Syntax <code>attr:attributeName</code>, um Attributbindungen zu realisieren.</p>
+        <h2>Attributbindung</h2>
+        <p>Neben der Bindung von Klassen und Stilen können Sie auch andere HTML-Attribute dynamisch binden. ofa.js verwendet die Syntax <code>attr:attributeName</code>, um Attributbindungen zu realisieren.</p>
         <h3>Grundlegende Attributbindung</h3>
-        <o-playground name="Grundlegende Attribut-Bindung" style="--editor-height: 700px">
+        <o-playground name="Grundlegende Attributbindung" style="--editor-height: 700px">
           <code>
     <template page>
       <style>
@@ -269,8 +269,8 @@
     </template>
   </code>
         </o-playground>
-        <h3>Boolesche Attribute</h3>
-        <p>Für boolesche Attribute (wie <code>disabled</code>, <code>hidden</code>) entscheidet ofa.js basierend auf dem Wahrheitswert des gebundenen Werts, ob das Attribut hinzugefügt wird.</p>
+        <h3>Boolesche Attribute Behandlung</h3>
+        <p>Für boolesche Attribute (wie <code>disabled</code>, <code>hidden</code>) entscheidet ofa.js anhand des Wahrheitswerts des gebundenen Werts, ob das Attribut hinzugefügt wird.</p>
         <o-playground name="Boolesche Attributbehandlung" style="--editor-height: 700px">
           <code>
     <template page>
@@ -281,12 +281,12 @@
           padding: 10px;
         }
       </style>
-      <input type="text" attr:disabled="isDisabled" placeholder="Type here..." />
+      <input type="text" attr:disabled="isDisabled" placeholder="Hier tippen..." />
       <br /><br />
-      <button attr:disabled="isButtonDisabled" on:click="handleButtonClick">Click Me</button>
+      <button attr:disabled="isButtonDisabled" on:click="handleButtonClick">Klick mich</button>
       <br /><br />
       <label>
-        <input type="checkbox" on:change="toggleAll" /> Toggle All States
+        <input type="checkbox" on:change="toggleAll" /> Alle Zustände umschalten
       </label>
       <script>
         export default async () => {
@@ -298,7 +298,7 @@
             },
             proto: {
               handleButtonClick() {
-                alert('Button clicked!');
+                alert('Schaltfläche geklickt!');
               },
               toggleAll(event) {
                 const checked = event.target.checked;
@@ -314,8 +314,8 @@
   </code>
         </o-playground>
         <h2>data() Funktion</h2>
-        <p>In Stilen kann <code>data(key)</code> verwendet werden, um Komponentendaten zu binden. Dies eignet sich besonders für Szenarien, in denen das Styling dynamisch basierend auf Komponentendaten geändert werden muss.</p>
-        <o-playground name="Datenfunktion in Style-Tags" style="--editor-height: 500px">
+        <p>Man kann <code>data(key)</code> im Stil verwenden, um Komponentendaten zu binden. Dies eignet sich hervorragend für Szenarien, in denen der Stil dynamisch basierend auf den Komponentendaten geändert werden muss.</p>
+        <o-playground name="Datenfunktion innerhalb von Style-Tags" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -337,17 +337,17 @@
           transition: all data(time)s ease;
         }
       </style>
-      Hover Schriftgröße: <input type="number" sync:value="size" placeholder="Dies ist ein bidirektional gebundenes Eingabefeld" />
+      Hover FontSize: <input type="number" sync:value="size" placeholder="Dies ist ein bidirektional gebundenes Eingabefeld" />
       <br />
-      Übergangszeit: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Dies ist ein bidirektional gebundenes Eingabefeld" />
-      <p>{{val}} - Größe: {{size}}</p>
+      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Dies ist ein bidirektional gebundenes Eingabefeld" />
+      <p>{{val}} - size: {{size}}</p>
       <script>
         export default async () => {
           return {
             data: {
               size: 16,
               time: 0.3,
-              val: "Hallo ofa.js Demo Code",
+              val: "Hallo ofa.js Demo-Code",
             }
           };
         };
@@ -356,7 +356,7 @@
   </code>
         </o-playground>
         <h2>Hinweise</h2>
-        <p>Das <code>data(key)</code> innerhalb eines <code>style</code>-Tags ersetzt prinzipiell den gesamten Inhalt des Styles. Um wiederholtes Rendern nicht betroffener Stile zu vermeiden, wird empfohlen, Stile mit <code>data(key)</code> in ein eigenes <code>style</code>-Tag zu setzen, während Stile ohne Datenbindung in ein anderes <code>style</code>-Tag ausgelagert werden, um eine bessere Leistung zu erzielen.</p>
+        <p>Das <code>data(key)</code> innerhalb des <code>style</code>-Tags ersetzt im Prinzip den gesamten Inhalt des Styles. Um wiederholtes Rendern irrelevante Stile zu vermeiden, wird empfohlen, Stile mit <code>data(key)</code> in einem eigenen <code>style</code>-Tag zu platzieren, während Stile ohne Datenbindung in einen anderen <code>style</code>-Tag ausgelagert werden, um eine bessere Leistung zu erzielen.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ Ein p:hover ohne data(key) wird ebenfalls aktualisiert --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
@@ -369,7 +369,7 @@
   }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 ``````html
-<span class="hljs-comment">&lt;!-- ✅ Nur Stile mit data(xxx) werden neu gerendert --&gt;</span>
+<span class="hljs-comment">&lt;!-- ✅ Nur Styles mit data(xxx) werden neu gerendert --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);

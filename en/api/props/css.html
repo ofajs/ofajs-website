@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>css</h1>
-        <p>The <code>css</code> method is used to get or set the styles of the target element.</p>
+        <p>The <code>css</code> method is used to get or set the style of the target element.</p>
         <h2>Direct Use</h2>
-        <p>You can directly use the <code>css</code> method to get or set the style of an element.</p>
-        <o-playground name="css - Direct Use" style="--editor-height: 300px">
+        <p>You can directly use the <code>css</code> method to get or set the element&#39;s styles.</p>
+        <o-playground name="css - Direct Usage" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <div id="target">origin text</div>
       <br>
-      <h4>Logger</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = $("#target").css.color;
@@ -102,8 +102,8 @@
   </code>
         </o-playground>
         <h2>Full Settings</h2>
-        <p>With the obtained <code>css</code> object, you can directly set style values on the element.</p>
-        <o-playground name="css - full property setting" style="--editor-height: 400px">
+        <p>With the obtained <code>css</code> object, you can directly set the style value on the element.</p>
+        <o-playground name="css - Full Settings" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
       <div id="target" style="color:red">origin text</div>
@@ -123,9 +123,9 @@
     </template>
   </code>
         </o-playground>
-        <p>Using the <code>css</code> object feature, you can quickly adjust the styles of the target element.</p>
-        <h2>Template Syntax Usage</h2>
-        <p>You can also use template syntax to set the style of the target element.</p>
+        <p>Using the features of the <code>css</code> object, you can quickly adjust the styles of the target element.</p>
+        <h2>Using Template Syntax</h2>
+        <p>You can also use template syntax to style the target element.</p>
         <o-playground name="css - template syntax" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
@@ -157,13 +157,13 @@
     </template>
   </code>
         </o-playground>
-        <h2>CSS Setup Tips</h2>
-        <p>You can use <code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> to modify a specific style property of an element without affecting other style properties. This approach allows you to modify only one property without rewriting the entire style.</p>
+        <h2>Tips for Setting CSS</h2>
+        <p>You can modify a specific style property of an element using <code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> without affecting other style properties. This approach allows you to change just one property without rewriting the entire style.</p>
         <h3>Example</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> myElement = $(<span class="hljs-string">&quot;#myElement&quot;</span>);
 
 myElement.<span class="hljs-property">css</span> = { ...myElement.<span class="hljs-property">css</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> };</code></pre>
-        <p>In the example above, by using <code>{ ...myElement.css, color: &#39;red&#39; }</code>, we only modify the element&#39;s color style while keeping all other style properties unchanged. This is a handy trick for flexibly adjusting an element&#39;s styles.</p>
+        <p>In the above example, by using <code>{ ...myElement.css, color: &#39;red&#39; }</code>, we only modify the color style of the element while keeping other style properties unchanged. This is a convenient technique that allows flexible modification of element styles.</p>
       </article>
       <div class="footer"></div>
       <script>

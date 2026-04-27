@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>マイクロアプリケーション</title>
+  <title>マイクロアプリ</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,8 +80,8 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>マイクロアプリケーション</h1>
-        <p><code>o-app</code> を使用してアプリ化を行います。このタグはマイクロアプリを表しており、<code>app-config.js</code> 設定ファイルをロードします。このファイルは、アプリのトップページのアドレスとページ遷移アニメーションの設定を定義しています。</p>
+        <h1>マイクロアプリ</h1>
+        <p><code>o-app</code> を使用してアプリケーション化します。このタグはマイクロアプリケーションを表し、<code>app-config.js</code> 設定ファイルを読み込みます。このファイルはアプリケーションのホームページアドレスとページ切り替えアニメーション設定を定義します。</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
 <span class="hljs-comment">// アプリケーションのホームページアドレス</span>
@@ -110,7 +110,7 @@
           <code path="app-config.js">
     // アプリケーションのホームページアドレス
     export const home = "./home.html";
-    // ページ切り替えアニメーション設定
+    // ページ遷移アニメーション設定
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -135,10 +135,10 @@
         }
       </style>
       <p>{{val}}</p>
-      <a href="./about.html?id=10010" olink>Aboutへ (10010)</a>
+      <a href="./about.html?id=10010" olink>Go to About (10010)</a>
       <br>
       <br>
-      <a href="./about.html?id=10030" olink>Aboutへ (10030)</a>
+      <a href="./about.html?id=10030" olink>Go to About (10030)</a>
       <script>
         export default async () => {
           return {
@@ -160,7 +160,7 @@
       </style>
       <div style="padding: 8px;"> <button on:click="back()">戻る</button> </div>
       <p>{{val}}</p>
-      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a>について</p>
       <script>
         export default async ({query}) => {
           return {
@@ -173,11 +173,11 @@
     </template>
   </code>
         </o-playground>
-        <h2>home - ホームページアドレス</h2>
-        <p>アプリケーション起動時に読み込まれるホームページモジュールのパスを指定し、相対パスと絶対パスの両方に対応します。</p>
+        <h2>home - トップページアドレス</h2>
+        <p>指定应用启动时加载的首页模块路径，支持相对路径和绝对路径。 アプリケーション起動時に読み込むトップページモジュールのパスを指定します。相対パスと絶対パスをサポートします。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
         <h2>pageAnime - ページ切り替えアニメーション</h2>
-        <p>ページ切り替え時のトランジションアニメーション効果を制御し、3つの状態を含む：</p>
+        <p>ページ切り替え時のトランジションアニメーション効果を制御し、3つの状態を含みます：</p>
         <table>
           <thead>
             <tr>
@@ -192,11 +192,11 @@
             </tr>
             <tr>
               <td><code>next</code></td>
-              <td>新しいページが入場する際の開始スタイル</td>
+              <td>新しいページが入ってくる際の開始スタイル</td>
             </tr>
             <tr>
               <td><code>previous</code></td>
-              <td>古いページが退場する際の目標スタイル</td>
+              <td>古いページが離れる際の目標スタイル</td>
             </tr>
             <tr>
               <td>export const pageAnime = {</td>
@@ -212,17 +212,17 @@
 <span class="hljs-symbol">transform:</span> <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,</code></pre>
         <p> }, next: { opacity: 0, transform: &quot;translate(30px, 0)&quot;, }, previous: { opacity: 0, transform: &quot;translate(-30px, 0)&quot;, }, };</p>
         <pre><code class="hljs">
-## 引数の渡し方
+## パラメータの渡し方
 
-`o-app` では、ページ遷移時に URL クエリを介してパラメータを渡すことがサポートされており、対象ページはモジュール関数の `query` パラメータで受け取ります。
+在 `o-app` 内では、ページ遷移は URL Query を介してパラメータを渡すことをサポートし、ターゲットページはモジュール関数の `query` パラメータで受け取ります。
 
 ## ページナビゲーション
 
-o-app内では、各ページモジュールは`olink`属性を持つ`&lt;a&gt;`タグを使ってページ遷移を行う。このタグはアプリのルーティング遷移をトリガーし、トランジションアニメーションを伴い、ページ全体をリフレッシュしない。
+o-app内では、各ページモジュールは `olink` 属性を持つ `&lt;a&gt;` タグを使用してページ切り替えを行うことができます。このタグはアプリのルート切り替えをトリガーし、トランジションアニメーションを伴い、ページ全体をリフレッシュしません。
 
 ```html
-&lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;アバウトページへ移動&lt;/a&gt;</code></pre>
-        <p>ページコンポーネントでは、<code>back()</code> メソッドを使用して前のページに戻ることができます：</p>
+&lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;概要ページにジャンプ&lt;/a&gt;</code></pre>
+        <p>ページコンポーネントでは、 <code>back()</code> メソッドを使って前のページに戻ることができます：</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;back()&quot;</span>&gt;</span>戻る<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>

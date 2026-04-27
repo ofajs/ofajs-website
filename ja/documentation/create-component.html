@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>コンポーネントの作成</title>
+  <title>コンポーネントを作成する</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,12 +80,12 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>コンポーネントの作成</h1>
-        <p>ofa.jsにおいて、コンポーネントはページの再利用とモジュール化を実現するための中核的なメカニズムです。コンポーネントは本質的にはカスタムWeb Componentであり、テンプレート、スタイル、ロジックを定義することで、再利用可能なUI要素を作成できます。</p>
+        <h1>コンポーネントを作成する</h1>
+        <p>ofa.jsにおいて、コンポーネントはページの再利用とモジュール化を実現するための中核となるメカニズムです。コンポーネントは本質的にカスタムWeb Componentであり、テンプレート、スタイル、ロジックを定義することで、再利用可能なUI要素を作成できます。</p>
         <h2>コンポーネントの基本構造</h2>
-        <p>ページモジュールとは異なり、コンポーネントモジュールの <code>&lt;template&gt;</code> 要素は <code>component</code> 属性を使用し、<code>tag</code> 属性を宣言してコンポーネントのタグ名を指定します。</p>
-        <p>コンポーネントを使用する必要がある場所では、<code>l-m</code> タグを使用してコンポーネントモジュールを非同期にロードします。システムは自動的に登録を完了します。その後、通常のHTMLタグのように直接そのコンポーネントを使用できます。</p>
-        <o-playground name="コンポーネント基本例" style="--editor-height: 500px">
+        <p>ページモジュールとは異なり、コンポーネントモジュールの <code>&lt;template&gt;</code> 要素は <code>component</code> 属性を使用し、<code>tag</code> 属性でコンポーネントのタグ名を指定します。</p>
+        <p>コンポーネントを使用する場所では、<code>l-m</code> タグを使ってコンポーネントモジュールを非同期で読み込み、システムが自動的に登録を行います。その後、通常のHTMLタグのようにそのコンポーネントを直接使用できます。</p>
+        <o-playground name="コンポーネント基本サンプル" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./demo-comp.html"></l-m>
@@ -107,7 +107,7 @@
           return {
             tag: "demo-comp",
             data: {
-              title: "OFAJS コンポーネント例",
+              title: "OFAJS コンポーネントサンプル",
             },
           };
         };
@@ -117,15 +117,15 @@
         </o-playground>
         <h2>コンポーネントの核心概念</h2>
         <h3>tag - コンポーネントタグ名</h3>
-        <p><code>tag</code> はコンポーネントのタグ名であり、<strong>必ずコンポーネントの使用タグ名と一致させる必要がある</strong>。例えば、コンポーネントの <code>tag</code> を <code>&quot;demo-comp&quot;</code> と定義した場合、HTML で使用する際は必ず <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> と記述しなければならない。</p>
-        <h3>コンポーネントモジュールの参照</h3>
-        <p><code>l-m</code> タグを使用してコンポーネントモジュールを導入すると、コンポーネントモジュールは自動的にコンポーネントを登録します。これは <code>script</code> タグを使用してスクリプトを導入するのと似ていますが、<code>l-m</code> は特にコンポーネントモジュールのロードと登録に使用されます。</p>
+        <p><code>tag</code> はコンポーネントのタグ名であり、<strong>コンポーネントの使用タグ名と一致しなければなりません</strong>。例えば、コンポーネントの <code>tag</code> が <code>&quot;demo-comp&quot;</code> と定義されている場合、HTML で使用する際には <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> と記述する必要があります。</p>
+        <h3>コンポーネントモジュール参照</h3>
+        <p><code>l-m</code> タグを使用してコンポーネントモジュールを導入すると、コンポーネントモジュールは自動的にコンポーネントを登録します。これは <code>script</code> タグを使用してスクリプトを導入するのと似ていますが、<code>l-m</code> はコンポーネントモジュールの読み込みと登録に特化しています。</p>
         <blockquote>
-          <p>注意：<code>l-m</code> 参照タグは<strong>非同期参照</strong>であり、ページ読み込み時に必要に応じてコンポーネントを読み込むのに適しています。</p>
+          <p>注意：<code>l-m</code> 参照タグは<strong>非同期参照</strong>であり、ページの読み込み時にコンポーネントを必要に応じてロードするのに適しています。</p>
         </blockquote>
         <h2>同期参照コンポーネント</h2>
-        <p>特定のシナリオでは、コンポーネントを同期的にロードする必要があるかもしれません（例えば、コンポーネントが使用される前に登録が完了していることを保証する場合）。この場合、<code>load</code> メソッドと <code>await</code> キーワードを組み合わせて、同期的な参照を実現できます。</p>
-        <p>コンポーネントモジュールとページモジュールでは、開発者が必要なリソースを同期的に読み込むための <code>load</code> 関数が自動的に注入されます。</p>
+        <p>特定のシナリオでは、コンポーネントを同期的に読み込む必要がある場合があります（たとえば、使用する前にコンポーネントの登録が完了していることを保証するなど）。その場合は、<code>load</code> メソッドと <code>await</code> キーワードを組み合わせて同期的な参照を実現できます。</p>
+        <p>コンポーネントモジュールとページモジュールには、自動的に <code>load</code> 関数が注入され、開発者が必要なリソースを同期的にロードできるようになります。</p>
         <o-playground name="同期参照コンポーネントの例" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
@@ -183,8 +183,8 @@
         <table>
           <thead>
             <tr>
-              <th>引用方式</th>
-              <th>关键词</th>
+              <th>参照方法</th>
+              <th>キーワード</th>
               <th>特徴</th>
             </tr>
           </thead>
@@ -192,12 +192,12 @@
             <tr>
               <td>非同期参照</td>
               <td><code>l-m</code> タグ</td>
-              <td>ノンブロッキングロード、オンデマンドコンポーネントのロードに適している</td>
+              <td>非ブロッキング読み込み、コンポーネントのオンデマンド読み込みに適する</td>
             </tr>
             <tr>
               <td>同期参照</td>
-              <td><code>load</code> メソッドと <code>await</code> キーワードの組み合わせ</td>
-              <td>ブロッキングロード、コンポーネントの使用前に登録されていることを保証する</td>
+              <td><code>load</code> メソッドと <code>await</code> キーワード</td>
+              <td>ブロッキング読み込み、コンポーネントが使用前に確実に登録される</td>
             </tr>
           </tbody>
         </table>

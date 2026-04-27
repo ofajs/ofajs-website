@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>特徴属性の受け渡し</h1>
-        <p>ofa.js では、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/attributes" target="_blank">特徴属性（Attribute）</a>は、コンポーネント間でデータを渡す最も一般的な方法の一つです。コンポーネントの <code>attrs</code> オブジェクトで必要な属性を宣言するだけで、コンポーネントを使用する際に外部データをコンポーネント内部に渡すことができます。</p>
+        <p>ofa.jsにおいて、<a href="https://developer.mozilla.org/ja/docs/Web/API/Element/attributes" target="_blank">特徴属性（Attribute）</a>はコンポーネント間でデータを渡す最も一般的な方法の一つです。コンポーネントの <code>attrs</code> オブジェクトに必要な属性を宣言するだけで、コンポーネントを使用するときに外部データをコンポーネント内部に渡すことができます。</p>
         <h2>基本的な使い方</h2>
         <h3>受信プロパティの定義</h3>
-        <p>コンポーネントを使用する前に、まずコンポーネントの <code>attrs</code> オブジェクト内で受け取る属性を宣言する必要があります。属性にはデフォルト値を設定することができます。</p>
-        <o-playground name="基本的な使い方の例" style="--editor-height: 500px">
+        <p>コンポーネントを使用する前に、まずコンポーネントの <code>attrs</code> オブジェクト内で受け取る必要のある属性を宣言する必要があります。属性にはデフォルト値を設定できます。</p>
+        <o-playground name="基本使用例" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./demo-comp.html"></l-m>
-      <demo-comp first="OFA" full-name="OFA コンポーネントの例"></demo-comp>
+      <demo-comp first="OFA" full-name="OFA コンポーネント例"></demo-comp>
       <br>
       <demo-comp first="NoneOS" full-name="NoneOS 使用例"></demo-comp>
     </template>
@@ -119,27 +119,27 @@
     </template>
   </code>
         </o-playground>
-        <h3>重要なルール</h3>
+        <h3>重要ルール</h3>
         <ol>
           <li>
-            <p><strong>型制限</strong>：渡される attribute の値は文字列でなければならず、他の型は自動的に文字列に変換されます。</p>
+            <p><strong>型制限</strong>：渡される attribute の値は文字列でなければならず、他の型は自動的に文字列に変換される。</p>
           </li>
           <li>
-            <p><strong>命名変換</strong>：HTML属性は大文字と小文字を区別しないため、大文字を含む属性を渡す場合は、<code>-</code> で区切った命名（kebab-case 形式）を使用する必要があります。</p>
+            <p><strong>命名変換</strong>：HTML 属性は大文字・小文字を区別しないため、大文字を含む属性を渡す際は <code>-</code> で区切った名前（kebab-case 形式）を用いる。</p>
             <ul>
               <li>例：<code>fullName</code> → <code>full-name</code></li>
             </ul>
           </li>
           <li>
-            <p><strong>必須定義</strong>：コンポーネントが <code>attrs</code> オブジェクトに対応する属性を定義していない場合、その attribute を受け取ることができません。設定された値はデフォルト値であり、デフォルト値が必要ない場合は <code>null</code> に設定します。</p>
+            <p><strong>定義必須</strong>：コンポーネントが <code>attrs</code> オブジェクトに対応する属性を定義していない場合、その attribute を受け取ることはできない。設定された値はデフォルト値であり、デフォルト値を不要とする場合は <code>null</code> を設定する。</p>
           </li>
         </ol>
-        <o-playground name="重要规则示例" style="--editor-height: 500px">
+        <o-playground name="重要なルール例" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./demo-comp.html"></l-m>
       <demo-comp></demo-comp>
-      <demo-comp user-name="张三" age="25"></demo-comp>
+      <demo-comp user-name="山田太郎" age="25"></demo-comp>
     </template>
   </code>
           <code path="demo-comp.html" active="">
@@ -158,7 +158,7 @@
           return {
             tag: "demo-comp",
             attrs: {
-              userName: "デフォルト名",
+              userName: "デフォルトの名前",
               age: "0"
             },
           };
@@ -167,9 +167,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>テンプレート構文による Attribute の受け渡し</h2>
-        <p>コンポーネントのテンプレート内では、<code>attr:toKey="fromKey"</code> 構文を使用して、現在のコンポーネントの <code>fromKey</code> データを子コンポーネントの <code>toKey</code> 属性に渡すことができます。</p>
-        <o-playground name="属性伝達例" style="--editor-height: 500px">
+        <h2>テンプレート構文の属性受け渡し</h2>
+        <p>コンポーネントのテンプレートでは、<code>attr:toKey="fromKey"</code> という構文を使って、現在のコンポーネントの <code>fromKey</code> データを子コンポーネントの <code>toKey</code> プロパティに渡すことができます。</p>
+        <o-playground name="属性受け渡し例" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
       <o-page src="page1.html"></o-page>
@@ -209,7 +209,7 @@
           padding: 8px;
         }
       </style>
-      <p>フルネーム: {{fullName}}</p>
+      <p>Full Name: {{fullName}}</p>
       <script>
         export default async ({ load }) => {
           return {
@@ -223,14 +223,14 @@
     </template>
   </code>
         </o-playground>
-        <h2>マルチレベル伝達</h2>
-        <p>複数の階層にネストされたコンポーネントを通じて、属性を段階的に渡すことができます。</p>
-        <p>コンポーネントが他のコンポーネントに依存する場合、コンポーネント内で他のコンポーネントのモジュールをインポートする必要があります。</p>
-        <o-playground name="多階層受け渡しの例" style="--editor-height: 700px">
+        <h2>マルチレベルの伝達</h2>
+        <p>多層ネストされたコンポーネントを通じて、attributeを層ごとに渡すことができます。</p>
+        <p>コンポーネントが他のコンポーネントに依存する必要がある場合、コンポーネント内で他のコンポーネントのモジュールを導入する必要があります。</p>
+        <o-playground name="多階層渡しの例" style="--editor-height: 700px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./outer-comp.html"></l-m>
-      <outer-comp user-name="トップレベルデータ"></outer-comp>
+      <outer-comp user-name="トップデータ"></outer-comp>
     </template>
   </code>
           <code path="outer-comp.html" active="">
@@ -244,7 +244,7 @@
           margin-bottom: 8px;
         }
       </style>
-      <p>外層コンポーネント受信: {{userName}}</p>
+      <p>外部コンポーネント受信: {{userName}}</p>
       <inner-comp attr:user-name="userName"></inner-comp>
       <script>
         export default async ({ load }) => {
@@ -268,7 +268,7 @@
           margin-left: 20px;
         }
       </style>
-      <p>内層コンポーネント受信: {{userName}}</p>
+      <p>内部コンポーネント受信: {{userName}}</p>
       <script>
         export default async ({ load }) => {
           return {

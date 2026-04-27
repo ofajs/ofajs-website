@@ -81,12 +81,12 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>off</h1>
-        <p>El uso del método <code>off</code> permite cancelar un controlador de eventos previamente registrado, dejando de escuchar el evento.</p>
-        <p>A continuación se presenta un ejemplo que demuestra cómo usar el método <code>off</code> para cancelar el escucha de eventos：</p>
-        <o-playground name="off - Quitar detector de eventos" style="--editor-height: 400px">
+        <p>El uso del método <code>off</code> permite eliminar los controladores de eventos registrados para cancelar la escucha de eventos.</p>
+        <p>A continuación se muestra un ejemplo que demuestra cómo usar el método <code>off</code> para cancelar la escucha de eventos:</p>
+        <o-playground name="off - eliminar la escucha de eventos" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
-      <button id="target">agregar conteo</button>
+      <button id="target">add count</button>
       <br>
       <br>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
@@ -103,7 +103,7 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, hemos registrado un controlador de eventos de clic <code>f</code>; cuando se pulsa el botón, el controlador muestra el número de clics dentro de <code>#logger</code>. Utilizamos el método <code>off</code> para cancelar la escucha del evento cuando el contador alcanza 3.</p>
+        <p>En este ejemplo, registramos un controlador de eventos de clic <code>f</code>, que muestra el número de clics en <code>#logger</code> cuando se hace clic en el botón. Usando el método <code>off</code>, cancelamos la escucha del evento cuando el número de clics llega a 3.</p>
       </article>
       <div class="footer"></div>
       <script>

@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>PATH</h1>
-        <p>Das <code>PATH</code>-Attribut wird normalerweise auf benutzerdefinierten Komponenten oder Seitenkomponenten verwendet, um die Dateiadresse der registrierten Komponente abzurufen. Dies kann während der Entwicklung helfen, die Herkunft der Komponente zu verstehen, insbesondere wenn du andere Ressourcendateien referenzieren oder laden musst. Dabei kannst du das <code>PATH</code>-Attribut verwenden, um Dateipfade zu erstellen.</p>
-        <p>Im Folgenden finden Sie ein einfaches Beispiel, das demonstriert, wie man in einer benutzerdefinierten Komponente die Eigenschaft <code>PATH</code> verwendet:</p>
+        <p><code>PATH</code>-Attribut wird normalerweise für benutzerdefinierte Komponenten oder Seitenkomponenten verwendet, um die Dateiadresse der registrierten Komponente zu erhalten. Dies kann Ihnen während des Entwicklungsprozesses helfen, die Quelle der Komponente zu verstehen. Insbesondere wenn Sie andere Ressourcendateien referenzieren oder laden müssen, können Sie das <code>PATH</code>-Attribut verwenden, um den Dateipfad zu erstellen.</p>
+        <p>Im Folgenden finden Sie ein einfaches Beispiel, das zeigt, wie das Attribut <code>PATH</code> in einer benutzerdefinierten Komponente verwendet wird:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> componentPath = $(<span class="hljs-string">&quot;#myCustomComponent&quot;</span>).<span class="hljs-property">PATH</span>;</code></pre>
-        <p>In diesem Beispiel haben wir ein <code>my-comp</code>-Element mit der <code>id</code> &quot;myCustomComponent&quot; ausgewählt und dann über das <code>PATH</code>-Attribut den Dateipfad dieser benutzerdefinierten Komponente abgerufen. Sie können die Variable <code>componentPath</code> nach Bedarf im Skriptteil verwenden, beispielsweise um Pfade für andere Ressourcendateien zu erstellen oder andere Operationen durchzuführen.</p>
+        <p>In diesem Beispiel haben wir ein <code>my-comp</code>-Element mit der <code>id</code> „myCustomComponent“ ausgewählt und dann über das <code>PATH</code>-Attribut den Dateipfad dieser benutzerdefinierten Komponente abgerufen. Du kannst die Variable <code>componentPath</code> nach Bedarf im Skriptteil verwenden, z. B. um Pfade für andere Ressourcendateien zu bilden oder weitere Aktionen durchzuführen.</p>
       </article>
       <div class="footer"></div>
       <script>

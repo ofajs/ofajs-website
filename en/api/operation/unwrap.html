@@ -105,9 +105,9 @@
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Error, no parent element, cannot unwrap</span>
-$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Correct, remove the wrapping element</span></code></pre>
-        <p>When the target element has sibling elements, unwrap cannot be performed either.</p>
+$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Error: no parent element, cannot unwrap</span>
+$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Correct: removes the wrapping element</span></code></pre>
+        <p>When the target element has other sibling elements, unwrap cannot be executed either.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
@@ -115,8 +115,8 @@ $el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-ti
 &lt;/div&gt;
 `</span>);
 
-$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Error, because it has adjacent siblings</span></code></pre>
-        <p>Please note, do not operate within template components such as o-fill or o-if.</p>
+$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// Error, because it has other sibling nodes</span></code></pre>
+        <p><strong>Please note, do not operate inside template components such as o-fill or o-if.</strong></p>
       </article>
       <div class="footer"></div>
       <script>

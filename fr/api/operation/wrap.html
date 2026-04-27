@@ -81,33 +81,33 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>wrap</h1>
-        <p>La méthode <code>wrap</code> est utilisée pour envelopper un élément cible avec une couche d'élément externe. Avant d'exécuter l'opération <code>wrap</code>, l'opération d'initialisation de la <a href="../instance/dollar.html" olink="">méthode $</a> est automatiquement exécutée, il est donc possible de saisir directement une chaîne de caractères ou un objet d'élément spécifique.</p>
-        <o-playground name="wrap - Envelopper un élément" style="--editor-height: 440px">
+        <p>La méthode <code>wrap</code> sert à envelopper l’élément cible dans une couche d’éléments extérieurs. Avant l’exécution de l’opération <code>wrap</code>, l’initialisation de la méthode <a href="../instance/dollar.html" olink="">$</a> est automatiquement effectuée, il est donc possible de renseigner directement une chaîne ou un objet d’élément spécifique.</p>
+        <o-playground name="wrap - élément enveloppant" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
       <style> div{border: #aaa solid 1px; margin:8px; padding:8px;} </style>
       <div>
-        <div>Je suis 1</div>
-        <div id="target">Je suis 2</div>
-        <div>Je suis 3</div>
+        <div>I am 1</div>
+        <div id="target">I am 2</div>
+        <div>I am 3</div>
       </div>
       <script>
         setTimeout(()=>{
-          \$('#target').wrap(`<div style="border-color:red;">envelopper</div>`);
+          \$('#target').wrap(`<div style="border-color:red;">wrap</div>`);
         }, 500);
       </script>
     </template>
   </code>
         </o-playground>
-        <h2>Remarques</h2>
-        <p>L'élément cible <strong>doit avoir un nœud parent</strong>, sinon l'opération d'enveloppement échouera.</p>
+        <h2>Points d'attention</h2>
+        <p>L'élément cible <strong>doit avoir un nœud parent</strong>, sinon l'opération d'encapsulation échouera.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id="target"&gt;&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// erreur, pas d’élément parent, impossible d’envelopper</span>
+$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// erreur, pas d'élément parent, impossible d'envelopper</span>
 $el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// correct, il y a un élément parent</span></code></pre>
         <p><strong>Veuillez noter de ne pas manipuler à l’intérieur des composants de modèle tels que o-fill ou o-if.</strong></p>
       </article>

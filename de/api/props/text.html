@@ -83,26 +83,26 @@
         <h1>text</h1>
         <p>Die Methode <code>text</code> wird verwendet, um den Textinhalt eines Elements abzurufen oder festzulegen.</p>
         <h2>Direkte Verwendung</h2>
-        <p>Sie können den Textinhalt eines Elements direkt abrufen oder festlegen.</p>
+        <p>Sie können direkt den Textinhalt eines Elements abrufen oder festlegen.</p>
         <o-playground name="text - direkte Verwendung" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <div id="target1">Ziel 1</div>
-      <div id="target2">Originaltext</div>
+      <div id="target1">target 1</div>
+      <div id="target2">origin text</div>
       <br>
       <div id="logger" style="color:red;"></div>
       <script>
         setTimeout(()=> {
-          \$('#target2').text = `<b style="color:blue;">neuer Text</b>`;
+          \$('#target2').text = `<b style="color:blue;">new text</b>`;
           \$("#logger").text = $("#target1").text;
         }, 500);
       </script>
     </template>
   </code>
         </o-playground>
-        <h2>Verwendung auf Template-Syntax-Weise</h2>
-        <p>Du kannst auch das <code>:text</code>-Attribut verwenden, um dem Ziel-Element den entsprechenden Textwert zuzuweisen. Dies ist besonders beim Rendern von Komponenten nützlich.</p>
-        <o-playground name="text - Vorlagen-Syntax" style="--editor-height: 450px">
+        <h2>Verwendung der Vorlagensyntax</h2>
+        <p>Du kannst auch das <code>:text</code>-Attribut verwenden, um dem Zielelement den entsprechenden Textwert zuzuweisen. Dies ist besonders bei der Renderung von Komponenten nützlich.</p>
+        <o-playground name="text - Vorlagensyntax" style="--editor-height: 450px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./text-demo.html"></l-m>
@@ -116,7 +116,7 @@
   </code>
           <code path="text-demo.html" active>
     <template component>
-      <div>Rendered text:
+      <div>Gerenderter Text:
         <span :text="txt" style="color:red;"></span>
       </div>
       <script>

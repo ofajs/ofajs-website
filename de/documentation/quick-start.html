@@ -81,14 +81,14 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Schnellstart</h1>
-        <p>In diesem Abschnitt wird erklärt, wie Sie schnell mit ofa.js beginnen können. In den folgenden Tutorials werden wir die Erstellung der index.html-Einstiegsdatei überspringen und nur den Code der Seitenmoduldateien zeigen. Sie können direkt auf der Grundlage der Vorlage entwickeln.</p>
-        <h2>Vorbereitung der Basisdateien</h2>
-        <p>Um ofa.js schnell einzusetzen, erstellst du einfach ein <strong>Seitenmodul</strong> und kombinierst es mit einer Einstiegs-HTML-Datei. Die erforderlichen Kern-Dateien sind:</p>
+        <p>Dieser Abschnitt zeigt Ihnen, wie Sie schnell mit ofa.js beginnen können. In den folgenden Tutorials werden wir den Schritt der Erstellung der index.html-Einstiegsdatei auslassen und nur den Code der Seitenmoduldateien zeigen. Sie können direkt auf Basis der Vorlage entwickeln.</p>
+        <h2>Vorbereitung der Basisdokumente</h2>
+        <p>Um schnell mit ofa.js zu beginnen, erstellen Sie einfach ein <strong>Seitenmodul</strong> und kombinieren Sie es mit einer Einstiegs-HTML. Die benötigten Kern-Dateien sind wie folgt:</p>
         <ul>
-          <li><code>index.html</code>: Die Einstiegsdatei der Anwendung, die für das Laden des ofa.js-Frameworks und das Einbinden von Seitenmodulen verantwortlich ist</li>
-          <li><code>demo-page.html</code>: Die Seitenmoduldatei, die den spezifischen Inhalt, das Styling und die Datenlogik der Seite definiert</li>
+          <li><code>index.html</code>: Die Einstiegsdatei der Anwendung, die das ofa.js-Framework lädt und das Seitenmodul einbindet</li>
+          <li><code>demo-page.html</code>: Die Seitenmoduldatei, die den konkreten Inhalt, die Stile und die Datenlogik der Seite definiert</li>
         </ul>
-        <h3>index.html (Anwendungseinstieg)</h3>
+        <h3>index.html (Anwendungseingang)</h3>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- index.html --&gt;</span>
 <span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
@@ -105,9 +105,9 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./demo-page.html&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-        <p>Die Hauptfunktion dieser Datei ist:- Einführung des ofa.js-Frameworks</p>
+        <p>Die Hauptfunktion dieser Datei ist:- Einbindung des ofa.js-Frameworks</p>
         <ul>
-          <li>Verwendung der <code>&lt;o-page&gt;</code>-Komponente zum Laden und Rendern von Seitenmodulen</li>
+          <li>Verwenden der <code>&lt;o-page&gt;</code> Komponente zum Laden und Rendern des Seitenmoduls</li>
         </ul>
         <h3>demo-page.html (Seitenmodul)</h3>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- demo-page.html --&gt;</span>
@@ -133,14 +133,14 @@
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <p>Diese Datei definiert eine einfache Seitenkomponente, die Folgendes enthält:- <code>&lt;template page&gt;</code>-Tag, definiert Seitenmodul</p>
+        <p>Diese Datei definiert eine einfache Seitenkomponente, die Folgendes enthält:- <code>&lt;template page&gt;</code>-Tag, definiert ein Seitenmodul</p>
         <ul>
-          <li>CSS-Stile (Verwendung des <code>:host</code>-Selektors von Shadow DOM)</li>
+          <li>CSS-Stile (unter Verwendung des <code>:host</code>-Selektors von Shadow DOM)</li>
           <li>Datenbindungsausdruck <code>{{val}}</code></li>
-          <li>JavaScript-Logik, gibt ein Objekt mit Anfangsdaten zurück</li>
+          <li>JavaScript-Logik, die ein Objekt mit Anfangsdaten zurückgibt</li>
         </ul>
         <h2>Online-Demo</h2>
-        <p>Hier ist ein Live-Beispiel im Online-Editor, Sie können den Code direkt bearbeiten und die Auswirkungen sehen:</p>
+        <p>Hier ist ein Live-Beispiel im Online-Editor, bei dem Sie den Code direkt ändern und das Ergebnis anzeigen können:</p>
         <o-playground name="Online-Demo" style="--editor-height: 500px">
           <code>
     <template page>
@@ -159,7 +159,7 @@
         export default async () => {
           return {
             data: {
-              val: "Hallo ofa.js Demo-Code",
+              val: "Hello ofa.js Demo Code",
             },
           };
         };
@@ -167,10 +167,10 @@
     </template>
   </code>
         </o-playground>
-        <p>Wir definieren Stile durch das <code>&lt;style&gt;</code>-Tag innerhalb der Komponente. Diese internen Stile wirken nur innerhalb der Komponente, bieten eine gute Kapselung und beeinflussen keine anderen Elemente auf der Seite.</p>
-        <p>Hier wird der <code>:host</code>-Selektor verwendet, um die Stile des Host-Elements der Komponente zu definieren. Hier setzen wir die Komponente als Block-Level-Element und fügen einen roten Rahmen sowie einen Innenabstand von 10px hinzu.</p>
-        <p>Mit dem <code>{{key}}</code>-Ausdruck kann der entsprechende Wert aus den Komponentendaten auf der Seite gerendert werden.</p>
-        <p>Jetzt haben Sie erfolgreich Ihre erste ofa.js-Anwendung erstellt! Als nächstes lassen Sie uns tiefer in die Template-Rendering-Syntax und die fortgeschrittenen Funktionen von ofa.js eintauchen.</p>
+        <p>Wir definieren Stile durch das <code>&lt;style&gt;</code>-Tag innerhalb der Komponente. Diese internen Stile wirken nur innerhalb der Komponente, haben eine gute Kapselung und beeinflussen keine anderen Elemente auf der Seite.</p>
+        <p>Dabei wird der <code>:host</code>-Selektor verwendet, um den Stil des Host-Elements der Komponente zu definieren. Hier setzen wir die Komponente als Blockelement und fügen einen roten Rand und einen Innenabstand von 10px hinzu.</p>
+        <p>Mit dem Ausdruck <code>{{key}}</code> kann der entsprechende Wert aus den Komponentendaten auf die Seite gerendert werden.</p>
+        <p>Jetzt haben Sie erfolgreich Ihre erste ofa.js-Anwendung erstellt! Als Nächstes lassen Sie uns die Template-Rendering-Syntax und die erweiterten Funktionen von ofa.js vertiefen.</p>
       </article>
       <div class="footer"></div>
       <script>

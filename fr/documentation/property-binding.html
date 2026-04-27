@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>liaison de propriété</title>
+  <title>Liaison de propriété</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,11 +80,11 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>liaison de propriété</h1>
-        <p>ofa.js prend en charge la liaison de données aux propriétés des objets d&#39;instances d&#39;éléments après leur instanciation, telles que les propriétés value ou checked des éléments input.</p>
-        <h2>Liaison unidirectionnelle des attributs</h2>
-        <p>La liaison unidirectionnelle d&#39;attributs utilise la syntaxe <code>:toKey=&quot;fromKey&quot;</code> pour synchroniser &quot;unidirectionnellement&quot; les données du composant vers les attributs des éléments DOM. Lorsque les données du composant changent, les attributs de l&#39;élément sont mis à jour instantanément ; cependant, les modifications propres à l&#39;élément (comme la saisie de l&#39;utilisateur) ne sont pas réécrites en sens inverse dans le composant, maintenant ainsi un flux de données unique et contrôlable.</p>
-        <o-playground name="Liaison unidirectionnelle des propriétés" style="--editor-height: 500px">
+        <h1>Liaison de propriété</h1>
+        <p>ofa.js permet de lier des données aux propriétés des objets après l&#39;instanciation des éléments, telles que les attributs value ou checked d&#39;un élément input, etc.</p>
+        <h2>Liaison de propriété unidirectionnelle</h2>
+        <p>La liaison de propriété unidirectionnelle utilise la syntaxe <code>:toKey=&quot;fromKey&quot;</code> pour synchroniser les données du composant de manière « unidirectionnelle » vers les attributs de l&#39;élément DOM. Lorsque les données du composant changent, l&#39;attribut de l&#39;élément est mis à jour immédiatement ; mais les modifications de l&#39;élément lui-même (comme la saisie de l&#39;utilisateur) ne sont pas répercutées en sens inverse vers le composant, maintenant ainsi le flux de données unique et contrôlable.</p>
+        <o-playground name="Liaison de propriété unidirectionnelle" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -100,9 +100,9 @@
           box-sizing: border-box;
         }
       </style>
-      <p>Valeur actuelle : {{val}}</p>
-      <input type="text" :value="val" placeholder="Ceci est un champ de saisie à liaison unidirectionnelle">
-      <p>Remarque : modifier directement le contenu du champ ne change pas la valeur affichée ci-dessus</p>
+      <p>Valeur actuelle: {{val}}</p>
+      <input type="text" :value="val" placeholder="Ceci est une zone de saisie à liaison unidirectionnelle">
+      <p>Remarque : modifier le contenu directement dans la zone de saisie ne changera pas la valeur affichée ci-dessus.</p>
       <script>
         export default async () => {
           return {
@@ -113,8 +113,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Liaison de propriété bidirectionnelle</h2>
-        <p>La liaison d&#39;attributs bidirectionnelle utilise la syntaxe <code>sync:xxx</code>, permettant la synchronisation bidirectionnelle entre les données du composant et les éléments DOM. Lorsque les données du composant changent, l&#39;attribut de l&#39;élément DOM se met à jour ; lorsque l&#39;attribut de l&#39;élément DOM change (par exemple via une saisie utilisateur), les données du composant sont également synchronisées.</p>
+        <h2>Liaison bidirectionnel des propriétés</h2>
+        <p>La liaison de propriété bidirectionnelle utilise la syntaxe <code>sync:xxx</code>, réalisant une synchronisation bidirectionnelle entre les données du composant et les éléments DOM. Lorsque les données du composant changent, les attributs des éléments DOM sont mis à jour ; lorsque les attributs des éléments DOM changent (par exemple, lors de la saisie de l&#39;utilisateur), les données du composant sont également mises à jour en synchronisation.</p>
         <o-playground name="Liaison bidirectionnelle des propriétés" style="--editor-height: 500px">
           <code>
     <template page>
@@ -133,7 +133,7 @@
       </style>
       <p>Valeur actuelle : {{val}}</p>
       <input type="text" sync:value="val" placeholder="Ceci est une zone de saisie à liaison bidirectionnelle">
-      <p>Astuce : Modifier le contenu dans la zone de saisie mettra à jour la valeur affichée ci-dessus en temps réel.</p>
+      <p>Astuce : modifier le contenu dans la zone de saisie mettra à jour en temps réel la valeur affichée ci-dessus</p>
       <script>
         export default async () => {
           return {
@@ -147,11 +147,11 @@
         <h3>Caractéristiques de la liaison bidirectionnelle</h3>
         <ul>
           <li>Flux de données : composant ↔ élément DOM (bidirectionnel)</li>
-          <li>Changement des données du composant → mise à jour de l’élément DOM</li>
-          <li>Changement de l’élément DOM → mise à jour des données du composant</li>
-          <li>Adapté aux scénarios nécessitant une saisie utilisateur et une synchronisation des données</li>
+          <li>Changement des données du composant → mise à jour de l&#39;élément DOM</li>
+          <li>Changement de l&#39;élément DOM → mise à jour des données du composant</li>
+          <li>Convient aux scénarios nécessitant une saisie utilisateur et une synchronisation des données</li>
         </ul>
-        <h3>Scénarios courants de liaison bidirectionnelle</h3>
+        <h3>Scènes courantes de liaison bidirectionnelle</h3>
         <o-playground name="Exemple de liaison bidirectionnelle de formulaire" style="--editor-height: 700px">
           <code>
     <template page>
@@ -179,15 +179,15 @@
       <h3>Exemple de liaison bidirectionnelle de formulaire</h3>
       <div class="form-group">
         <label>Champ de texte :</label>
-        <input type="text" sync:value="textInput" placeholder="Entrez du texte">
+        <input type="text" sync:value="textInput" placeholder="Saisir du texte">
       </div>
       <div class="form-group">
         <label>Champ numérique :</label>
-        <input type="number" sync:value="numberInput" placeholder="Entrez un nombre">
+        <input type="number" sync:value="numberInput" placeholder="Saisir un nombre">
       </div>
       <div class="form-group">
-        <label>Zone de texte multiligne :</label>
-        <textarea sync:value="textareaInput" rows="3" placeholder="Entrez du texte multiligne"></textarea>
+        <label>Texte multilignes :</label>
+        <textarea sync:value="textareaInput" rows="3" placeholder="Saisir du texte multilignes"></textarea>
       </div>
       <div class="form-group">
         <label>Liste déroulante :</label>
@@ -208,9 +208,9 @@
         <h4>Aperçu en temps réel :</h4>
         <p>Texte : {{textInput}}</p>
         <p>Nombre : {{numberInput}}</p>
-        <p>Texte multiligne : {{textareaInput}}</p>
+        <p>Texte multilignes : {{textareaInput}}</p>
         <p>Sélection : {{selectedOption}}</p>
-        <p>État de la case : {{isChecked ? 'Cochée' : 'Non cochée'}}</p>
+        <p>État de la case à cocher : {{isChecked ? 'coché' : 'non coché'}}</p>
       </div>
       <script>
         export default async () => {
@@ -222,12 +222,12 @@
     </template>
   </code>
         </o-playground>
-        <h2>Remarques</h2>
+        <h2>Points d&#39;attention</h2>
         <ol>
-          <li><strong>Considérations de performance</strong> : la liaison bidirectionnelle crée des écouteurs de données ; une utilisation massive peut impacter les performances </li>
+          <li><strong>Considérations de performance</strong> : la liaison bidirectionnelle crée des écouteurs de données ; un usage massif peut impacter les performances </li>
           <li><strong>Cohérence des données</strong> : la liaison bidirectionnelle garantit la cohérence entre données et vue, mais il faut éviter les mises à jour en boucle infinie </li>
-          <li><strong>Valeurs initiales</strong> : assurez-vous que les données liées possèdent des valeurs initiales appropriées pour éviter l’affichage d’undefined </li>
-          <li><strong>Conflits d’événements</strong> : évitez d’utiliser simultanément la liaison bidirectionnelle et la gestion manuelle d’événements sur un même élément afin de prévenir les conflits</li>
+          <li><strong>Valeur initiale</strong> : assurez-vous que les données liées possèdent une valeur initiale appropriée pour éviter l’affichage de undefined </li>
+          <li><strong>Conflits d’événements</strong> : évitez d’utiliser simultanément la liaison bidirectionnelle et la gestion manuelle d’événements sur le même élément afin de prévenir tout conflit</li>
         </ol>
       </article>
       <div class="footer"></div>

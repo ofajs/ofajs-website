@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>css</h1>
-        <p>Die <code>css</code>-Methode dient dazu, die Stile des Ziel-Elements abzurufen oder festzulegen.</p>
+        <p><code>css</code> Methode wird verwendet, um den Stil des Zielelements abzurufen oder festzulegen.</p>
         <h2>Direkte Verwendung</h2>
-        <p>Du kannst die <code>css</code>-Methode direkt verwenden, um die Stile eines Elements abzurufen oder festzulegen.</p>
-        <o-playground name="css - Direkte Verwendung" style="--editor-height: 300px">
+        <p>Du kannst direkt die <code>css</code>-Methode verwenden, um den Stil eines Elements abzurufen oder festzulegen.</p>
+        <o-playground name="css - direkte Verwendung" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <div id="target">origin text</div>
@@ -102,13 +102,13 @@
   </code>
         </o-playground>
         <h2>Vollständige Einstellungen</h2>
-        <p>Über das erhaltene <code>css</code>-Objekt kannst du die Style-Werte direkt am Element setzen.</p>
-        <o-playground name="css - Vollständige Einstellung" style="--editor-height: 400px">
+        <p>Durch das erhaltene <code>css</code>-Objekt kannst du direkt den Style-Wert auf dem Element festlegen.</p>
+        <o-playground name="css - Alle Einstellungen" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
-      <div id="target" style="color:red">Ursprungstext</div>
+      <div id="target" style="color:red">origin text</div>
       <br>
-      <h4>Logger</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = Object.keys($("#target").css);
@@ -123,10 +123,10 @@
     </template>
   </code>
         </o-playground>
-        <p>Mit den Eigenschaften des <code>css</code>-Objekts kannst du die Stile des Ziel-Elements schnell anpassen.</p>
-        <h2>Verwendung auf Template-Syntax-Weise</h2>
-        <p>Sie können auch über die Template-Syntax den Stil des Zielelements festlegen.</p>
-        <o-playground name="css - Vorlagen-Syntax" style="--editor-height: 400px">
+        <p>Mit den Eigenschaften des <code>css</code>-Objekts können Sie schnell den Stil des Zielelements anpassen.</p>
+        <h2>Verwendung der Vorlagensyntax</h2>
+        <p>Du kannst auch über die Template-Syntax die Stile des Ziel-Elements festlegen.</p>
+        <o-playground name="css - Vorlagensyntax" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./css-demo.html"></l-m>
@@ -157,13 +157,13 @@
     </template>
   </code>
         </o-playground>
-        <h2>Tipps zum Einrichten von CSS</h2>
-        <p>Du kannst die Stileigenschaften eines Elements ändern, ohne andere Stileigenschaften zu beeinflussen, indem du <code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> verwendest. Diese Methode ermöglicht es, nur eine einzelne Eigenschaft zu ändern, ohne den gesamten Stil neu zu schreiben.</p>
+        <h2>Tipps zur CSS-Einstellung</h2>
+        <p>Du kannst die Art und Weise <code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> verwenden, um eine einzelne Stil-Eigenschaft eines Elements zu ändern, ohne andere Stil-Eigenschaften zu beeinflussen. Diese Methode ermöglicht es, nur eine Eigenschaft zu ändern, ohne den gesamten Stil neu schreiben zu müssen.</p>
         <h3>Beispiel</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> myElement = $(<span class="hljs-string">&quot;#myElement&quot;</span>);
 
 myElement.<span class="hljs-property">css</span> = { ...myElement.<span class="hljs-property">css</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> };</code></pre>
-        <p>Im obigen Beispiel ändern wir mit <code>{ ...myElement.css, color: &#39;red&#39; }</code> nur die Farbe des Elements und lassen alle anderen Stileigenschaften unverändert. Das ist ein praktischer Trick, um die Gestaltung eines Elements flexibel anzupassen.</p>
+        <p>Im obigen Beispiel verwenden wir <code>{ ...myElement.css, color: &#39;red&#39; }</code>, um nur die Farbe des Elements zu ändern, während die anderen Stileigenschaften unverändert bleiben. Dies ist ein sehr praktischer Trick, um die Stile eines Elements flexibel zu modifizieren.</p>
       </article>
       <div class="footer"></div>
       <script>

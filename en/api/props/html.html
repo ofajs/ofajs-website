@@ -82,7 +82,7 @@
       <article class="markdown-body">
         <h1>html</h1>
         <p>The <code>html</code> method is used to get or set the HTML code inside the target element.</p>
-        <o-playground name="html - Direct Use" style="--editor-height: 400px">
+        <o-playground name="html - Direct Usage" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
       <div id="target1">
@@ -102,8 +102,8 @@
   </code>
         </o-playground>
         <h2>Notes</h2>
-        <p><code>html</code> is a relatively dangerous method; if a <code>script</code> tag is injected, it will automatically execute the JavaScript code inside. Pay attention to preventing XSS when using it.</p>
-        <h2>Template Syntax Usage</h2>
+        <p><code>html</code> is a relatively dangerous method; when inserted into <code>script</code>, it will also automatically execute the internal JavaScript code. Be careful to prevent XSS when using it.</p>
+        <h2>Using Template Syntax</h2>
         <p>You can also use the <code>:html</code> attribute to set the corresponding HTML value for the target element. This is particularly useful in component rendering.</p>
         <o-playground name="html - Template Syntax" style="--editor-height: 500px">
           <code path="demo.html" preview>

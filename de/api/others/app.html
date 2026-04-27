@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>o-app Komponente</title>
+  <title>o-app-Komponente</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
@@ -80,26 +80,26 @@
       </style>
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
-        <h1>o-app Komponente</h1>
-        <p><code>o-app</code> ist eine der Kernkomponenten in ofa.js und wird zur Konfiguration und Verwaltung der gesamten Anwendung verwendet. Im Folgenden einige Schlüsselattribute und -methoden der App:</p>
+        <h1>o-app-Komponente</h1>
+        <p><code>o-app</code> ist eine der Kernkomponenten in ofa.js, die zur Konfiguration und Verwaltung der gesamten Anwendung dient. Im Folgenden sind einige wichtige Eigenschaften und Methoden der app:</p>
         <h2>src</h2>
-        <p>Das <code>src</code>-Attribut wird verwendet, um die spezifische Adresse des Anwendungsparameter-Konfigurationsmoduls anzugeben.</p>
+        <p><code>src</code> Attribut wird verwendet, um die genaue Adresse des Anwendungsparameter-Konfigurationsmoduls anzugeben.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> app = $(<span class="hljs-string">&quot;o-app&quot;</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(app.<span class="hljs-property">src</span>);</code></pre>
         <h2>current</h2>
-        <p>Das <code>current</code>-Attribut wird verwendet, um die Instanz der aktuell angezeigten Seite abzurufen. Dies kann Ihnen helfen, auf die aktuell angezeigte Seite zuzugreifen und sie zu bearbeiten, z. B. um deren Inhalt zu aktualisieren oder bestimmte Aktionen auszuführen.</p>
+        <p>Die Eigenschaft <code>current</code> wird verwendet, um die gerade angezeigte Seiteninstanz abzurufen. Auf diese Weise können Sie auf die aktuell dargestellte Seite zugreifen und sie bearbeiten, etwa um deren Inhalt zu aktualisieren oder bestimmte Aktionen auszuführen.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
         <h2>goto</h2>
-        <p>Die Methode <code>goto</code> wird verwendet, um zu einer bestimmten Seite zu springen. Sie können die Adresse der Zielseite übergeben, und die Anwendung lädt und zeigt diese Seite an. Dies ist eine wichtige Methode für die Navigation in der Anwendung.</p>
+        <p><code>goto</code> Methode wird verwendet, um zu einer bestimmten Seite zu springen. Sie können die Adresse der Zielseite übergeben, die App wird die Seite laden und anzeigen. Dies ist eine wichtige Methode der App-Navigation.</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;/page2.html&quot;</span>);</code></pre>
         <h2>replace</h2>
-        <p>Die Methode <code>replace</code> ist ähnlich wie <code>goto</code>, ersetzt jedoch die aktuelle Seite anstatt eine neue Seite auf den Stapel zu legen. Sie kann verwendet werden, um eine Seitenersetzung statt einer Stapelnavigation zu realisieren.</p>
-        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;/new-page.html&quot;</span>);</code></pre>
+        <p><code>replace</code>-Methode ähnelt <code>goto</code>, dient jedoch dazu, die aktuelle Seite zu ersetzen, anstatt eine neue Seite zum Stack hinzuzufügen. Dies kann verwendet werden, um Seitenersetzungen anstelle von Stack-Navigation zu implementieren.</p>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;/neue-seite.html&quot;</span>);</code></pre>
         <h2>back</h2>
-        <p>Die <code>back</code>-Methode wird verwendet, um zur vorherigen Seite zurückzukehren und ermöglicht die Navigation rückwärts durch die Seiten. Dadurch wird der Benutzer zur vorherigen Seite zurückgeleitet.</p>
+        <p><code>back</code> Methode wird verwendet, um zur vorherigen Seite zurückzukehren und die Rückwärtsnavigation der Seite zu realisieren. Dies führt den Benutzer zurück zur vorherigen Seite.</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">back</span>();</code></pre>
         <h2>routers</h2>
-        <p>Die Eigenschaft <code>routers</code> enthält die Routing-Konfigurationsinformationen der Anwendung. Dies ist eine wichtige Eigenschaft, die die Routing-Regeln und Zuordnungen der einzelnen Seiten innerhalb der Anwendung definiert. Die Routing-Konfiguration bestimmt die Navigation zwischen Seiten und die Behandlung von URLs.</p>
+        <p>Das Attribut <code>routers</code> enthält die Routing-Konfigurationsinformationen der Anwendung. Es ist ein wichtiges Attribut, das die Routing-Regeln und Zuordnungen der einzelnen Seiten in der Anwendung definiert. Die Routing-Konfiguration bestimmt die Navigation zwischen den Seiten und die Behandlung von URLs.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> routeConfig = app.<span class="hljs-property">routers</span>;</code></pre>
       </article>
       <div class="footer"></div>

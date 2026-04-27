@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>emit</h1>
-        <p>Usando el método <code>emit</code>, puedes activar eventos de forma proactiva, y los eventos activados tienen un mecanismo de burbujeo. El mecanismo de burbujeo significa que el evento burbujea desde el elemento interno hacia el elemento externo, activándose desde el nivel interno hacia el externo.</p>
-        <p>A continuación se presenta un ejemplo que demuestra cómo usar el método <code>emit</code> para disparar eventos personalizados y utilizar el mecanismo de burbujeo para propagar eventos a elementos externos：</p>
+        <p>Usando el método <code>emit</code>, puedes activar eventos de forma activa, y los eventos activados tienen un mecanismo de propagación. El mecanismo de propagación significa que los eventos se propagan desde los elementos internos hacia los externos, activándose en capas de adentro hacia afuera.</p>
+        <p>A continuación, se muestra un ejemplo que demuestra cómo usar el método <code>emit</code> para disparar un evento personalizado y utilizar el mecanismo de burbujeo para pasar el evento a elementos externos:</p>
         <o-playground name="emit - disparar evento" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
@@ -112,9 +112,9 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, hemos registrado el mismo controlador de eventos personalizado <code>custom-event</code> para el elemento <code>&lt;ul&gt;</code> y el elemento <code>&lt;li&gt;</code>. Cuando usamos el método <code>emit</code> para activar el evento, este burbujea desde el elemento <code>&lt;li&gt;</code> hasta el elemento <code>&lt;ul&gt;</code>, activando ambos controladores de eventos.</p>
+        <p>En este ejemplo, registramos el mismo manejador de evento personalizado <code>custom-event</code> para el elemento <code>&lt;ul&gt;</code> y el elemento <code>&lt;li&gt;</code>. Cuando usamos el método <code>emit</code> para disparar el evento, este evento burbujea desde el elemento <code>&lt;li&gt;</code> hasta el elemento <code>&lt;ul&gt;</code>, disparando los dos manejadores de evento.</p>
         <h2>Datos personalizados</h2>
-        <p>Al incluir el parámetro <code>data</code>, puedes pasar datos personalizados al handler del evento:</p>
+        <p>Al incluir el parámetro <code>data</code>, puedes pasar datos personalizados al manejador de eventos:</p>
         <o-playground name="emit - datos personalizados" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
@@ -141,25 +141,25 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, pasamos datos personalizados al manejador de eventos mediante el parámetro <code>data</code>. El manejador de eventos puede obtener los datos pasados a través de <code>event.data</code>.</p>
-        <h2>Disparar eventos sin burbujeo</h2>
-        <p>Si no deseas que el evento se propague, puedes pasar el parámetro <code>bubbles: false</code> al disparar el evento:</p>
+        <p>En este ejemplo, pasamos datos personalizados al manejador de eventos a través del parámetro <code>data</code>. El manejador de eventos puede obtener los datos pasados a través de <code>event.data</code>.</p>
+        <h2>No propagar eventos de burbuja</h2>
+        <p>Si no deseas que el evento se propague, puedes incluir el parámetro <code>bubbles: false</code> al activar el evento:</p>
         <o-playground name="emit - sin burbujeo" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
         <li id="target">
-          Soy el objetivo
+          I am target
         </li>
       </ul>
       <div id="logger1" style="border:red solid 1px;padding:8px;">-</div>
       <div id="logger2" style="border:blue solid 1px;padding:8px;">-</div>
       <script>
         \$('ul').on('custom-event',()=>{
-          \$("#logger1").text = 'ul se activó';
+          \$("#logger1").text = 'ul is triggered';
         });
         \$('#target').on('custom-event',()=>{
-          \$("#logger2").text = 'target se activó';
+          \$("#logger2").text = 'target is triggered';
         });
         setTimeout(()=>{
           \$("#target").emit("custom-event",{
@@ -170,10 +170,10 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, utilizamos el parámetro <code>bubbles: false</code> para desencadenar un evento personalizado. Este evento no se propaga hacia los elementos superiores, por lo que solo se activa el controlador de eventos del elemento <code>&lt;li&gt;</code>.</p>
+        <p>En este ejemplo, usamos el parámetro <code>bubbles: false</code> para activar un evento personalizado. Este evento no se propaga a los elementos superiores, por lo que solo se activa el manejador de eventos del elemento <code>&lt;li&gt;</code>.</p>
         <h2>Penetrar el nodo raíz</h2>
-        <p>Por defecto, los eventos no atraviesan el DOM de sombra de un componente personalizado. Pero puedes hacer que los eventos personalizados atraviesen el nodo raíz y se disparen en elementos fuera de él estableciendo <code>composed: true</code>.</p>
-        <o-playground name="emit - Penetrar nodo raíz" style="--editor-height: 560px">
+        <p>Por defecto, los eventos no atraviesan el Shadow DOM de los componentes personalizados. Pero puedes permitir que los eventos personalizados atraviesen el nodo raíz y se activen en elementos externos estableciendo <code>composed: true</code>.</p>
+        <o-playground name="emit - atravesar nodo raíz" style="--editor-height: 560px">
           <code path="demo.html" preview>
     <template>
       <div id="outer-logger"></div>
@@ -199,7 +199,7 @@
           },
           ready(){
             this.on("custom-event",(event)=>{
-              this.loggerText = 'custom event is triggered;  =>  ' + event.data;
+              this.loggerText = 'evento personalizado activado;  =>  ' + event.data;
             });
             setTimeout(()=>{
               this.shadow.$("#target").emit("custom-event",{
@@ -213,7 +213,7 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, creamos un componente personalizado <code>composed-test</code> que contiene un elemento dentro de un DOM sombra y un botón que activa un evento. Por defecto, los eventos no atraviesan el DOM sombra hacia el nodo raíz. Sin embargo, al usar el parámetro <code>composed: true</code> al activar el evento, permitimos que el evento atraviese hasta el nodo raíz, activando así un elemento fuera del nodo raíz.</p>
+        <p>En este ejemplo, creamos un componente personalizado <code>composed-test</code>, que contiene un elemento en el Shadow DOM y un botón que dispara un evento. De manera predeterminada, los eventos no atraviesan el Shadow DOM hasta el nodo raíz. Sin embargo, al usar el parámetro <code>composed: true</code> al disparar el evento, permitimos que el evento atraviese hasta el nodo raíz, activando elementos fuera del nodo raíz.</p>
       </article>
       <div class="footer"></div>
       <script>

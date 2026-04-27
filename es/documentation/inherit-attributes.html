@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Propagar atributos de características</title>
+  <title>Transmitir atributos de características</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,11 +80,11 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Propagar atributos de características</h1>
-        <p>En ofa.js, los <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/attributes" target="_blank">atributos</a> son una de las formas más comunes de pasar datos entre componentes. Simplemente declarando los atributos necesarios en el objeto <code>attrs</code> del componente, se pueden pasar datos externos al interior del componente al utilizarlo.</p>
+        <h1>Transmitir atributos de características</h1>
+        <p>En ofa.js, <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/attributes" target="_blank">atributos（Attribute）</a> es una de las formas más comunes de transferir datos entre componentes. Solo necesita declarar los atributos requeridos en el objeto <code>attrs</code> del componente para pasar datos externos al componente cuando se usa.</p>
         <h2>Uso básico</h2>
         <h3>Definir propiedades de recepción</h3>
-        <p>Antes de usar el componente, es necesario declarar los atributos que se necesitan recibir en el objeto <code>attrs</code> del componente. Los atributos pueden establecer valores predeterminados.</p>
+        <p>Antes de usar el componente, es necesario declarar las propiedades que se recibirán en el objeto <code>attrs</code> del componente. Las propiedades pueden tener valores predeterminados.</p>
         <o-playground name="Ejemplo de uso básico" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
@@ -104,7 +104,7 @@
         }
       </style>
       <p>First: {{first}}</p>
-      <p>Nombre completo: {{fullName}}</p>
+      <p>Full Name: {{fullName}}</p>
       <script>
         export default async ({ load }) => {
           return {
@@ -122,16 +122,16 @@
         <h3>Reglas importantes</h3>
         <ol>
           <li>
-            <p><strong>Restricción de tipo</strong>: Los valores de atributo pasados deben ser cadenas de texto; otros tipos se convertirán automáticamente a cadenas.</p>
+            <p><strong>Limitación de tipo</strong>: El valor del atributo pasado debe ser una cadena de texto; otros tipos se convertirán automáticamente a cadenas.</p>
           </li>
           <li>
-            <p><strong>Conversión de nombres</strong>: Dado que los atributos HTML no distinguen entre mayúsculas y minúsculas, al pasar atributos que contengan letras mayúsculas, es necesario usar <code>-</code> para separar los nombres (formato kebab-case).</p>
+            <p><strong>Conversión de nombres</strong>: Dado que los atributos HTML no distinguen entre mayúsculas y minúsculas, al pasar atributos que contienen letras mayúsculas, se debe usar el formato con guiones (kebab-case).</p>
             <ul>
               <li>Por ejemplo: <code>fullName</code> → <code>full-name</code></li>
             </ul>
           </li>
           <li>
-            <p><strong>Definición obligatoria</strong>: Si el componente no define el atributo correspondiente en el objeto <code>attrs</code>, no podrá recibir ese atributo. El valor establecido es el valor predeterminado; si no se desea un valor predeterminado, se debe establecer como <code>null</code>.</p>
+            <p><strong>Debe estar definido</strong>: Si el componente no define la propiedad correspondiente en el objeto <code>attrs</code>, no podrá recibir ese atributo. El valor establecido es el valor predeterminado; si no se desea un valor predeterminado, se establece como <code>null</code>.</p>
           </li>
         </ol>
         <o-playground name="Ejemplo de regla importante" style="--editor-height: 500px">
@@ -151,14 +151,14 @@
           padding: 8px;
         }
       </style>
-      <p>Nombre de usuario: {{userName}}</p>
-      <p>Edad: {{age}}</p>
+      <p>User Name: {{userName}}</p>
+      <p>Age: {{age}}</p>
       <script>
         export default async ({ load }) => {
           return {
             tag: "demo-comp",
             attrs: {
-              userName: "Nombre por defecto",
+              userName: "nombre predeterminado",
               age: "0"
             },
           };
@@ -167,8 +167,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Sintaxis de plantilla - Pasar Atributos</h2>
-        <p>En la plantilla de un componente, se puede usar la sintaxis <code>attr:toKey="fromKey"</code> para pasar los datos de <code>fromKey</code> del componente actual a la propiedad <code>toKey</code> del componente secundario.</p>
+        <h2>Sintaxis de plantilla para pasar atributos</h2>
+        <p>En la plantilla del componente, se puede usar la sintaxis <code>attr:toKey="fromKey"</code> para pasar los datos <code>fromKey</code> del componente actual al atributo <code>toKey</code> del componente hijo.</p>
         <o-playground name="Ejemplo de paso de atributos" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
@@ -223,14 +223,14 @@
     </template>
   </code>
         </o-playground>
-        <h2>Transferencia multinivel</h2>
-        <p>Puedes pasar atributos a través de múltiples capas de componentes anidados.</p>
-        <p>Si un componente necesita depender de otros componentes, es necesario importar los módulos de los otros componentes en el componente.</p>
-        <o-playground name="Ejemplo de передача de datos multinivel" style="--editor-height: 700px">
+        <h2>Transmisión multinivel</h2>
+        <p>Se puede pasar attribute a través de componentes anidados en múltiples capas.</p>
+        <p>Si el componente necesita depender de otros componentes, es necesario introducir los módulos de otros componentes en el componente.</p>
+        <o-playground name="Ejemplo de transmisión multinivel" style="--editor-height: 700px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./outer-comp.html"></l-m>
-      <outer-comp user-name="Datos superiores"></outer-comp>
+      <outer-comp user-name="Datos de nivel superior"></outer-comp>
     </template>
   </code>
           <code path="outer-comp.html" active="">

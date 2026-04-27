@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Create Component</h1>
-        <p>In ofa.js, components are the core mechanism for achieving page reuse and modularity. A component is essentially a custom Web Component that defines its own template, styles, and logic, enabling the creation of reusable UI elements.</p>
-        <h2>Basic Component Structure</h2>
-        <p>Unlike page modules, component modules use the <code>component</code> attribute in the <code>&lt;template&gt;</code> element and declare a <code>tag</code> attribute to specify the component tag name.</p>
-        <p>At the location where a component needs to be used, asynchronously load the component module through the <code>l-m</code> tag, and the system will automatically complete the registration; you can then use the component directly like a regular HTML tag.</p>
+        <p>In ofa.js, components are the core mechanism for achieving page reuse and modularity. A component is essentially a custom Web Component; by defining its template, styles, and logic, you can create reusable UI elements.</p>
+        <h2>Component Basic Structure</h2>
+        <p>Unlike page modules, component modules replace the <code>&lt;template&gt;</code> element&#39;s <code>page</code> attribute with a <code>component</code> attribute and declare a <code>tag</code> attribute to specify the component&#39;s tag name.</p>
+        <p>At the location where the component is needed, asynchronously load the component module via the <code>l-m</code> tag, and the system will automatically complete the registration; the component can then be used directly like a regular HTML tag.</p>
         <o-playground name="Component Basic Example" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
@@ -115,18 +115,18 @@
     </template>
   </code>
         </o-playground>
-        <h2>Component Core Concepts</h2>
-        <h3>tag - Component tag name</h3>
-        <p><code>tag</code> is the component&#39;s tag name, <strong>which must be consistent with the tag name used in the component</strong>. For example, if your component&#39;s <code>tag</code> is defined as <code>&quot;demo-comp&quot;</code>, then when used in HTML, you must write <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>.</p>
+        <h2>Core Component Concepts</h2>
+        <h3>tag - Component Tag Name</h3>
+        <p><code>tag</code> is the component&#39;s tag name and <strong>must match the tag name used for the component</strong>. For example, if your component&#39;s <code>tag</code> is defined as <code>&quot;demo-comp&quot;</code>, you must use <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> in the HTML.</p>
         <h3>Component Module Reference</h3>
-        <p>Use the <code>l-m</code> tag to import a component module; the component will be auto-registered. It works like a <code>script</code> tag but is dedicated to loading and registering component modules.</p>
+        <p>Introduce component modules through the <code>l-m</code> tag, and the component modules will automatically register the components. This is similar to using the <code>script</code> tag to introduce scripts, but <code>l-m</code> is specifically used for loading and registering component modules.</p>
         <blockquote>
           <p>Note: The <code>l-m</code> reference tag is an <strong>asynchronous reference</strong>, suitable for loading components on demand when the page loads.</p>
         </blockquote>
-        <h2>Sync Quote Component</h2>
-        <p>In some scenarios, you may need to load a component synchronously (e.g., to ensure it is fully registered before use). Use the <code>load</code> method with the <code>await</code> keyword to achieve synchronous referencing.</p>
-        <p>In both component modules and page modules, the <code>load</code> function is automatically injected to allow developers to synchronously load required resources.</p>
-        <o-playground name="Synchronous Component Reference Example" style="--editor-height: 500px">
+        <h2>Sync Reference Component</h2>
+        <p>In some scenarios, you may need to synchronously load components (e.g., to ensure that components are registered before use). In this case, you can use the <code>load</code> method with the <code>await</code> keyword to achieve synchronous reference.</p>
+        <p>In both component modules and page modules, the <code>load</code> function is automatically injected for developers to synchronously load the required resources.</p>
+        <o-playground name="Synchronous Reference Component Example" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-page src="page1.html"></o-page>
@@ -183,21 +183,21 @@
         <table>
           <thead>
             <tr>
-              <th>Quotation Method</th>
-              <th>Keywords</th>
-              <th>Characteristics</th>
+              <th>Citation Method</th>
+              <th>Keyword</th>
+              <th>Feature</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Asynchronous Reference</td>
+              <td>Asynchronous Citation</td>
               <td><code>l-m</code> tag</td>
               <td>Non-blocking loading, suitable for on-demand component loading</td>
             </tr>
             <tr>
-              <td>Synchronous Reference</td>
+              <td>Synchronous Citation</td>
               <td><code>load</code> method with <code>await</code> keyword</td>
-              <td>Blocking loading, ensures components are registered before use</td>
+              <td>Blocking loading, ensures component is registered before use</td>
             </tr>
           </tbody>
         </table>

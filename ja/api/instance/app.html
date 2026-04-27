@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>app</h1>
-        <p><code>o-app</code> 内部の要素、<code>o-app</code> 内部にある <code>o-page</code> のシャドウノード内部の要素、またはそのさらに内部にあるサブコンポーネントの <code>app</code> プロパティは、すべてこの <code>o-app</code> の要素インスタンスを指します。</p>
-        <p>以下は、<code>o-app</code> 内の要素で <code>app</code> 属性にアクセスする方法を示す例です：</p>
-        <o-playground name="app - アプリケーションインスタンスの取得" style="--editor-height: 500px">
+        <p><code>o-app</code> 内の要素（<code>o-app</code> 内の <code>o-page</code> のシャドウノード内の要素、またはさらに内部のサブコンポーネントを含む）の <code>app</code> 属性は、すべてこの <code>o-app</code> の要素インスタンスを指します。</p>
+        <p>以下は、<code>o-app</code>内の要素から<code>app</code>属性にアクセスする方法を示す例です：</p>
+        <o-playground name="app - アプリケーションインスタンスを取得" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js"></o-app>

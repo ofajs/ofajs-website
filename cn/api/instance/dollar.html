@@ -183,6 +183,36 @@
   </code>
         </o-playground>
         <p>在这个示例中，我们使用 <code>$</code> 函数通过对象的方式定义了一个新元素实例，包括标签类型、文本内容和样式属性，并将其添加到具有 <code>id</code> 为 "target1" 的现有元素实例内。</p>
+        <h2>获取的示例和页面/组件实例的关系</h2>
+        <p><code>$</code> 方法可用于从全局获取对应页面或组件元素的实例，其功能与页面或组件模块内生命周期方法中的 <code>this</code> 指向相同。</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+...
+<span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./test-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">test-comp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"target"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">test-comp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>{
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">'#target'</span>).<span class="hljs-property">title</span>);  <span class="hljs-comment">// =&gt; OFAJS 组件示例</span>
+  },<span class="hljs-number">300</span>);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- test-comp.html --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"test-comp"</span>,
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"OFAJS 组件示例"</span>,
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>){
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span> === $(<span class="hljs-string">'#target'</span>)); <span class="hljs-comment">// true</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

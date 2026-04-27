@@ -82,13 +82,13 @@
       <article class="markdown-body">
         <h1>Gestion d&#39;état</h1>
         <h2>Qu&#39;est-ce que l&#39;état</h2>
-        <p>Dans ofa.js, <strong>l&#39;état</strong> fait référence à la propriété <code>data</code> propre à un composant ou à un module de page. Cet état ne peut être utilisé que sur le composant actuel et sert à stocker et gérer les données internes de ce composant.</p>
-        <p>Lorsque plusieurs composants ou pages doivent partager les mêmes données, la méthode traditionnelle consiste à les transmettre par événements ou à travers plusieurs niveaux de props, ce qui rend le code difficile à maintenir dans les applications complexes. Il est donc nécessaire d’avoir recours à la <strong>gestion d’état</strong> — en définissant un objet d’état partagé, plusieurs composants ou modules de page peuvent accéder à ces données et les modifier, réalisant ainsi le partage de l’état.</p>
+        <p>Dans ofa.js, <strong>l&#39;état</strong> désigne l&#39;attribut <code>data</code> propre au composant ou au module de page. Cet état ne peut être utilisé que dans le composant actuel, pour stocker et gérer les données internes de ce composant.</p>
+        <p>Lorsque plusieurs composants ou pages doivent partager les mêmes données, l&#39;approche traditionnelle consiste à les transmettre via des événements ou des props de manière hiérarchique, ce qui, dans les applications complexes, rend le code difficile à maintenir. Il est donc nécessaire d&#39;utiliser une <strong>gestion d&#39;état</strong> — en définissant un objet d&#39;état partagé, permettant à plusieurs composants ou modules de page d&#39;accéder et de modifier ces données, réalisant ainsi le partage de l&#39;état.</p>
         <blockquote>
-          <p><strong>Astuce</strong> : La gestion d&#39;état est adaptée aux scénarios où des données doivent être partagées entre composants et pages, comme les informations utilisateur, le panier, la configuration du thème, la configuration globale, etc.</p>
+          <p><strong>Indice</strong> : La gestion d&#39;état est adaptée aux scénarios nécessitant le partage de données entre composants et pages, tels que les informations utilisateur, le panier d&#39;achat, la configuration du thème, la configuration globale, etc.</p>
         </blockquote>
         <h2>Générer un objet d&#39;état</h2>
-        <p>En utilisant <code>$.stanz({})</code> pour créer un objet d&#39;état réactif. Cette méthode reçoit un objet ordinaire comme données initiales et renvoie un proxy d&#39;état réactif.</p>
+        <p>Créez un objet d&#39;état réactif via <code>$.stanz({})</code>. Cette méthode prend un objet ordinaire comme données initiales et renvoie un proxy d&#39;état réactif.</p>
         <h3>Utilisation de base</h3>
         <o-playground name="Exemple de gestion d'état" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
@@ -99,7 +99,7 @@
           <code path="app-config.js" unimportant>
     // Adresse de la page d'accueil de l'application
     export const home = "./list.html";
-    // Configuration de l'animation de transition de page
+    // Configuration de l'animation de changement de page
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -119,12 +119,12 @@
   export const contacts = $.stanz({
     list: [{
         id: 10010,
-        name: "Peter",
-        info: "Chaque jour est un nouveau départ, le soleil brille toujours après la tempête.",
+        name: "Pete",
+        info: "Chaque jour est un nouveau début, le soleil brille toujours après l'orage.",
     },{
         id: 10020,
         name: "Mike",
-        info: "La vie est comme l'océan, seuls ceux qui ont une volonté ferme peuvent atteindre l'autre rive.",
+        info: "La vie est comme l'océan, seuls les hommes à la volonté forte atteignent l'autre rive.",
     },{
         id: 10030,
         name: "John",
@@ -141,11 +141,11 @@
           padding: 10px;
         }
       </style>
-      <h2>Contacts</h2>
+      <h2>Carnet d'adresses</h2>
       <ul>
         <o-fill :value="list">
           <li>
-          Nom: {{$data.name}} <button on:click="$host.gotoDetail($data)">Détail</button>
+          Nom : {{$data.name}} <button on:click="$host.gotoDetail($data)">Détail</button>
           </li>
         </o-fill>
       </ul>
@@ -200,7 +200,7 @@
       <div class="user-info">
         <div class="avatar">Avatar</div>
         <div style="font-size: 24px;">
-        Nom d'utilisateur: 
+        Nom d'utilisateur : 
           <o-if :value="editorMode">
             <input type="text" sync:value="userData.name"/>
             <button on:click="editorMode = false">✅</button>
@@ -210,7 +210,7 @@
             <button on:click="editorMode = true">🖊️</button>
           </o-else>
         </div>
-        <div style="font-size: 16px;">ID utilisateur: {{userData.id}}</div>
+        <div style="font-size: 16px;">ID utilisateur : {{userData.id}}</div>
         <p style="font-size: 14px;">{{userData.info}}</p>
       </div>
       <script>
@@ -233,9 +233,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Caractéristiques de l&#39;objet d&#39;état</h2>
-        <h3>1. Mise à jour réactive</h3>
-        <p>Les objets d&#39;état créés par <code>$.stanz()</code> sont réactifs. Lorsque les données d&#39;état changent, tous les composants qui référencent ces données se mettent à jour automatiquement.</p>
+        <h2>Propriétés de l&#39;objet d&#39;état</h2>
+        <h3>1. Mises à jour réactives</h3>
+        <p><code>$.stanz()</code> crée un objet d&#39;état réactif. Lorsque les données d&#39;état changent, tous les composants qui référencent ces données sont automatiquement mis à jour.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
 <span class="hljs-comment">// Dans le composant</span>
@@ -245,11 +245,11 @@
   },
   <span class="hljs-attr">proto</span>:{
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Tous les composants qui référencent store.count seront automatiquement mis à jour</span>
+        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Tous les composants qui référencent store.count seront mis à jour automatiquement</span>
     }
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Référence directe aux propriétés de l&#x27;objet d&#x27;état</span>
+    <span class="hljs-comment">// Référencez directement la propriété de l&#x27;objet d&#x27;état</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
@@ -257,10 +257,10 @@
   }
 };</code></pre>
         <h3>2. Réactivité en profondeur</h3>
-        <p>L&#39;objet d&#39;état prend en charge la réactivité en profondeur ; les changements des objets et tableaux imbriqués sont également surveillés.</p>
+        <p>L&#39;objet d&#39;état prend en charge la réactivité profonde, les changements dans les objets imbriqués et les tableaux sont également surveillés.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Jean Dupont&quot;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;ZhangShan&quot;</span>,
     <span class="hljs-attr">settings</span>: {
       <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
     }
@@ -268,30 +268,30 @@
   <span class="hljs-attr">list</span>: []
 });
 
-<span class="hljs-comment">// La modification des propriétés imbriquées déclenchera également la mise à jour</span>
-store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;Pierre Martin&quot;</span>;
+<span class="hljs-comment">// La modification de propriétés imbriquées déclenche également la mise à jour</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;LiSi&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
 store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Nouvelle tâche&quot;</span> });</code></pre>
-        <h2>Bonnes pratiques</h2>
-        <h3>1. Monter l&#39;état lors de la phase attached du composant</h3>
-        <p>Il est recommandé de monter l’état partagé dans le cycle de vie <code>attached</code> du composant :</p>
+        <h2>Meilleures pratiques</h2>
+        <h3>1. Montage de l&#39;état dans la phase attached du composant</h3>
+        <p>Il est recommandé de monter l&#39;état partagé dans le cycle de vie <code>attached</code> du composant :</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
     <span class="hljs-attr">list</span>: []
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Monter l&#x27;état partagé sur les data du composant</span>
+    <span class="hljs-comment">// Attacher l&#x27;état partagé aux données du composant</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Lors de la destruction du composant, vider les données d&#x27;état montées pour éviter les fuites mémoire</span>
+    <span class="hljs-comment">// Lors de la destruction du composant, vider les données d&#x27;état attachées pour éviter les fuites mémoire</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
   }
 };</code></pre>
-        <h3>2. Gestion raisonnée de la portée des états</h3>
+        <h3>2. Gérer raisonnablement la portée de l&#39;état</h3>
         <ul>
-          <li><strong>État global</strong> : Convient aux données accessibles par toute l&#39;application (comme les informations utilisateur, la configuration globale)</li>
-          <li><strong>État de module</strong> : Convient aux données partagées en interne par un module fonctionnel spécifique</li>
+          <li><strong>État global</strong> : convient pour les données auxquelles toute l’application doit accéder (comme les informations utilisateur, la configuration globale)</li>
+          <li><strong>État du module</strong> : convient pour les données partagées à l’intérieur d’un module fonctionnel spécifique</li>
         </ul>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// État d&#x27;appel global</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
@@ -372,19 +372,19 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
     </template>
   </code>
         </o-playground>
-        <h2>Remarques</h2>
+        <h2>Points d&#39;attention</h2>
         <ol>
           <li>
-            <p><strong>Nettoyage d&#39;état</strong> : Dans le cycle de vie <code>detached</code> du composant, nettoyez en temps opportun les références aux données d&#39;état pour éviter les fuites de mémoire.</p>
+            <p><strong>Nettoyage de l&#39;état</strong> : Dans le cycle de vie <code>detached</code> du composant, nettoyez rapidement les références aux données d&#39;état pour éviter les fuites de mémoire.</p>
           </li>
           <li>
-            <p><strong>Éviter les dépendances circulaires</strong> : Les objets d&#39;état ne doivent pas former de références circulaires entre eux, cela pourrait entraîner des problèmes dans le système réactif.</p>
+            <p><strong>Éviter les dépendances circulaires</strong> : Ne formez pas de références circulaires entre les objets d&#39;état, cela pourrait causer des problèmes dans le système réactif.</p>
           </li>
           <li>
-            <p><strong>Structures de données volumineuses</strong> : Pour les structures de données volumineuses, envisagez d&#39;utiliser des propriétés calculées ou une gestion par tranches pour éviter des surcoûts de performance inutiles.</p>
+            <p><strong>Structures de données volumineuses</strong> : Pour les grandes structures de données, envisagez d&#39;utiliser des propriétés calculées ou une gestion par fragments pour éviter des surcoûts de performance inutiles.</p>
           </li>
           <li>
-            <p><strong>Cohérence de l&#39;état</strong> : Faites attention à la cohérence de l&#39;état lors des opérations asynchrones, vous pouvez utiliser des transactions ou des mises à jour par lots pour garantir l&#39;intégrité des données.</p>
+            <p><strong>Cohérence de l&#39;état</strong> : Dans les opérations asynchrones, faites attention à la cohérence de l&#39;état, vous pouvez utiliser des transactions ou des mises à jour par lots pour garantir l&#39;intégrité des données.</p>
           </li>
         </ol>
       </article>

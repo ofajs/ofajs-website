@@ -81,13 +81,13 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>root</h1>
-        <p>Utiliser l&#39;attribut <code>root</code> permet d&#39;obtenir le nœud racine de l&#39;élément.</p>
-        <p>Sur la page, le nœud racine des éléments ordinaires est l&#39;instance <code>document</code>.</p>
+        <p>L&#39;utilisation de l&#39;attribut <code>root</code> permet d&#39;obtenir le nœud racine de l&#39;élément.</p>
+        <p>Sur la page, le nœud racine des éléments ordinaires est toujours l&#39;instance de <code>document</code>.</p>
         <o-playground name="root - nœud racine" style="--editor-height: 320px">
           <code path="demo.html">
     <template>
       <ul>
-        <li id="target">Je suis la cible</li>
+        <li id="target">I am target</li>
       </ul>
       <div id="logger" style="padding:16px;color:green;"></div>
       <script>
@@ -98,8 +98,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Éléments dans le nœud fantôme</h2>
-        <p>Étant donné que les éléments à l’intérieur du composant sont isolés de l’environnement extérieur, la propriété <code>root</code> des éléments dans le nœud fantôme est le nœud racine fantôme.</p>
+        <h2>Éléments dans les nœuds fantômes</h2>
+        <p>Comme les éléments à l&#39;intérieur du composant sont isolés de l&#39;environnement extérieur, la propriété <code>root</code> d&#39;un élément à l&#39;intérieur d&#39;un nœud fantôme est le nœud racine fantôme.</p>
         <o-playground name="root - nœud fantôme" style="--editor-height: 600px">
           <code path="demo.html" preview>
     <template>

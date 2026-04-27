@@ -81,14 +81,14 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Single Page Application</h1>
-        <p>A single-page application binds the <code>o-app</code> component to the browser’s address bar, keeping the web URL synchronized with the in-app page path. After enabling the single-page application:</p>
+        <p>A single-page application binds the <code>o-app</code> component to the browser&#39;s address bar, keeping the web URL synchronized with the in-app page path. After enabling the single-page application:</p>
         <ul>
-          <li>Refreshing the page preserves the current route state</li>
-          <li>Copying the URL from the address bar and opening it in another browser or tab also restores the application state</li>
-          <li>The browser&#39;s forward/back buttons work properly</li>
+          <li>Refreshing the webpage can maintain the current routing state</li>
+          <li>Copy the URL from the address bar and open it in another browser or tab, the application state can also be restored</li>
+          <li>The browser&#39;s forward/back buttons work normally</li>
         </ul>
         <h2>Basic Usage</h2>
-        <p>Wrap the <code>o-app</code> component with the official <code>o-router</code> component to implement a single-page application.</p>
+        <p>Use the official <code>o-router</code> component to wrap the <code>o-app</code> component to achieve a single-page application.</p>
         <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
@@ -105,13 +105,13 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
         <h2>fix-body attribute</h2>
-        <p>After adding the <code>fix-body</code> attribute, <code>o-router</code> will automatically reset the styles of <code>html</code> and <code>body</code>, removing the default margin and padding.</p>
+        <p>After adding the <code>fix-body</code> attribute, <code>o-router</code> will automatically reset the styles of <code>html</code> and <code>body</code>, eliminating the default margin and padding.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-router</span> <span class="hljs-attr">fix-body</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-router</span>&gt;</span></code></pre>
-        <p>This is particularly useful in the following scenarios:- <code>o-app</code> needs to fill the viewport completely </p>
+        <p>This is particularly useful in the following scenarios:- Need <code>o-app</code> to completely fill the viewport</p>
         <ul>
-          <li>When the app is the only content of the page</li>
+          <li>When the app is the only content on the page</li>
         </ul>
         <h2>Example</h2>
         <o-playground name="Single Page Application Example" style="--editor-height: 500px">
@@ -124,7 +124,7 @@
     </template>
   </code>
           <code path="app-config.js">
-    // Application home page URL
+    // App home page address
     export const home = "./home.html";
     // Page transition animation configuration
     export const pageAnime = {
@@ -217,14 +217,14 @@
   </code>
         </o-playground>
         <h2>How It Works</h2>
-        <p>Single-page application implemented using browser-based Hash mode:</p>
+        <p>Single-Page Application Implementation Based on Browser Hash Mode:</p>
         <ol>
-          <li>When the page switches inside the app, <code>o-router</code> automatically updates the hash in the address bar (e.g., <code>#/about.html</code>).</li>
-          <li>When users refresh the page or visit via URL, <code>o-router</code> reads the hash and loads the corresponding page.</li>
-          <li>The browser’s forward/back buttons trigger hash changes, thereby controlling in-app navigation.</li>
+          <li>When a page switch occurs within the application, <code>o-router</code> automatically updates the hash value in the address bar (e.g., <code>#/about.html</code>)</li>
+          <li>When the user refreshes the page or accesses it via a URL, <code>o-router</code> reads the hash value and loads the corresponding page</li>
+          <li>The browser&#39;s forward/back buttons trigger hash changes, thereby controlling the application&#39;s page navigation</li>
         </ol>
-        <h2>URL Change Examples</h2>
-        <p>Assume the application has two pages, <code>home.html</code> and <code>about.html</code>.</p>
+        <h2>URL Change Example</h2>
+        <p>Assuming the app has two pages <code>home.html</code> and <code>about.html</code>:</p>
         <table>
           <thead>
             <tr>
@@ -238,7 +238,7 @@
               <td><code>index.html</code> → <code>index.html#/home.html</code></td>
             </tr>
             <tr>
-              <td>Navigate to About Page</td>
+              <td>Navigate to About</td>
               <td><code>index.html#/home.html</code> → <code>index.html#/about.html</code></td>
             </tr>
             <tr>
@@ -252,7 +252,7 @@
           </tbody>
         </table>
         <ul>
-          <li>A single-page application can only work with <strong>one</strong> <code>o-app</code> component.</li>
+          <li>A single-page application can only be used with <strong>one</strong> <code>o-app</code> component</li>
         </ul>
       </article>
       <div class="footer"></div>

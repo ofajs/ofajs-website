@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rendu de template</title>
+  <title>Rendu de modèle</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,12 +80,12 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Rendu de template</h1>
-        <p>ofa.js fournit un puissant moteur de rendu de modèles, riche en syntaxe de modélisation, permettant aux développeurs de construire rapidement des applications. Commençons par présenter le rendu de texte le plus couramment utilisé.</p>
-        <h2>Liaison de données de page</h2>
-        <p>Dans ofa.js, chaque page a un objet <code>data</code> dans lequel vous pouvez définir les variables dont vous avez besoin dans la page. Lorsque la page commence à être rendue, les données de l&#39;objet <code>data</code> sont automatiquement liées au modèle, puis la syntaxe <code>{{nom de variable}}</code> est utilisée dans le modèle pour rendre la valeur de la variable correspondante.</p>
+        <h1>Rendu de modèle</h1>
+        <p>ofa.js fournit un moteur de rendu de modèles puissant, avec une syntaxe de modèle riche, qui aide les développeurs à créer rapidement des applications. Commençons par l&#39;introduction du rendu de texte le plus couramment utilisé.</p>
+        <h2>Liaison de données de la page</h2>
+        <p>Dans ofa.js, chaque page possède un objet <code>data</code> dans lequel vous pouvez définir les variables nécessaires à la page. Lors du rendu de la page, les données de l&#39;objet <code>data</code> sont automatiquement liées au modèle, puis vous utilisez la syntaxe <code>{{nomVariable}}</code> dans le modèle pour afficher la valeur de la variable correspondante.</p>
         <h2>Rendu de texte</h2>
-        <p>Le rendu de texte est la méthode de rendu la plus basique, vous pouvez utiliser la syntaxe <code>{{nom de variable}}</code> dans le modèle pour afficher la valeur de la variable correspondante dans l&#39;objet <code>data</code>.</p>
+        <p>Le rendu de texte est la méthode de rendu la plus basique. Vous pouvez utiliser la syntaxe <code>{{nom de variable}}</code> dans le modèle pour afficher la valeur de la variable correspondante dans l&#39;objet <code>data</code>.</p>
         <o-playground name="Exemple de rendu de texte" style="--editor-height: 500px">
           <code>
     <template page>
@@ -110,7 +110,7 @@
   </code>
         </o-playground>
         <h2>Rendu du contenu HTML</h2>
-        <p>En ajoutant la directive <code>:html</code> à un élément, il est possible de parser une chaîne HTML d&#39;une variable correspondante et de l&#39;insérer en toute sécurité à l&#39;intérieur de l&#39;élément, permettant de réaliser facilement le rendu dynamique de texte enrichi ou l&#39;intégration de fragments HTML externes.</p>
+        <p>En ajoutant la directive <code>:html</code> à un élément, la chaîne HTML contenue dans la variable correspondante est analysée et insérée en toute sécurité à l’intérieur de l’élément, permettant ainsi de rendre facilement du texte riche dynamiquement ou d’intégrer des fragments HTML externes.</p>
         <o-playground name="Exemple de rendu de contenu HTML" style="--editor-height: 500px">
           <code>
     <template page>

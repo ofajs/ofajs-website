@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>extend</h1>
-        <p><code>extend</code> is a higher-order method used to augment an instance with additional properties or methods.</p>
+        <p><code>extend</code> is a high-order method used to extend the properties or methods of an instance.</p>
         <blockquote>
-          <p>In general, it is not recommended to extend the properties or methods of an instance, as this increases the learning curve. Unless there is a specific need within the team to customize the behavior of an instance, such extensions are discouraged.</p>
+          <p>Under normal circumstances, it is not recommended for users to extend the properties or methods of an instance, as this increases the learning cost. Unless there is a special scenario within the team that requires customizing the behavior of the instance, it is not recommended to do so.</p>
         </blockquote>
-        <o-playground name="extend - Extend Instance" style="--editor-height: 560px">
+        <o-playground name="extend - Extend Example" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
@@ -115,9 +115,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Extending the $ Bottom Layer</h2>
-        <p>Similar to jQuery, you can also use fn.extend to extend the properties or methods of the underlying instance; properties or methods extended from fn will be applied to all instances.</p>
-        <o-playground name="extend - Extend Underlying Layer" style="--editor-height: 560px">
+        <h2>Extend $ Bottom Layer</h2>
+        <p>Similar to jQuery, you can also extend the properties or methods of the underlying instance through fn.extend; properties or methods extended from fn will apply to all instances.</p>
+        <o-playground name="extend - Extend the Core" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
@@ -146,9 +146,9 @@
   </code>
         </o-playground>
         <h2>Extended Template Syntax</h2>
-        <p>Using <code>extend</code> to add attributes or functions can enhance template syntax functionality and even provide component-specific syntactic sugar. However, avoid unofficial template syntaxes, as they impose learning costs and degrade the development experience when overused.</p>
+        <p>By using <code>extend</code> to extend properties or functions, you can enhance the functionality of template syntax, and even provide exclusive template syntactic sugar for components. However, it is important to note that you should try <strong>not to use</strong> non-official template syntax, as they impose a certain learning cost on users, and a large amount of non-official template syntactic sugar can degrade the development experience.</p>
         <h3>Extended Attributes</h3>
-        <p>You can set extended attributes in templates using <code>:</code>. Below, we extend a <code>red</code> attribute; when <code>red</code> is <code>true</code>, the text color becomes red:</p>
+        <p>You can set extended attributes in the template using <code>:</code>. Below, we will extend a <code>red</code> attribute; when <code>red</code> is <code>true</code>, the font color turns red:</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
     <span class="hljs-keyword">if</span>(bool){
@@ -157,7 +157,7 @@
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
     }
   }
-});</code></pre><o-playground name="extend - extended properties" style="--editor-height: 400px">
+});</code></pre><o-playground name="extend - Extended Properties" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-one.html"></l-m>
@@ -195,11 +195,11 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example, we added a <code>red</code> attribute to the template syntax. When <code>count % 3</code> is not 0, the font color will change to red.</p>
+        <p>In this example, we added a <code>red</code> property to the template syntax. When <code>count % 3</code> is not 0, the font color will turn red.</p>
         <h3>Extension Methods</h3>
-        <p>You can also make the method available in template syntax by extending it with <code>extend</code>. The method name is the part before the colon. Here, we extend a <code>color</code> template syntax, and the following arguments will be passed to the defined extension method.</p>
-        <p>Here, the <code>always</code> attribute is set to <code>true</code>, indicating that the defined method will be called every time the component needs to refresh the interface. If <code>always</code> is not set, this template syntax function will only run once.</p>
-        <p>Among them, <code>options</code> provides additional parameters to help you develop more customized template syntax:</p>
+        <p>You can also use the <code>extend</code> extension method to make it available in template syntax. The method name is the part before the colon. Here, we extended a <code>color</code> template syntax, and the following parameters will be passed to the defined extension method.</p>
+        <p>Here, the <code>always</code> attribute is set to <code>true</code>, which means that the defined method will be called every time the component needs to refresh the interface. If <code>always</code> is not set, this template syntax function will only run once.</p>
+        <p>Among them, <code>options</code> provides more parameters that can help you develop more customized template syntax:</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
     <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
@@ -211,7 +211,7 @@
   }
 });
 
-$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - extension methods" style="--editor-height: 400px">
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - Extension Method" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-two.html"></l-m>
@@ -252,13 +252,13 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
   </code>
         </o-playground>
         <h2>Template Syntax Principles</h2>
-        <p>So far, you should have realized that many template syntax features on ofa.js are actually extended through <code>extend</code>:</p>
+        <p>By now, you should have understood that many template syntaxes on ofa.js are actually extended through <code>extend</code>:</p>
         <ul>
           <li><code>class</code>, <code>attr</code> methods run every time the view is refreshed</li>
-          <li><code>on</code>, <code>one</code> function bindings only run once</li>
+          <li><code>on</code>, <code>one</code> function bindings run only once</li>
         </ul>
-        <p>You can refer to the example below to better understand the template rendering principle of ofa.js.</p>
-        <o-playground name="Template Syntax Principle" style="--editor-height: 480px">
+        <p>You can look at the example below to better understand the template rendering principle of ofa.js:</p>
+        <o-playground name="extend - Template Syntax Principle" style="--editor-height: 480px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./temp-three.html"></l-m>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>주입 숙주 스타일</title>
+  <title>호스트 스타일 주입</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,10 +80,10 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>주입 숙주 스타일</h1>
-        <p>Web Components에서 <code>slot</code>의 제약으로 인해 슬롯 내 다중 계층 요소의 스타일을 직접 설정할 수 없습니다. 이 문제를 해결하기 위해, ofa.js는 <code>&lt;inject-host&gt;</code> 컴포넌트를 제공하여 컴포넌트 내부에서 호스트 요소로 스타일을 주입할 수 있도록 하여, 슬롯 콘텐츠의 다중 계층 요소 스타일을 제어할 수 있게 합니다.</p>
+        <h1>호스트 스타일 주입</h1>
+        <p>Web Components에서 <code>slot</code> 슬롯의 제한으로 인해 슬롯 내 다중 레벨 요소의 스타일을 직접 설정할 수 없습니다. 이 문제를 해결하기 위해 ofa.js는 <code>&lt;inject-host&gt;</code> 컴포넌트를 제공하여 컴포넌트 내부에서 호스트 요소로 스타일을 주입할 수 있도록 하여 슬롯 콘텐츠 내 다중 레벨 요소의 스타일 제어를 가능하게 합니다.</p>
         <blockquote>
-          <p>참고, 슬롯 콘텐츠의 스타일을 설정하려면 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 선택기를 우선 사용하는 것이 좋습니다. 요구를 충족할 수 없는 경우에만 <code>&lt;inject-host&gt;</code> 컴포넌트를 사용해야 합니다.</p>
+          <p>주의, 가급적 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 선택기를 사용하여 슬롯 콘텐츠의 스타일을 설정하는 것을 권장합니다. 요구 사항을 충족할 수 없는 경우에만 <code>&lt;inject-host&gt;</code> 컴포넌트를 사용하십시오.</p>
         </blockquote>
         <h2>기본 사용법</h2>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
@@ -93,7 +93,7 @@
             <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#007acc</span>;
             <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
         }
-        <span class="hljs-comment">/* 직접 하위 1단계 요소의 스타일 설정 */</span>
+        <span class="hljs-comment">/* 직접 자식 요소의 스타일 설정 */</span>
         <span class="hljs-comment">/* ::slotted(user-list-item) {
             background-color: aqua;
         } */</span>
@@ -103,7 +103,7 @@
             user-list user-list-item {
                 <span class="hljs-attribute">background-color</span>: aqua;
             }
-            <span class="hljs-comment">/* 다중 레벨 중첩 스타일도 설정 가능 */</span>
+            <span class="hljs-comment">/* 여러 계층 중첩 스타일도 설정할 수 있습니다 */</span>
             user-list user-list-item <span class="hljs-selector-class">.user-list-item-content</span> {
                 <span class="hljs-attribute">color</span>: red;
             }
@@ -119,7 +119,7 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>사례</h2>
-        <p>다음 예제는 <code>&lt;inject-host&gt;</code>를 사용하여 슬롯 내 중첩 요소의 스타일을 설정하는 방법을 보여줍니다. 두 개의 컴포넌트를 생성합니다: 목록 컨테이너 역할을 하는 <code>user-list</code> 컴포넌트와 목록 항목을 역할을 하는 <code>user-list-item</code> 컴포넌트입니다. <code>&lt;inject-host&gt;</code>를 통해 <code>user-list</code> 컴포넌트에서 <code>user-list-item</code> 및 그 내부 요소의 스타일을 설정할 수 있습니다.</p>
+        <p>다음 예시는 <code>&lt;inject-host&gt;</code>를 사용하여 슬롯 내에 중첩된 요소의 스타일을 설정하는 방법을 보여줍니다. 두 개의 컴포넌트를 생성합니다: <code>user-list</code> 컴포넌트는 목록 컨테이너 역할을 하고, <code>user-list-item</code> 컴포넌트는 목록 항목 역할을 합니다. <code>&lt;inject-host&gt;</code>를 통해 <code>user-list</code> 컴포넌트에서 <code>user-list-item</code> 및 그 내부 요소의 스타일을 설정할 수 있습니다.</p>
         <o-playground name="호스트 스타일 주입" style="--editor-height: 500px">
           <code path="index.html" preview="">
     <template>
@@ -191,26 +191,26 @@
     </template>
   </code>
         </o-playground>
-        <p>실행 결과에서 볼 수 있습니다:- <code>user-list-item</code> 컴포넌트의 배경색은 aqua이며 (<code>user-list</code> 컴포넌트의 <code>&lt;inject-host&gt;</code>를 통해 설정됨)</p>
+        <p>실행 결과에서 볼 수 있습니다:- <code>user-list-item</code> 컴포넌트의 배경색은 aqua입니다 (<code>user-list</code> 컴포넌트의 <code>&lt;inject-host&gt;</code>를 통해 설정)</p>
         <ul>
-          <li>이름의 글꼴 색상은 빨간색입니다 (<code>user-list</code> 컴포넌트의 <code>&lt;inject-host&gt;</code>를 통해 <code>user-list-item .item-name</code> 스타일 설정)</li>
+          <li>이름의 텍스트 색상은 빨간색입니다 (<code>user-list</code> 컴포넌트의 <code>&lt;inject-host&gt;</code>에서 <code>user-list-item .item-name</code> 스타일을 설정하여)</li>
         </ul>
         <h2>작동 원리</h2>
-        <p><code>&lt;inject-host&gt;</code> 컴포넌트는 내부에 포함된 <code>&lt;style&gt;</code> 태그의 내용을 컴포넌트의 호스트 요소에 주입합니다. 이렇게 하면 주입된 스타일 규칙이 컴포넌트 경계를 통과하여 slot 슬롯 내부의 요소에 적용될 수 있습니다.</p>
-        <p>이 방식을 통해， 다음을 할 수 있습니다：- 슬롯 콘텐츠 내 임의의 깊이에 있는 엘리먼트 스타일 설정</p>
+        <p><code>&lt;inject-host&gt;</code> 컴포넌트는 내부에 포함된 <code>&lt;style&gt;</code> 태그 내용을 컴포넌트의 호스트 요소에 주입합니다. 이렇게 하면 주입된 스타일 규칙이 컴포넌트 경계를 넘어 slot 슬롯 내의 요소에 적용될 수 있습니다.</p>
+        <p>이러한 방식을 통해, 당신은:- 슬롯 콘텐츠의 임의 깊이 요소 스타일 설정</p>
         <ul>
-          <li>전체 선택자 경로를 사용하여 스타일이 대상 엘리먼트에만 적용되도록 보장</li>
-          <li>컴포넌트 스타일의 캡슐화를 유지하면서도 유연한 스타일 침투 구현</li>
+          <li>완전한 선택자 경로를 사용하여 스타일이 대상 요소에만 적용되도록 보장</li>
+          <li>컴포넌트 스타일의 캡슐화를 유지하면서 유연한 스타일 침투 구현</li>
         </ul>
         <h2>주의사항</h2>
-        <p>⚠️ <strong>스타일 오염 위험</strong>: 주입된 스타일은 호스트 요소가 위치한 범위에 적용되므로, 다른 컴포넌트 내부의 요소에 영향을 미칠 수 있습니다. 사용 시 반드시 다음 원칙을 준수하세요:</p>
+        <p>⚠️ <strong>스타일 오염 위험</strong>：주입된 스타일이 호스트 요소의 스코프에 적용되므로 다른 컴포넌트 내의 요소에 영향을 줄 수 있습니다. 사용 시 다음 원칙을 반드시 준수하십시오:</p>
         <ol>
-          <li><strong>구체적인 선택자 사용</strong>: 가능한 한 완전한 컴포넌트 태그 경로를 사용하고, 너무 포괄적인 선택자의 사용을 피하세요.</li>
+          <li><strong>구체적인 선택자 사용</strong>: 가능한 완전한 컴포넌트 태그 경로를 사용하고, 너무 광범위한 선택자는 피하세요.</li>
           <li><strong>네임스페이스 접두사 추가</strong>: 스타일 클래스에 고유한 접두사를 추가하여 다른 컴포넌트와의 충돌 가능성을 줄이세요.</li>
-          <li><strong>범용 태그 선택자 사용 피하기</strong>: 가능한 한 태그 선택자 대신 클래스명이나 속성 선택자를 사용하세요.</li>
-          <li><strong>컴포넌트 설계 반성</strong>: <code>&lt;inject-host&gt;</code> 사용을 피하기 위해 컴포넌트 설계를 최적화할 수 있는지 고려하세요. 예를 들어, 하위 컴포넌트에서 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 선택자와 함께 사용하는 것이 더 우아한 경우가 많습니다.</li>
+          <li><strong>일반 태그 선택자 사용 피하기</strong>: 가능한 클래스명이나 속성 선택자를 사용하여 태그 선택자를 대체하세요.</li>
+          <li><strong>컴포넌트 설계 재고</strong>: <code>&lt;inject-host&gt;</code>를 사용하지 않도록 컴포넌트 설계를 최적화할 수 있는지 고려하세요. 예를 들어, 하위 컴포넌트에서 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 선택자를 함께 사용하는 것이 더 우아할 수 있습니다.</li>
         </ol>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 추천 ✅: 구체적인 선택자 사용 --&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 권장 ✅: 구체적인 선택자 사용 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
         user-list <span class="hljs-selector-class">.list-item-content</span> {
@@ -219,16 +219,16 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- 비추천 ❌: 너무 일반적인 선택자 사용 --&gt;</span>
+<span class="hljs-comment">&lt;!-- 비권장 ❌: 너무 일반적인 선택자 사용 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
-        <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* 다른 컴포넌트와 충돌하기 쉬움 */</span>
+        <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* 다른 구성 요소와 충돌하기 쉬움 */</span>
             <span class="hljs-attribute">color</span>: red;
         }
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span></code></pre>
         <h3>성능 팁</h3>
-        <p><code>&lt;inject-host&gt;</code>는 호스트 스타일을 다시 주입하게 되어 컴포넌트의 리플로우 또는 리페인트를 일으킬 수 있으므로, 빈번하게 갱신되는 상황에서는 신중히 사용하십시오.<br>슬롯 내 첫 번째 레벨 요소에만 스타일을 적용할 경우에는 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 의사 클래스 선택자를 우선 사용하면 침투식 주입으로 인한 추가 렌더링 오버헤드를 피할 수 있어 더 나은 성능을 얻을 수 있습니다.</p>
+        <p><code>&lt;inject-host&gt;</code>는 호스트 스타일을 다시 주입하게 되어, 결과적으로 컴포넌트의 리플로우나 리페인트를 유발할 수 있으므로, 빈번하게 업데이트되는 상황에서는 신중하게 사용하십시오.<br>슬롯 내 첫 번째 수준 요소에만 스타일을 적용할 경우, <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> 의사 클래스 선택자를 우선 사용하면 침투식 주입으로 인한 추가 렌더링 오버헤드를 피할 수 있어 더 나은 성능을 얻을 수 있습니다.</p>
       </article>
       <div class="footer"></div>
       <script>

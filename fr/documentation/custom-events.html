@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Événements personnalisés</h1>
-        <p>Dans ofa.js, outre les événements DOM intégrés, il est également possible de créer et d'utiliser des événements personnalisés pour реализовать взаимодействие между компонентами. Les événements personnalisés sont un mécanisme important dans le développement basé sur les composants, ils permettent aux composants de propager des messages ou des changements d'état vers le haut.</p>
-        <h2>méthode emit - déclencher des événements personnalisés</h2>
-        <p>La méthode <code>emit</code> est utilisée pour déclencher des événements personnalisés, afin de notifier les écouteurs externes des changements d'état internes du composant ou des actions de l'utilisateur.</p>
+        <p>Dans ofa.js, en plus des événements DOM intégrés, il est également possible de créer et d'utiliser des événements personnalisés pour permettre la communication entre composants. Les événements personnalisés constituent un mécanisme essentiel du développement basé sur des composants, car ils permettent à un composant de diffuser vers l'extérieur des messages ou des changements d'état.</p>
+        <h2>Méthode emit - Déclencher des événements personnalisés</h2>
+        <p>La méthode <code>emit</code> sert à déclencher des événements personnalisés, afin de notifier les écouteurs externes des changements d'état internes du composant ou des actions de l'utilisateur.</p>
         <h3>Utilisation de base</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Déclencher un événement personnalisé simple</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'custom-event'</span>);
@@ -91,7 +91,7 @@
 <span class="hljs-comment">// Déclencher un événement personnalisé avec des données</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'data-changed'</span>, {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-comment">// Données personnalisées, structure libre selon les besoins</span>
+    <span class="hljs-comment">// Données personnalisées, structure arbitraire selon les besoins</span>
     <span class="hljs-attr">newValue</span>: <span class="hljs-number">100</span>,
     <span class="hljs-attr">oldValue</span>: <span class="hljs-number">50</span>
   }
@@ -99,18 +99,18 @@
         <h3>Paramètres de la méthode emit</h3>
         <p>La méthode <code>emit</code> accepte deux paramètres :</p>
         <ol>
-          <li><strong>Nom de l'événement</strong> : chaîne de caractères, désigne le nom de l'événement à déclencher</li>
-          <li><strong>Objet d'options</strong> (facultatif) : contient les options de configuration de l'événement<ul>
+          <li><strong>Nom de l'événement</strong> : chaîne de caractères, indiquant le nom de l'événement à déclencher</li>
+          <li><strong>Objet d'options</strong> (en option) : contient les options de configuration de l'événement<ul>
               <li><code>data</code> : données à transmettre</li>
-              <li><code>bubbles</code> : booléen, contrôle si l'événement remonte (par défaut true)</li>
-              <li><code>composed</code> : booléen, contrôle si l'événement peut traverser les limites du Shadow DOM</li>
+              <li><code>bubbles</code> : booléen, contrôle si l'événement se propage vers le haut (par défaut true)</li>
+              <li><code>composed</code> : booléen, contrôle si l'événement peut traverser la limite du Shadow DOM</li>
               <li><code>cancelable</code> : booléen, contrôle si l'événement peut être annulé</li>
             </ul>
           </li>
         </ol>
         <p>Ensuite, l'élément parent peut utiliser la méthode <code>on</code> <a href="./event-binding.html" olink="">(liaison d'événements)</a> pour écouter cet événement personnalisé.</p>
         <h3>Exemple d'utilisation de emit</h3>
-        <o-playground name="Exemple d'utilisation d'emit" style="--editor-height: 500px">
+        <o-playground name="exemple d'utilisation de emit" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
       <o-page src="page1.html"></o-page>
@@ -153,7 +153,7 @@
           border: 1px solid #ccc;
         }
       </style>
-      <button on:click="handleClick">Cliquer pour déclencher l'événement</button>
+      <button on:click="handleClick">Cliquez pour déclencher l'événement</button>
       <script>
         export default async () => {
           return {
@@ -174,15 +174,15 @@
     </template>
   </code>
         </o-playground>
-        <h2>bubbles - Mécanisme de propagation d'événements</h2>
-        <p>L'attribut <code>bubbles</code> contrôle si l'événement remonte aux éléments parents. Lorsqu'il est défini à <code>true</code>, l'événement se propage le long de l'arbre DOM. La valeur par défaut est <code>true</code>. Si défini à <code>false</code>, l'événement ne remontera pas.</p>
-        <h3>Explication détaillée du mécanisme de bulles</h3>
+        <h2>bubbles - mécanisme de propagation des événements</h2>
+        <p><code>La propriété </code>bubbles<code>contrôle si l'événement remonte vers les éléments parents. Lorsqu'elle est définie sur</code>true<code>, l'événement se propage vers le haut de l'arbre DOM. La valeur par défaut est </code>true<code>. Si elle est définie sur </code>false`, l'événement ne remontera pas.</p>
+        <h3>Explication détaillée du mécanisme de bullage</h3>
         <ul>
-          <li><strong>Comportement par défaut</strong> : Les événements émis avec <code>emit</code> sont par défaut en mode propagation (<code>bubbles: true</code>)</li>
-          <li><strong>Chemin de propagation</strong> : L'événement commence à partir de l'élément déclencheur et se propage vers le haut de manière hiérarchique</li>
-          <li><strong>Arrêter la propagation</strong> : Appeler <code>event.stopPropagation()</code> dans le gestionnaire d'événements permet d'arrêter la propagation</li>
+          <li><strong>Comportement par défaut</strong> : les événements émis avec <code>emit</code> ont la propagation activée par défaut (<code>bubbles: true</code>)</li>
+          <li><strong>Chemin de propagation</strong> : l’événement commence à partir de l’élément déclencheur et se propage niveau par niveau vers le haut</li>
+          <li><strong>Arrêter la propagation</strong> : appeler <code>event.stopPropagation()</code> dans le gestionnaire d’événement permet d’empêcher la propagation</li>
         </ul>
-        <h3>Exemple de tri à bulles</h3>
+        <h3>Exemple de bulle</h3>
         <o-playground name="Exemple d'événement personnalisé" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
@@ -202,8 +202,8 @@
       <div on:child-event="handleChildEventFromComponent">
         <bubble-component on:child-event="handleDirectChildEvent"></bubble-component>
       </div>
-      <p>Conteneur externe (écoute l'événement en propagation) : {{bubbledEventCount}} fois</p>
-      <p>Composant interne (écoute l'événement direct) : {{directEventCount}} fois</p>
+      <p>Conteneur extérieur (écoute des événements bubbling) : {{bubbledEventCount}} fois</p>
+      <p>Composant intérieur (écoute des événements directs) : {{directEventCount}} fois</p>
       <p>Données reçues : <span style="color:red;">{{result}}</span></p>
       <script>
         export default async () => {
@@ -237,24 +237,24 @@
           border: 1px solid green;
         }
       </style>
-      <button on:click="triggerNonBubblingEvent">Déclencher un événement non propagé</button>
-      <button on:click="triggerBubblingEvent">Déclencher un événement propagé</button>
+      <button on:click="triggerNonBubblingEvent">Déclencher un événement non bubbling</button>
+      <button on:click="triggerBubblingEvent">Déclencher un événement bubbling</button>
       <script>
         export default async () => {
           return {
             tag: "bubble-component",
             proto: {
               triggerNonBubblingEvent() {
-                // Événement non propagé, seul l'écouteur direct le capturera
+                // Événement non bubbling, ne sera capturé que par l'écouteur direct
                 this.emit('child-event', {
-                  data: { type: 'non-bubbling', message: 'Événement non propagé déclenché', timestamp: Date.now() },
+                  data: { type: 'non-bubbling', message: 'Événement non bubbling déclenché', timestamp: Date.now() },
                   bubbles: false
                 });
               },
               triggerBubblingEvent() {
-                // Événement propagé, remonte vers l'élément parent
+                // Événement bubbling, se propagera vers les éléments parents
                 this.emit('child-event', {
-                  data: { type: 'bubbling', message: 'Événement propagé déclenché', timestamp: Date.now() },
+                  data: { type: 'bubbling', message: 'Événement bubbling déclenché', timestamp: Date.now() },
                   bubbles: true
                 });
               }
@@ -265,13 +265,13 @@
     </template>
   </code>
         </o-playground>
-        <h2>composed - traverse les limites du Shadow DOM</h2>
-        <p>La propriété <code>composed</code> contrôle si un événement peut traverser la frontière du Shadow DOM. C’est particulièrement important pour le développement de Web Components, et sa valeur par défaut est <code>false</code>.</p>
-        <h3>Détails du mécanisme de pénétration</h3>
+        <h2>composed - Pénétrer les limites du Shadow DOM</h2>
+        <p>La propriété <code>composed</code> contrôle si l'événement peut traverser la frontière du Shadow DOM. Cela est particulièrement important pour le développement de Web Components, la valeur par défaut est <code>false</code>.</p>
+        <h3>Explication détaillée du mécanisme de pénétration</h3>
         <ul>
-          <li><strong>Isolation du Shadow DOM</strong> : Par défaut, les événements ne peuvent pas traverser les frontières du Shadow DOM</li>
-          <li><strong>Activation de la traversée</strong> : Définir <code>composed: true</code> permet aux événements de traverser les frontières du Shadow DOM</li>
-          <li><strong>Cas d'utilisation</strong> : Lorsqu'un composant doit émettre des événements vers l'environnement hôte, il est nécessaire de définir <code>composed: true</code></li>
+          <li><strong>Isolement Shadow DOM</strong>：Par défaut, les événements ne peuvent pas traverser la frontière Shadow DOM</li>
+          <li><strong>Activation de la pénétration</strong>：Définir <code>composed: true</code> permet aux événements de traverser la frontière Shadow DOM</li>
+          <li><strong>Scénario d'utilisation</strong>：Lorsqu'un composant doit envoyer un événement à l'environnement hôte, <code>composed: true</code> doit être défini</li>
         </ul>
         <h3>Exemple de pénétration</h3>
         <o-playground name="Exemple d'événement personnalisé avec données" style="--editor-height: 500px">
@@ -293,8 +293,8 @@
       <div on:child-event="handleChildEventFromComponent">
         <bubble-component></bubble-component>
       </div>
-      <p>Écoute de l'événement : {{bubbledEventCount}} fois</p>
-      <p>Données reçues : <span style="color:red;">{{result}}</span></p>
+      <p>Écouter l'événement: {{bubbledEventCount}} fois</p>
+      <p>Données reçues: <span style="color:red;">{{result}}</span></p>
       <script>
         export default async () => {
           return {
@@ -324,8 +324,8 @@
         }
       </style>
       <child-component on:child-event="handleChildEventFromComponent"></child-component>
-      <p>Écoute de l'événement : {{bubbledEventCount}} fois</p>
-      <p>Données reçues : <span style="color:pink;">{{result}}</span></p>
+      <p>Écouter l'événement: {{bubbledEventCount}} fois</p>
+      <p>Données reçues: <span style="color:pink;">{{result}}</span></p>
       <script>
         export default async () => {
           return {
@@ -354,24 +354,24 @@
           border: 1px solid green;
         }
       </style>
-      <button on:click="triggerNonComposedEvent">Déclencher un événement non traversant</button>
-      <button on:click="triggerComposedEvent">Déclencher un événement traversant</button>
+      <button on:click="triggerNonComposedEvent">Déclencher un événement non composé</button>
+      <button on:click="triggerComposedEvent">Déclencher un événement composé</button>
       <script>
         export default async () => {
           return {
             tag: "child-component",
             proto: {
               triggerNonComposedEvent() {
-                // Événement non traversant, seul l'auditeur direct le capture
+                // Événement non composé, capturé uniquement par l'auditeur direct
                 this.emit('child-event', {
-                  data: { type: 'non-composed', message: 'Événement non traversant déclenché', timestamp: Date.now() },
+                  data: { type: 'non-composed', message: 'Déclenchement d\'un événement non composé', timestamp: Date.now() },
                   composed: false
                 });
               },
               triggerComposedEvent() {
-                // Événement traversant, franchit la frontière Shadow DOM
+                // Événement composé, traverse les limites du Shadow DOM
                 this.emit('child-event', {
-                  data: { type: 'composed', message: 'Événement traversant déclenché', timestamp: Date.now() },
+                  data: { type: 'composed', message: 'Déclenchement d\'un événement composé', timestamp: Date.now() },
                   composed: true
                 });
               }

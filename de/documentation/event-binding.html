@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Ereignisbindung</h1>
-        <p>In ofa.js ist die Ereignisbindung ein wichtiger Mechanismus zur Implementierung von Benutzerinteraktionen. Sie können Ereignishandler auf verschiedene Weise an Elemente binden, um auf Benutzeraktionen zu reagieren.</p>
-        <h2>Ereignisse aus proto binden</h2>
-        <p>Dies ist die empfohlene Methode zur Ereignisbindung, geeignet für komplexe Ereignisverarbeitungslogik. Ereignishandlerfunktionen im <code>proto</code>-Objekt zu definieren, kann die Codelogik besser organisieren und erleichtert die Wartung und Wiederverwendung.</p>
-        <o-playground name="Von proto Ereignisse binden" style="--editor-height: 500px">
+        <p>In ofa.js ist die Ereignisbindung ein wichtiger Mechanismus zur Umsetzung von Benutzerinteraktionen. Du kannst auf verschiedene Weise Ereignisbehandler für Elemente binden, um auf Benutzeraktionen zu reagieren.</p>
+        <h2>Ereignisse von proto binden</h2>
+        <p>Dies ist die empfohlene Methode zur Ereignisbindung, die sich für komplexe Ereignisverarbeitungslogiken eignet. Wenn Sie die Ereignisbehandlungsfunktion im <code>proto</code>-Objekt definieren, können Sie die Codelogik besser organisieren, was die Wartung und Wiederverwendung erleichtert.</p>
+        <o-playground name="Ereignisse von proto binden" style="--editor-height: 500px">
           <code>
     <template page="">
       <style>
@@ -112,8 +112,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Funktion direkt ausführen</h2>
-        <p>Für einfache Operationen (wie Zählererhöhung, Statuswechsel usw.) können kurze Ausdrücke direkt in den Ereigniseigenschaften geschrieben werden. Diese Methode ist prägnant und klar, geeignet für die Verarbeitung einfacher Logik.</p>
+        <h2>Direkte Funktionsausführung</h2>
+        <p>Bei einfachen Operationen (wie Zählererhöhung, Statusumschaltung usw.) können kurze Ausdrücke direkt im Ereignisattribut geschrieben werden. Diese Methode ist prägnant und klar und eignet sich für die Verarbeitung einfacher Logik.</p>
         <o-playground name="Funktion direkt ausführen" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -143,11 +143,11 @@
           <li>Mausereignisse: <code>click</code>, <code>dblclick</code>, <code>mousedown</code>, <code>mouseup</code>, <code>mouseover</code>, <code>mouseout</code> usw.</li>
           <li>Tastaturereignisse: <code>keydown</code>, <code>keyup</code>, <code>keypress</code> usw.</li>
           <li>Formularereignisse: <code>submit</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code> usw.</li>
-          <li>Touch-Ereignisse: <code>touchstart</code>, <code>touchmove</code>, <code>touchend</code> usw.</li>
+          <li>Touchevents: <code>touchstart</code>, <code>touchmove</code>, <code>touchend</code> usw.</li>
         </ul>
-        <p>ofa.js unterstützt dieselben Ereignistypen wie native DOM-Ereignisse; weitere Details finden Sie in der <a href="https://developer.mozilla.org/de/docs/Web/API/Event" target="_blank">MDN-Ereignisdokumentation</a>.</p>
+        <p>Die von ofa.js unterstützten Ereignistypen sind vollständig identisch mit den nativen DOM-Ereignissen. Weitere Details finden Sie in der <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank">MDN-Ereignisdokumentation</a>。</p>
         <h2>Parameter an Ereignishandler übergeben</h2>
-        <p>Sie können auch Parameter an Event-Handler übergeben:</p>
+        <p>Du kannst auch Parameter an den Event-Handler übergeben：</p>
         <o-playground name="Parameter an Event-Handler übergeben" style="--editor-height: 600px">
           <code>
     <template page="">
@@ -158,8 +158,8 @@
           padding: 10px;
         }
       </style>
-      <button on:click="addNumber(5)">Addiere 5 - Aktuell: {{count}}</button>
-      <button on:click="addNumber(10)">Addiere 10 - Aktuell: {{count}}</button>
+      <button on:click="addNumber(5)">Add 5 - Aktuell: {{count}}</button>
+      <button on:click="addNumber(10)">Add 10 - Aktuell: {{count}}</button>
       <script>
         export default async () => {
           return {
@@ -177,9 +177,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Auf das Ereignisobjekt zugreifen</h2>
+        <h2>Zugriff auf das Ereignisobjekt</h2>
         <p>Im Event-Handler kannst du über den <code>event</code>-Parameter auf das native Event-Objekt zugreifen:</p>
-        <o-playground name="Ereignisobjekt zugreifen" style="--editor-height: 700px">
+        <o-playground name="Auf das Event-Objekt zugreifen" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -197,7 +197,7 @@
           justify-content: center;
         }
       </style>
-      <div class="container" on:click="handleClick">Klicken Sie irgendwo, um die Koordinaten anzuzeigen</div>
+      <div class="container" on:click="handleClick">Klicke irgendwo, um die Koordinaten zu sehen</div>
       <p>X: {{x}}, Y: {{y}}</p>
       <script>
         export default async () => {
@@ -218,12 +218,12 @@
     </template>
   </code>
         </o-playground>
-        <p>Sie können in Ausdrücken auch den <code>$event</code>-Parameter verwenden, um auf das native Ereignisobjekt zuzugreifen, z. B. die Koordinaten des Mausklicks abrufen:</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>Klicken Sie irgendwo, um die Koordinaten anzuzeigen<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <h2>Auf benutzerdefinierte Ereignisse lauschen</h2>
-        <p>Neben dem Abhören nativer DOM-Ereignisse können Sie auch ganz einfach benutzerdefinierte Ereignisse abhören, die von Komponenten ausgelöst werden:</p>
+        <p>Sie können auch den Parameter <code>$event</code> im Ausdruck verwenden, um auf das native Ereignisobjekt zuzugreifen, z.B. um die Mausklickkoordinaten zu erhalten:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>Klicken Sie auf eine beliebige Stelle, um die Koordinaten anzuzeigen<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>Benutzerdefinierte Ereignisse überwachen</h2>
+        <p>Neben dem Abhören von nativen DOM-Ereignissen können Sie auch problemlos benutzerdefinierte Ereignisse abhören, die von Komponenten ausgelöst werden:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">custom-comp</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">"handleCustomEvent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">custom-comp</span>&gt;</span></code></pre>
-        <p>Für eine detaillierte Erläuterung der benutzerdefinierten Ereignisse lesen Sie bitte im Kapitel <a href="custom-events.html" olink="">Benutzerdefinierte Ereignisse</a>. Es wird empfohlen, dem Tutorial sequenziell in der vorgesehenen Reihenfolge zu folgen, da sich die folgenden Inhalte auf natürliche Weise erschließen werden; selbstverständlich können Sie auch jederzeit nachschlagen, um sich das Wissen vorab anzueignen.</p>
+        <p>Für ein tieferes Verständnis von benutzerdefinierten Ereignissen lesen Sie bitte das Kapitel <a href="custom-events.html" olink="">Benutzerdefinierte Ereignisse</a>. Es wird empfohlen, der Reihenfolge des Tutorials Schritt für Schritt zu folgen, da sich die nachfolgenden Inhalte natürlich entfalten; natürlich sind Sie auch jederzeit willkommen, nachzuschlagen, um vorzeitig Kenntnisse zu erlangen.</p>
       </article>
       <div class="footer"></div>
       <script>

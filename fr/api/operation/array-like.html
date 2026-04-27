@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>Ajouter ou supprimer des éléments enfants</h1>
-        <p>Les instances d'éléments possèdent des caractéristiques similaires à celles d’un tableau ; ajouter ou supprimer des nœuds suffit donc à utiliser les quelques méthodes propres aux tableaux. Lors de l’utilisation des méthodes <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code>, <code>splice</code>, l’initialisation de la méthode <a href="../instance/dollar.html" olink="">$</a> est automatiquement exécutée en interne, aussi peut-on directement renseigner une chaîne ou un objet d’élément concret.</p>
+        <p>Les instances d'éléments possèdent des propriétés similaires à celles des tableaux : pour ajouter ou supprimer des nœuds, il suffit d'utiliser les méthodes de manipulation de tableaux. Lorsque vous utilisez les méthodes <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code> et <code>splice</code>, l'initialisation de la <a href="../instance/dollar.html" olink="">méthode $</a> est automatiquement effectuée en interne. Il est donc possible de renseigner directement des chaînes ou des objets d'éléments spécifiques.</p>
         <p>De même, vous pouvez également utiliser d'autres méthodes de tableau, telles que <code>forEach</code>, <code>map</code>, <code>some</code>, etc.</p>
-        <p><strong>Veuillez noter de ne pas ajouter ou supprimer d’éléments enfants sur les éléments comportant une syntaxe de modèle.</strong></p>
+        <p><strong>Veuillez noter de ne pas ajouter ou supprimer d’éléments enfants sur les éléments possédant une syntaxe de template.</strong></p>
         <h2>push</h2>
-        <p>Ajouter un élément enfant à la fin</p>
+        <p>Ajouter un élément enfant à la fin.</p>
         <o-playground name="array-like - push" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -96,7 +96,7 @@
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").push(`<li style="color:red;">nouveau li</li>`);
+          \$("ul").push(`<li style="color:red;">new li</li>`);
         }, 500);
       </script>
     </template>
@@ -108,13 +108,13 @@
           <code path="demo.html">
     <template>
       <ul>
-        <li>Je suis 1</li>
-        <li>Je suis 2</li>
-        <li>Je suis 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").unshift(`<li style="color:blue;">nouveau li</li>`);
+          \$("ul").unshift(`<li style="color:blue;">new li</li>`);
         }, 500);
       </script>
     </template>
@@ -139,14 +139,14 @@
   </code>
         </o-playground>
         <h2>shift</h2>
-        <p>Supprimer un sous-élément au début du tableau.</p>
+        <p>Supprimer des éléments enfants au début du tableau.</p>
         <o-playground name="array-like - shift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>I am 1</li>
-        <li>I am 2</li>
-        <li>I am 3</li>
+        <li>Je suis 1</li>
+        <li>Je suis 2</li>
+        <li>Je suis 3</li>
       </ul>
       <script>
         setTimeout(()=>{
@@ -157,7 +157,7 @@
   </code>
         </o-playground>
         <h2>splice</h2>
-        <p>Vous pouvez supprimer ou remplacer des éléments enfants existants, ou ajouter de nouveaux éléments enfants. Son utilisation est similaire à la méthode <code>splice</code> des tableaux.</p>
+        <p>Il est possible de supprimer ou remplacer des éléments enfants existants, et également d'en ajouter de nouveaux. Son utilisation est similaire à la méthode <code>splice</code> des tableaux.</p>
         <o-playground name="array-like - splice" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -168,7 +168,7 @@
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").splice(1, 2, `<li style="color:green;">nouveau li 1</li>`, `<li style="color:green;">nouveau li 2</li>`);
+          \$("ul").splice(1, 2, `<li style="color:green;">new li 1</li>`, `<li style="color:green;">new li 2</li>`);
         }, 500);
       </script>
     </template>

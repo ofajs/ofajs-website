@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Rendu conditionnel</h1>
-        <p>Dans ofa.js, le rendu conditionnel est une fonctionnalité importante qui permet de décider, selon l&#39;état des données, s&#39;il faut rendre un élément ou un composant. ofa.js propose un schéma de rendu conditionnel basé sur des composants, implémenté par les composants <code>o-if</code>, <code>o-else-if</code> et <code>o-else</code>.</p>
+        <p>Dans ofa.js, le rendu conditionnel est une fonctionnalité importante qui permet de décider de l&#39;affichage d&#39;un élément ou d&#39;un composant en fonction de l&#39;état des données. ofa.js propose un schéma de rendu conditionnel basé sur les composants, implémenté via les composants <code>o-if</code>, <code>o-else-if</code> et <code>o-else</code>.</p>
         <h2>Composant o-if</h2>
-        <p>Le composant <code>o-if</code> est utilisé pour décider de rendre son contenu en fonction de la valeur de vérité d&#39;une expression. Lorsque la propriété liée <code>value</code> est évaluée à vrai, le contenu à l&#39;intérieur du composant est rendu ; sinon, le contenu n&#39;apparaît pas dans le DOM.</p>
+        <p>Le composant <code>o-if</code> est utilisé pour décider si son contenu doit être rendu ou non selon la valeur de vérité d’une expression. Lorsque l’attribut lié <code>value</code> est vrai, le contenu du composant est rendu ; sinon, il n’apparaît pas dans le DOM.</p>
         <o-playground name="Exemple de fonctionnement d'o-if" style="--editor-height: 500px">
           <code>
     <template page>
@@ -111,14 +111,14 @@
     </template>
   </code>
         </o-playground>
-        <h3>Fonctionnement de o-if</h3>
-        <p><code>o-if</code> ne rendra le contenu dans le DOM que lorsque la condition est vraie, et lorsque la condition est fausse, les éléments DOM à l&#39;intérieur de <code>o-if</code> seront complètement supprimés. Cette méthode de mise en œuvre convient aux situations où les conditions ne changent pas fréquemment, car elle implique la création et la destruction du DOM.</p>
+        <h3>principe de fonctionnement de o-if</h3>
+        <p><code>o-if</code> ne rendra le contenu dans le DOM que lorsque la condition est vraie ; lorsque la condition est fausse, les éléments DOM à l&#39;intérieur de <code>o-if</code> sont complètement supprimés. Cette approche convient aux cas où la condition change peu fréquemment, car elle implique la création et la destruction du DOM.</p>
         <h2>Composants o-else-if et o-else</h2>
-        <p>Lorsque plusieurs branches conditionnelles sont nécessaires, vous pouvez utiliser les composants <code>o-else-if</code> et <code>o-else</code> en combinaison avec <code>o-if</code> pour réaliser un rendu conditionnel à branches multiples.</p>
+        <p>Lorsque plusieurs branches conditionnelles sont nécessaires, vous pouvez utiliser les composants <code>o-else-if</code> et <code>o-else</code> avec <code>o-if</code> pour réaliser le rendu conditionnel multi-branches.</p>
         <ul>
-          <li><code>o-if</code> : le premier composant conditionnel obligatoire</li>
-          <li><code>o-else-if</code> : composant conditionnel intermédiaire optionnel, peut être présent plusieurs fois</li>
-          <li><code>o-else</code> : composant conditionnel par défaut optionnel, placé à la fin</li>
+          <li><code>o-if</code>：le premier composant de condition obligatoire</li>
+          <li><code>o-else-if</code>：composant de condition intermédiaire optionnel, peut y en avoir plusieurs</li>
+          <li><code>o-else</code>：composant de condition par défaut optionnel, placé en dernier</li>
         </ul>
         <o-playground name="Exemple de rendu conditionnel multi-branches" style="--editor-height: 500px">
           <code>
@@ -130,8 +130,8 @@
           padding: 10px;
         }
       </style>
-      <button on:click="num++">Basculer l'affichage - {{num}}</button>
-      <!-- Basculer l'affichage de différents contenus en fonction du résultat de num modulo 3 -->
+      <button on:click="num++">Toggle Display - {{num}}</button>
+      <!-- En fonction du résultat de num modulo 3, bascule l'affichage de différents contenus -->
       <o-if :value="num % 3 === 0">
         <p>❤️ 0 / 3</p>
       </o-if>
@@ -153,7 +153,7 @@
     </template>
   </code>
         </o-playground>
-        <h2>Exemples de scénarios d&#39;application pratique</h2>
+        <h2>Exemple de scénario d&#39;application pratique</h2>
         <h3>Contrôle des permissions utilisateur</h3>
         <o-playground name="Exemple de contrôle des permissions utilisateur" style="--editor-height: 500px">
           <code>
@@ -176,8 +176,8 @@
         }
       </style>
       <div>
-        <button on:click="toggleUserRole">Basculer le rôle utilisateur</button>
-        <p>Rôle actuel : {{role}}</p>
+        <button on:click="toggleUserRole">Changer le rôle de l'utilisateur</button>
+        <p>Rôle actuel: {{role}}</p>
         <o-if :value="role === 'admin'">
           <div class="admin-panel">
             <h3>Panneau d'administration</h3>
@@ -188,7 +188,7 @@
         <o-else-if :value="role === 'user'">
           <div class="user-info">
             <h3>Informations utilisateur</h3>
-            <p>Bienvenue {{userName}} !</p>
+            <p>Bienvenue {{userName}}!</p>
           </div>
         </o-else-if>
         <o-else>
@@ -222,7 +222,7 @@
   </code>
         </o-playground>
         <h3>Affichage de l&#39;état de validation du formulaire</h3>
-        <o-playground name="Exemple d'affichage de l'état de validation de formulaire" style="--editor-height: 500px">
+        <o-playground name="Exemple d'affichage de l'état de validation du formulaire" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -238,15 +238,15 @@
       </style>
       <div>
         <h3>Exemple de validation d'email</h3>
-        <input type="email" :value="email" on:input="email = $event.target.value" placeholder="Entrez une adresse email">
+        <input type="email" :value="email" on:input="email = $event.target.value" placeholder="Entrez l'adresse email">
         <o-if :value="email && isValidEmail(email)">
-          <p style="color:green;">✓ Format d'email correct</p>
+          <p style="color:green;">✓ Format d'email valide</p>
         </o-if>
         <o-else-if :value="email && !isValidEmail(email) && email.length > 0">
-          <p style="color:red;">✗ Format d'email incorrect</p>
+          <p style="color:red;">✗ Format d'email invalide</p>
         </o-else-if>
         <o-else>
-          <p style="color:orange;">Veuillez entrer une adresse email pour la valider</p>
+          <p style="color:orange;">Veuillez entrer une adresse email pour validation</p>
         </o-else>
       </div>
       <script>
@@ -267,16 +267,16 @@
     </template>
   </code>
         </o-playground>
-        <h2>Meilleures pratiques pour le rendu conditionnel</h2>
+        <h2>Meilleures pratiques de rendu conditionnel</h2>
         <ol>
           <li>
-            <p><strong>Cas d’utilisation</strong> : lorsqu’un élément est rarement basculé entre différents états, <code>o-if</code> est plus approprié car il supprime complètement les éléments inutiles, économisant ainsi la mémoire.</p>
+            <p><strong>Cas d&#39;utilisation</strong> : Lorsque les éléments basculent rarement dans différentes conditions, il est plus approprié d&#39;utiliser <code>o-if</code>, car cela permet de supprimer complètement les éléments inutiles et d&#39;économiser de la mémoire.</p>
           </li>
           <li>
-            <p><strong>Considérations de performance</strong> : pour les éléments fréquemment basculés, il vaut mieux utiliser la liaison de classes (par exemple <code>class:hide</code>) plutôt que le rendu conditionnel, car ce dernier implique la création et la destruction du DOM.</p>
+            <p><strong>Considérations de performance</strong> : Les éléments qui basculent fréquemment sont mieux adaptés à l&#39;utilisation de liaisons de classe (comme <code>class:hide</code>) plutôt qu&#39;au rendu conditionnel, car le rendu conditionnel implique la création et la destruction du DOM.</p>
           </li>
           <li>
-            <p><strong>Clarté de la structure</strong> : le rendu conditionnel est particulièrement adapté aux basculements entre contenus de structures différentes, comme les onglets ou les guides par étapes.</p>
+            <p><strong>Clarté de la structure</strong> : Le rendu conditionnel est particulièrement adapté au basculement de contenu avec des structures différentes, comme les onglets, les guides d&#39;étapes, etc.</p>
           </li>
         </ol>
       </article>

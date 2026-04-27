@@ -89,14 +89,14 @@
       </style>
       <article>
         <h1>API-Dokumentation</h1>
-        <p> ofa.js unterstützt nicht nur Template-Syntax, sondern bietet auch umfangreiche APIs zur direkten DOM-Manipulation. Ähnlich wie <a href="https://jquery.com/" target="_blank">jQuery</a> kannst du mit der prägnanten ofa.js-Syntax das ausführliche native JavaScript ersetzen und mühelos DOM-Operationen durchführen. </p>
-        <p> In den Lebenszyklusfunktionen und benutzerdefinierten Methoden von Komponenten oder Seitenmodulen kannst du jederzeit die von ofa.js bereitgestellten APIs aufrufen, um DOM-Elemente flexibel und effizient zu steuern. </p>
+        <p> ofa.js unterstützt nicht nur die Vorlagensyntax, sondern bietet auch eine umfangreiche API, um direkt mit dem DOM zu arbeiten. Wie <a href="https://jquery.com/" target="_blank">jQuery</a> können Sie mit der prägnanten ofa.js-Syntax das umständliche native JavaScript ersetzen und DOM-Operationen mühelos durchführen. </p>
+        <p> In den Lebenszyklusfunktionen und benutzerdefinierten Methoden von Komponenten oder Seitenmodulen können Sie jederzeit die von ofa.js bereitgestellten APIs aufrufen, um DOM-Elemente flexibel und effizient zu steuern. </p>
         <api-container>
           <api-list>
-            <h3>Instanz bezogen</h3>
+            <h3>Instanzbezogene</h3>
             <api-item>
               <a href="./instance/dollar.html" olink="">$(selector)</a>
-              <p>Die Kernfunktion in ofa.js, die zum Abrufen und Bearbeiten von DOM-Element-Instanzen verwendet wird</p>
+              <p>Kernfunktion in ofa.js zum Abrufen und Manipulieren von DOM-Elementinstanzen</p>
             </api-item>
             <api-item>
               <a href="./instance/all.html" olink="">all</a>
@@ -104,7 +104,7 @@
             </api-item>
             <api-item>
               <a href="./instance/shadow.html" olink="">shadow</a>
-              <p>Ruft den Shadow Root des aktuellen Elements ab</p>
+              <p>Ruft das Shadow-Root des aktuellen Elements ab</p>
             </api-item>
             <api-item>
               <a href="./instance/prev.html" olink="">prev</a>
@@ -120,7 +120,7 @@
             </api-item>
             <api-item>
               <a href="./instance/nexts.html" olink="">nexts</a>
-              <p>Ruft alle nächsten Geschwisterelemente des aktuellen Elements ab</p>
+              <p>Ruft alle nachfolgenden Geschwisterelemente des aktuellen Elements ab</p>
             </api-item>
             <api-item>
               <a href="./instance/siblings.html" olink="">siblings</a>
@@ -132,7 +132,7 @@
             </api-item>
             <api-item>
               <a href="./instance/parents.html" olink="">parents</a>
-              <p>Ruft alle übergeordneten Elemente des aktuellen Elements ab</p>
+              <p>Ruft alle Vorfahrenelemente des aktuellen Elements ab</p>
             </api-item>
             <api-item>
               <a href="./instance/clone.html" olink="">clone</a>
@@ -144,15 +144,15 @@
             </api-item>
             <api-item>
               <a href="./instance/root.html" olink="">root</a>
-              <p>Ruft die Stamm-Instanz ab, zu der das aktuelle Element gehört</p>
+              <p>Ruft die Wurzelinstanz ab, zu der das aktuelle Element gehört</p>
             </api-item>
             <api-item>
-              <a href="./instance/children.html" olink="">Unterelemente</a>
+              <a href="./instance/children.html" olink="">Untergeordnete Elemente</a>
               <p>Ruft alle untergeordneten Elemente des aktuellen Elements ab</p>
             </api-item>
             <api-item>
               <a href="./instance/host.html" olink="">host</a>
-              <p>Ruft das Host-Element des Web Components ab, zu dem das aktuelle Element gehört</p>
+              <p>Ruft das Host-Element der Web-Komponente ab, zu der das aktuelle Element gehört</p>
             </api-item>
             <api-item>
               <a href="./instance/app.html" olink="">app</a>
@@ -179,15 +179,15 @@
             </api-item>
             <api-item>
               <a href="./operation/array-like.html?L=17" olink="">splice</a>
-              <p>Fügt untergeordnete Elemente zum aktuellen Element hinzu oder entfernt sie</p>
+              <p>Fügt untergeordnete Elemente hinzu oder entfernt sie</p>
             </api-item>
             <api-item>
               <a href="./operation/before.html" olink="">before</a>
-              <p>Fügt vor dem aktuellen Element untergeordnete Elemente hinzu</p>
+              <p>Fügt untergeordnete Elemente vor dem aktuellen Element hinzu</p>
             </api-item>
             <api-item>
               <a href="./operation/after.html" olink="">after</a>
-              <p>Fügt nach dem aktuellen Element untergeordnete Elemente hinzu</p>
+              <p>Fügt untergeordnete Elemente nach dem aktuellen Element hinzu</p>
             </api-item>
             <api-item>
               <a href="./operation/remove.html" olink="">remove</a>
@@ -195,11 +195,11 @@
             </api-item>
             <api-item>
               <a href="./operation/wrap.html" olink="">wrap</a>
-              <p>Umgibt das aktuelle Element mit einem angegebenen Element</p>
+              <p>Umschließt das aktuelle Element mit einem angegebenen Element</p>
             </api-item>
             <api-item>
               <a href="./operation/unwrap.html" olink="">unwrap</a>
-              <p>Entfernt die übergeordnete Elementumgebung des aktuellen Elements</p>
+              <p>Entfernt die Umschließung des übergeordneten Elements des aktuellen Elements</p>
             </api-item>
           </api-list>
           <api-list>
@@ -214,15 +214,15 @@
             </api-item>
             <api-item>
               <a href="./props/attr.html" olink="">attr</a>
-              <p>Ruft Attribute des Elements ab oder legt sie fest</p>
+              <p>Ruft ein Attribut des Elements ab oder legt es fest</p>
             </api-item>
             <api-item>
               <a href="./props/css.html" olink="">css</a>
-              <p>Ruft den CSS-Stil des Elements ab oder legt ihn fest</p>
+              <p>Ruft den Stil des Elements ab oder legt ihn fest</p>
             </api-item>
             <api-item>
               <a href="./props/style.html" olink="">style</a>
-              <p>Ruft das Style-Objekt des Elements ab</p>
+              <p>Ruft das style-Objekt des Elements ab</p>
             </api-item>
             <api-item>
               <a href="./props/class-list.html" olink="">classList</a>
@@ -230,18 +230,18 @@
             </api-item>
             <api-item>
               <a href="./props/data.html" olink="">data</a>
-              <p>Ruft die data-Attribute des Elements ab oder legt sie fest</p>
+              <p>Ruft das data-Attribut des Elements ab oder legt es fest</p>
             </api-item>
           </api-list>
           <api-list>
-            <h3>Ereignis bezogen</h3>
+            <h3>Ereignisbezogene</h3>
             <api-item>
               <a href="./event/on.html" olink="">on</a>
-              <p>Fügt dem Element einen Ereignis-Listener hinzu</p>
+              <p>Fügt einen Ereignislistener zum Element hinzu</p>
             </api-item>
             <api-item>
               <a href="./event/one.html" olink="">one</a>
-              <p>Fügt dem Element einen Ereignis-Listener hinzu, der nur einmal ausgeführt wird</p>
+              <p>Fügt einen Ereignislistener hinzu, der nur einmal ausgeführt wird</p>
             </api-item>
             <api-item>
               <a href="./event/emit.html" olink="">emit</a>
@@ -249,18 +249,18 @@
             </api-item>
             <api-item>
               <a href="./event/off.html" olink="">off</a>
-              <p>Entfernt den Ereignis-Listener des Elements</p>
+              <p>Entfernt einen Ereignislistener vom Element</p>
             </api-item>
           </api-list>
           <api-list>
             <h3>Sonstiges</h3>
             <api-item>
-              <a href="./others/app.html" olink="">o-app Komponente</a>
-              <p>Die Stammkomponente der ofa.js-Anwendung, die zum Verwalten des Anwendungsstatus und des Routings verwendet wird</p>
+              <a href="./others/app.html" olink="">o-app-Komponente</a>
+              <p>Wurzelkomponente der ofa.js-Anwendung zur Verwaltung von Anwendungsstatus und Routing</p>
             </api-item>
             <api-item>
-              <a href="./others/page.html" olink="">o-page Komponente</a>
-              <p>Die Seitenkomponente von ofa.js, die zum Erstellen von Einzelseiten-Anwendungsseiten verwendet wird</p>
+              <a href="./others/page.html" olink="">o-page-Komponente</a>
+              <p>Seitenkomponente von ofa.js zur Erstellung von Single-Page-Anwendungsseiten</p>
             </api-item>
             <api-item>
               <a href="./others/form-data.html" olink="">formData</a>
@@ -272,7 +272,7 @@
             </api-item>
             <api-item>
               <a href="./others/index.html" olink="">index</a>
-              <p>Ruft den Index des Elements in seinem übergeordneten Element ab</p>
+              <p>Ruft den Index des Elements innerhalb seines übergeordneten Elements ab</p>
             </api-item>
             <api-item>
               <a href="./others/is.html" olink="">is</a>
@@ -295,8 +295,8 @@
               <p>Ruft die Versionsnummer von ofa.js ab</p>
             </api-item>
             <api-item>
-              <a href="./others/stanz.html" olink="">Instanzdatenmerkmale</a>
-              <p>Stanz ist das reaktive Datenmerkmal von ofa.js, das die automatische Aktualisierung von Daten unterstützt</p>
+              <a href="./others/stanz.html" olink="">Instanzdaten-Feature</a>
+              <p>Stanz ist das reaktive Daten-Feature von ofa.js und unterstützt die automatische Aktualisierung von Daten</p>
             </api-item>
           </api-list>
         </api-container>

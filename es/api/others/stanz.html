@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Características de los datos de ejemplo</title>
+  <title>Características de los datos de instancia</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
@@ -80,14 +80,14 @@
       </style>
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
-        <h1>Características de los datos de ejemplo</h1>
-        <p>La instancia de objeto obtenida o creada a través de <code>$</code> posee las características completas de datos de stanz, ya que la instancia de <code>$</code> hereda de stanz. Esto significa que puedes utilizar los métodos y características de manipulación de datos proporcionados por <code>stanz</code> para operar y monitorear los datos del objeto de instancia.</p>
+        <h1>Características de los datos de instancia</h1>
+        <p>Los objetos de instancia obtenidos o creados mediante <code>$</code> poseen todas las características de datos de stanz, ya que las instancias de <code>$</code> heredan de stanz. Esto significa que puedes utilizar los métodos de operación de datos y las características proporcionadas por <code>stanz</code> para manipular y monitorear los datos de los objetos de instancia.</p>
         <blockquote>
-          <p>El siguiente ejemplo utiliza elementos regulares, ya que los componentes personalizados suelen traer datos ya registrados, mientras que los elementos regulares normalmente solo contienen información de etiqueta, por lo que son más adecuados para la demostración.</p>
+          <p>Los siguientes ejemplos utilizan elementos regulares, ya que los componentes personalizados suelen tener datos registrados incorporados, mientras que los elementos regulares generalmente solo contienen información de etiquetas, por lo que son más adecuados para la demostración.</p>
         </blockquote>
         <h2>watch</h2>
-        <p>Las instancias pueden observar cambios en los valores mediante el método <code>watch</code>; incluso si se modifica el valor de un subobjeto del objeto, el cambio también puede ser detectado en el método <code>watch</code> del objeto.</p>
-        <p>A continuación se muestra un ejemplo que demuestra cómo utilizar la instancia <code>$</code> y el método <code>watch</code>:</p>
+        <p>Las instancias pueden monitorear cambios de valor mediante el método <code>watch</code>; incluso si se modifica el valor de un objeto secundario, también se puede detectar el cambio en el método <code>watch</code> del objeto.</p>
+        <p>A continuación se muestra un ejemplo que demuestra cómo usar la instancia <code>$</code> y el método <code>watch</code>:</p>
         <o-playground name="stanz - watch" style="--editor-height: 480px">
           <code path="demo.html">
     <template>
@@ -101,26 +101,26 @@
           \$("#logger").text = target;
         });
         setTimeout(() => {
-          target.aaa = "Soy aaa";
+          target.aaa = "I am aaa";
         }, 600);
         setTimeout(() => {
           target.bbb = {
             child: {
-              val: "Soy bbb child val",
+              val: "I am bbb child val",
             },
           };
         }, 1200);
         setTimeout(() => {
-          target.bbb.child.val = "cambiar bbb child val";
+          target.bbb.child.val = "change bbb child val";
         }, 1800);
       </script>
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, primero creamos una instancia de objeto <code>$</code> llamada <code>target</code>, y luego utilizamos el método <code>watch</code> para monitorear sus cambios. Incluso si modificamos el valor de un subobjeto, como <code>target.bbb.child.val</code>, el método <code>watch</code> puede detectar estos cambios y actualizar el contenido del elemento <code>logger</code>. Esto demuestra la poderosa característica de la instancia de objeto <code>$</code>, permitiéndote monitorear fácilmente los cambios en los objetos.</p>
+        <p>En este ejemplo, primero creamos un objeto de instancia <code>$</code> llamado <code>target</code>, y luego usamos el método <code>watch</code> para monitorear sus cambios. Incluso si modificamos el valor de un subobjeto del objeto, como el valor de <code>target.bbb.child.val</code>, el método <code>watch</code> puede detectar estos cambios y actualizar el contenido del elemento <code>logger</code>. Esto demuestra la poderosa característica del objeto de instancia <code>$</code>, que te permite monitorear fácilmente los cambios en un objeto.</p>
         <h2>watchTick</h2>
-        <p>Los métodos <code>watchTick</code> y <code>watch</code> tienen funcionalidades similares, pero <code>watchTick</code> incluye una operación de throttling interna, ejecutándose una sola vez bajo un único hilo, por lo que puede escuchar cambios en los datos de manera más eficiente en escenarios con mayores requisitos de rendimiento.</p>
-        <p>A continuación se muestra un ejemplo que demuestra cómo utilizar el método <code>watchTick</code> de la instancia <code>$</code>:</p>
+        <p><code>watchTick</code> y el método <code>watch</code> tienen funciones similares, pero <code>watchTick</code> tiene una operación de throttling interna, que se ejecuta una vez en un solo hilo, por lo que en algunos escenarios con mayores requisitos de rendimiento, puede monitorear los cambios de datos de manera más efectiva.</p>
+        <p>A continuación se muestra un ejemplo que demuestra cómo usar el método <code>watchTick</code> de la instancia <code>$</code>:</p>
         <o-playground name="stanz - watchTick" style="--editor-height: 480px">
           <code path="demo.html">
     <template>
@@ -133,12 +133,12 @@
         let count1 = 0;
         target.watch(() => {
           count1++;
-          \$("#logger1").text = 'watch ejecutado：' + count1;
+          \$("#logger1").text = 'Número de ejecuciones de watch: ' + count1;
         });
         let count2 = 0;
         target.watchTick(()=>{
           count2++;
-          \$("#logger2").text = 'watchTick ejecutado：' + count2;
+          \$("#logger2").text = 'Número de ejecuciones de watchTick: ' + count2;
         });
         setTimeout(() => {
           target.aaa = "I am aaa";
@@ -149,9 +149,9 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, primero creamos un objeto instancia <code>$</code> llamado <code>target</code>. Luego, utilizamos los métodos <code>watch</code> y <code>watchTick</code> para observar los cambios del objeto. El método <code>watch</code> se ejecuta inmediatamente cuando los datos cambian, mientras que el método <code>watchTick</code> se ejecuta una sola vez en un solo hilo, por lo que puede limitar la frecuencia de las operaciones de observación. Puedes elegir utilizar el método <code>watch</code> o <code>watchTick</code> según tus necesidades para observar los cambios en los datos.</p>
+        <p>En este ejemplo, primero creamos una instancia del objeto <code>$</code> llamada <code>target</code>. Luego, utilizamos el método <code>watch</code> y el método <code>watchTick</code> para monitorear los cambios del objeto. El método <code>watch</code> se ejecuta inmediatamente cuando los datos cambian, mientras que el método <code>watchTick</code> se ejecuta una vez en un solo hilo, lo que permite limitar la frecuencia de las operaciones de monitoreo. Puedes elegir usar el método <code>watch</code> o <code>watchTick</code> para monitorear los cambios en los datos según tus necesidades.</p>
         <h2>unwatch</h2>
-        <p>El método <code>unwatch</code> se utiliza para cancelar la escucha de datos, y puede revocar los escuchas de <code>watch</code> o <code>watchTick</code> registrados anteriormente.</p>
+        <p><code>unwatch</code> método se utiliza para cancelar la escucha de datos, y puede revocar la escucha de <code>watch</code> o <code>watchTick</code> registrada anteriormente.</p>
         <p>Aquí hay un ejemplo que demuestra cómo usar el método <code>unwatch</code> de la instancia <code>$</code>:</p>
         <o-playground name="stanz - unwatch" style="--editor-height: 480px">
           <code path="demo.html">
@@ -180,12 +180,12 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, primero creamos una instancia del objeto <code>$</code> llamada <code>target</code>, y luego utilizamos los métodos <code>watch</code> y <code>watchTick</code> para registrar dos escuchas respectivamente. Posteriormente, pasamos los valores de retorno de las escuchas previamente guardados <code>tid1</code> y <code>tid2</code> a través del método <code>unwatch</code> para cancelar estas dos escuchas. Esto significa que los cambios de propiedad en el primer <code>setTimeout</code> no activarán ninguna escucha, ya que las escuchas han sido canceladas.</p>
-        <h2>Valor no observable</h2>
-        <p>En la instancia <code>$</code>, los nombres de propiedades que comienzan con guion bajo <code>_</code> indican que estos valores no serán observados por los métodos <code>watch</code> o <code>watchTick</code>. Esto es muy útil para algunas propiedades temporales o privadas, ya que puedes modificarlas libremente sin desencadenar la observación.</p>
+        <p>En este ejemplo, primero creamos una instancia <code>$</code> llamada <code>target</code>, luego registramos dos observadores mediante los métodos <code>watch</code> y <code>watchTick</code>. Después, utilizamos el método <code>unwatch</code> pasando los valores de retorno previamente guardados <code>tid1</code> y <code>tid2</code> para cancelar ambos observadores. Esto significa que el cambio de propiedad dentro del primer <code>setTimeout</code> no activará ningún observador, ya que han sido cancelados.</p>
+        <h2>Valor no escuchado</h2>
+        <p>En la instancia <code>$</code>, los nombres de propiedades que comienzan con guion bajo <code>_</code> indican que estos valores no serán monitoreados por los métodos <code>watch</code> o <code>watchTick</code>. Esto es muy útil para propiedades temporales o privadas, ya que puedes modificarlas libremente sin activar la monitorización.</p>
         <p>Dentro de la plantilla, esto se conoce como <a href="../../documentation/state-management.html" olink="">datos no reactivos</a>.</p>
-        <p>A continuación se presenta un ejemplo que demuestra cómo usar valores de atributos que comienzan con un guión bajo para evitar ser monitoreados：</p>
-        <o-playground name="stanz - Datos no reactivos" style="--editor-height: 480px">
+        <p>A continuación se muestra un ejemplo que demuestra cómo utilizar valores de atributo que comienzan con guión bajo para evitar ser escuchado:</p>
+        <o-playground name="stanz - datos no reactivos" style="--editor-height: 480px">
           <code path="demo.html">
     <template>
       <div id="target"></div>
@@ -198,26 +198,26 @@
           \$("#logger").text = target;
         });
         setTimeout(() => {
-          target._aaa = "Soy aaa";
+          target._aaa = "I am aaa";
         }, 600);
         setTimeout(() => {
-          target._aaa = "cambiar aaa";
+          target._aaa = "change aaa";
         }, 1200);
       </script>
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, creamos una instancia del objeto <code>$</code> llamada <code>target</code>, y luego utilizamos el método <code>watch</code> para monitorear los cambios en los valores de las propiedades. En el <code>setTimeout</code>, intentamos modificar el valor de la propiedad <code>_aaa</code>, pero este cambio no activará el monitoreo. Esto es útil para situaciones en las que es necesario actualizar el valor de una propiedad sin desencadenar el monitoreo.</p>
+        <p>En este ejemplo, creamos un objeto instancia <code>$</code> llamado <code>target</code>, y luego utilizamos el método <code>watch</code> para escuchar los cambios en el valor de las propiedades. En <code>setTimeout</code>, intentamos cambiar el valor de la propiedad <code>_aaa</code>, pero este cambio no activará la escucha. Esto es muy útil para situaciones en las que se necesita actualizar el valor de una propiedad sin activar la escucha.</p>
         <h2>Características básicas</h2>
-        <p>Los datos del objeto establecidos en la instancia se convertirán en una instancia de Stanz, y esta instancia de Stanz permite la escucha.</p>
+        <p>Los datos de objeto establecidos en la instancia se convertirán en una instancia de Stanz, y este tipo de instancia de Stanz permite la escucha.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> obj = {
-  <span class="hljs-attr">val</span>: <span class="hljs-string">"Soy obj"</span>
+  <span class="hljs-attr">val</span>: <span class="hljs-string">"I am obj"</span>
 };
 
 $(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> = obj;
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span>.<span class="hljs-property">val</span> === obj.<span class="hljs-property">val</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> === obj);</code></pre>
-        <p>También podemos usar <code>$.stanz</code> para crear un dato Stanz que no esté vinculado a una instancia.</p>
+        <p>También podemos utilizar <code>$.stanz</code> para crear un dato Stanz que no esté vinculado a una instancia.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> data = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">val</span>: <span class="hljs-string">"I am val"</span>
 });
@@ -227,8 +227,8 @@ data.<span class="hljs-title function_">watch</span>(<span class="hljs-function"
 });
 
 data.<span class="hljs-property">val</span> = <span class="hljs-string">"change val"</span>;</code></pre>
-        <p>Estos ejemplos demuestran las características básicas de configurar datos de objetos como instancias de Stanz para su observación.</p>
-        <p>Para ver más características completas, consulta <a href="https://github.com/ofajs/stanz" target="_blank">stanz</a>.</p>
+        <p>Estos ejemplos muestran las características básicas de configurar datos de objeto como instancias de Stanz para su escucha.</p>
+        <p>Para más características completas, consulte <a href="https://github.com/ofajs/stanz" target="_blank">stanz</a>.</p>
       </article>
       <div class="footer"></div>
       <script>

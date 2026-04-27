@@ -81,12 +81,12 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Template-Rendering</h1>
-        <p>ofa.js bietet eine leistungsstarke Template-Rendering-Engine mit einer umfangreichen Template-Syntax, die Entwicklern hilft, Anwendungen schnell zu erstellen. Zunächst beginnen wir mit der Einführung des am häufigsten verwendeten Text-Renderings.</p>
-        <h2>Seitendatenbindung</h2>
-        <p>In ofa.js hat jede Seite ein <code>data</code>-Objekt, in dem Sie Variablen definieren können, die auf der Seite verwendet werden sollen. Wenn das Rendering der Seite beginnt, werden die Daten aus dem <code>data</code>-Objekt automatisch mit der Vorlage verknüpft. Anschließend können Sie in der Vorlage die Syntax <code>{{Variablenname}}</code> verwenden, um den Wert der entsprechenden Variable zu rendern.</p>
+        <p>ofa.js bietet eine leistungsfähige Template-Rendering-Engine mit reicher Templatesyntax, die Entwicklern hilft, Anwendungen schnell zu erstellen. Beginnen wir mit der am häufigsten verwendeten Textwiedergabe.</p>
+        <h2>Seiten-Datenbindung</h2>
+        <p>In ofa.js hat jede Seite ein <code>data</code>-Objekt, in dem du die Variablen definieren kannst, die auf der Seite benötigt werden. Wenn die Seite gerendert wird, werden die Daten aus dem <code>data</code>-Objekt automatisch mit der Vorlage gebunden, und in der Vorlage wird die Syntax <code>{{Variablenname}}</code> verwendet, um den Wert der entsprechenden Variablen zu rendern.</p>
         <h2>Text-Rendering</h2>
-        <p>Text-Rendering ist die grundlegendste Rendering-Methode. Sie können in der Vorlage die Syntax <code>{{Variablenname}}</code> verwenden, um den Wert der entsprechenden Variable im <code>data</code>-Objekt anzuzeigen.</p>
-        <o-playground name="Text-Rendering-Beispiel" style="--editor-height: 500px">
+        <p>Text-Rendering ist die grundlegendste Render-Methode; du kannst in der Vorlage die Syntax <code>{{Variablenname}}</code> verwenden, um den Wert der entsprechenden Variablen im <code>data</code>-Objekt anzuzeigen.</p>
+        <o-playground name="Textwiedergabe-Beispiel" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -109,9 +109,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>HTML-Inhalt rendern</h2>
-        <p>Durch Hinzufügen der <code>:html</code>-Direktive zu einem Element kann der entsprechende HTML-String aus einer Variable geparst und sicher in das Element eingefügt werden, wodurch die dynamische Darstellung von Rich-Text oder das Einbetten externer HTML-Fragmente erleichtert wird.</p>
-        <o-playground name="Beispiel für das Rendern von HTML-Inhalten" style="--editor-height: 500px">
+        <h2>Rendern von HTML-Inhalten</h2>
+        <p>Durch das Hinzufügen der <code>:html</code>-Anweisung zu einem Element kann die HTML-Zeichenkette aus der entsprechenden Variable sicher geparst und innerhalb des Elements eingefügt werden, wodurch die dynamische Darstellung von Rich-Text oder das Einbetten externer HTML-Segmente mühelos ermöglicht wird.</p>
+        <o-playground name="Beispiel zum Rendern von HTML-Inhalten" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -127,7 +127,7 @@
           return {
             data: {
               val: '<span style="color:green;">Hallo ofa.js Demo Code</span>',
-            },
+            };
           };
         };
       </script>

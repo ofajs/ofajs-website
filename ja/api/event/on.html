@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>on</h1>
-        <p><code>on</code> メソッドを使用すると、対象要素にイベントハンドラを登録できます。これにより、ユーザーのインタラクションを簡単にキャッチして応答できます。</p>
-        <p>以下は、ボタン要素にクリックイベントハンドラを登録するために <code>on</code> メソッドを使用する方法を示す例です：</p>
+        <p>使用 <code>on</code> 方法，你可以为目标元素注册事件处理程序。这使你能够轻松地捕获和响应用户的交互操作。</p>
+        <p>以下は、<code>on</code> メソッドを使用してボタン要素にクリックイベントハンドラを登録する方法を示す例です：</p>
         <o-playground name="on - click イベント" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -99,7 +99,7 @@
     </template>
   </code>
         </o-playground>
-        <p>この例では、<code>on</code> メソッドを使用してボタン要素にクリックイベントハンドラを追加しました。ユーザーがボタンをクリックすると、イベントハンドラがトリガーされ、カウンターが増加し、結果がページに表示されます。</p>
+        <p>この例では、<code>on</code> メソッドを使用してボタン要素にクリックイベントハンドラを追加しています。ユーザーがボタンをクリックすると、イベントハンドラがトリガーされ、カウンターが増加し、その結果がページに表示されます。</p>
         <h2>テンプレート構文方式での使用</h2>
         <p>テンプレート構文を使用して、ターゲット要素にメソッドをバインドすることもできます。</p>
         <o-playground name="on - テンプレート構文" style="--editor-height: 400px">
@@ -111,7 +111,7 @@
   </code>
           <code path="on-demo.html" active>
     <template component>
-      <button on:click="addCount">カウントを追加</button>
+      <button on:click="addCount">Add Count</button>
       <div>{{count}}</div>
       <script>
         export default {
@@ -131,11 +131,11 @@
         </o-playground>
         <p>この例では、ボタン要素に <code>on:click</code> を使って <code>addCount</code> というメソッドをバインドしています。ユーザーがボタンをクリックすると、このメソッドが呼び出され、カウンターの値が増加してページに表示されます。この方法により、イベントハンドラをコンポーネントのメソッドに関連付け、より複雑なインタラクションを実現できます。</p>
         <h2>event</h2>
-        <p>イベントを登録した後、トリガーされる関数には event が渡されます。これはネイティブと同様です：</p>
-        <o-playground name="on - event 参数" style="--editor-height: 300px">
+        <p>イベントを登録した後、トリガーされる関数にはeventが付与され、ネイティブと同様になります：</p>
+        <o-playground name="on - event パラメータ" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <button id="target">カウントを追加</button>
+      <button id="target">add count</button>
       <br>
       <br>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>

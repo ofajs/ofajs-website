@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Passing Feature Attributes</h1>
-        <p>In ofa.js, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes" target="_blank">attributes</a> are one of the most common ways to pass data between components. Simply declare the required attributes in the component's <code>attrs</code> object, and external data can be passed into the component when it is used.</p>
+        <p>In ofa.js, <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/attributes" target="_blank">attributes</a> are one of the most common ways to pass data between components. Simply declare the required attributes in the component's <code>attrs</code> object, and external data can be passed into the component when using it.</p>
         <h2>Basic Usage</h2>
         <h3>Define Receiving Attributes</h3>
-        <p>Before using a component, you need to declare the attributes you want to receive in the component's <code>attrs</code> object. Default values can be set for these attributes.</p>
+        <p>Before using a component, you need to declare the properties to be received in the component's <code>attrs</code> object. Properties can have default values.</p>
         <o-playground name="Basic Usage Example" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
@@ -122,19 +122,19 @@
         <h3>Important Rules</h3>
         <ol>
           <li>
-            <p><strong>Type restriction</strong>: The passed attribute value must be a string; other types are automatically converted to strings.</p>
+            <p><strong>Type Restriction</strong>: The passed attribute value must be a string; other types will be automatically converted to strings.</p>
           </li>
           <li>
-            <p><strong>Naming conversion</strong>: Because HTML attributes are case-insensitive, attributes containing uppercase letters must be written in kebab-case with hyphens.</p>
+            <p><strong>Naming Convention</strong>: Since HTML attributes are case-insensitive, when passing attributes containing uppercase letters, you need to use a <code>-</code> separated naming (kebab-case format).</p>
             <ul>
-              <li>Example: <code>fullName</code> → <code>full-name</code></li>
+              <li>For example: <code>fullName</code> → <code>full-name</code></li>
             </ul>
           </li>
           <li>
-            <p><strong>Must be defined</strong>: If the component does not declare the corresponding property in the <code>attrs</code> object, it cannot receive that attribute. The assigned value becomes the default; set it to <code>null</code> if no default is desired.</p>
+            <p><strong>Must Be Defined</strong>: If the component does not define the corresponding attribute in the <code>attrs</code> object, it cannot receive that attribute. The set value is the default value; if you do not want a default value, set it to <code>null</code>.</p>
           </li>
         </ol>
-        <o-playground name="Important Rule Example" style="--editor-height: 500px">
+        <o-playground name="Important Rules Example" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./demo-comp.html"></l-m>
@@ -167,9 +167,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Passing Attributes via Template Syntax</h2>
-        <p>In a component's template, you can use the <code>attr:toKey="fromKey"</code> syntax to pass the current component's <code>fromKey</code> data to the child component's <code>toKey</code> property.</p>
-        <o-playground name="Props Passing Example" style="--editor-height: 500px">
+        <h2>Template Syntax Passing Attributes</h2>
+        <p>In the component's template, you can use the <code>attr:toKey="fromKey"</code> syntax to pass the <code>fromKey</code> data of the current component to the <code>toKey</code> attribute of the child component.</p>
+        <o-playground name="Attribute Passing Example" style="--editor-height: 500px">
           <code path="demo.html" preview="">
     <template>
       <o-page src="page1.html"></o-page>
@@ -223,14 +223,14 @@
     </template>
   </code>
         </o-playground>
-        <h2>Multi-level Transfer</h2>
-        <p>Attributes can be passed through multiple levels of nested components.</p>
-        <p>If a component depends on other components, it needs to import the modules of those other components within the component.</p>
+        <h2>Multi-level Propagation</h2>
+        <p>Attributes can be passed layer by layer through multi-layer nested components.</p>
+        <p>If a component needs to depend on other components, it must import the modules of those other components within the component.</p>
         <o-playground name="Multi-level Passing Example" style="--editor-height: 700px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./outer-comp.html"></l-m>
-      <outer-comp user-name="Top-level Data"></outer-comp>
+      <outer-comp user-name="Top-level data"></outer-comp>
     </template>
   </code>
           <code path="outer-comp.html" active="">
@@ -244,7 +244,7 @@
           margin-bottom: 8px;
         }
       </style>
-      <p>Outer Component Receives: {{userName}}</p>
+      <p>Outer component received: {{userName}}</p>
       <inner-comp attr:user-name="userName"></inner-comp>
       <script>
         export default async ({ load }) => {
@@ -268,7 +268,7 @@
           margin-left: 20px;
         }
       </style>
-      <p>Inner Component Receives: {{userName}}</p>
+      <p>Inner component received: {{userName}}</p>
       <script>
         export default async ({ load }) => {
           return {

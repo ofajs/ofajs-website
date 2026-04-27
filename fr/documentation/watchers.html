@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Écouteurs</title>
+  <title>Observateurs</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,10 +80,10 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Écouteurs</h1>
-        <p>L'écouteur (Watcher) est une fonctionnalité dans ofa.js utilisée pour surveiller les changements de données et exécuter la logique correspondante. Lorsque les données réactives changent, l'écouteur déclenche automatiquement une fonction de rappel, vous permettant d'exécuter des tâches telles que la transformation de données, des opérations d'effets secondaires ou un traitement asynchrone.</p>
+        <h1>Observateurs</h1>
+        <p>L'observateur (Watcher) est une fonctionnalité de ofa.js utilisée pour surveiller les changements de données et exécuter une logique correspondante. Lorsque les données réactives changent, l'observateur déclenche automatiquement une fonction de rappel, vous permettant d'effectuer des tâches telles que la transformation de données, des opérations à effet secondaire ou un traitement asynchrone.</p>
         <h2>Utilisation de base</h2>
-        <p>Les observateurs sont définis dans l'objet <code>watch</code> du composant, où la clé correspond au nom de la propriété de données à surveiller, et la valeur est la fonction de rappel exécutée lorsque les données changent.</p>
+        <p>Les observateurs sont définis dans l'objet <code>watch</code> du composant, où les noms de clé correspondent aux noms des propriétés de données à observer, et les valeurs sont les fonctions de rappel exécutées lorsque les données changent.</p>
         <o-playground name="watchers - utilisation de base" style="--editor-height: 700px">
           <code>
     <template page="">
@@ -125,7 +125,7 @@
         <ul>
           <li><code>{watchers}</code>：l’ensemble des objets observateurs du composant actuel</li>
         </ul>
-        <p>Après un changement de données, un traitement anti-rebond est effectué avant d'exécuter le callback dans <code>watch</code> ; le paramètre <code>watchers</code> représente l'ensemble de tous les changements fusionnés au cours de cette période anti-rebond.</p>
+        <p>Après les changements de données, un traitement anti-rebond est d'abord effectué, puis le callback dans <code>watch</code> est exécuté ; le paramètre <code>watchers</code> est l'ensemble de toutes les modifications fusionnées pendant ce cycle anti-rebond.</p>
         <p>Les fonctions dans <code>watch</code> sont appelées immédiatement après l'initialisation du composant, afin d'établir l'écoute des données. On peut distinguer s'il s'agit du premier appel en vérifiant si <code>watchers</code> possède une longueur.</p>
         <o-playground name="watchers - paramètres de rappel" style="--editor-height: 700px">
           <code>
@@ -146,14 +146,14 @@
       </style>
       <p>Nom : {{name}}</p>
       <p>Âge : {{age}}</p>
-      <input sync:value="name" placeholder="Entrez un nom">
-      <input sync:value="age" type="number" placeholder="Entrez un âge">
+      <input sync:value="name" placeholder="Entrez le nom">
+      <input sync:value="age" type="number" placeholder="Entrez l'âge">
       <div class="log">{{log}}</div>
       <script>
         export default async () => {
           return {
             data: {
-              name: "Zhang San",
+              name: "ZhangShan",
               age: 25,
               log: "",
             },
@@ -162,15 +162,15 @@
                 if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // Obtenir l'un d'entre eux
-                this.log += `La propriété "${watcher.name}" est passée de "${watcher.oldValue}" à "${watcher.value}"\n`;
+                const watcher = watchers[0]; // obtenir l'un d'entre eux
+                this.log += `propriété "${watcher.name}" est passée de "${watcher.oldValue}" à "${watcher.value}"\n`;
               },
               age(newVal,{watchers}) {
                 if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // Obtenir l'un d'entre eux
-                this.log += `La propriété "${watcher.name}" est passée de "${watcher.oldValue}" à "${watcher.value}"\n`;
+                const watcher = watchers[0]; // obtenir l'un d'entre eux
+                this.log += `propriété "${watcher.name}" est passée de "${watcher.oldValue}" à "${watcher.value}"\n`;
               },
             },
           };
@@ -179,9 +179,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Écoute en profondeur</h2>
-        <p>Pour les données imbriquées de type objet ou tableau, la surveillance automatique en profondeur est activée dans watch.</p>
-        <o-playground name="watchers - écoute profonde" style="--editor-height: 700px">
+        <h2>Écoute approfondie</h2>
+        <p>Pour les données imbriquées de type objet ou tableau, une écoute profonde est automatiquement effectuée dans watch.</p>
+        <o-playground name="watchers - Écoute approfondie" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -201,10 +201,10 @@
         }
       </style>
       <div>
-        <p>Informations utilisateur :</p>
-        <p>Nom : {{user.name}}</p>
-        <p>Âge : {{user.age}}</p>
-        <p>Loisirs : {{user.hobbies.join(', ')}}</p>
+        <p>Informations utilisateur:</p>
+        <p>Nom: {{user.name}}</p>
+        <p>Âge: {{user.age}}</p>
+        <p>Loisirs: {{user.hobbies.join(', ')}}</p>
       </div>
       <div>
         <button on:click="updateName">Modifier le nom</button>
@@ -220,7 +220,7 @@
               user: {
                 name: "Zhang San",
                 age: 25,
-                hobbies: ["Basketball", "Football"],
+                hobbies: ["basket-ball", "football"],
               },
               log: "",
             },
@@ -229,12 +229,12 @@
                 if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // récupère l’un d’eux
-                console.log("Modification : ",watcher.target);
+                const watcher = watchers[0]; // Obtenir l'un d'eux
+                console.log("Modification: ",watcher.target);
                 if(watcher.type === 'set'){
-                  this.log += `Valeur modifiée -> propriété "${watcher.name}" de "${watcher.oldValue}" à "${watcher.value}" <br>`;
+                  this.log += `Valeur modifiée -> Propriété "${watcher.name}" est passée de "${watcher.oldValue}" à "${watcher.value}" <br>`;
                 }else{
-                  this.log += `Méthode exécutée ${watcher.type} -> nom de la fonction "${watcher.name}"  arguments "${watcher.args}" <br>`;
+                  this.log += `Méthode exécutée ${watcher.type} -> Nom de la fonction "${watcher.name}" arguments "${watcher.args}" <br>`;
                 }
               },
             },
@@ -246,10 +246,10 @@
                 this.user.age = 30;
               },
               addHobby() {
-                this.user.hobbies.push("Natation");
+                this.user.hobbies.push("natation");
               },
               updateHobby() {
-                this.user.hobbies[0] = "Badminton";
+                this.user.hobbies[0] = "badminton";
               },
             },
           };
@@ -258,9 +258,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Surveiller plusieurs sources de données</h2>
-        <p>Vous pouvez écouter les changements de plusieurs données simultanément et exécuter la logique correspondante dans la fonction de rappel en fonction des changements de plusieurs données.</p>
-        <o-playground name="watchers - sources multiples de données" style="--editor-height: 600px">
+        <h2>Écouter plusieurs sources de données</h2>
+        <p>Vous pouvez surveiller les changements de plusieurs données en même temps et exécuter la logique correspondante en fonction des changements des multiples données dans la fonction de rappel.</p>
+        <o-playground name="watchers - sources multiples" style="--editor-height: 600px">
           <code>
     <template page="">
       <style>
@@ -276,7 +276,7 @@
       </style>
       <p>Largeur : {{rectWidth}}</p>
       <p>Hauteur : {{rectHeight}}</p>
-      <p>Aire : {{area}}</p>
+      <p>Surface : {{area}}</p>
       <input sync:value="rectWidth" type="number" placeholder="Largeur">
       <input sync:value="rectHeight" type="number" placeholder="Hauteur">
       <script>
@@ -299,7 +299,7 @@
     </template>
   </code>
         </o-playground>
-        <h2>Scénarios d'application pratiques</h2>
+        <h2>Scénarios d'application réels</h2>
         <h3>1. Validation des formulaires</h3>
         <o-playground name="watchers - validation de formulaire" style="--editor-height: 800px">
           <code>
@@ -322,7 +322,7 @@
       </style>
       <input sync:value="username" placeholder="Nom d'utilisateur (3-10 caractères)">
       <span class="error">{{usernameError}}</span>
-      <input sync:value="email" placeholder="Email">
+      <input sync:value="email" placeholder="E-mail">
       <span class="error">{{emailError}}</span>
       <script>
         export default async () => {
@@ -336,7 +336,7 @@
             watch: {
               username(val) {
                 if (val.length < 3 || val.length > 10) {
-                  this.usernameError = "Le nom d'utilisateur doit contenir 3-10 caractères";
+                  this.usernameError = "Le nom d'utilisateur doit contenir entre 3 et 10 caractères";
                 } else {
                   this.usernameError = "";
                 }
@@ -344,7 +344,7 @@
               email(val) {
                 const emailRegex = /^.+@.+\..+$/;
                 if (!emailRegex.test(val)) {
-                  this.emailError = "Veuillez entrer une adresse email valide";
+                  this.emailError = "Veuillez entrer une adresse e-mail valide";
                 } else {
                   this.emailError = "";
                 }
@@ -357,7 +357,7 @@
   </code>
         </o-playground>
         <h3>2. Définir le thème</h3>
-        <o-playground name="watchers - définir le thème" style="--editor-height: 800px">
+        <o-playground name="watchers - Définir le thème" style="--editor-height: 800px">
           <code>
     <template page="">
       <style>
@@ -371,8 +371,8 @@
           padding: 8px 12px;
         }
       </style>
-      <p>Paramètres : {{settings.theme}}</p>
-      <p>État de sauvegarde : {{saveStatus}}</p>
+      <p>Paramètre: {{settings.theme}}</p>
+      <p>État de sauvegarde: {{saveStatus}}</p>
       <button on:click="setLight">Thème clair</button>
       <button on:click="setDark">Thème sombre</button>
       <button on:click="resetSettings">Réinitialiser</button>
@@ -383,14 +383,14 @@
               settings: {
                 theme: "light",
               },
-              saveStatus: "Enregistré",
+              saveStatus: "Sauvegardé",
             },
             watch: {
               settings(){
-                  this.saveStatus = "En cours de sauvegarde...";
+                  this.saveStatus = "Sauvegarde en cours...";
                   setTimeout(() => {
-                    this.saveStatus = "Enregistré";
-                    console.log("Paramètres enregistrés :", this.settings);
+                    this.saveStatus = "Sauvegardé";
+                    console.log("Paramètres sauvegardés:", this.settings);
                   }, 500);
               }
             },
@@ -411,10 +411,10 @@
     </template>
   </code>
         </o-playground>
-        <h2>Notes importantes</h2>
+        <h2>Remarques</h2>
         <ul>
-          <li><strong>Évitez de modifier les données surveillées</strong> : Modifier les données surveillées dans le rappel d'un écouteur peut entraîner une boucle infinie. Si vous devez les modifier, assurez-vous d'avoir une condition appropriée.</li>
-          <li><strong>Privilégiez les propriétés calculées</strong> : Si vous devez calculer une nouvelle valeur en fonction de changements dans plusieurs données, il est recommandé d'utiliser les <a href="./computed-properties.html" olink="">propriétés calculées</a> plutôt qu'un écouteur.</li>
+          <li><strong>Évitez de modifier les données surveillées</strong> : modifier les données surveillées dans le rappel du « watcher » peut entraîner une boucle infinie. Si une modification est nécessaire, assurez-vous d’avoir une condition appropriée.</li>
+          <li><strong>Préférez une propriété calculée</strong> : si vous devez calculer une nouvelle valeur à partir de plusieurs données, il est recommandé d’utiliser une <a href="./computed-properties.html" olink="">propriété calculée</a> plutôt qu’un « watcher ».</li>
         </ul>
       </article>
       <div class="footer"></div>

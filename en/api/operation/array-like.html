@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>Add or remove child elements</h1>
-        <p>Element instances behave like arrays; nodes can be added or removed with the usual array methods. When using <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code>, or <code>splice</code>, the internal <a href="../instance/dollar.html" olink="">$ method</a> is automatically invoked for initialization, so you can pass element strings or objects directly.</p>
-        <p>Likewise, you can use other array methods such as <code>forEach</code>, <code>map</code>, <code>some</code>, and so on.</p>
-        <p><strong>Please note: Do not add or remove child elements on elements with template syntax.</strong></p>
+        <p>Element instances have array-like characteristics. Adding or removing nodes only requires using the array manipulation methods. When using <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code>, and <code>splice</code> methods, the internal <a href="../instance/dollar.html" olink="">$ method</a> initialization is automatically executed, so you can directly fill in the specific element strings or objects.</p>
+        <p>Similarly, you can also use other array methods, such as <code>forEach</code>, <code>map</code>, <code>some</code>, etc.</p>
+        <p><strong>Please note: do not add or remove child elements on elements with template syntax.</strong></p>
         <h2>push</h2>
-        <p>Add child element at the end</p>
+        <p>Append child elements from the end.</p>
         <o-playground name="array-like - push" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -103,7 +103,7 @@
   </code>
         </o-playground>
         <h2>unshift</h2>
-        <p>Add a child element to the beginning of the array.</p>
+        <p>Add child elements at the beginning of the array.</p>
         <o-playground name="array-like - unshift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -121,7 +121,7 @@
   </code>
         </o-playground>
         <h2>pop</h2>
-        <p>Delete child elements from the end.</p>
+        <p>Remove child elements from the end.</p>
         <o-playground name="array-like - pop" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -139,7 +139,7 @@
   </code>
         </o-playground>
         <h2>shift</h2>
-        <p>Remove sub-elements from the beginning of the array.</p>
+        <p>Remove child elements from the beginning of the array.</p>
         <o-playground name="array-like - shift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -157,7 +157,7 @@
   </code>
         </o-playground>
         <h2>splice</h2>
-        <p>You can delete or replace existing child elements, or add new child elements. Its usage is similar to the <code>splice</code> method of arrays.</p>
+        <p>You can delete or replace existing child elements, or add new child elements. Its usage is similar to the array's <code>splice</code> method.</p>
         <o-playground name="array-like - splice" style="--editor-height: 300px">
           <code path="demo.html">
     <template>

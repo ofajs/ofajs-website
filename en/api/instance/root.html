@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>root</h1>
-        <p>Using the <code>root</code> property allows you to obtain the root node of an element.</p>
-        <p>On the page, the root node of ordinary elements is always a <code>document</code> instance.</p>
-        <o-playground name="root - Root Node" style="--editor-height: 320px">
+        <p>Use the <code>root</code> property to get the root node of the element.</p>
+        <p>On a page, the root node of ordinary elements is the <code>document</code> instance.</p>
+        <o-playground name="root - root node" style="--editor-height: 320px">
           <code path="demo.html">
     <template>
       <ul>
@@ -98,8 +98,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Elements within the shadow node</h2>
-        <p>Since elements inside a component are isolated from the external environment, the <code>root</code> property of elements within the shadow node is the shadow root.</p>
+        <h2>Elements Inside Shadow Nodes</h2>
+        <p>Because the elements inside the component are isolated from the external environment, the <code>root</code> attribute of elements within the shadow root is the shadow root node.</p>
         <o-playground name="root - shadow node" style="--editor-height: 600px">
           <code path="demo.html" preview>
     <template>

@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>host</h1>
-        <p><code>host</code> 属性を使用すると、要素のホストコンポーネントインスタンスを取得できます。これは、コンポーネント内部からそのホストコンポーネントのデータやメソッドにアクセスするのに非常に便利です。</p>
-        <p>以下は、<code>host</code> 属性を使用してホストコンポーネントのインスタンスを取得する方法を示す例です：</p>
-        <o-playground name="host - ホストを取得" style="--editor-height: 700px">
+        <p><code>host</code> プロパティを使用すると、要素のホストコンポーネントインスタンスを取得できます。これは、コンポーネント内部からそのホストコンポーネントのデータやメソッドにアクセスする際に非常に便利です。</p>
+        <p>以下は、<code>host</code> プロパティを使用してホストコンポーネントのインスタンスを取得する方法を示す例です：</p>
+        <o-playground name="host - 获取宿主" style="--editor-height: 700px">
           <code path="demo.html" preview>
     <template>
       <o-page src="./page1.html"></o-page>
@@ -139,14 +139,14 @@
     </template>
   </code>
         </o-playground>
-        <p>この例では、カスタムコンポーネント <code>user-card</code> を作成し、コンポーネント内部で <code>this.host</code> を通じてホストコンポーネント（ページ）のメソッド <code>sayHi</code> にアクセスすることで、コンポーネントとホスト間の相互作用を実現しています。</p>
+        <p>在这个示例中，我们创建了一个自定义组件 <code>user-card</code>，并在组件内部通过 <code>this.host</code> 访问宿主组件（页面）的方法 <code>sayHi</code>，实现了组件与宿主之间的交互。</p>
         <p>要素がコンポーネントまたはページモジュール内にない場合、<code>host</code> の値は <code>null</code> になります。例：</p>
         <o-playground name="host - ホストなしの場合" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
         <li id="target">
-          私はターゲットです
+          I am target
         </li>
       </ul>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
@@ -158,7 +158,7 @@
     </template>
   </code>
         </o-playground>
-        <p>この例では、<code>#target</code> 要素は body の下にあり、どのコンポーネントやページ内にもないため、<code>$(&quot;#target&quot;).host</code> の値は <code>null</code> になります。</p>
+        <p>この例では、<code>#target</code> 要素は body の直下にあり、いかなるコンポーネントやページの内部にも存在しないため、<code>$(&quot;#target&quot;).host</code> の値は <code>null</code> となります。</p>
       </article>
       <div class="footer"></div>
       <script>

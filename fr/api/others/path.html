@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>PATH</h1>
-        <p>L&#39;attribut <code>PATH</code> est généralement utilisé sur des composants personnalisés ou des composants de page pour obtenir l&#39;adresse du fichier du composant enregistré. Cela peut vous aider, pendant le développement, à connaître l&#39;origine du composant, notamment lorsque vous devez référencer ou charger d&#39;autres fichiers de ressources ; vous pouvez alors utiliser l&#39;attribut <code>PATH</code> pour construire le chemin du fichier.</p>
-        <p>Voici un exemple simple démontrant comment utiliser la propriété <code>PATH</code> dans un composant personnalisé :</p>
+        <p>L&#39;attribut <code>PATH</code> est généralement utilisé sur les composants personnalisés ou les composants de page pour obtenir l&#39;adresse du fichier du composant enregistré. Cela peut vous aider, en cours de développement, à connaître l&#39;origine du composant, notamment lorsque vous devez référencer ou charger d&#39;autres fichiers de ressources ; vous pouvez alors utiliser l&#39;attribut <code>PATH</code> pour construire le chemin du fichier.</p>
+        <p>Voici un exemple simple qui montre comment utiliser l&#39;attribut <code>PATH</code> dans un composant personnalisé :</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> componentPath = $(<span class="hljs-string">&quot;#myCustomComponent&quot;</span>).<span class="hljs-property">PATH</span>;</code></pre>
-        <p>Dans cet exemple, nous avons sélectionné un élément <code>my-comp</code> avec un <code>id</code> de &quot;myCustomComponent&quot;, puis nous avons obtenu le chemin du fichier de ce composant personnalisé via l&#39;attribut <code>PATH</code>. Vous pouvez utiliser la variable <code>componentPath</code> dans la partie script selon vos besoins, par exemple, pour construire des chemins vers d&#39;autres fichiers de ressources ou pour effectuer d&#39;autres opérations.</p>
+        <p>Dans cet exemple, nous avons sélectionné un élément <code>my-comp</code> avec un <code>id</code> de &quot;myCustomComponent&quot;, puis nous avons obtenu le chemin d&#39;accès de ce composant personnalisé via l&#39;attribut <code>PATH</code>. Vous pouvez utiliser la variable <code>componentPath</code> dans la partie script selon vos besoins, par exemple, pour construire le chemin vers d&#39;autres fichiers de ressources ou pour d&#39;autres opérations.</p>
       </article>
       <div class="footer"></div>
       <script>

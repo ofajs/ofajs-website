@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>classList</h1>
-        <p>La propriété <code>classList</code> est identique à celle du natif. Vous pouvez utiliser <a href="https://developer.mozilla.org/fr/docs/Web/API/Element/classList" target="_blank">classList</a> pour ajouter, supprimer et basculer des noms de classe.</p>
-        <p>Voici un exemple montrant comment utiliser <code>classList</code> :</p>
-        <o-playground name="classList - Exemple d'utilisation" style="--editor-height: 500px">
+        <p>La propriété <code>classList</code> est cohérente avec celle native. Vous pouvez utiliser <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/classList" target="_blank">classList</a> pour ajouter, supprimer et basculer des noms de classe.</p>
+        <p>Voici un exemple qui montre comment utiliser <code>classList</code>：</p>
+        <o-playground name="classList - exemple d'utilisation" style="--editor-height: 500px">
           <code path="demo.html">
     <template>
       <style>
@@ -97,7 +97,7 @@
           font-size:20px;
         }
       </style>
-      <div id="target" class="t-red">texte d'origine</div>
+      <div id="target" class="t-red">origin text</div>
       <script>
         setTimeout(()=> {
           $("#target").classList.remove('t-red');
@@ -109,7 +109,7 @@
     </template>
   </code>
         </o-playground>
-        <p>La propriété <code>classList</code> vous permet d'ajouter, supprimer et basculer facilement des noms de classe, afin de modifier dynamiquement les styles de l'élément.</p>
+        <p>La propriété <code>classList</code> vous permet d'ajouter, supprimer et basculer facilement les noms de classe afin de modifier dynamiquement le style d'un élément.</p>
       </article>
       <div class="footer"></div>
       <script>

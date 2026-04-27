@@ -81,19 +81,19 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>before</h1>
-        <p>Die <code>before</code>-Methode wird verwendet, um Elemente vor dem Zielelement einzufügen. Vor der Ausführung der <code>before</code>-Operation wird automatisch die Initialisierungsoperation der <a href="../instance/dollar.html" olink="">$-Methode</a> ausgeführt, sodass direkt konkrete Elementzeichenketten oder Objekte eingegeben werden können.</p>
-        <p><strong>Bitte beachten Sie, dass Sie nicht innerhalb von Vorlagenkomponenten wie o-fill oder o-if arbeiten sollten.</strong></p>
-        <o-playground name="before - voranstellen" style="--editor-height: 300px">
+        <p>Die Methode <code>before</code> wird verwendet, um ein Element vor dem Ziel-Element einzufügen. Vor der Ausführung des <code>before</code>-Vorgangs wird automatisch die Initialisierung der <a href="../instance/dollar.html" olink="">$-Methode</a> ausgeführt, daher kann direkt eine konkrete Element-Zeichenkette oder ein Objekt angegeben werden.</p>
+        <p><strong>Bitte beachten Sie: Führen Sie keine Operationen innerhalb von Vorlagenkomponenten wie o-fill oder o-if durch.</strong></p>
+        <o-playground name="before - vorne hinzufügen" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Ich bin 1</li>
-        <li id="target">Ich bin 2</li>
-        <li>Ich bin 3</li>
+        <li>I am 1</li>
+        <li id="target">I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
-          \$('#target').before(`<li style="color:red;">neues li</li>`);
+          \$('#target').before(`<li style="color:red;">new li</li>`);
         }, 500);
       </script>
     </template>

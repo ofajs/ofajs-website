@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Attribute Response</h1>
-        <p>In the previous <a href="./property-binding.html" olink="">Property Binding</a>, we introduced the simple property response mechanism, which explains how to render a component's property values into text display.</p>
-        <p>ofa.js not only supports reactivity to basic property values, but also supports reactive rendering for internal property values of multi-level nested objects.</p>
+        <p>In the previous <a href="./property-binding.html" olink="">attribute binding</a>, we introduced a simple attribute response mechanism, that is, how to render the attribute values of a component into text display.</p>
+        <p>ofa.js not only supports reactivity for basic property values, but also supports reactive rendering of nested object internal property values.</p>
         <o-playground name="Non-reactive Data Example" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -117,11 +117,11 @@
     </template>
   </code>
         </o-playground>
-        <p>All data bound to an ofa.js instance object is automatically converted to reactive data. Reactive data supports only basic data types such as strings, numbers, booleans, arrays, and objects. Complex data types such as functions and class instances must be stored as <strong>non-reactive properties</strong>; changes to these properties will not trigger a re-render of the component.</p>
+        <p>All data bound to the ofa.js instance object will be automatically converted into reactive data. Reactive data only supports basic data types such as strings, numbers, booleans, arrays, and objects. For complex data types like functions and class instances, they need to be stored as <strong>non-reactive properties</strong>, and changes to these properties will not trigger component re-rendering.</p>
         <h2>Non-reactive Data</h2>
-        <p>Sometimes we need to store data that doesn't require reactive updates, such as Promise instances, RegExp objects, or other complex objects. In these cases, non-reactive properties are needed. Changes to these properties won't trigger component re-rendering, making them suitable for storing data that doesn't need to be linked with the view.</p>
-        <p>Non-reactive properties are typically prefixed with an underscore <code>_</code> to distinguish them from reactive ones.</p>
-        <o-playground name="Non-reactive Data Example" style="--editor-height: 500px">
+        <p>Sometimes we need to store data that does not require reactive updates, such as Promise instances, regular expression objects, or other complex objects. In this case, we need to use non-reactive properties. Changes to these properties will not trigger component re-rendering and are suitable for storing data that does not need to be synchronized with the view.</p>
+        <p>Non-reactive properties are usually named with an underscore <code>_</code> as a prefix before the property name to distinguish them from reactive properties.</p>
+        <o-playground name="Non-reactive data example" style="--editor-height: 500px">
           <code>
     <template page="">
       <style>
@@ -148,8 +148,8 @@
     </template>
   </code>
         </o-playground>
-        <p>When clicking the <code>Green increments</code> button, although the value of <code>_count2</code> has actually increased, since it is a non-reactive property, it will not trigger view updates, so the display on the interface does not change. When clicking the <code>Blue increases</code> button, since <code>count</code> is a reactive property, it will trigger the re-rendering of the entire component, and only at this time will the Green display content be synchronized and updated.</p>
-        <p>Non-reactive object data performs better than reactive data because it does not trigger component re-renders.</p>
+        <p>When the <code>Green increments</code> button is clicked, although the value of <code>_count2</code> has actually increased, because it is a non-reactive property, it will not trigger a view update, so the display on the interface remains unchanged. When the <code>Blue increases</code> button is clicked, since <code>count</code> is a reactive property, it triggers a full component re-render, at which point the Green display is synchronized and updated.</p>
+        <p>Non-reactive object data has better performance than reactive object data because non-reactive data does not trigger component re-rendering.</p>
       </article>
       <div class="footer"></div>
       <script>

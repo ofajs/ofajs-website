@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verstehen der Attributbindung</title>
+  <title>Verstehen der Eigenschaftsbindung</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,12 +80,12 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Verstehen der Attributbindung</h1>
-        <p>In den vorherigen Inhalten wurde die grundlegende Verwendung der <a href="./property-binding.html" olink="">Eigenschaftsbindung</a> bereits vorgestellt. Das vorherige Beispiel diente dazu, die <code>value</code>-Eigenschaft eines nativen Browserelements (wie <code>textarea</code>) zu binden. In diesem Abschnitt wird das Wesen der Eigenschaftsbindung vertieft untersucht – sie bindet tatsächlich an die JavaScript-Eigenschaft nach der Instanziierung der Komponente, nicht an das HTML-Attribut.</p>
+        <h1>Verstehen der Eigenschaftsbindung</h1>
+        <p>Im vorherigen Inhalt wurde bereits die grundlegende Verwendung der <a href="./property-binding.html" olink="">Eigenschaftsbindung</a> vorgestellt. Das vorherige Beispiel diente dazu, die <code>value</code>-Eigenschaft eines nativen Browserelements (wie <code>textarea</code>) zu binden. Dieser Abschnitt wird das Wesen der Eigenschaftsbindung näher untersuchen——sie bindet tatsächlich an JavaScript-Eigenschaften nach der Instanziierung der Komponente, nicht an HTML-Attribute.</p>
         <h2>Mechanismus der Komponenten-Attributbindung</h2>
-        <p>In ofa.js verwenden wir mit der Syntax <code>:toProp="fromProp"</code> im Elternkomponente, um die JavaScript-Eigenschaft der Kindkomponenten-Instanz zu setzen, nicht das HTML-Attribut. Dies unterscheidet sich wesentlich vom direkten Setzen eines HTML-Attributs (z. B. <code>attr:toKey="fromKey"</code>).</p>
-        <p>Das folgende Beispiel zeigt, wie Daten über Property-Bindings an benutzerdefinierte Komponenten übergeben werden:</p>
-        <o-playground name="Eigenschaftsbindung verstehen" style="--editor-height: 500px">
+        <p>In ofa.js verwenden wir in der übergeordneten Komponente die Syntax <code>:toProp="fromProp"</code>, um eine JavaScript-Eigenschaft des untergeordneten Komponenteninstanz zu setzen, nicht um ein HTML-Attribut zu setzen. Dies unterscheidet sich wesentlich vom direkten Setzen eines HTML-Attributs (wie <code>attr:toKey="fromKey"</code>).</p>
+        <p>Das folgende Beispiel zeigt, wie man Daten über Attribut-Bindung an eine benutzerdefinierte Komponente übergibt:</p>
+        <o-playground name="Attribut-Bindung verstehen" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
       <o-page src="page1.html"></o-page>
@@ -124,7 +124,7 @@
           margin: 8px;
         }
       </style>
-      <p>Vollständiger Name: {{fullName}}</p>
+      <p>FullName: {{fullName}}</p>
       <script>
         export default async ({ load }) => {
           return {
@@ -138,41 +138,41 @@
     </template>
   </code>
         </o-playground>
-        <p>In diesem Beispiel:- Die Daten <code>val</code> in der Elternkomponente werden an die Eigenschaft <code>fullName</code> der Kindkomponente <code>&lt;demo-comp&gt;</code> gebunden</p>
+        <p>In diesem Beispiel:- Die <code>val</code>-Daten der Elternkomponente werden an die <code>fullName</code>-Eigenschaft der Kindkomponente <code>&lt;demo-comp&gt;</code> gebunden</p>
         <ul>
-          <li>Mit der Syntax <code>:full-name="val"</code> wird der Wert <code>val</code> der Elternkomponente an die Eigenschaft <code>fullName</code> der Kindkomponente übergeben</li>
-          <li>Nachdem die Kindkomponente diesen Wert empfangen hat, wird er in der Vorlage über <code>{{fullName}}</code> angezeigt</li>
+          <li>Mit der Syntax <code>:full-name="val"</code> wird der Wert von <code>val</code> der Elternkomponente an die <code>fullName</code>-Eigenschaft der Kindkomponente übergeben</li>
+          <li>Die Kindkomponente empfängt den Wert und zeigt ihn in der Vorlage mit <code>{{fullName}}</code> an</li>
         </ul>
-        <h2>Attribut-Bindung vs Feature-Attribut-Vererbung</h2>
-        <p>Es ist zu beachten, dass Attributbindung (<code>:</code>) und Merkmalsattributvererbung (<code>attr:</code>) folgende wesentliche Unterschiede aufweisen:</p>
+        <h2>Eigenschaftsbindung vs. Merkmalsvererbung</h2>
+        <p>Es ist zu beachten, dass es zwischen Attribut-Bindung (<code>:</code>) und Merkmals-Attribut-Vererbung (<code>attr:</code>) folgende wesentliche Unterschiede gibt:</p>
         <h3>Attributbindung (<code>:</code>)</h3>
         <ul>
           <li>An die Komponenteninstanz gebundene JavaScript-Eigenschaften</li>
-          <li>Übergebene Daten behalten ihren ursprünglichen Typ (String, Zahl, Boolean, etc.)</li>
-          <li>Direkter Zugriff und Modifikation innerhalb der Komponente möglich, ohne dass <code>data</code> vorab in der Komponente definiert sein muss</li>
+          <li>Die übergebenen Daten bleiben primitive Typen (Zeichenketten, Zahlen, Booleans usw.)</li>
+          <li>Innerhalb der Komponente kann direkt darauf zugegriffen und sie modifiziert werden, ohne dass <code>data</code> vorab definiert werden muss.</li>
         </ul>
-        <h3>Feature-Attribut-Vererbung (<code>attr:</code>)</h3>
+        <h3>Vererbung von Feature-Attributen (<code>attr:</code>)</h3>
         <ul>
           <li>HTML-Attribute setzen</li>
           <li>Alle Werte werden in Zeichenketten umgewandelt</li>
-          <li>Hauptsächlich zum Weitergeben von Attributen an das zugrundeliegende DOM-Element</li>
-          <li>Erfordert spezielle Behandlung, um komplexe Daten zu analysieren</li>
-          <li><code>attrs</code> muss vorab innerhalb der Komponente definiert sein, um Attributwerte zu empfangen</li>
+          <li>Hauptsächlich zum Übergeben von Attributen an zugrunde liegende DOM-Elemente</li>
+          <li>Erfordert spezielle Verarbeitung, um komplexe Daten zu analysieren</li>
+          <li><code>attrs</code> muss vorher innerhalb der Komponente definiert werden, um Attributwerte empfangen zu können</li>
         </ul>
         <p>Grammatikvergleich:```html</p>
-        <!-- Attributbindung: JavaScript-Werte übergeben, Datentyp bleibt erhalten -->
+        <!-- Attributbindung: Übergabe von JavaScript-Werten, Beibehaltung des Datentyps -->
         <p><my-component :data-value="complexObject"></my-component>
           <my-component :count="42"></my-component>
           <my-component :is-active="true"></my-component>
         </p>
-        <!-- Attributvererbung: HTML-Attribute setzen, alle Werte werden zu Strings -->
+        <!-- Attributvererbung: Festlegen von HTML-Attributen, alle Werte werden in Zeichenfolgen umgewandelt -->
         <p><my-component attr:data-value="simpleString"></my-component>
-          <my-component attr:count="42"></my-component> <!-- tatsächlich wird String "42" übergeben -->
+          <my-component attr:count="42"></my-component> <!-- Tatsächlich wird die Zeichenfolge "42" übergeben -->
         </p>
         <pre><code class="hljs"><span class="language-xml">
-## Fallvergleich Unterschiede
+## Unterschiede im Fallvergleich
 
-<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Fallvergleich Unterschiede"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Fallvergleich Unterschied"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"page1.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span>
@@ -201,8 +201,8 @@
         <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
           <span class="hljs-keyword">return</span> {
             <span class="hljs-attr">data</span>: {
-              <span class="hljs-attr">valOne</span>: <span class="hljs-string">"Ich bin Eins"</span>,
-              <span class="hljs-attr">valTwo</span>: <span class="hljs-string">"Ich bin Zwei"</span>,
+              <span class="hljs-attr">valOne</span>: <span class="hljs-string">"I am One"</span>,
+              <span class="hljs-attr">valTwo</span>: <span class="hljs-string">"I am Two"</span>,
             },
           };
         };
@@ -236,17 +236,17 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
 
-Dabei ist `vone` eine Eigenschaft der Komponenteninstanz, `vtwo` ist ein HTML-Attribut, der Wert des HTML-Attributs wird durch den `[vtwo]`-Selektor ausgewählt und der Stil angewendet, während `vone` eine Eigenschaft der Komponenteninstanz ist und nicht durch den `[vone]`-Selektor ausgewählt wird.
+Dabei ist `vone` eine Eigenschaft der Komponenteninstanz, `vtwo` ist ein HTML-Attribut. Der Wert des Attributs wird vom Selektor `[vtwo]` ausgewählt und das Styling angewendet, während `vone` eine Eigenschaft der Komponenteninstanz ist und nicht vom Selektor `[vone]` ausgewählt wird.
 
-## Bidirektionale Datenbindung
+## Zwei-Wege-Datenbindung
 
-Instanziierte Komponenten unterstützen ebenfalls die bidirektionale Datenbindung mit der Syntax `sync:toProp="fromProp"`. Die bidirektionale Bindung ermöglicht die Synchronisierung von Daten zwischen der übergeordneten und der untergeordneten Komponente. Wenn sich die Daten auf einer Seite ändern, wird die andere Seite entsprechend aktualisiert.
+Nach der Instanziierung unterstützt die Komponente auch die bidirektionale Datenbindung unter Verwendung der Syntax `sync:toProp="fromProp"`. Die bidirektionale Bindung ermöglicht die Synchronisation von Daten zwischen der übergeordneten und der untergeordneten Komponente. Wenn sich die Daten auf einer Seite ändern, wird die andere Seite entsprechend aktualisiert.
 
-Im Gegensatz zu Angular und Vue bietet ofa.js native Unterstützung für die Zwei-Wege-Datenbindungssyntax, ohne dass spezielle Konfigurationen oder zusätzliche Operationen für Komponenten erforderlich sind.
+&gt; Anders als Angular und Vue unterstützt ofa.js die native bidirektionale Datenbindungssyntax, ohne dass spezielle Konfigurationen oder zusätzliche Operationen für Komponenten erforderlich sind.
 
 ### Beispiel für bidirektionale Bindung
 
-Das folgende Beispiel zeigt, wie eine bidirektionale Datenbindung zwischen einer übergeordneten und einer untergeordneten Komponente eingerichtet wird:
+Das folgende Beispiel zeigt, wie eine bidirektionale Datenbindung zwischen einer übergeordneten und einer untergeordneten Komponente hergestellt wird:
 
 <span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Zwei-Wege-Datenbindung Beispiel"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 600px"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
@@ -267,7 +267,7 @@ Das folgende Beispiel zeigt, wie eine bidirektionale Datenbindung zwischen einer
       <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:blue;"</span>&gt;</span>Wert in der Elternkomponente: </span><span class="hljs-template-variable">{{<span class="hljs-name">val</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Den Wert der Elternkomponente über das Eingabefeld ändern:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Text im Eingabefeld eingeben..."</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Den Wert der Elternkomponente über die Unterkomponente ändern:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Den Wert der Elternkomponente über die Kindkomponente ändern:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">sync:full-name</span>=<span class="hljs-string">"val"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
         <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
@@ -290,8 +290,8 @@ Das folgende Beispiel zeigt, wie eine bidirektionale Datenbindung zwischen einer
           <span class="hljs-attribute">margin</span>: <span class="hljs-number">8px</span>;
         }
       </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Wert in der Unterkomponente: </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"In der Unterkomponente eingeben..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Wert, der in der Kindkomponente angezeigt wird: </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"In der Kindkomponente eingeben..."</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
         <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
           <span class="hljs-keyword">return</span> {
@@ -306,22 +306,22 @@ Das folgende Beispiel zeigt, wie eine bidirektionale Datenbindung zwischen einer
   <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
 
-In diesem Beispiel:- Die `val` der Eltern-Komponente und die `fullName` der Kind-Komponente werden über `sync:full-name="val"` mit einer bidirektionalen Bindung realisiert.
-- Wenn Inhalte in das Eingabefeld der Eltern-Komponente eingegeben werden, zeigt die Kind-Komponente sofort den neuen Wert an.
-- Wenn Inhalte in das Eingabefeld der Kind-Komponente eingegeben werden, aktualisiert die Eltern-Komponente ebenfalls sofort die Anzeige.
+In diesem Beispiel:- Der `val` des übergeordneten Komponenten und der `fullName` des untergeordneten Komponenten realisieren eine bidirektionale Bindung über `sync:full-name="val"`.
+- Wenn im Eingabefeld des übergeordneten Komponenten ein Inhalt eingegeben wird, zeigt der untergeordnete Komponente sofort den neuen Wert an.
+- Wenn im Eingabefeld des untergeordneten Komponenten ein Inhalt eingegeben wird, aktualisiert der übergeordnete Komponente ebenfalls sofort die Anzeige.
 
-### Unterschiede zwischen bidirektionaler Bindung und normaler Eigenschaftsbindung
+### Unterschied zwischen bidirektionaler Bindung und normaler Eigenschaftsbindung
 
-| Funktion | Normale Eigenschaftsbindung (`:`) | Zwei-Wege-Bindung (`sync:`) |
+| Eigenschaft | Normale Attribut-Bindung (`:`) | Zwei-Wege-Bindung (`sync:`) |
 |------|-------------------|-------------------|
-| Datenfluss | Einweg: Eltern → Kind | Zwei-Wege: Eltern ↔ Kind |
+| Datenfluss | Einbahnstraße: Eltern → Kind | Zwei-Wege: Eltern ↔ Kind |
 | Syntax | `:prop="value"` | `sync:prop="value"` |
-| Änderung durch Kindkomponente | Beeinflusst Elternkomponente nicht | Beeinflusst Elternkomponente |
-| Anwendungsfall | Elternkomponente übergibt Konfiguration an Kindkomponente | Benötigt Synchronisierung von Daten zwischen Eltern- und Kindkomponente |### Hinweise
+| Änderung durch Kind-Komponente | Beeinflusst Eltern-Komponente nicht | Beeinflusst Eltern-Komponente |
+| Anwendungsfall | Eltern-Komponente übergibt Konfiguration an Kind-Komponente | Synchronisation der Daten zwischen Eltern- und Kind-Komponente erforderlich |### Hinweise
 
-1. **Leistungsaspekte**：Bidirektionale Bindung löst bei Datenänderungen ein erneutes Rendern aus und sollte in komplexen Szenarien mit Vorsicht verwendet werden
-2. **Datenflusskontrolle**：Übermäßige bidirektionale Bindung kann dazu führen, dass der Datenfluss schwer nachvollziehbar wird. Es wird empfohlen, die Kommunikation zwischen Komponenten sinnvoll zu gestalten
-3. **Komponentenkompatibilität**：Nicht alle Komponenten eignen sich für bidirektionale Bindung; es muss der Verwendungszweck der Komponente berücksichtigt werden</span></code></pre>
+1. **Leistungsüberlegungen**: Die bidirektionale Bindung löst bei Datenänderungen eine erneute Darstellung aus, daher sollte sie in komplexen Szenarien mit Vorsicht verwendet werden.
+2. **Datenflusskontrolle**: Zu viele bidirektionale Bindungen können dazu führen, dass der Datenfluss schwer nachvollziehbar ist. Es wird empfohlen, die Kommunikationsmethode zwischen Komponenten sinnvoll zu gestalten.
+3. **Komponentenkompatibilität**: Nicht alle Komponenten eignen sich für die bidirektionale Bindung. Der Zweck des Komponentendesigns sollte berücksichtigt werden.</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

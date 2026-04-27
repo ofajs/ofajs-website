@@ -81,17 +81,17 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>index</h1>
-        <p>Die Eigenschaft <code>index</code> wird verwendet, um die Position eines Elements innerhalb seines übergeordneten Elements zu ermitteln. Diese Position wird ab 0 gezählt, d. h. das erste Element hat die Position 0, das zweite die Position 1 usw.</p>
-        <p>In dem folgenden Beispiel demonstrieren wir, wie die <code>index</code>-Eigenschaft verwendet wird, um die Position eines Elements unter seinem übergeordneten Element zu erhalten:</p>
+        <p>Die <code>index</code>-Eigenschaft wird verwendet, um die Position eines Elements innerhalb seines übergeordneten Elements abzurufen. Diese Position wird ab 0 gezählt, d. h. das erste Element hat die Position 0, das zweite die Position 1 usw.</p>
+        <p>Im folgenden Beispiel zeigen wir, wie die Eigenschaft <code>index</code> verwendet wird, um die Position eines Elements innerhalb seines übergeordneten Elements zu erhalten:</p>
         <o-playground name="index - Position abrufen" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Ich bin 1</li>
-        <li id="target">Ich bin das Ziel</li>
-        <li>Ich bin 3</li>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
       </ul>
-      <div id="logger" style="color: green">Protokoll</div>
+      <div id="logger" style="color: green">logger</div>
       <script>
         setTimeout(() => {
           $("#logger").text = $("#target").index;
@@ -100,7 +100,7 @@
     </template>
   </code>
         </o-playground>
-        <p>In diesem Beispiel wählen wir zunächst ein <code>&lt;li&gt;</code>-Element mit der <code>id</code> „target“. Dann verwenden wir die Eigenschaft <code>index</code>, um die Position dieses Elements innerhalb seines übergeordneten Elements <code>&lt;ul&gt;</code> abzurufen – es ist das zweite Element, daher hat <code>index</code> den Wert 1. Anschließend wird dieser Wert in einem <code>&lt;div&gt;</code>-Element mit der <code>id</code> „logger“ angezeigt.</p>
+        <p>In diesem Beispiel wählen wir zunächst ein <code>&lt;li&gt;</code>-Element mit der <code>id</code> &quot;target&quot; aus. Dann verwenden wir die Eigenschaft <code>index</code>, um die Position dieses Elements innerhalb seines übergeordneten <code>&lt;ul&gt;</code>-Elements zu ermitteln, nämlich das zweite Element, also hat <code>index</code> den Wert 1. Dieser Wert wird dann im <code>&lt;div&gt;</code>-Element mit der <code>id</code> &quot;logger&quot; angezeigt.</p>
       </article>
       <div class="footer"></div>
       <script>

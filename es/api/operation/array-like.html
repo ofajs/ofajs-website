@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agregar o eliminar elementos secundarios</title>
+  <title>Agregar o eliminar elementos hijos</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
@@ -80,30 +80,30 @@
       </style>
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
-        <h1>Agregar o eliminar elementos secundarios</h1>
-        <p>Las instancias de elementos tienen características similares a las de un array; añadir o eliminar nodos solo requiere utilizar los métodos habituales de array. Al emplear los métodos <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code> y <code>splice</code>, internamente se ejecuta automáticamente la inicialización del método <a href="../instance/dollar.html" olink="">$</a>, por lo que se puede indicar directamente la cadena de elemento o el objeto concreto.</p>
-        <p>Del mismo modo, también puede utilizar otros métodos de array, como <code>forEach</code>, <code>map</code>, <code>some</code>, etc.</p>
-        <p><strong>Tenga en cuenta que no se deben añadir ni eliminar elementos secundarios en los elementos que tengan sintaxis de plantilla.</strong></p>
+        <h1>Agregar o eliminar elementos hijos</h1>
+        <p>Las instancias de elementos poseen características similares a las de los arrays. Para agregar o eliminar nodos, basta con usar los métodos de operación de arrays. Al utilizar los métodos <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code> y <code>splice</code>, internamente se ejecuta automáticamente la inicialización del <a href="../instance/dollar.html" olink="">$ método</a>, por lo que se puede escribir directamente la cadena de elemento específico u objeto.</p>
+        <p>Del mismo modo, también puede usar otros métodos de arreglo, como <code>forEach</code>, <code>map</code>, <code>some</code>, etc.</p>
+        <p><strong>Tenga en cuenta que no debe agregar ni eliminar elementos secundarios en elementos con sintaxis de plantilla.</strong></p>
         <h2>push</h2>
-        <p>Agregar un elemento hijo al final.</p>
+        <p>Añadir elementos secundarios desde el final.</p>
         <o-playground name="array-like - push" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Soy 1</li>
-        <li>Soy 2</li>
-        <li>Soy 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").push(`<li style="color:red;">nuevo li</li>`);
+          \$("ul").push(`<li style="color:red;">new li</li>`);
         }, 500);
       </script>
     </template>
   </code>
         </o-playground>
         <h2>unshift</h2>
-        <p>Agregar un subelemento al inicio del array.</p>
+        <p>Añadir elementos secundarios al principio de la matriz.</p>
         <o-playground name="array-like - unshift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -121,7 +121,7 @@
   </code>
         </o-playground>
         <h2>pop</h2>
-        <p>Eliminar el subelemento desde el final.</p>
+        <p>Eliminar el último elemento hijo.</p>
         <o-playground name="array-like - pop" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -139,14 +139,14 @@
   </code>
         </o-playground>
         <h2>shift</h2>
-        <p>Eliminar subelementos al principio del array</p>
+        <p>Eliminar subelementos al principio del array.</p>
         <o-playground name="array-like - shift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Soy 1</li>
-        <li>Soy 2</li>
-        <li>Soy 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
@@ -157,18 +157,18 @@
   </code>
         </o-playground>
         <h2>splice</h2>
-        <p>Se pueden eliminar o reemplazar elementos secundarios existentes, también se pueden añadir nuevos elementos secundarios. Su uso es similar al método <code>splice</code> de los arrays.</p>
+        <p>Puede eliminar o reemplazar elementos secundarios existentes, y también puede agregar nuevos elementos secundarios. Su forma de uso es similar al método <code>splice</code> de un array.</p>
         <o-playground name="array-like - splice" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Soy 1</li>
-        <li>Soy 2</li>
-        <li>Soy 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").splice(1, 2, `<li style="color:green;">nuevo li 1</li>`, `<li style="color:green;">nuevo li 2</li>`);
+          \$("ul").splice(1, 2, `<li style="color:green;">new li 1</li>`, `<li style="color:green;">new li 2</li>`);
         }, 500);
       </script>
     </template>

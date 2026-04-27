@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>shadow</h1>
-        <p>En utilisant l&#39;attribut <code>shadow</code>, vous pouvez obtenir l&#39;instance de la racine fantôme d&#39;un élément.</p>
+        <p>En utilisant l&#39;attribut <code>shadow</code>, vous pouvez obtenir l&#39;instance de la racine fantôme (shadow root) d&#39;un élément.</p>
         <o-playground name="shadow - nœud fantôme" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
@@ -109,10 +109,10 @@
     </template>
   </code>
         </o-playground>
-        <p>Il est important de noter qu&#39;il faut éviter de modifier directement les éléments à l&#39;intérieur des nœuds d&#39;ombre dans des éléments ayant une syntaxe de modèle, afin d&#39;assurer la cohérence et la maintenabilité des opérations.</p>
+        <p>Il convient de noter qu’il faut éviter de modifier directement les éléments à l’intérieur des nœuds fantômes dans les éléments comportant une syntaxe de modèle, afin de garantir la cohérence et la maintenabilité des opérations.</p>
         <h2>Obtenir l’instance d’un élément à l’intérieur de l’ombre d’un composant depuis l’extérieur</h2>
-        <p>Vous pouvez également obtenir une instance d&#39;élément personnalisé depuis l&#39;extérieur, puis accéder aux éléments à l&#39;intérieur du nœud fantôme via la propriété <code>shadow</code>, comme suit :</p>
-        <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="ombre - accès externe" style="--editor-height: 400px">
+        <p>Vous pouvez également obtenir une instance d’élément personnalisé depuis l’extérieur, puis accéder aux éléments à l’intérieur du nœud fantôme via la propriété <code>shadow</code>, comme suit :</p>
+        <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="shadow - accès externe" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./test-shadow.html"></l-m>

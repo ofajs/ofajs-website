@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Benutzerdefinierte Ereignisse</h1>
-        <p>In ofa.js können Sie neben den integrierten DOM-Ereignissen auch benutzerdefinierte Ereignisse erstellen und verwenden, um die Kommunikation zwischen Komponenten zu ermöglichen. Benutzerdefinierte Ereignisse sind ein wichtiger Mechanismus in der komponentenbasierten Entwicklung, da sie es Komponenten ermöglichen, Nachrichten oder Statusänderungen nach oben zu übertragen.</p>
-        <h2>emit-Methode - Benutzerdefinierte Ereignisse auslösen</h2>
-        <p>Die Methode <code>emit</code> wird verwendet, um benutzerdefinierte Ereignisse auszulösen und Zustandsänderungen innerhalb der Komponente oder Benutzeraktionen an externe Beobachter zu melden.</p>
+        <p>In ofa.js können neben den integrierten DOM-Ereignissen auch benutzerdefinierte Ereignisse erstellt und verwendet werden, um die Kommunikation zwischen Komponenten zu ermöglichen. Benutzerdefinierte Ereignisse sind ein wichtiger Mechanismus in der komponentenbasierten Entwicklung, der es Komponenten erlaubt, Nachrichten oder Zustandsänderungen nach oben zu senden.</p>
+        <h2>emit-Methode - Auslösen benutzerdefinierter Ereignisse</h2>
+        <p>Die Methode <code>emit</code> wird verwendet, um benutzerdefinierte Ereignisse auszulösen und Zustandsänderungen innerhalb der Komponente oder Benutzeraktionen an externe Beobachter mitzuteilen.</p>
         <h3>Grundlegende Verwendung</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Ein einfaches benutzerdefiniertes Ereignis auslösen</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'custom-event'</span>);
@@ -91,26 +91,26 @@
 <span class="hljs-comment">// Ein benutzerdefiniertes Ereignis mit Daten auslösen</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">emit</span>(<span class="hljs-string">'data-changed'</span>, {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-comment">// Benutzerdefinierte Daten, beliebige Struktur je nach Anforderungen</span>
+    <span class="hljs-comment">// Benutzerdefinierte Daten, beliebige Struktur je nach Bedarf</span>
     <span class="hljs-attr">newValue</span>: <span class="hljs-number">100</span>,
     <span class="hljs-attr">oldValue</span>: <span class="hljs-number">50</span>
   }
 });</code></pre>
-        <h3>emit-Methode Parameter</h3>
+        <h3>emit Methodenparameter</h3>
         <p>Die <code>emit</code>-Methode akzeptiert zwei Parameter:</p>
         <ol>
-          <li><strong>Ereignisname</strong>: Zeichenkette, die den Namen des auszulösenden Ereignisses angibt</li>
-          <li><strong>Optionsobjekt</strong> (optional): Enthält Konfigurationsoptionen für das Ereignis<ul>
-              <li><code>data</code>: zu übermittelnde Daten</li>
-              <li><code>bubbles</code>: Boolescher Wert, steuert, ob das Ereignis bubblen soll (Standardwert ist true)</li>
-              <li><code>composed</code>: Boolescher Wert, steuert, ob das Ereignis Shadow-DOM-Grenzen überwinden kann</li>
+          <li><strong>Ereignisname</strong>: Zeichenfolge, der Name des auszulösenden Ereignisses.</li>
+          <li><strong>Optionsobjekt</strong> (optional): Enthält Ereigniskonfigurationsoptionen<ul>
+              <li><code>data</code>: Die zu übergebenden Daten</li>
+              <li><code>bubbles</code>: Boolescher Wert, steuert, ob das Ereignis aufsteigt (Standard: true)</li>
+              <li><code>composed</code>: Boolescher Wert, steuert, ob das Ereignis die Shadow-DOM-Grenze überschreiten kann</li>
               <li><code>cancelable</code>: Boolescher Wert, steuert, ob das Ereignis abgebrochen werden kann</li>
             </ul>
           </li>
         </ol>
-        <p>Dann kann das übergeordnete Element dieses benutzerdefinierte Ereignis mit der <code>on</code>-Methode <a href="./event-binding.html" olink="">(Ereignisbindung)</a> überwachen.</p>
+        <p>Dann kann das übergeordnete Element mit der <code>on</code>-Methode <a href="./event-binding.html" olink="">(Ereignisbindung)</a> auf dieses benutzerdefinierte Ereignis lauschen.</p>
         <h3>emit Verwendungsbeispiel</h3>
-        <o-playground name="Emit Verwendungsbeispiel" style="--editor-height: 500px">
+        <o-playground name="emit Anwendungsbeispiel" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
       <o-page src="page1.html"></o-page>
@@ -162,7 +162,7 @@
               handleClick() {
                 this.emit('button-clicked', {
                   data: {
-                    message: 'Button wurde geklickt',
+                    message: 'Der Button wurde geklickt',
                     timestamp: Date.now()
                   },
                 });
@@ -174,15 +174,15 @@
     </template>
   </code>
         </o-playground>
-        <h2>bubbles - Ereignisblasen-Mechanismus</h2>
-        <p>Das <code>bubbles</code>-Attribut steuert, ob ein Ereignis zu übergeordneten Elementen aufsteigt (bubbling). Wenn es auf <code>true</code> gesetzt ist, breitet sich das Ereignis im DOM-Baum nach oben aus. Der Standardwert ist <code>true</code>. Wenn es auf <code>false</code> gesetzt wird, wird das Ereignis nicht aufsteigen.</p>
-        <h3>Detaillierte Erklärung des Bubble-Mechanismus</h3>
+        <h2>bubbles - Ereignis-Blasenmechanismus</h2>
+        <p>Die Eigenschaft <code>bubbles</code> steuert, ob ein Ereignis zu den übergeordneten Elementen aufsteigt. Wenn sie auf <code>true</code> gesetzt ist, breitet sich das Ereignis entlang des DOM-Baums nach oben aus. Der Standardwert ist <code>true</code>. Wenn sie auf <code>false</code> gesetzt ist, steigt das Ereignis nicht auf.</p>
+        <h3>Ausführliche Erklärung des Bubble-Mechanismus</h3>
         <ul>
-          <li><strong>Standardverhalten</strong>: Mit <code>emit</code> ausgelöste Ereignisse haben standardmäßig Blasen aktiviert (<code>bubbles: true</code>)</li>
-          <li><strong>Blasenpfad</strong>: Das Ereignis beginnt beim auslösenden Element und verbreitet sich stufenweise nach oben</li>
-          <li><strong>Blasen stoppen</strong>: Der Aufruf von <code>event.stopPropagation()</code> im Ereignis-Handler verhindert das Weiterblasen</li>
+          <li><strong>Standardverhalten</strong>: Mit <code>emit</code> ausgelöste Ereignisse haben standardmäßig die Blasenbildung aktiviert (<code>bubbles: true</code>)</li>
+          <li><strong>Blasenpfad</strong>: Das Ereignis beginnt beim auslösenden Element und breitet sich schrittweise nach oben aus</li>
+          <li><strong>Blasenbildung verhindern</strong>: Durch Aufruf von <code>event.stopPropagation()</code> im Ereignishandler kann die Blasenbildung gestoppt werden</li>
         </ul>
-        <h3>Blasensortierungsbeispiel</h3>
+        <h3>Blasenbeispiel</h3>
         <o-playground name="Benutzerdefinierte Ereignis-Beispiel" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
@@ -265,15 +265,15 @@
     </template>
   </code>
         </o-playground>
-        <h2>composed - Durchdringung der Shadow DOM-Grenze</h2>
-        <p>Das <code>composed</code>-Attribut steuert, ob Ereignisse die Shadow-DOM-Grenze passieren können. Dies ist besonders wichtig für die Web Components-Entwicklung, der Standardwert ist <code>false</code>.</p>
-        <h3>Durchdringungsmechanismus im Detail</h3>
+        <h2>composed - Durchbrechen der Shadow DOM Grenzen</h2>
+        <p>Die Eigenschaft <code>composed</code> steuert, ob ein Ereignis die Shadow-DOM-Grenze überqueren kann. Das ist besonders für die Entwicklung von Web Components wichtig; der Standardwert ist <code>false</code>.</p>
+        <h3>Detaillierte Erklärung des Durchdringungsmechanismus</h3>
         <ul>
-          <li><strong>Shadow DOM-Isolierung</strong>: Standardmäßig können Ereignisse nicht über Shadow DOM-Grenzen hinweggehen</li>
-          <li><strong>Durchdringung aktivieren</strong>: Setzen Sie <code>composed: true</code>, um Ereignissen das Durchqueren von Shadow DOM-Grenzen zu ermöglichen</li>
-          <li><strong>Anwendungsfälle</strong>: Wenn eine Komponente Ereignisse an die Host-Umgebung senden muss, muss <code>composed: true</code> gesetzt werden</li>
+          <li><strong>Shadow DOM-Isolation</strong>：Standardmäßig können Ereignisse die Shadow-DOM-Grenze nicht überschreiten</li>
+          <li><strong>Durchlässigkeit aktivieren</strong>：Durch Setzen von <code>composed: true</code> können Ereignisse die Shadow-DOM-Grenze überschreiten</li>
+          <li><strong>Anwendungsszenario</strong>：Wenn eine Komponente Ereignisse an die Host-Umgebung senden muss, muss <code>composed: true</code> gesetzt werden</li>
         </ul>
-        <h3>Durchdringungsbeispiel</h3>
+        <h3>Durchschlagbeispiel</h3>
         <o-playground name="Beispiel für benutzerdefinierte Ereignisse mit Daten" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
@@ -293,7 +293,7 @@
       <div on:child-event="handleChildEventFromComponent">
         <bubble-component></bubble-component>
       </div>
-      <p>Ereignis abgehört: {{bubbledEventCount}} mal</p>
+      <p>Ereignisse überwacht: {{bubbledEventCount}} Mal</p>
       <p>Empfangene Daten: <span style="color:red;">{{result}}</span></p>
       <script>
         export default async () => {
@@ -324,7 +324,7 @@
         }
       </style>
       <child-component on:child-event="handleChildEventFromComponent"></child-component>
-      <p>Ereignis abgehört: {{bubbledEventCount}} mal</p>
+      <p>Ereignisse überwacht: {{bubbledEventCount}} Mal</p>
       <p>Empfangene Daten: <span style="color:pink;">{{result}}</span></p>
       <script>
         export default async () => {
@@ -362,14 +362,14 @@
             tag: "child-component",
             proto: {
               triggerNonComposedEvent() {
-                // Nicht-durchdringendes Ereignis, wird nur vom direkten Listener erfasst
+                // Nicht-durchdringendes Ereignis, wird nur vom direkten Zuhörer erfasst
                 this.emit('child-event', {
                   data: { type: 'non-composed', message: 'Nicht-durchdringendes Ereignis ausgelöst', timestamp: Date.now() },
                   composed: false
                 });
               },
               triggerComposedEvent() {
-                // Durchdringendes Ereignis, überwindet Shadow-DOM-Grenzen
+                // Durchdringendes Ereignis, überschreitet die Shadow DOM-Grenze
                 this.emit('child-event', {
                   data: { type: 'composed', message: 'Durchdringendes Ereignis ausgelöst', timestamp: Date.now() },
                   composed: true

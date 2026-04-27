@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>css</h1>
-        <p><code>css</code> メソッドは、ターゲット要素のスタイルを取得または設定するために使用されます。</p>
+        <p><code>css</code> メソッドは、対象要素のスタイルを取得または設定するために使用されます。</p>
         <h2>直接使用</h2>
-        <p><code>css</code> メソッドを直接使用して要素のスタイルを取得または設定できます。</p>
+        <p>あなたは直接 <code>css</code> メソッドを使用して、要素のスタイルを取得または設定できます。</p>
         <o-playground name="css - 直接使用" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <div id="target">origin text</div>
+      <div id="target">元のテキスト</div>
       <br>
-      <h4>logger</h4>
+      <h4>ロガー</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = $("#target").css.color;
@@ -102,13 +102,13 @@
   </code>
         </o-playground>
         <h2>全量設定</h2>
-        <p>取得した <code>css</code> オブジェクトを通じて、要素上の style 値を直接設定できます。</p>
+        <p>取得した <code>css</code> オブジェクトを使って、要素に直接 style 値を設定することができます。</p>
         <o-playground name="css - 全量設定" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
-      <div id="target" style="color:red">元のテキスト</div>
+      <div id="target" style="color:red">origin text</div>
       <br>
-      <h4>ロガー</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = Object.keys($("#target").css);
@@ -123,9 +123,9 @@
     </template>
   </code>
         </o-playground>
-        <p><code>css</code> オブジェクトの特性を使用すると、ターゲット要素のスタイルを素早く調整できます。</p>
+        <p><code>css</code>オブジェクトの特性を利用することで、ターゲット要素のスタイルを素早く調整できます。</p>
         <h2>テンプレート構文方式での使用</h2>
-        <p>あなたはテンプレート構文を使用してターゲット要素のスタイルを設定することもできます。</p>
+        <p>テンプレート構文を使用して、ターゲット要素のスタイルを設定することもできます。</p>
         <o-playground name="css - テンプレート構文" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
@@ -157,13 +157,13 @@
     </template>
   </code>
         </o-playground>
-        <h2>CSSを設定するコツ</h2>
-        <p><code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> という方法で、要素の特定のスタイル属性を他のスタイル属性に影響を与えることなく変更できます。この方法により、スタイル全体を書き換えることなく、一部のプロパティだけを変更できます。</p>
+        <h2>CSS設定のコツ</h2>
+        <p><code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> という方法で、要素の特定のスタイルプロパティを変更でき、他のスタイルプロパティに影響を与えません。この方法では、スタイル全体を書き換えずに、1つのプロパティのみを変更できます。</p>
         <h3>例</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> myElement = $(<span class="hljs-string">&quot;#myElement&quot;</span>);
 
 myElement.<span class="hljs-property">css</span> = { ...myElement.<span class="hljs-property">css</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> };</code></pre>
-        <p>上記の例では、<code>{ ...myElement.css, color: &#39;red&#39; }</code> を使用することで、要素の色スタイルのみを変更し、他のスタイルプロパティはそのまま保持しました。これは要素のスタイルを柔軟に変更する際に非常に便利なテクニックです。</p>
+        <p>上の例では、<code>{ ...myElement.css, color: &#39;red&#39; }</code> を使用することで、要素の色のスタイルのみを変更し、他のスタイルプロパティはそのままにしています。これは便利なテクニックで、要素のスタイルを柔軟に変更できます。</p>
       </article>
       <div class="footer"></div>
       <script>

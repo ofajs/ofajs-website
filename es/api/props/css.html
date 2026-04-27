@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>css</h1>
-        <p>El método <code>css</code> se utiliza para obtener o establecer los estilos de un elemento objetivo.</p>
+        <p><code>css</code> método se utiliza para obtener o establecer el estilo del elemento objetivo.</p>
         <h2>Uso directo</h2>
-        <p>Puedes usar directamente el método <code>css</code> para obtener o establecer los estilos de un elemento.</p>
+        <p>Puedes usar directamente el método <code>css</code> para obtener o establecer el estilo de un elemento.</p>
         <o-playground name="css - uso directo" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <div id="target">texto original</div>
+      <div id="target">origin text</div>
       <br>
-      <h4>registro</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = $("#target").css.color;
@@ -102,11 +102,11 @@
   </code>
         </o-playground>
         <h2>Configuración completa</h2>
-        <p>Al obtener el objeto <code>css</code>, puedes establecer directamente los valores de estilo en el elemento.</p>
-        <o-playground name="css - configuración completa" style="--editor-height: 400px">
+        <p>A través del objeto <code>css</code> obtenido, puedes establecer directamente los valores de estilo en el elemento.</p>
+        <o-playground name="css - Configuración completa" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
-      <div id="target" style="color:red">texto original</div>
+      <div id="target" style="color:red">origin text</div>
       <br>
       <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
@@ -123,10 +123,10 @@
     </template>
   </code>
         </o-playground>
-        <p>Utilizando las características del objeto <code>css</code>, podrás ajustar rápidamente los estilos del elemento de destino。</p>
-        <h2>Uso mediante sintaxis de plantilla</h2>
-        <p>También puedes usar la sintaxis de plantillas para establecer el estilo del elemento de destino.</p>
-        <o-playground name="css - Sintaxis de plantilla" style="--editor-height: 400px">
+        <p>Usando las características del objeto <code>css</code>, puedes ajustar rápidamente el estilo del elemento objetivo.</p>
+        <h2>Uso de la sintaxis de plantillas</h2>
+        <p>También puedes configurar el estilo del elemento objetivo mediante la sintaxis de plantilla.</p>
+        <o-playground name="css - sintaxis de plantilla" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./css-demo.html"></l-m>
@@ -140,7 +140,7 @@
   </code>
           <code path="css-demo.html" active>
     <template component>
-      <div :css.color="txt">Soy el objetivo</div>
+      <div :css.color="txt">I am target</div>
       <script>
         export default {
           tag: "css-demo",
@@ -157,13 +157,13 @@
     </template>
   </code>
         </o-playground>
-        <h2>Trucos para configurar CSS</h2>
-        <p>Puedes modificar un atributo de estilo de un elemento mediante <code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> sin afectar los demás atributos de estilo. De esta forma puedes cambiar solo una propiedad sin tener que reescribir todo el estilo.</p>
+        <h2>Consejos para configurar CSS</h2>
+        <p>Puedes modificar una propiedad de estilo de un elemento mediante <code>$ele.css = {...$ele.css, color:&#39;red&#39;}</code> sin afectar otras propiedades de estilo. Esta forma permite modificar solo una propiedad sin reescribir todo el estilo.</p>
         <h3>Ejemplo</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> myElement = $(<span class="hljs-string">&quot;#myElement&quot;</span>);
 
 myElement.<span class="hljs-property">css</span> = { ...myElement.<span class="hljs-property">css</span>, <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> };</code></pre>
-        <p>En el ejemplo anterior, al usar <code>{ ...myElement.css, color: &#39;red&#39; }</code>, solo modificamos el estilo de color del elemento, manteniendo las demás propiedades de estilo sin cambios. Esta es una técnica muy útil que permite modificar los estilos de los elementos de forma flexible.</p>
+        <p>En el ejemplo anterior, al usar <code>{ ...myElement.css, color: &#39;red&#39; }</code>, solo modificamos el color del elemento y mantenemos el resto de las propiedades de estilo sin cambios. Esta es una técnica muy conveniente para modificar dinámicamente los estilos de un elemento.</p>
       </article>
       <div class="footer"></div>
       <script>

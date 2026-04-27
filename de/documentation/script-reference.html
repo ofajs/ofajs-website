@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skript-Einführung</title>
+  <title>Skript-Import</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,19 +80,19 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Skript-Einführung</h1>
+        <h1>Skript-Import</h1>
         <p>ofa.js kann direkt über ein script-Tag eingebunden werden. Fügen Sie dazu einfach folgenden Code im <code>&lt;head&gt;</code>- oder <code>&lt;body&gt;</code>-Bereich Ihrer HTML-Datei ein:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <h2>Grundlegende Verwendung</h2>
-        <p>Nach dem Einbinden des Skripts erstellt ofa.js eine <code>$</code>-Variable im globalen Scope. Alle Kernfunktionen werden über dieses Objekt bereitgestellt. Sie können über dieses Objekt auf die verschiedenen Methoden und Eigenschaften von ofa.js zugreifen. Die folgenden Tutorials werden die spezifische Verwendung im Detail vorstellen.</p>
+        <p>Nach Einführung des Skripts erstellt ofa.js eine <code>$</code>-Variable im globalen Gültigkeitsbereich, über die alle Kernfunktionen bereitgestellt werden. Sie können über dieses Objekt auf verschiedene Methoden und Eigenschaften von ofa.js zugreifen. Die folgenden Tutorials werden die spezifische Verwendung im Detail erläutern.</p>
         <h2>Debug-Modus</h2>
-        <p>Während der Entwicklung können Sie den Debug-Modus aktivieren, indem Sie den Parameter <code>#debug</code> an die Skript-URL anhängen:</p>
+        <p>Während der Entwicklung können Sie den Debug-Modus aktivieren, indem Sie dem Skript-URL den Parameter <code>#debug</code> anhängen:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs#debug&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-        <p>Der Debug-Modus aktiviert die Source-Map-Funktion, sodass Sie in den Browser-Entwicklertools direkt auf den ursprünglichen Quellcode der Dateien zugreifen und ihn debuggen können, was die Entwicklungseffizienz erheblich steigert.</p>
-        <h2>ESM-Module</h2>
-        <p>ofa.js unterstützt auch den Import über ESM-Module. Sie können ofa.js in Ihrem Projekt mit einer <code>import</code>-Anweisung einbinden:</p>
+        <p>Der Debug-Modus aktiviert die Source Map-Funktion, sodass Sie in den Browser-Entwicklertools den ursprünglichen Quellcode der Dateien direkt anzeigen und debuggen können, was die Entwicklungseffizienz erheblich steigert.</p>
+        <h2>ESM-Modul</h2>
+        <p>ofa.js unterstützt auch die Einbindung über ESM-Module. Sie können ofa.js in Ihrem Projekt mit einer <code>import</code>-Anweisung einbinden:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&#x27;</span>;</code></pre>
-        <p>Bei der Verwendung von ESM-Modulen können Sie die Variable <code>$</code> direkt im Code verwenden, ohne über den globalen Gültigkeitsbereich darauf zuzugreifen.</p>
+        <p>Bei Verwendung von ESM-Modulen können Sie die Variable <code>$</code> direkt im Code verwenden, ohne auf den globalen Geltungsbereich zugreifen zu müssen.</p>
       </article>
       <div class="footer"></div>
       <script>

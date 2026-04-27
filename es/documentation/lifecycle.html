@@ -81,43 +81,43 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Ciclo de vida</h1>
-        <p>ofa.js componentes tienen funciones de ciclo de vida completas, que te permiten ejecutar lógica específica en diferentes etapas del componente. Estas funciones de ciclo de vida te permiten intervenir y realizar operaciones correspondientes en momentos clave como la creación, montaje, actualización y destrucción del componente.</p>
-        <h2>Funciones de gancho del ciclo de vida</h2>
-        <p>ofa.js proporciona los siguientes hooks del ciclo de vida principales, ordenados según el uso habitual:</p>
+        <p>Los componentes de ofa.js cuentan con funciones de ciclo de vida completas, que te permiten ejecutar lógica específica en las distintas etapas del componente. Estas funciones te permiten intervenir en momentos clave como la creación, montaje, actualización y destrucción del componente para realizar las operaciones correspondientes.</p>
+        <h2>Funciones de enlace del ciclo de vida</h2>
+        <p>ofa.js proporciona los siguientes hooks del ciclo de vida principales, ordenados según su uso habitual:</p>
         <h3>attached</h3>
-        <p>El hook <code>attached</code> se invoca cuando el componente se inserta en el documento, indicando que el componente ya está montado en la página. Es el hook del ciclo de vida más utilizado, generalmente se usa para realizar operaciones de inicialización que necesitan ejecutarse después de que el componente se muestra realmente en la página, evitando realizar cálculos innecesarios cuando el componente no es visible. Este hook también es muy adecuado para medir el tamaño de elementos, iniciar animaciones y otras operaciones que dependen de que el componente se haya renderizado en la página.</p>
+        <p><code>attach</code> hook se llama cuando el componente se inserta en el documento, indicando que el componente ya está montado en la página. Este es el ciclo de vida más comúnmente utilizado, y generalmente se usa para realizar operaciones de inicialización que solo pueden llevarse a cabo después de que el componente se muestre realmente en la página, evitando cálculos innecesarios cuando el componente no es visible. Este hook también es muy adecuado para realizar mediciones de tamaño de elementos, iniciar animaciones y otras operaciones que dependen de que el componente ya esté renderizado en la página.</p>
         <ul>
-          <li><strong>Momento de invocación</strong>: el componente se añade al árbol DOM</li>
-          <li><strong>Uso principal</strong>: iniciar temporizadores, añadir detectores de eventos, ejecutar operaciones que requieren visibilidad</li>
+          <li><strong>Momento de llamada</strong>: el componente se agrega al árbol DOM</li>
+          <li><strong>Uso principal</strong>: iniciar temporizadores, agregar detectores de eventos, ejecutar operaciones que requieren visibilidad</li>
         </ul>
         <h3>detached</h3>
-        <p>El hook <code>detached</code> se llama cuando el componente se elimina del documento, lo que indica que el componente está a punto de ser desmontado. Este hook es adecuado para limpiar recursos, como borrar temporizadores, eliminar escuchadores de eventos, etc.</p>
+        <p>El gancho <code>detached</code> se invoca cuando el componente se elimina del documento, indicando que el componente está a punto de ser desmontado. Este gancho es adecuado para limpiar recursos, como borrar temporizadores, eliminar oyentes de eventos, etc.</p>
         <ul>
-          <li><strong>Momento de llamada</strong>: el componente es eliminado del árbol DOM</li>
-          <li><strong>Uso principal</strong>: limpiar recursos, cancelar suscripciones, eliminar oyentes de eventos</li>
+          <li><strong>Momento de invocación</strong>: Cuando el componente se elimina del árbol DOM</li>
+          <li><strong>Uso principal</strong>: Limpiar recursos, cancelar suscripciones, eliminar listeners de eventos</li>
         </ul>
         <h3>ready</h3>
-        <p>El hook <code>ready</code> se llama cuando el componente está listo, en este momento la plantilla del componente ya se ha renderizado, los elementos DOM ya se han creado, pero es posible que aún no se hayan insertado en el documento. Este hook es adecuado para realizar operaciones DOM o inicializar bibliotecas de terceros.</p>
+        <p>El hook <code>ready</code> se llama cuando el componente está listo, en ese momento la plantilla del componente ya se ha renderizado, los elementos DOM se han creado, pero es posible que aún no se hayan insertado en el documento. Este hook es adecuado para realizar operaciones DOM o inicializar bibliotecas de terceros.</p>
         <ul>
-          <li><strong>Momento de invocación</strong>: la plantilla del componente se ha renderizado y el DOM ha sido creado</li>
-          <li><strong>Uso principal</strong>: ejecutar operaciones de inicialización que dependen del DOM</li>
+          <li><strong>Momento de invocación</strong>: Una vez que la plantilla del componente se ha renderizado y el DOM ha sido creado</li>
+          <li><strong>Uso principal</strong>: Ejecutar operaciones de inicialización que dependen del DOM</li>
         </ul>
         <h3>loaded</h3>
-        <p>El gancho <code>loaded</code> se dispara cuando el componente, todos sus componentes secundarios y los recursos asíncronos se han cargado completamente. En este punto, se puede eliminar de forma segura el estado de carga o ejecutar operaciones posteriores que dependan del árbol de componentes completo. Si no hay dependencias, se llama después del gancho <code>ready</code>.</p>
+        <p>El hook <code>loaded</code> se activa cuando el componente y todos sus componentes hijos y recursos asíncronos han sido completamente cargados; en este momento es seguro eliminar el estado de carga o ejecutar operaciones posteriores que dependan del árbol completo de componentes. Si no hay dependencias, se invoca después del hook <code>ready</code>.</p>
         <ul>
-          <li><strong>Momento de invocación</strong>: cuando el componente y sus componentes hijos se han cargado completamente</li>
-          <li><strong>Propósito principal</strong>: ejecutar operaciones que dependen del árbol de componentes completo</li>
+          <li><strong>Momento de llamada</strong>: El componente y sus subcomponentes se han cargado completamente</li>
+          <li><strong>Uso principal</strong>: Ejecutar operaciones que dependen del árbol completo de componentes</li>
         </ul>
         <h2>Orden de ejecución del ciclo de vida</h2>
         <p>Los hooks del ciclo de vida del componente se ejecutan en el siguiente orden:</p>
         <ol start="2">
-          <li><code>ready</code> - El componente está listo (el DOM ha sido creado)</li>
-          <li><code>attached</code> - El componente está montado en el DOM</li>
-          <li><code>loaded</code> - El componente está completamente cargado</li>
+          <li><code>ready</code> - el componente está listo (el DOM se ha creado)</li>
+          <li><code>attached</code> - el componente se ha montado en el DOM</li>
+          <li><code>loaded</code> - el componente se ha cargado completamente</li>
         </ol>
-        <p>Cuando el componente se elimina del DOM, se invoca el gancho <code>detached</code>.</p>
+        <p>Cuando el componente se elimina del DOM, se llama al hook <code>detached</code>.</p>
         <h2>Ejemplo de uso</h2>
-        <p>El siguiente ejemplo demuestra cómo usar ganchos de ciclo de vida en un componente:</p>
+        <p>El siguiente ejemplo muestra cómo usar las funciones de ciclo de vida en un componente:</p>
         <o-playground name="Ejemplo de ciclo de vida" style="--editor-height: 700px">
           <code>
     <template page>
@@ -137,7 +137,7 @@
       </style>
       <h3>Demostración del ciclo de vida</h3>
       <div class="counter">Contador: {{count}}</div>
-      <button on:click="count += 10">Aumentar 10</button>
+      <button on:click="count += 10">Incrementar 10</button>
       <button on:click="removeSelf">Eliminar componente</button>
       <div class="log">
         <h4>Registro del ciclo de vida:</h4>
@@ -156,7 +156,7 @@
             },
             proto: {
               removeSelf() {
-                this.remove(); // Eliminarse del DOM para activar el hook detached
+                this.remove(); // Eliminar a sí mismo del DOM para activar el hook detached
               },
               addLog(message) {
                 this.logs = [...this.logs, `${new Date().toLocaleTimeString()} - ${message}`];
@@ -189,36 +189,36 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, puedes observar el orden de ejecución y el momento de los diferentes ganchos del ciclo de vida. Cuando haces clic en el botón &quot;Eliminar componente&quot;, puedes ver que se activa el gancho <code>detached</code>.</p>
-        <h2>Escenarios de aplicación reales</h2>
-        <h3>Operación de inicialización</h3>
-        <p>En el hook <code>ready</code> realizar la inicialización de datos:</p>
+        <p>En este ejemplo, puedes observar el orden y el momento de ejecución de los diferentes hooks del ciclo de vida. Cuando haces clic en el botón &quot;Eliminar componente&quot;, puedes ver que el hook <code>detached</code> se activa.</p>
+        <h2>Escenarios de aplicación práctica</h2>
+        <h3>Inicialización de la operación</h3>
+        <p>Realizar la inicialización de datos en el hook <code>ready</code>:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
   <span class="hljs-keyword">return</span> {
     <span class="hljs-attr">data</span>: {
       <span class="hljs-attr">items</span>: []
     },
     <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
-      <span class="hljs-comment">// Operaciones del DOM</span>
+      <span class="hljs-comment">// Manipulación del DOM</span>
       <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initDomElements</span>();
     }
   };
 };</code></pre>
         <h3>Gestión de recursos</h3>
-        <p>Inicia el temporizador en el gancho <code>attached</code> y limpia los recursos en el gancho <code>detached</code>:</p>
+        <p>Inicia el temporizador en el hook <code>attached</code> y limpia los recursos en el hook <code>detached</code>:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
   <span class="hljs-keyword">return</span> {
     <span class="hljs-attr">data</span>: {
       <span class="hljs-attr">timer</span>: <span class="hljs-literal">null</span>
     },
     <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-      <span class="hljs-comment">// Iniciar temporizador</span>
+      <span class="hljs-comment">// Iniciar el temporizador</span>
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Tarea programada ejecutada&#x27;</span>);
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Ejecutando tarea programada&#x27;</span>);
       }, <span class="hljs-number">1000</span>);
     },
     <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-      <span class="hljs-comment">// Limpiar temporizador</span>
+      <span class="hljs-comment">// Limpiar el temporizador</span>
       <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>) {
         <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span>);
         <span class="hljs-variable language_">this</span>.<span class="hljs-property">timer</span> = <span class="hljs-literal">null</span>;
@@ -226,7 +226,7 @@
     }
   };
 };</code></pre>
-        <p>Las funciones de ciclo de vida (lifecycle hooks) son un concepto importante en el desarrollo de componentes de ofa.js. Usarlas correctamente puede ayudarte a gestionar mejor el estado y los recursos de los componentes, mejorando el rendimiento de la aplicación.</p>
+        <p>Las funciones de gancho del ciclo de vida son un concepto importante en el desarrollo de componentes de ofa.js; su uso correcto te ayuda a gestionar mejor el estado y los recursos del componente, mejorando el rendimiento de la aplicación.</p>
       </article>
       <div class="footer"></div>
       <script>

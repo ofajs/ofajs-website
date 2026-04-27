@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>wrap</h1>
-        <p>El método <code>wrap</code> se utiliza para envolver una capa de elemento alrededor del elemento objetivo. Antes de ejecutar la operación <code>wrap</code>, se realiza automáticamente la operación de inicialización del <a href="../instance/dollar.html" olink="">método $</a>, por lo que se puede proporcionar directamente la cadena de caracteres del elemento o el objeto.</p>
-        <o-playground name="wrap - elemento envuelto" style="--editor-height: 440px">
+        <p>El método <code>wrap</code> se utiliza para envolver una capa de elemento alrededor del elemento objetivo. Antes de ejecutar la operación <code>wrap</code>, se ejecuta automáticamente la inicialización del método <a href="../instance/dollar.html" olink="">$</a>, por lo que se pueden especificar directamente cadenas de elementos u objetos concretos.</p>
+        <o-playground name="wrap - elemento envolvente" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
       <style> div{border: #aaa solid 1px; margin:8px; padding:8px;} </style>
@@ -99,7 +99,7 @@
     </template>
   </code>
         </o-playground>
-        <h2>Precauciones</h2>
+        <h2>Notas importantes</h2>
         <p>El elemento objetivo <strong>debe tener un nodo padre</strong>, de lo contrario la operación de envoltura fallará.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
@@ -107,9 +107,9 @@
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Error: sin elemento padre, no se puede envolver</span>
-$el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Correcto: tiene elemento padre</span></code></pre>
-        <p><strong>Tenga en cuenta que no se debe operar dentro de componentes de plantilla como o-fill o o-if.</strong></p>
+$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Error, no hay elemento padre, no se puede envolver</span>
+$el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// Correcto, hay elemento padre</span></code></pre>
+        <p><strong>Tenga en cuenta, no opere dentro de los componentes de plantilla como o-fill o o-if.</strong></p>
       </article>
       <div class="footer"></div>
       <script>

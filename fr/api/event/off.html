@@ -81,12 +81,12 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>off</h1>
-        <p>L&#39;utilisation de la méthode <code>off</code> permet de désinscrire les gestionnaires d&#39;événements déjà enregistrés, afin d&#39;annuler l&#39;écoute des événements.</p>
-        <p>Voici un exemple montrant comment utiliser la méthode <code>off</code> pour annuler l’écoute d’un événement :</p>
-        <o-playground name="off - Supprimer l'écouteur d'événements" style="--editor-height: 400px">
+        <p>Utiliser la méthode <code>off</code> permet de désenregistrer un gestionnaire d&#39;événements déjà enregistré, afin d&#39;annuler l&#39;écoute de l&#39;événement.</p>
+        <p>Voici un exemple montrant comment utiliser la méthode <code>off</code> pour supprimer un écouteur d’événement :</p>
+        <o-playground name="off - supprimer l'écouteur d'événement" style="--editor-height: 400px">
           <code path="demo.html">
     <template>
-      <button id="target">ajouter le compteur</button>
+      <button id="target">add count</button>
       <br>
       <br>
       <div id="logger" style="border:red solid 1px;padding:8px;">-</div>
@@ -103,7 +103,7 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous avons enregistré un gestionnaire d&#39;événement de clic <code>f</code>, lorsque le bouton est cliqué, le gestionnaire d&#39;événement affichera le nombre de clics dans <code>#logger</code>. En utilisant la méthode <code>off</code>, nous avons désinscrit l&#39;écoute de l&#39;événement lorsque le nombre de clics atteint 3.</p>
+        <p>Dans cet exemple, nous avons enregistré un gestionnaire d&#39;événements <code>f</code> pour le clic. Lorsque le bouton est cliqué, le gestionnaire affiche le nombre de clics dans <code>#logger</code>. En utilisant la méthode <code>off</code>, nous avons supprimé l&#39;écoute de l&#39;événement lorsque le nombre de clics a atteint 3.</p>
       </article>
       <div class="footer"></div>
       <script>

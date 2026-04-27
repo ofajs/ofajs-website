@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Listener</h1>
-        <p>A Watcher in ofa.js is a feature that listens for data changes and executes corresponding logic. When reactive data changes, the watcher automatically triggers a callback function, allowing you to perform tasks such as data transformation, side effect operations, or asynchronous processing.</p>
+        <p>Watcher is a feature in ofa.js used to listen for data changes and execute corresponding logic. When reactive data changes, the watcher automatically triggers a callback function, allowing you to perform tasks such as data transformation, side effects operations, or asynchronous processing.</p>
         <h2>Basic Usage</h2>
-        <p>Listeners are defined in the component’s <code>watch</code> object, where the key names correspond to the data properties to be observed and the values are the callback functions executed when those data change.</p>
-        <o-playground name="watchers - basic usage" style="--editor-height: 700px">
+        <p>Listeners are defined in the component's <code>watch</code> object, where the key corresponds to the name of the data property to be observed, and the value is the callback function executed when the data changes.</p>
+        <o-playground name="watchers - Basic Usage" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -121,12 +121,12 @@
   </code>
         </o-playground>
         <h2>Callback Function Parameters</h2>
-        <p>The listener callback function receives two parameters:- <code>newValue</code>: the new value after the change </p>
+        <p>The listener callback function receives two parameters:- <code>newValue</code>: the new value after the change</p>
         <ul>
           <li><code>{watchers}</code>: all watcher objects of the current component</li>
         </ul>
-        <p>After data changes are debounced, the callback in <code>watch</code> is executed; the <code>watchers</code> parameter is the set of all changes merged during this debounce cycle.</p>
-        <p>The function in <code>watch</code> will be called immediately after the component is initialized, used to set up data listeners. You can determine whether it is the first call by checking if <code>watchers</code> has a length.</p>
+        <p>After data changes, debounce processing will be performed first, and then the callback in <code>watch</code> will be executed; the <code>watchers</code> parameter is the set of all merged changes within this debounce cycle.</p>
+        <p>The functions in <code>watch</code> are called immediately after the component is initialized, used to establish data watchers. You can distinguish whether it's the first call by checking if <code>watchers</code> has any length.</p>
         <o-playground name="watchers - callback arguments" style="--editor-height: 700px">
           <code>
     <template page="">
@@ -158,18 +158,18 @@
               log: "",
             },
             watch: {
-              name(newVal, {watchers}) {
-                if (!watchers) {
+              name(newVal,{watchers}) {
+                if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // pick one
+                const watcher = watchers[0]; // get one of them
                 this.log += `Property "${watcher.name}" changed from "${watcher.oldValue}" to "${watcher.value}"\n`;
               },
-              age(newVal, {watchers}) {
-                if (!watchers) {
+              age(newVal,{watchers}) {
+                if(!watchers){
                   return;
                 }
-                const watcher = watchers[0]; // pick one
+                const watcher = watchers[0]; // get one of them
                 this.log += `Property "${watcher.name}" changed from "${watcher.oldValue}" to "${watcher.value}"\n`;
               },
             },
@@ -179,9 +179,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Deep Watching</h2>
-        <p>For nested data of object or array type, deep watching is automatically enabled inside watch.</p>
-        <o-playground name="watchers - Deep Watching" style="--editor-height: 700px">
+        <h2>Deep Watch</h2>
+        <p>For nested data of object or array types, watch will automatically perform deep listening.</p>
+        <o-playground name="watchers - deep watching" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -201,14 +201,14 @@
         }
       </style>
       <div>
-        <p>User Information:</p>
+        <p>User Info:</p>
         <p>Name: {{user.name}}</p>
         <p>Age: {{user.age}}</p>
         <p>Hobbies: {{user.hobbies.join(', ')}}</p>
       </div>
       <div>
-        <button on:click="updateName">Change Name</button>
-        <button on:click="updateAge">Change Age</button>
+        <button on:click="updateName">Update Name</button>
+        <button on:click="updateAge">Update Age</button>
         <button on:click="addHobby">Add Hobby</button>
         <button on:click="updateHobby">Update Hobby</button>
       </div>
@@ -220,7 +220,7 @@
               user: {
                 name: "Zhang San",
                 age: 25,
-                hobbies: ["Basketball", "Soccer"],
+                hobbies: ["Basketball", "Football"],
               },
               log: "",
             },
@@ -230,11 +230,11 @@
                   return;
                 }
                 const watcher = watchers[0]; // Get one of them
-                console.log("Modified: ",watcher.target);
+                console.log("Modification: ",watcher.target);
                 if(watcher.type === 'set'){
-                  this.log += `Modified value -> Property "${watcher.name}" changed from "${watcher.oldValue}" to "${watcher.value}" <br>`;
+                  this.log += `Changed value-> Property "${watcher.name}" from "${watcher.oldValue}" to "${watcher.value}" <br>`;
                 }else{
-                  this.log += `Executed method ${watcher.type} -> Function name "${watcher.name}"  Arguments "${watcher.args}" <br>`;
+                  this.log += `Executed method ${watcher.type}-> Function name "${watcher.name}" Arguments "${watcher.args}" <br>`;
                 }
               },
             },
@@ -259,8 +259,8 @@
   </code>
         </o-playground>
         <h2>Listening to Multiple Data Sources</h2>
-        <p>You can listen for changes to multiple pieces of data simultaneously and execute corresponding logic in the callback function based on those changes.</p>
-        <o-playground name="watchers - Multiple Data Sources" style="--editor-height: 600px">
+        <p>You can listen for changes in multiple pieces of data simultaneously and execute corresponding logic in the callback function based on the changes of multiple data.</p>
+        <o-playground name="watchers - multiple data sources" style="--editor-height: 600px">
           <code>
     <template page="">
       <style>
@@ -299,7 +299,7 @@
     </template>
   </code>
         </o-playground>
-        <h2>Real-World Application Scenarios</h2>
+        <h2>Actual Application Scenarios</h2>
         <h3>1. Form Validation</h3>
         <o-playground name="watchers - form validation" style="--editor-height: 800px">
           <code>
@@ -356,8 +356,8 @@
     </template>
   </code>
         </o-playground>
-        <h3>2. Set Theme</h3>
-        <o-playground name="watchers - Setting Theme" style="--editor-height: 800px">
+        <h3>2. Setting the Theme</h3>
+        <o-playground name="watchers - Set Theme" style="--editor-height: 800px">
           <code>
     <template page="">
       <style>
@@ -411,10 +411,10 @@
     </template>
   </code>
         </o-playground>
-        <h2>Notes</h2>
+        <h2>Precautions</h2>
         <ul>
-          <li><strong>Avoid modifying the watched data</strong>: Modifying the watched data within a watcher callback may cause an infinite loop. If modification is necessary, ensure proper conditional checks.</li>
-          <li><strong>Consider using computed properties</strong>: If you need to compute a new value based on changes in multiple data sources, it is recommended to use <a href="./computed-properties.html" olink="">computed properties</a> instead of watchers.</li>
+          <li><strong>Avoid modifying watched data</strong>: Modifying the data being watched in a watcher callback may cause an infinite loop. If modification is necessary, ensure proper conditional checks.</li>
+          <li><strong>Consider using computed properties instead</strong>: If you need to calculate a new value based on changes in multiple data, it is recommended to use <a href="./computed-properties.html" olink="">computed properties</a> instead of watchers.</li>
         </ul>
       </article>
       <div class="footer"></div>

@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Event Binding</h1>
-        <p>In ofa.js, event binding is a crucial mechanism for implementing user interaction. You can bind event handlers to elements in various ways to respond to user actions.</p>
-        <h2>Binding events from proto</h2>
-        <p>This is the recommended way to bind events, suitable for complex event handling logic. Defining event handler functions in the <code>proto</code> object allows for better organization of code logic and facilitates maintenance and reuse.</p>
-        <o-playground name="Binding Events from proto" style="--editor-height: 500px">
+        <p>In ofa.js, event binding is an important mechanism for implementing user interaction. You can bind event handlers to elements in multiple ways to respond to user actions.</p>
+        <h2>Binding Events from proto</h2>
+        <p>This is the recommended way to bind events, suitable for complex event-handling logic. Defining the event handler function in the <code>proto</code> object allows for better organization of code logic and makes maintenance and reuse easier.</p>
+        <o-playground name="Bind events from proto" style="--editor-height: 500px">
           <code>
     <template page="">
       <style>
@@ -113,7 +113,7 @@
   </code>
         </o-playground>
         <h2>Run the function directly</h2>
-        <p>For simple operations—such as incrementing a counter or toggling a state—you can write short expressions directly in the event attribute. This approach is concise and clear, ideal for handling straightforward logic.</p>
+        <p>For simple operations (such as counter increment, state toggle, etc.), you can write short expressions directly in event properties. This approach is concise and clear, suitable for handling simple logic.</p>
         <o-playground name="Run Function Directly" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -140,15 +140,15 @@
         <h2>Supported Event Types</h2>
         <p>ofa.js supports all standard DOM events, including but not limited to:</p>
         <ul>
-          <li>Mouse events: <code>click</code>, <code>dblclick</code>, <code>mousedown</code>, <code>mouseup</code>, <code>mouseover</code>, <code>mouseout</code>, etc.</li>
-          <li>Keyboard events: <code>keydown</code>, <code>keyup</code>, <code>keypress</code>, etc.</li>
-          <li>Form events: <code>submit</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code>, etc.</li>
-          <li>Touch events: <code>touchstart</code>, <code>touchmove</code>, <code>touchend</code>, etc.</li>
+          <li>Mouse events: <code>click</code>, <code>dblclick</code>, <code>mousedown</code>, <code>mouseup</code>, <code>mouseover</code>, <code>mouseout</code> etc.</li>
+          <li>Keyboard events: <code>keydown</code>, <code>keyup</code>, <code>keypress</code> etc.</li>
+          <li>Form events: <code>submit</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code> etc.</li>
+          <li>Touch events: <code>touchstart</code>, <code>touchmove</code>, <code>touchend</code> etc.</li>
         </ul>
-        <p>ofa.js supports exactly the same event types as native DOM events; for more details, refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event" target="_blank">MDN Events documentation</a>.</p>
+        <p>The event types supported by ofa.js are exactly the same as native DOM events,more details can be referred to <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank">MDN event documentation</a>.</p>
         <h2>Passing Parameters to Event Handlers</h2>
-        <p>You can also pass parameters to the event handler:</p>
-        <o-playground name="Passing Parameters to Event Handlers" style="--editor-height: 600px">
+        <p>You can also pass arguments to event handlers:</p>
+        <o-playground name="Pass Parameters to Event Handlers" style="--editor-height: 600px">
           <code>
     <template page="">
       <style>
@@ -177,9 +177,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Accessing the Event Object</h2>
-        <p>In the event handler, you can access the native event object via the <code>event</code> parameter:</p>
-        <o-playground name="Accessing Event Objects" style="--editor-height: 700px">
+        <h2>Access the Event Object</h2>
+        <p>In the event handler, you can access the native event object through the <code>event</code> parameter:</p>
+        <o-playground name="Accessing the Event Object" style="--editor-height: 700px">
           <code>
     <template page="">
       <style>
@@ -218,12 +218,12 @@
     </template>
   </code>
         </o-playground>
-        <p>You can also access the native event object using the <code>$event</code> parameter in expressions, for example to get the mouse click coordinates:</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>Click anywhere to see coordinates<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <h2>Listening for Custom Events</h2>
-        <p>Beyond listening to native DOM events, you can also easily listen to custom events emitted by components:</p>
+        <p>You can also use the <code>$event</code> parameter in expressions to access the native event object, for example, to get the mouse click coordinates:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>Click anywhere to view coordinates<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>Listening to Custom Events</h2>
+        <p>In addition to listening to native DOM events, you can also easily listen to custom events emitted by components:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">custom-comp</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">"handleCustomEvent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">custom-comp</span>&gt;</span></code></pre>
-        <p>For a deeper understanding of custom events, please refer to the <a href="custom-events.html" olink="">Custom Events</a> chapter. It is recommended to follow the tutorial in order, as later content will build naturally on what came before; of course, you’re also welcome to consult it at any time to learn ahead.</p>
+        <p>For a deeper understanding of custom events, please refer to the <a href="custom-events.html" olink="">Custom Events</a> chapter. It is recommended to follow the tutorial step by step; the subsequent content will unfold naturally. Of course, you are also welcome to consult it at any time to grasp it in advance.</p>
       </article>
       <div class="footer"></div>
       <script>

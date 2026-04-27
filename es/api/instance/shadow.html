@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>shadow</h1>
-        <p>Con la propiedad <code>shadow</code>, puedes obtener la instancia del nodo raíz de sombra de un elemento.</p>
-        <o-playground name="shadow - Nodo Sombra" style="--editor-height: 400px">
+        <p>Usando la propiedad <code>shadow</code>, puedes obtener la instancia del nodo raíz de sombra del elemento.</p>
+        <o-playground name="shadow - nodo sombra" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./test-shadow.html"></l-m>
@@ -109,17 +109,17 @@
     </template>
   </code>
         </o-playground>
-        <p>Es importante evitar modificar directamente los elementos dentro del nodo sombra dentro de elementos con sintaxis de plantilla, para garantizar la coherencia y mantenibilidad de las operaciones.</p>
-        <h2>Obtener la instancia de un elemento dentro del elemento sombra de un componente desde el exterior</h2>
-        <p>También puede obtener una instancia de elemento personalizado desde el exterior y luego acceder a los elementos dentro del nodo de sombra a través de la propiedad <code>shadow</code>, como se muestra a continuación:</p>
-        <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="shadow - Acceso externo" style="--editor-height: 400px">
+        <p>Es importante evitar modificar directamente los elementos dentro del nodo de sombra en elementos con sintaxis de plantilla, para garantizar la coherencia y mantenibilidad de las operaciones.</p>
+        <h2>Obtener instancias de elementos dentro del shadow DOM de un componente desde el exterior</h2>
+        <p>También puede obtener una instancia del elemento personalizado desde el exterior y luego acceder a los elementos dentro del nodo sombra a través del atributo <code>shadow</code>, como se muestra a continuación:</p>
+        <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="shadow - acceso externo" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./test-shadow.html"></l-m>
       <test-shadow></test-shadow>
       <script>
         setTimeout(()=>{
-          $("test-shadow").shadow.$("#target").text = 'cambiar objetivo desde fuera - ' + new Date();
+          $("test-shadow").shadow.$("#target").text = 'cambiar target desde fuera - ' + new Date();
         },1000);
       </script>
     </template>
@@ -127,16 +127,16 @@
           <code path="test-shadow.html">
     <template component>
       <ul>
-        <li>elemento 1</li>
-        <li id="target">elemento 2</li>
-        <li>elemento 3</li>
+        <li>item 1</li>
+        <li id="target">item 2</li>
+        <li>item 3</li>
       </ul>
       <script>
         export default {
           tag:"test-shadow",
           ready(){
             setTimeout(()=>{
-              this.shadow.$("#target").text = 'cambiar objetivo';
+              this.shadow.$("#target").text = 'cambiar target';
             },500);
           }
         };

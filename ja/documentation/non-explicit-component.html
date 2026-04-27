@@ -81,12 +81,12 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>非明示コンポーネント</h1>
-        <p>ofa.js には、2種類の非表示コンポーネントが組み込まれています：</p>
+        <p>ofa.jsには、非明示的コンポーネントが2種類内蔵されています：</p>
         <ul>
           <li>条件レンダリングコンポーネント：<code>x-if</code>、<code>x-else-if</code>、<code>x-else</code></li>
           <li>フィルコンポーネント：<code>x-fill</code></li>
         </ul>
-        <p>これらの2つのコンポーネントの機能はそれぞれ <code>o-if</code> および <code>o-fill</code> コンポーネントと同じですが、それ自体は実際にはDOMにレンダリングされず、内部の要素を対応する領域に直接レンダリングします。</p>
+        <p>これら2種類のコンポーネントの機能はそれぞれ <code>o-if</code> および <code>o-fill</code> コンポーネントと同じですが、それ自体は実際にはDOMにレンダリングされず、内部の要素を対応する領域に直接レンダリングします。</p>
         <p>例えば：</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-class">.container</span> &gt; <span class="hljs-selector-class">.item</span>{
@@ -95,14 +95,14 @@
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">o-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
-        <span class="hljs-comment">&lt;!-- スタイルは赤色ではありません。なぜなら、o-if コンポーネント自体が DOM に存在するためです --&gt;</span>
+        <span class="hljs-comment">&lt;!-- 样式は赤くなりません。o-if コンポーネント自体が DOM に存在するためです。 --&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">o-if</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"true"</span>&gt;</span>
-        <span class="hljs-comment">&lt;!-- スタイルは赤色です。なぜなら、x-if コンポーネントは DOM にレンダリングされないためです --&gt;</span>
+        <span class="hljs-comment">&lt;!-- 样式は赤くなります。x-if コンポーネントが DOM にレンダリングされないためです。 --&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"item"</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="非明示的コンポーネント" style="--editor-height: 500px">
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><o-playground name="非顕式コンポーネント" style="--editor-height: 500px">
           <code>
     <template page="">
         <style>
@@ -112,10 +112,10 @@
             padding: 10px;
         }
         .container > .item {
-            /* 子階層の .item 要素を赤にする */
+            /* 子階層の .item 要素を赤に選択 */
             color:red;
         }
-        /* o-if コンポーネント内部の .item 要素を選択する必要がある */
+        /* o-if コンポーネント内部の .item 要素を選択する必要 */
         /* .container > o-if > .item {
             color:green;
         } */
@@ -140,14 +140,14 @@
     </template>
   </code>
         </o-playground>
-        <h2>x-if 条件渲染コンポーネント</h2>
-        <p><code>x-if</code> と <a href="./conditional-rendering.html" olink="">o-if</a> の機能は完全に同じで、条件式の真偽値に基づいてコンテンツをレンダリングするかどうかを決定するために使用されます。違いは、<code>x-if</code> 自体は DOM 要素として存在せず、その内部コンテンツが親コンテナに直接レンダリングされる点です。</p>
+        <h2>x-if 条件レンダリングコンポーネント</h2>
+        <p><code>x-if</code>は<a href="./conditional-rendering.html" olink="">o-if</a>と機能が完全に同じで、条件式の真偽値に基づいてコンテンツをレンダリングするかどうかを決定する。違いは<code>x-if</code>自体がDOM要素として存在せず、その内部コンテンツが直接親コンテナにレンダリングされる点である。</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"isLoggedIn"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>おかえりなさい、ユーザーさん！<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>お帰りなさい、ユーザー！<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-if</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <p><code>x-if</code> は <code>x-else-if</code> や <code>x-else</code> と組み合わせて使うこともできます：</p>
+        <p><code>x-if</code> は <code>x-else-if</code> や <code>x-else</code> と組み合わせて使用することもできます：</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-if</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"role === 'admin'"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>管理者パネル<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
@@ -159,8 +159,8 @@
         <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>ログインしてください<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">x-else</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <h2>x-fill 塗りつぶしコンポーネント</h2>
-        <p><code>x-fill</code> は <a href="./list-rendering.html" olink="">o-fill</a> と全く同じ機能を持ち、配列データを複数の DOM 要素としてレンダリングするために使用されます。<code>x-if</code> と同様に、<code>x-fill</code> 自体は DOM にレンダリングされず、その内部テンプレートは直接親コンテナにレンダリングされます。</p>
+        <h2>x-fill フィルコンポーネント</h2>
+        <p><code>x-fill</code> は <a href="./list-rendering.html" olink="">o-fill</a> と完全に同じ機能を持ち、配列データを複数の DOM 要素にレンダリングするために使用されます。<code>x-if</code> と同様に、<code>x-fill</code> 自体は DOM にレンダリングされず、その内部テンプレートは直接親コンテナにレンダリングされます。</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">x-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">"items"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
@@ -177,15 +177,15 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>性能説明</h2>
-        <p>機能的な違いの他に、非明示的コンポーネントのレンダリング性能は明示的コンポーネント（<code>o-if</code>、<code>o-fill</code>）と比べて<strong>ずっと悪くなります</strong>。これは、非明示的コンポーネントは実際には DOM にレンダリングされず、内部要素の位置決めや更新を処理するための追加の疑似レンダリングロジックが必要になるためです。</p>
-        <p>また、非明示的なコンポーネントはいくつかの見つけにくいバグを引き起こす可能性があります：実際にはDOMに追加されないため、DOM構造に依存する操作（イベントのバインド、スタイル計算、またはサードパーティ製ライブラリのクエリなど）が失敗したり、異常な挙動を示したりする可能性があります。</p>
-        <p>したがって、<strong>明示的コンポーネント</strong>（<code>o-if</code>、<code>o-else-if</code>、<code>o-else</code>、<code>o-fill</code>）を優先的に使用し、特定のシナリオでのみ非明示的コンポーネントを使用することをお勧めします。</p>
+        <p>機能的な違いの他に、非明示コンポーネントのレンダリング性能は明示コンポーネント（<code>o-if</code>、<code>o-fill</code>）よりも<strong>はるかに劣ります</strong>。これは、非明示コンポーネントが実際にDOMにレンダリングされず、内部要素の位置や更新を処理するために追加のシミュレーションレンダリングロジックが必要となるためです。</p>
+        <p>さらに、非明示的コンポーネントは気づきにくいバグを引き起こす可能性がある：それらは実際にはDOMに登場しないため、DOM構造に依存する操作（イベントバインディング、スタイル計算、サードパーティライブラリのクエリなど）が失敗したり、予期しない動作を示したりすることがある。</p>
+        <p>したがって、<strong>明示的コンポーネント</strong>（<code>o-if</code>、<code>o-else-if</code>、<code>o-else</code>、<code>o-fill</code>）を優先的に使用し、特定のシナリオでのみ非明示的コンポーネントを使用することを推奨します。</p>
         <h2>使用シーン</h2>
-        <p>非表示コンポーネントのパフォーマンスは劣りますが、以下のシナリオでは使用される可能性があります：</p>
+        <p>非明示的コンポーネントは性能が劣りますが、以下のシナリオで使用される可能性があります：</p>
         <ol>
-          <li><strong>余分な DOM 階層の回避</strong>：<code>o-if</code> または <code>o-fill</code> 要素を DOM 構造の一部にしたくない場合</li>
-          <li><strong>スタイルの継承</strong>：内部要素が中間コンポーネント要素の影響を受けずに、親コンテナのスタイルを直接継承する必要がある場合</li>
-          <li><strong>CSS セレクタの制限</strong>：親の直接子セレクタ（例：<code>.container &gt; .item</code>）を使用してスタイルを正確に制御したいが、中間に余分なラッパー要素を望まない場合</li>
+          <li><strong>余分な DOM 階層を避ける</strong>: <code>o-if</code> や <code>o-fill</code> 要素を DOM 構造の一部にしたくない場合 </li>
+          <li><strong>スタイルの継承</strong>: 内部要素が中間コンポーネント要素の影響を受けずに、親コンテナのスタイルを直接継承する必要がある場合 </li>
+          <li><strong>CSS セレクタの制限</strong>: 親子直接セレクタ（<code>.container &gt; .item</code> など）を使ってスタイルを正確に制御したいが、間に余分なラッパー要素を置きたくない場合</li>
         </ol>
       </article>
       <div class="footer"></div>

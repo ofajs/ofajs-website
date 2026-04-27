@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>replace-temp コンポーネント</h1>
-        <p>select や table などの特殊な要素内でリストレンダリングを試みると、ブラウザが <code>&lt;x-fill&gt;</code> コンポーネントを自動的に削除し、リストレンダリングが失敗することがあります。この問題を解決するには、replace-temp を使用できます。</p>
-        <p>使用方法は：<code>&lt;template&gt;</code>タグに<code>is=&quot;replace-temp&quot;</code>を設定し、それをブラウザが自動的に修正する要素の内部に配置します。</p>
+        <p>私たちが select や table などの特殊な要素内でリストレンダリングを試みると、ブラウザが自動的に <code>&lt;x-fill&gt;</code> コンポーネントを削除し、リストレンダリングが失敗する可能性があります。この場合は replace-temp 方式を使用してこの問題を解決できます。</p>
+        <p>使用方法は、<code>&lt;template&gt;</code> タグに <code>is=&quot;replace-temp&quot;</code> を設定し、ブラウザが自動的に修正する要素の内部に配置することです。</p>
         <o-playground name="replace-temp コンポーネント" style="--editor-height: 500px">
           <code>
     <template page>

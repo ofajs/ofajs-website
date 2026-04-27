@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>refresh</h1>
-        <p><code>refresh</code> メソッドは、能動的にコンポーネントのレンダリングビューを更新するために使用されます。コンポーネント上のデータが更新されない場合、このメソッドを使用してコンポーネントのビューを更新することができます。</p>
-        <p><a href="../../documentation/property-response.html" olink="">非応答性データ</a>を手動で更新する必要があるシナリオに適用されます。</p>
+        <p><code>refresh</code> メソッドは、コンポーネントのレンダリングビューを能動的にリフレッシュするために使用されます。コンポーネント上のデータが更新されていない場合、このメソッドを使用してコンポーネントのビューをリフレッシュすることができます。</p>
+        <p>手動での更新が必要な<a href="../../documentation/property-response.html" olink="">非レスポンシブデータ</a>のシナリオに適用されます。</p>
         <o-playground name="refresh - ビューを更新" style="--editor-height: 400px">
           <code path="demo.html" preview="">
     <template>
@@ -93,7 +93,7 @@
           <code path="refresh-demo.html" active="">
     <template component="">
       <div>{{_count}}</div>
-      <button on:click="refresh()">更新</button>
+      <button on:click="refresh()">リフレッシュ</button>
       <script>
         export default {
           tag: "refresh-demo",

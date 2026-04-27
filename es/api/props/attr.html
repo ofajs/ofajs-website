@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>attr</h1>
-        <p>El método <code>attr</code> se utiliza para obtener o establecer los atributos de un elemento.</p>
+        <p><code>attr</code> método se utiliza para obtener o establecer los atributos de un elemento.</p>
         <h2>Uso directo</h2>
         <p>Puedes usar directamente el método <code>attr</code> para obtener o establecer los atributos de un elemento.</p>
         <o-playground name="attr - uso directo" style="--editor-height: 500px">
@@ -95,9 +95,9 @@
           color: green;
         }
       </style>
-      <div id="target1" test-attr="1">Soy objetivo 1</div>
-      <div id="target2">Soy objetivo 2</div>
-      <div id="logger" style="border:blue solid 1px;padding:8px;margin:8px;">registrador</div>
+      <div id="target1" test-attr="1">I am target 1</div>
+      <div id="target2">I am target 2</div>
+      <div id="logger" style="border:blue solid 1px;padding:8px;margin:8px;">logger</div>
       <script>
         $("#logger").text = $("#target1").attr('test-attr');
         setTimeout(()=> {
@@ -108,8 +108,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>Uso mediante sintaxis de plantilla</h2>
-        <p>También puedes usar el método <code>attr:aaa=&quot;bbb&quot;</code> para establecer el atributo <strong>aaa</strong> del elemento objetivo en el valor del componente <strong>bbb</strong>. Este método es especialmente útil para el renderizado de componentes.</p>
+        <h2>Uso de la sintaxis de plantillas</h2>
+        <p>También puedes usar la forma <code>attr:aaa=&quot;bbb&quot;</code> para establecer el atributo <strong>aaa</strong> del elemento de destino al valor del componente <strong>bbb</strong>. Este método es especialmente útil para la representación de componentes.</p>
         <o-playground name="attr - sintaxis de plantilla" style="--editor-height: 600px">
           <code path="demo.html" preview>
     <template>
@@ -132,7 +132,7 @@
           color: green;
         }
       </style>
-      <div attr:test-attr="txt">Soy el objetivo</div>
+      <div attr:test-attr="txt">I am target</div>
       <script>
         export default {
           tag: "attr-demo",

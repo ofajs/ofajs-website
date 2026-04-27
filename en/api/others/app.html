@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>o-app Component</title>
+  <title>o-app component</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
@@ -80,26 +80,26 @@
       </style>
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
-        <h1>o-app Component</h1>
-        <p><code>o-app</code> is one of the core components in ofa.js, used to configure and manage the entire application. Here are some key properties and methods of app:</p>
+        <h1>o-app component</h1>
+        <p><code>o-app</code> is one of the core components in ofa.js, used to configure and manage the entire application. Below are some key properties and methods of the app:</p>
         <h2>src</h2>
-        <p>The &quot;src&quot; attribute is used to specify the specific address of the application parameter configuration module.</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> app = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;o-app&quot;</span>);
+        <p>The <code>src</code> attribute is used to specify the exact address of the application parameter configuration module.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> app = $(<span class="hljs-string">&quot;o-app&quot;</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(app.<span class="hljs-property">src</span>);</code></pre>
         <h2>current</h2>
-        <p>The <code>current</code> property is used to obtain the page instance currently being displayed. It lets you access and manipulate the page that is on screen, such as updating its content or performing specific actions.</p>
+        <p><code>current</code> property is used to obtain the currently displayed page instance. This can help you access and manipulate the page that is currently being displayed, for example, to update its content or perform specific operations.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
         <h2>goto</h2>
-        <p>The <code>goto</code> method is used to navigate to a specified page. You pass the address of the target page, and the app will load and display it. This is a key method for application navigation.</p>
+        <p><code>goto</code> method is used to navigate to a specified page. You can pass the address of the target page, and the app will load and display that page. This is an important method for app navigation.</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;/page2.html&quot;</span>);</code></pre>
         <h2>replace</h2>
-        <p>The <code>replace</code> method is similar to <code>goto</code>, but it is used to replace the current page instead of adding a new page to the stack. This can be used to implement page replacement rather than stack navigation.</p>
+        <p><code>replace</code> is similar to the <code>goto</code> method, but it is used to replace the current page instead of adding a new page to the stack. This can be used to implement page replacement instead of stack navigation.</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;/new-page.html&quot;</span>);</code></pre>
         <h2>back</h2>
-        <p>The <code>back</code> method is used to return to the previous page, implementing the backward operation of page navigation. This navigates the user back to the previous page.</p>
+        <p><code>back</code> method is used to return to the previous page, implementing the backward operation of page navigation. This will navigate the user back to the previous page.</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">back</span>();</code></pre>
         <h2>routers</h2>
-        <p>The <code>routers</code> property contains the application&#39;s routing configuration. It is a critical property that defines the routing rules and mappings for each page in the application. The routing configuration determines navigation between pages and how URLs are handled.</p>
+        <p><code>routers</code> attribute contains the routing configuration information of the application. This is an important attribute that defines the routing rules and mappings for each page in the application. The routing configuration determines the navigation between pages and how URLs are handled.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> routeConfig = app.<span class="hljs-property">routers</span>;</code></pre>
       </article>
       <div class="footer"></div>

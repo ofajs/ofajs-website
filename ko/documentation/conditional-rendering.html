@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>조건부 렌더링</h1>
-        <p>ofa.js에서 조건부 렌더링은 중요한 기능으로, 데이터 상태에 따라 특정 요소나 컴포넌트를 렌더링할지 결정할 수 있게 해줍니다. ofa.js는 <code>o-if</code>, <code>o-else-if</code>, <code>o-else</code> 컴포넌트를 통해 컴포넌트 기반의 조건부 렌더링 방식을 제공합니다.</p>
+        <p>ofa.js에서 조건부 렌더링은 중요한 기능으로, 데이터 상태에 따라 특정 요소나 컴포넌트를 렌더링할지 여부를 결정할 수 있습니다. ofa.js는 <code>o-if</code>, <code>o-else-if</code>, <code>o-else</code> 컴포넌트를 통해 컴포넌트 기반의 조건부 렌더링 방식을 제공합니다.</p>
         <h2>o-if 컴포넌트</h2>
-        <p><code>o-if</code> 컴포넌트는 표현식의 진리값에 따라 해당 내용을 렌더링할지 여부를 결정하는 데 사용됩니다. 바인딩된 <code>value</code> 속성이 참일 때, 컴포넌트 내부의 내용이 렌더링됩니다; 그렇지 않으면 내용이 DOM에 나타나지 않습니다.</p>
+        <p><code>o-if</code> 컴포넌트는 표현식의 참/거짓 값에 따라 콘텐츠를 렌더링할지 여부를 결정하는 데 사용됩니다. 바인딩된 <code>value</code> 속성이 참일 때 컴포넌트 내부의 콘텐츠가 렌더링되며, 그렇지 않으면 콘텐츠가 DOM에 나타나지 않습니다.</p>
         <o-playground name="o-if 작동 원리 예제" style="--editor-height: 500px">
           <code>
     <template page>
@@ -112,13 +112,13 @@
   </code>
         </o-playground>
         <h3>o-if의 작동 원리</h3>
-        <p><code>o-if</code>는 조건이 참일 때만 내용을 DOM에 렌더링하며, 조건이 거짓일 때는 o-if 내부의 DOM 요소가 완전히 제거됩니다. 이러한 구현 방식은 조건 변화가 자주 발생하지 않는 경우에 적합합니다. DOM의 생성과 소멸이 수반되기 때문입니다.</p>
-        <h2>o-else-if와 o-else 컴포넌트</h2>
-        <p>여러 조건 분기가 필요할 때는 <code>o-else-if</code> 및 <code>o-else</code> 컴포넌트를 <code>o-if</code>와 함께 사용하여 다중 분기 조건 렌더링을 구현할 수 있습니다.</p>
+        <p><code>o-if</code>는 조건이 참일 때만 내용을 DOM에 렌더링하며, 조건이 거짓일 때는 o-if 내의 DOM 요소가 완전히 제거됩니다. 이 구현 방식은 DOM의 생성과 제거가 수반되므로 조건 변화가 자주 발생하지 않는 상황에서 사용하기 적합합니다.</p>
+        <h2>o-else-if 및 o-else 컴포넌트</h2>
+        <p>여러 조건 분기가 필요할 때, <code>o-else-if</code>와 <code>o-else</code> 컴포넌트를 <code>o-if</code>와 함께 사용하여 다중 분기 조건 렌더링을 구현할 수 있습니다.</p>
         <ul>
           <li><code>o-if</code>：필수적인 첫 번째 조건 컴포넌트</li>
-          <li><code>o-else-if</code>：선택적인 중간 조건 컴포넌트로, 여러 개 존재 가능</li>
-          <li><code>o-else</code>：선택적인 기본 조건 컴포넌트로, 마지막에 배치</li>
+          <li><code>o-else-if</code>：선택적인 중간 조건 컴포넌트, 여러 개 가능</li>
+          <li><code>o-else</code>：선택적인 기본 조건 컴포넌트, 마지막에 배치</li>
         </ul>
         <o-playground name="다중 분기 조건부 렌더링 예제" style="--editor-height: 500px">
           <code>
@@ -131,7 +131,7 @@
         }
       </style>
       <button on:click="num++">Toggle Display - {{num}}</button>
-      <!-- num을 3으로 나눈 나머지 결과에 따라 다른 콘텐츠 표시 -->
+      <!-- num을 3으로 나눈 나머지에 따라 다른 내용을 표시합니다. -->
       <o-if :value="num % 3 === 0">
         <p>❤️ 0 / 3</p>
       </o-if>
@@ -153,8 +153,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>실제 적용 시나리오 예시</h2>
-        <h3>사용자 권한 관리</h3>
+        <h2>실제 응용 사례 예시</h2>
+        <h3>사용자 권한 제어</h3>
         <o-playground name="사용자 권한 제어 예시" style="--editor-height: 500px">
           <code>
     <template page>
@@ -188,11 +188,11 @@
         <o-else-if :value="role === 'user'">
           <div class="user-info">
             <h3>사용자 정보</h3>
-            <p>환영합니다 {{userName}}님!</p>
+            <p>{{userName}}님 환영합니다!</p>
           </div>
         </o-else-if>
         <o-else>
-          <p>콘텐츠를 보려면 로그인하세요</p>
+          <p>로그인 후 내용을 확인하세요</p>
         </o-else>
       </div>
       <script>
@@ -206,7 +206,7 @@
               toggleUserRole() {
                 if (this.role === 'guest') {
                   this.role = 'user';
-                  this.userName = '장삼';
+                  this.userName = '홍길동';
                 } else if (this.role === 'user') {
                   this.role = 'admin';
                 } else {
@@ -222,7 +222,7 @@
   </code>
         </o-playground>
         <h3>폼 검증 상태 표시</h3>
-        <o-playground name="폼 검증 상태 표시 예제" style="--editor-height: 500px">
+        <o-playground name="양식 유효성 검사 상태 표시 예제" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -237,7 +237,7 @@
         }
       </style>
       <div>
-        <h3>이메일 검증 예제</h3>
+        <h3>이메일 유효성 검사 예제</h3>
         <input type="email" :value="email" on:input="email = $event.target.value" placeholder="이메일 주소 입력">
         <o-if :value="email && isValidEmail(email)">
           <p style="color:green;">✓ 이메일 형식이 올바릅니다</p>
@@ -246,7 +246,7 @@
           <p style="color:red;">✗ 이메일 형식이 올바르지 않습니다</p>
         </o-else-if>
         <o-else>
-          <p style="color:orange;">이메일 주소를 입력하여 검증해주세요</p>
+          <p style="color:orange;">유효성 검사를 위해 이메일 주소를 입력하세요</p>
         </o-else>
       </div>
       <script>
@@ -267,16 +267,16 @@
     </template>
   </code>
         </o-playground>
-        <h2>조건부 렌더링 모범 사례</h2>
+        <h2>조건부 렌더링 베스트 프랙티스</h2>
         <ol>
           <li>
-            <p><strong>사용 시나리오</strong>：요소가 서로 다른 조건에서 자주 전환되지 않을 때 <code>o-if</code>를 사용하는 것이 더 적합합니다. 이는 불필요한 요소를 완전히 제거하여 메모리를 절약할 수 있기 때문입니다.</p>
+            <p><strong>사용 시나리오</strong>：요소가 다른 조건에서 거의 전환되지 않는 경우 <code>o-if</code>를 사용하는 것이 더 적합합니다. 불필요한 요소를 완전히 제거하여 메모리를 절약할 수 있기 때문입니다.</p>
           </li>
           <li>
-            <p><strong>성능 고려 사항</strong>：자주 전환되는 요소는 조건부 렌더링보다 클래스 바인딩(예: <code>class:hide</code>)을 사용하는 것이 더 적합합니다. 조건부 렌더링은 DOM의 생성 및 소멸을 수반하기 때문입니다.</p>
+            <p><strong>성능 고려 사항</strong>：자주 전환되는 요소는 조건부 렌더링보다 클래스 바인딩(예: <code>class:hide</code>)을 사용하는 것이 더 적합합니다. 조건부 렌더링은 DOM을 생성하고 제거하는 과정을 포함하기 때문입니다.</p>
           </li>
           <li>
-            <p><strong>구조적 명확성</strong>：조건부 렌더링은 탭, 단계별 가이드 등 서로 다른 구조를 가진 콘텐츠 전환에 특히 적합합니다.</p>
+            <p><strong>구조 명확성</strong>：조건부 렌더링은 탭, 단계별 안내 등과 같이 서로 다른 구조를 가진 콘텐츠를 전환할 때 특히 적합합니다.</p>
           </li>
         </ol>
       </article>

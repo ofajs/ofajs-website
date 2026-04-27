@@ -83,38 +83,38 @@
         <h1>$</h1>
         <p>La méthode <code>$</code> est la fonction centrale d'ofa.js, utilisée pour obtenir et manipuler des instances d'éléments DOM. Voici une présentation détaillée des principales fonctionnalités de <code>$</code> :</p>
         <h2>Obtenir une instance d'élément</h2>
-        <p>Grâce à la méthode <code>$</code>, vous pouvez obtenir la première instance d’élément correspondant au <a href="https://developer.mozilla.org/fr/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">sélecteur CSS</a> sur la page et effectuer des opérations dessus. Voici un exemple :</p>
+        <p>En utilisant la méthode <code>$</code> , vous pouvez obtenir la première instance d'élément sur la page qui correspond au <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">sélecteur CSS</a> et effectuer des opérations dessus. Voici un exemple :</p>
         <o-playground name="$ - obtenir l'élément">
           <code path="demo.html">
     <template>
-      <div id="target1">texte cible 1</div>
+      <div id="target1">target 1 text</div>
       <script>
         setTimeout(()=>{
-          \$("#target1").text = 'changer cible 1';
+          \$("#target1").text = 'change target 1';
         },500);
       </script>
     </template>
   </code>
         </o-playground>
-        <p>Dans l'exemple ci-dessus, nous avons utilisé le symbole <code>$</code> pour sélectionner l'instance d'élément avec l'<code>id</code> "target1", et modifié son contenu textuel en définissant la propriété <code>text</code>.</p>
-        <h2>Rechercher les instances d'éléments enfants</h2>
-        <p>L’instance possède également la méthode <code>$</code>, qui permet d’obtenir, via la méthode <code>$</code> de l’instance, la première instance d’élément enfant correspondant aux critères.</p>
-        <o-playground name="$ - Trouver des éléments enfants">
+        <p>Dans l'exemple ci-dessus, nous avons utilisé le symbole <code>$</code> pour sélectionner l'instance de l'élément ayant l'<code>id</code> "target1", et nous avons modifié son contenu textuel en définissant la propriété <code>text</code>.</p>
+        <h2>Exemple de recherche d'élément enfant</h2>
+        <p>L'instance possède également la méthode <code>$</code>, qui permet d'obtenir, via la méthode <code>$</code> de l'instance, la première instance d'élément enfant correspondant aux critères.</p>
+        <o-playground name="$ - Rechercher les éléments enfants">
           <code path="demo.html">
     <template>
       <div id="target1">
         <h3>target</h3>
-        <p>Je suis target1</p>
+        <p>I am target1</p>
       </div>
       <script>
         const tar = $("#target1");
-        tar.$('h3').text = 'changer le titre de la cible';
+        tar.$('h3').text = 'change target title';
       </script>
     </template>
   </code>
         </o-playground>
-        <p>Veuillez ne pas insérer directement l’instance d’élément obtenue ailleurs ; une telle opération affectera l’élément d’origine. Si vous avez besoin d’en créer une copie, utilisez la méthode <a href="./clone.html" olink="">clone</a>.</p>
-        <o-playground name="$ - propriétés d'instance" style="--editor-height: 360px">
+        <p>Ne veuillez pas insérer directement l'instance d'élément obtenue dans un autre endroit, car une telle opération affectera l'élément d'origine. Si vous devez créer une copie, vous pouvez utiliser la méthode <a href="./clone.html" olink="">clone</a>.</p>
+        <o-playground name="$ - Caractéristiques d'instance" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
       <div id="pos1" style="border:red solid 1px;">
@@ -133,36 +133,36 @@
     </template>
   </code>
         </o-playground>
-        <h2>Obtenir les éléments enfants dans un nœud fantôme</h2>
-        <p>On peut obtenir une instance via l'attribut <a href="./shadow.html" olink="">shadow</a>, puis utiliser la méthode <code>$</code> pour obtenir l'élément souhaité :</p>
-        <pre><code class="hljs language-javascript">$(<span class="hljs-string">'my-component'</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">"selector"</span>).<span class="hljs-title function_">method</span>(xxx)</code></pre>
+        <h2>Obtenir les éléments enfants dans le nœud fantôme</h2>
+        <p>On peut obtenir une instance via la propriété <a href="./shadow.html" olink="">shadow</a>, puis obtenir l'élément souhaité via la méthode <code>$</code>.</p>
+        <pre><code class="hljs language-javascript">$(<span class="hljs-string">'my-component'</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">"sélecteur"</span>).<span class="hljs-property">m</span>é<span class="hljs-title function_">thode</span>(xxx)</code></pre>
         <h2>Instanciation directe d'éléments</h2>
-        <p>Vous pouvez initialiser directement un élément natif en tant qu'instance <code>$</code> de la manière suivante :</p>
+        <p>Vous pouvez initialiser un élément natif directement en tant qu’instance de <code>$</code> de la manière suivante :</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">'div'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'#target'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
-        <p>Ainsi, vous pouvez facilement convertir des éléments HTML existants en instances de <code>$</code> afin d’utiliser les fonctionnalités fournies par <code>$</code> pour les manipuler et les traiter.</p>
-        <h2>Génération d'instances d'éléments</h2>
-        <p>En outre, <code>$</code> permet non seulement d’obtenir une instance d’élément existante, mais aussi de créer une nouvelle instance d’élément et de l’ajouter à la page.</p>
-        <h3>Générer par chaîne de caractères</h3>
-        <p>Vous pouvez utiliser la fonction <code>$</code> pour créer une nouvelle instance d'élément à partir d'une chaîne de caractères, comme suit :</p>
-        <o-playground name="$ - Génération de chaîne" style="--editor-height: 260px">
+        <p>Ainsi, vous pouvez facilement convertir les éléments HTML existants en instances <code>$</code> afin d'utiliser les fonctionnalités fournies par <code>$</code> pour les manipuler et les traiter.</p>
+        <h2>Générer une instance d'élément</h2>
+        <p>En dehors de cela, <code>$</code> qui permet d'obtenir une instance d'élément existante peut également être utilisé pour créer une nouvelle instance d'élément et l'ajouter à la page.</p>
+        <h3>Génération via chaîne de caractères</h3>
+        <p>Vous pouvez utiliser la fonction <code>$</code> pour créer une nouvelle instance d’élément à partir d’une chaîne, comme suit :</p>
+        <o-playground name="$ - génération de chaîne" style="--editor-height: 260px">
           <code path="demo.html">
     <template>
       <div id="target1">
         <b>target1:</b>
       </div>
       <script>
-        const newEl = $(`<div style="color:red">ajouter le texte target 1</div>`);
+        const newEl = $(`<div style="color:red">ajouter le texte cible 1</div>`);
         \$('#target1').push(newEl);
       </script>
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous utilisons la fonction <code>$</code> pour créer une nouvelle instance d'élément avec des styles et un contenu texte spécifiés, puis l'ajoutons à l'intérieur d'une instance d'élément existante ayant l'<code>id</code> "target1".</p>
+        <p>Dans cet exemple, nous utilisons la fonction <code>$</code> pour créer une nouvelle instance d'élément avec un style et un contenu textuel spécifiés, et l'ajoutons à l'intérieur d'une instance d'élément existante avec l'<code>id</code> "target1".</p>
         <h3>Génération via objet</h3>
-        <p>Vous pouvez également utiliser la fonction <code>$</code> pour générer une nouvelle instance d'élément sous forme d'objet, comme suit :</p>
+        <p>Vous pouvez également utiliser la fonction <code>$</code> pour générer une nouvelle instance d’élément sous forme d’objet, comme suit :</p>
         <o-playground name="$ - Génération d'objet" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
@@ -172,7 +172,7 @@
       <script>
         const newEl = $({
           tag: "div",
-          text: "add target 1 text",
+          text: "ajouter le texte target 1",
           css: {
             color: "red"
           }
@@ -182,7 +182,37 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous utilisons la fonction <code>$</code> pour définir une nouvelle instance d'élément de manière objet, incluant le type de balise, le contenu textuel et les attributs de style, puis nous l'ajoutons à l'intérieur de l'instance d'élément existante ayant l'<code>id</code> "target1".</p>
+        <p>Dans cet exemple, nous utilisons la fonction <code>$</code> pour définir une nouvelle instance d'élément via un objet, comprenant le type de balise, le contenu textuel et les attributs de style, et nous l'ajoutons à une instance d'élément existante avec l'<code>id</code> "target1".</p>
+        <h2>Relation entre les exemples obtenus et les instances de page/composant</h2>
+        <p>La méthode <code>$</code> permet d'obtenir l'instance de la page ou d'un élément du composant depuis le contexte global ; elle possède la même fonctionnalité que le <code>this</code> utilisé dans les méthodes du cycle de vie du module de page ou de composant.</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+...
+<span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./test-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">test-comp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"target"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">test-comp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>{
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">'#target'</span>).<span class="hljs-property">title</span>);  <span class="hljs-comment">// =&gt; Exemple de composant OFAJS</span>
+  },<span class="hljs-number">300</span>);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- test-comp.html --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"test-comp"</span>,
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"Exemple de composant OFAJS"</span>,
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>){
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span> === $(<span class="hljs-string">'#target'</span>)); <span class="hljs-comment">// true</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

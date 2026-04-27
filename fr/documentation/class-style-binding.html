@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Liaison de classes et de styles</h1>
-        <p>Dans ofa.js, vous pouvez gérer dynamiquement les états de l’interface utilisateur en liant des noms de classe, des styles et des attributs de manière flexible. Cela permet à l’interface de s’adapter automatiquement à l’apparence selon les changements des données.</p>
-        <h2>Liaison de classes</h2>
-        <p>La liaison de classes permet d&#39;ajouter ou de supprimer dynamiquement des classes CSS selon l&#39;état des données. Vous pouvez utiliser la syntaxe <code>class:className=&quot;booleanExpression&quot;</code> pour lier une classe spécifique.</p>
-        <p>Lorsque <code>booleanExpression</code> est <code>true</code>, le nom de classe est ajouté à l&#39;élément ; lorsqu&#39;il est <code>false</code>, le nom de classe est supprimé.</p>
+        <p>Dans ofa.js, vous pouvez réaliser une gestion flexible de l&#39;état de l&#39;interface utilisateur en liant dynamiquement les noms de classe、les styles et les propriétés。Cela permet à l&#39;interface de s&#39;adapter automatiquement aux changements de données。</p>
+        <h2>Liaison de classe</h2>
+        <p>La liaison de classes vous permet d’ajouter ou de supprimer dynamiquement des classes CSS en fonction de l’état des données. Vous pouvez utiliser la syntaxe <code>class:className=&quot;booleanExpression&quot;</code> pour lier une classe spécifique.</p>
+        <p>Lorsque <code>booleanExpression</code> est <code>true</code>, le nom de classe est ajouté à l’élément ; lorsqu’il est <code>false</code>, le nom de classe est supprimé.</p>
         <h3>Liaison de classe de base</h3>
         <o-playground name="Liaison de classe de base" style="--editor-height: 500px">
           <code>
@@ -99,7 +99,7 @@
           display: none;
         }
       </style>
-      <button on:click="isHide = !isHide">Basculer l'affichage</button>
+      <button on:click="isHide = !isHide">Toggle Display</button>
       <p class="green" class:hide="isHide">{{val}}</p>
       <script>
         export default async () => {
@@ -114,9 +114,9 @@
     </template>
   </code>
         </o-playground>
-        <h3>Liaisons de classes multiples</h3>
-        <p>Vous pouvez également lier plusieurs classes simultanément, permettant à l&#39;élément d&#39;avoir différents états visuels selon diverses conditions.</p>
-        <o-playground name="Liaisons de plusieurs classes" style="--editor-height: 500px">
+        <h3>Liaison de plusieurs classes</h3>
+        <p>Vous pouvez également lier plusieurs classes en même temps, afin que l&#39;élément ait différents états d&#39;apparence selon différentes conditions.</p>
+        <o-playground name="liaisons de classes multiples" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -138,9 +138,9 @@
           color: #52c41a;
         }
       </style>
-      <button on:click="toggleStates">Inverser les états</button>
+      <button on:click="toggleStates">Toggle States</button>
       <p class:active="isActive" class:disabled="isDisabled" class:highlight="isHighlighted">
-        État actuel - Actif : {{isActive}}, Désactivé : {{isDisabled}}, Surligné : {{isHighlighted}}
+        Current State - Active: {{isActive}}, Disabled: {{isDisabled}}, Highlighted: {{isHighlighted}}
       </p>
       <script>
         export default async () => {
@@ -164,9 +164,9 @@
   </code>
         </o-playground>
         <h2>Liaison de styles</h2>
-        <p>La liaison de style vous permet de définir directement les valeurs de style en ligne, prenant en charge les mises à jour dynamiques. ofa.js propose deux méthodes de liaison de style :</p>
+        <p>La liaison de styles vous permet de définir directement les valeurs des styles en ligne, avec mise à jour dynamique. ofa.js propose deux méthodes de liaison de styles :</p>
         <h3>Liaison d&#39;attribut de style unique</h3>
-        <p>Utilisez la syntaxe <code>:style.propertyName</code> pour lier des propriétés de style spécifiques.</p>
+        <p>Utilisez la syntaxe <code>:style.propertyName</code> pour lier une propriété de style spécifique.</p>
         <o-playground name="Liaison d'attribut de style unique" style="--editor-height: 500px">
           <code>
     <template page>
@@ -178,13 +178,13 @@
         }
       </style>
       <p class="green" :style.color="isGreen ? 'green' : 'red'">{{val}}</p>
-      <button on:click="isGreen = !isGreen">Basculer la couleur</button>
+      <button on:click="isGreen = !isGreen">Toggle Color</button>
       <script>
         export default async () => {
           return {
             data: {
               isGreen: false,
-              val: "Bonjour du code démo ofa.js",
+              val: "Hello ofa.js Demo Code",
             },
           };
         };
@@ -192,9 +192,9 @@
     </template>
   </code>
         </o-playground>
-        <h3>Liaison d&#39;attributs multi-styles</h3>
-        <p>Vous pouvez également lier plusieurs propriétés de style en une seule fois :</p>
-        <o-playground name="Liaison de propriétés de style multiples" style="--editor-height: 500px">
+        <h3>Liaison de propriété multi-style</h3>
+        <p>Vous pouvez également lier plusieurs attributs de style à la fois :</p>
+        <o-playground name="Liaison de propriétés multi-styles" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -229,10 +229,10 @@
     </template>
   </code>
         </o-playground>
-        <h2>Liaison d&#39;attributs</h2>
-        <p>En plus de la liaison de classes et de styles, vous pouvez également lier dynamiquement d&#39;autres attributs HTML. ofa.js utilise la syntaxe <code>attr:nomAttribut</code> pour réaliser la liaison d&#39;attributs.</p>
-        <h3>Liaison de propriétés de base</h3>
-        <o-playground name="Liaison de propriétés de base" style="--editor-height: 700px">
+        <h2>Liaison de propriété</h2>
+        <p>Outre la liaison de classes et de styles, vous pouvez également lier dynamiquement d&#39;autres attributs HTML. ofa.js utilise la syntaxe <code>attr:attributeName</code> pour réaliser la liaison d&#39;attributs.</p>
+        <h3>Liaison des attributs de base</h3>
+        <o-playground name="Liaison des propriétés de base" style="--editor-height: 700px">
           <code>
     <template page>
       <style>
@@ -249,14 +249,14 @@
         }
       </style>
       <p attr:bg-color="bgColor" attr:title="tooltipText">{{val}}</p>
-      <button on:click="changeColor">Changer la couleur</button>  
+      <button on:click="changeColor">Change Color</button>  
       <script>
         export default async () => {
           return {
             data: {
               bgColor: "green",
-              tooltipText: "Ceci est un message d'info-bulle",
-              val: "Survolez-moi pour voir le titre",
+              tooltipText: "Ceci est un message d'info",
+              val: "Hover over me to see the title",
             },
             proto: {
               changeColor() {
@@ -269,9 +269,9 @@
     </template>
   </code>
         </o-playground>
-        <h3>Gestion des attributs booléens</h3>
-        <p>Pour les attributs de type booléen (tels que <code>disabled</code>, <code>hidden</code>), ofa.js décidera d&#39;ajouter ou non cet attribut en fonction de la véracité de la valeur liée.</p>
-        <o-playground name="Traitement des attributs booléens" style="--editor-height: 700px">
+        <h3>Traitement des attributs booléens</h3>
+        <p>Pour les attributs de type booléen (tels que <code>disabled</code>, <code>hidden</code>), ofa.js décide d&#39;ajouter ou non cet attribut en fonction de la véracité de la valeur liée.</p>
+        <o-playground name="Gestion des attributs booléens" style="--editor-height: 700px">
           <code>
     <template page>
       <style>
@@ -313,8 +313,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>La fonction data()</h2>
-        <p>Vous pouvez utiliser <code>data(key)</code> dans le style pour lier les données du composant. C&#39;est particulièrement adapté aux scénarios où le style doit être modifié dynamiquement en fonction des données du composant.</p>
+        <h2>Fonction data()</h2>
+        <p>On peut utiliser <code>data(key)</code> dans les styles pour lier les données du composant. Cela convient parfaitement aux scénarios où le style doit changer dynamiquement en fonction des données du composant.</p>
         <o-playground name="Fonction de données dans les balises de style" style="--editor-height: 500px">
           <code>
     <template page>
@@ -337,9 +337,9 @@
           transition: all data(time)s ease;
         }
       </style>
-      Hover FontSize: <input type="number" sync:value="size" placeholder="Il s'agit d'une zone de saisie liée bidirectionnellement" />
+      Hover FontSize: <input type="number" sync:value="size" placeholder="Ceci est une zone de saisie à liaison bidirectionnelle" />
       <br />
-      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Il s'agit d'une zone de saisie liée bidirectionnellement" />
+      TransitionTime: <input type="number" step="0.3" min="0" sync:value="time" placeholder="Ceci est une zone de saisie à liaison bidirectionnelle" />
       <p>{{val}} - size: {{size}}</p>
       <script>
         export default async () => {
@@ -347,7 +347,7 @@
             data: {
               size: 16,
               time: 0.3,
-              val: "Bonjour, code de démonstration de ofa.js",
+              val: "Hello ofa.js Demo Code",
             }
           };
         };
@@ -355,9 +355,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>Remarques</h2>
-        <p><code>data(key)</code> dans la balise <code>style</code> remplace en principe tout le contenu du style. Pour éviter de rendre inutilement des styles non pertinents, il est recommandé de placer les styles contenant <code>data(key)</code> dans une balise <code>style</code> séparée, tandis que les styles ne nécessitant pas de liaison de données doivent être placés dans une autre balise <code>style</code>, afin d&#39;obtenir de meilleures performances.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ p:hover sans data(key) sera également rafraîchi --&gt;</span>
+        <h2>Points d&#39;attention</h2>
+        <p>Le <code>data(key)</code> dans la balise <code>style</code> remplacera en principe tout le contenu du style. Pour éviter le rendu répété de styles non pertinents, il est recommandé de placer les styles contenant <code>data(key)</code> dans une balise <code>style</code> séparée, tandis que les styles ne nécessitant pas de liaison de données sont placés dans une autre balise <code>style</code>, afin d’obtenir de meilleures performances.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- ❌ Les p:hover qui n&#x27;ont pas de data(key) seront aussi rafraîchis --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);
@@ -369,7 +369,7 @@
   }
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 ``````html
-<span class="hljs-comment">&lt;!-- ✅ Seules les propriétés qui comportent data(xxx) seront re-rendues --&gt;</span>
+<span class="hljs-comment">&lt;!-- ✅ Seuls les styles avec data(xxx) seront réaffichés --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
   <span class="hljs-selector-tag">p</span> {
     <span class="hljs-attribute">font-size</span>: <span class="hljs-built_in">data</span>(size);

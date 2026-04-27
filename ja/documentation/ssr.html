@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SSRと同構レンダリング</title>
+  <title>SSR と アイソモルフィックレンダリング</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,29 +80,29 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>SSRと同構レンダリング</h1>
+        <h1>SSR と アイソモルフィックレンダリング</h1>
         <blockquote>
-          <p>SSRが何であるかよくわからない場合は、今のところそれを使う必要がないということです。この章は飛ばして、将来必要になった時に改めて学び直せば大丈夫です。</p>
+          <p>SSRとは何かわからないなら、今はまだ必要ないということですので、この章をスキップして、将来的に必要になったときに戻って学習してください。</p>
         </blockquote>
-        <h2>同型レンダリング</h2>
-        <p>CSRのスムーズな体験、より良い機械クローラーの認識（SEO）、およびより自由なバックエンド開発言語の選択を同時に保持するために、ofa.jsは独自のアイソモーフィックレンダリング（Symphony Client-Server Rendering）モードを提供しています。</p>
+        <h2>アイソモルフィックレンダリング</h2>
+        <p>CSRのスムーズな体験、より優れたクローラー認識（SEO）、そしてより自由なバックエンド開発言語の選択を同時に維持するために、ofa.jsは独自の同型レンダリング（Symphony Client-Server Rendering）モードを提供しています。</p>
         <blockquote>
-          <p>CSR / SSR / SSGの詳細な定義とちがいについては、本文末尾の章を直接お読みください。</p>
+          <p>CSR / SSR / SSG の具体的な定義と違いを理解したい場合は、この記事の末尾の章を直接ご覧ください。</p>
         </blockquote>
-        <p>同型レンダリングの核心理念は：- サーバーサイドで初期ページコンテンツをレンダリングし、SEOと初回表示速度を確保</p>
+        <p>同型レンダリングの核心理念は：- サーバーサイドで初期ページコンテンツをレンダリングし、SEOと初回読み込み速度を確保</p>
         <ul>
-          <li>クライアントサイドでルーティング処理を引き継ぎ、CSRの滑らかなユーザー体験を維持</li>
-          <li>あらゆるサーバー環境に対応し、真のアイソモーフィックレンダリングを実現</li>
+          <li>クライアント側でルーティング処理を引き継ぎ、CSRのスムーズなユーザー体験を維持</li>
+          <li>あらゆるサーバー環境に対応し、真の同型レンダリングを実現</li>
         </ul>
-        <h3>同じ構造を持つレンダリングの実現原理</h3>
-        <p>ofa.jsの同型レンダリングモードは以下のメカニズムに基づいています：</p>
+        <h3>同型レンダリングの実装原理</h3>
+        <p>ofa.js の 同型レンダリングモードは、以下のメカニズムに基づいています：</p>
         <ol>
-          <li>サーバーサイドで共通ランタイム構造を持つ完全なHTMLページを生成</li>
-          <li>クライアントがCSRランタイムエンジンをロード</li>
-          <li>現在の実行環境を自動識別し、レンダリング戦略を決定</li>
+          <li>サーバーサイドで汎用実行構造を持つ完全なHTMLページを生成する</li>
+          <li>クライアントがCSR実行エンジンをロードする</li>
+          <li>現在の実行環境を自動認識し、レンダリング戦略を決定する</li>
         </ol>
-        <h3>アイソモーフィックレンダリングのコード構造</h3>
-        <p><strong>オリジナル CSR ページモジュール：</strong></p>
+        <h3>同じ構造を持つレンダリングコード構造</h3>
+        <p><strong>オリジナルのCSRページモジュール：</strong></p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -110,7 +110,7 @@
       <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
     }
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>私はページです<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>I am Page<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
       <span class="hljs-keyword">return</span> {
@@ -122,12 +122,12 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <p><strong>同型レンダリングをカプセル化した完全なページ：</strong></p>
         <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"ja"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span> /&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>ページタイトル<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Page Title<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs#debug"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/scsr/dist/scsr.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
@@ -147,7 +147,7 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/app-config.js"</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- ページモジュール内容挿入位置 ⬇️ --&gt;</span>
+    <span class="hljs-comment">&lt;!-- ページモジュールのコンテンツ挿入位置 ⬇️ --&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
         <span class="hljs-selector-pseudo">:host</span> {
@@ -169,21 +169,21 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-        <p>したがって、任意の 开发言語（Go、Java、PHP、Nodejs、Python など）、任意の後端テンプレートレンダリングエンジン（Go の <code>html/template</code>、PHP の Smarty/Twig/Blade など）を使用して、ofa.js のアイソモーフィックレンダリングコード構造をテンプレートに埋め込むことで、SSR を実現できます。</p>
+        <p>したがって、任意の開発言語（Go、Java、PHP、Nodejs、Python など）や、任意のバックエンドテンプレートレンダリングエンジン（Go の <code>html/template</code>、PHP の Smarty/Twig/Blade など）を使用して、ofa.js の同型レンダリングコード構造をテンプレートに埋め込むことで、SSR を実現できます。</p>
         <ul>
-          <li><a href="https://github.com/ofajs/ofa.js/tree/main/test/ssr-case/node" target="_blank">Node.js SSR ケース</a></li>
+          <li><a href="https://github.com/ofajs/ofa.js/tree/main/test/ssr-case/node" target="_blank">Nodejs SSR ケース</a></li>
           <li><a href="https://github.com/ofajs/ofa.js/tree/main/test/ssr-case/php" target="_blank">PHP SSR ケース</a></li>
           <li><a href="https://github.com/ofajs/ofa.js/tree/main/test/ssr-case/go" target="_blank">Go SSR ケース</a></li>
         </ul>
-        <h3>同型レンダリングテンプレート構造</h3>
-        <p>同型レンダリングモードを実現するには、サーバー側で以下の汎用テンプレート構造を使用するだけです：</p>
+        <h3>同構レンダリングテンプレート構造</h3>
+        <p>同じ構造のレンダリングモードを実現するには、サーバーサイドで以下の汎用テンプレート構造を使用するだけです：</p>
         <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span> /&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>ページタイトル<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Page Title<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.mjs#debug"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/ofajs/ofa.js/libs/scsr/dist/scsr.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
@@ -203,59 +203,59 @@
 
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/app-config.js"</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- 動的に対応するページモジュールのコンテンツを挿入 --&gt;</span>
+    <span class="hljs-comment">&lt;!-- 対応するページモジュールの内容を動的に挿入します --&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-        <p><strong>注意：</strong> サーバー側から返されるHTMLには、正しいHTTPヘッダーを設定する必要があります：<code>Content-Type: text/html; charset=UTF-8</code></p>
-        <p><code>scsr.mjs</code> は ofa.js が提供する同型レンダリング実行エンジンであり、現在のページの実行状態に基づいて自動的にレンダリング戦略を判断し、あらゆる環境で最適なユーザーエクスペリエンスを提供します。</p>
-        <p>同様に、SSGもこの構造を適用して静的サイト生成を実現できます。</p>
-        <h2>ofa.js とSSRおよびその他のフロントエンドフレームワークとの違い</h2>
-        <p>ofa.js の Symphony Client-Server Rendering（以下 SCSR）は本質的には SSR モードです。</p>
-        <p>Vue、React、Angular などの既存フロントエンドフレームワークの SSR ソリューションと比べて、ofa.js の最大の利点は<strong>Node.js を強制的にバインドする必要がない</strong>ことです。これは、任意のバックエンドテンプレートレンダリングエンジン（PHP の Smarty、Python の Jinja2、Java の Thymeleaf など）が ofa.js を簡単に統合して SSR を実現できることを意味します。</p>
-        <h2>ウェブページレンダリング方式の概要</h2>
-        <p>現代のウェブアプリケーションには主に4つのレンダリング方式があります：従来のサーバーサイドテンプレートエンジンレンダリング、CSR（Client Side Rendering、クライアントサイドレンダリング）、SSR（Server Side Rendering、サーバーサイドレンダリング）、そしてSSG（Static Site Generation、静的サイト生成）です。それぞれの方式には独自の利点と適用シーンがあります。</p>
-        <h3>伝統的なサーバーサイドテンプレートエンジンレンダリング</h3>
-        <p>多くのWeb製品において、サーバーサイドテンプレートエンジンは依然として最も主流なページレンダリング手法です。Go、PHPなどのバックエンド言語は、組み込みまたはサードパーティのテンプレートエンジン（Goの<code>html/template</code>、PHPのSmarty/Twig/Bladeなど）を活用し、動的データをHTMLテンプレートに注入し、一括で完全なHTMLページを生成してクライアントに返します。</p>
-        <p><strong>利点：</strong>- SEOに優しく、初回表示が速い</p>
+        <p><strong>注意：</strong> サーバーが返すHTMLには正しいHTTPヘッダーを設定する必要があります：<code>Content-Type: text/html; charset=UTF-8</code></p>
+        <p><code>scsr.mjs</code> は ofa.js が提供する同型レンダリング実行エンジンであり、現在のページの動作状態に応じて自動的にレンダリング戦略を判断し、あらゆる環境で最高のユーザーエクスペリエンスを提供できるようにします。</p>
+        <p>同様に、SSG もこの構造を適用して静的サイト生成を実現できます。</p>
+        <h2>ofa.js と SSR および他のフロントエンドフレームワークの違い</h2>
+        <p>ofa.js の Symphony Client-Server Rendering（以下SCSR）は本質的にもSSRモードです。</p>
+        <p>Vue、React、Angularなどの既存のフロントエンドフレームワークのSSR方式と比較して、ofa.jsの最大の利点は<strong>Node.jsへの強制バインドが不要</strong>であることです。つまり、任意のバックエンドテンプレートレンダリングエンジン（PHPのSmarty、PythonのJinja2、JavaのThymeleafなど）でも、ofa.jsを容易に統合してSSRを実現できます。</p>
+        <h2>ウェブページのレンダリング方式概要</h2>
+        <p>モダンなウェブアプリケーションには主に4種類のレンダリング方式があります：従来のサーバーサイドテンプレートエンジンレンダリング、CSR（Client Side Rendering、クライアントサイドレンダリング）、SSR（Server Side Rendering、サーバーサイドレンダリング）、そしてSSG（Static Site Generation、静的サイト生成）です。それぞれの方式には利点と適用シーンがあります。</p>
+        <h3>従来のサーバーサイドテンプレートエンジンレンダリング</h3>
+        <p>多くのWeb製品において、サーバーサイドテンプレートエンジンは依然として最も主流なページレンダリング手段です。Go、PHPなどのバックエンド言語は、組み込みまたはサードパーティのテンプレートエンジン（Goの <code>html/template</code>、PHPのSmarty/Twig/Bladeなど）を利用して、動的データをHTMLテンプレートに注入し、一度に完全なHTMLページを生成してクライアントに返します。</p>
+        <p><strong>利点：</strong>- SEO フレンドリー、初回表示が速い</p>
         <ul>
-          <li>サーバーサイド制御で、セキュリティが比較的高い</li>
-          <li>チームの技術スタックに対する要求が低く、バックエンド開発者だけで独立して開発を完了できる</li>
+          <li>サーバー側で制御するため、セキュリティが高い</li>
+          <li>チームの技術スタックへの要求が低く、バックエンド開発者だけで独立して開発可能</li>
         </ul>
-        <p><strong>デメリット：</strong>- ユーザーエクスペリエンスが悪く、インタラクションのたびにページが再読み込みされる</p>
+        <p><strong>欠点：</strong>- ユーザーエクスペリエンスが悪く、毎回のインタラクションでページの再読み込みが必要</p>
         <ul>
-          <li>サーバー側の負荷が大きい</li>
-          <li>フロントエンドとバックエンドの結合度が高く、業務分担に不利</li>
+          <li>サーバー側の負荷が高い</li>
+          <li>フロントエンドとバックエンドの結合度が高く、役割分担が困難</li>
         </ul>
         <h3>CSR（クライアントサイドレンダリング）</h3>
-        <p>CSRモードでは、ページの内容は完全にブラウザ側のJavaScriptによってレンダリングされ、ofa.jsの<a href="./routes.html" olink="">シングルページアプリケーション</a>は典型的なCSRの実装です。この方法は、ページ遷移なしですべてのインタラクションを完了できる、スムーズなユーザー体験を提供します。ReactやVueをそれぞれのルーティングライブラリ（React RouterやVue Routerなど）と組み合わせて開発されたシングルページアプリケーション（SPA）は、すべて典型的なCSRの実装です。</p>
-        <p><strong>利点：</strong>- ユーザーエクスペリエンスが滑らかで、ページの切り替えがリフレッシュなし</p>
+        <p>在 CSR モードでは、ページコンテンツは完全にブラウザ側のJavaScriptでレンダリングされます。ofa.jsの<a href="./routes.html" olink="">シングルページアプリケーション</a>は典型的なCSR実装です。この方式はスムーズなユーザー体験を提供し、ページ遷移なしですべての操作を完了できます。ReactやVueと、それに対応するルーティングライブラリ（React RouterやVue Routerなど）を使用して開発されたシングルページアプリケーション（SPA）は、いずれも典型的なCSR実装です。</p>
+        <p><strong>利点：</strong>- ユーザー体験はスムーズで、ページ切り替えにリフレッシュはありません</p>
         <ul>
-          <li>クライアントの処理能力が高く、応答が迅速</li>
+          <li>クライアント側の処理能力が高く、応答が迅速です</li>
         </ul>
-        <p><strong>デメリット：</strong>- SEOに不利で、検索エンジンがコンテンツをインデックス化しにくい</p>
+        <p><strong>欠点：</strong>- SEOに不利であり、検索エンジンが内容をインデックスしにくい</p>
         <h3>SSR（サーバーサイドレンダリング）</h3>
-        <p>CSRの滑らかな体験を保ちながら、サーバーがリアルタイムでページをレンダリングする：ユーザーがリクエストを発行すると、サーバーが即座に完全なHTMLを生成して返し、真のサーバーサイドレンダリングを実現する。</p>
-        <p><strong>利点：</strong>- SEO に優れ、ファーストビューの読み込みが高速</p>
+        <p>CSRのスムーズな体験を維持しつつ、サーバー側でリアルタイムにページをレンダリングする方式に変更：ユーザーがリクエストを送信すると、サーバーが即座に完全なHTMLを生成して返すことで、真のサーバーサイドレンダリングを実現します。</p>
+        <p><strong>利点：</strong>- SEOに優しく、初回表示が速い</p>
         <ul>
-          <li>動的コンテンツに対応</li>
+          <li>動的コンテンツをサポート</li>
         </ul>
-        <p><strong>デメリット：</strong>- サーバーへの負荷が高い</p>
+        <p><strong>欠点：</strong>- サーバー負荷が大きい</p>
         <ul>
-          <li>通常、Node.js環境をランタイムとして必要とするか、最低でもNode.jsのミドルウェア層が必要</li>
-          <li>それでも完全なインタラクションを実現するには、後続のクライアント側での活性化が必要</li>
+          <li>通常、Node.js 環境をランタイムとして必要とするか、少なくとも Node.js 中間層が必要</li>
+          <li>完全な対話を実現するには、後続のクライアントアクティベーションが必要</li>
         </ul>
         <h3>SSG（静的サイト生成）</h3>
-        <p>ビルド段階ですべてのページを事前に静的HTMLファイルとしてレンダリングし、デプロイ後はサーバーから直接ユーザーに返すことができます。</p>
-        <p><strong>利点：</strong>- 初回読み込みが高速で、SEOに優しい</p>
+        <p>ビルド段階で全ページを静的なHTMLファイルに事前レンダリングし、デプロイ後は直接サーバーからユーザーに返すことができる。</p>
+        <p><strong>利点：</strong>- 初回読み込みが速く、SEOに優しい</p>
         <ul>
-          <li>サーバー負荷が低く、パフォーマンスが安定している</li>
+          <li>サーバー負荷が低く、安定したパフォーマンス</li>
           <li>セキュリティが高い</li>
         </ul>
-        <p><strong>デメリット：</strong>- 動的なコンテンツの更新が困難</p>
+        <p><strong>欠点：</strong>- 動的コンテンツの更新が困難</p>
         <ul>
-          <li>ページ数が増えるにつれてビルド時間が長くなる</li>
+          <li>ページ数の増加に伴いビルド時間が長くなる</li>
         </ul>
       </article>
       <div class="footer"></div>

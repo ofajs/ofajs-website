@@ -81,27 +81,27 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>컨텍스트 상태</h1>
-        <p>컨텍스트 상태는 ofa.js에서 컴포넌트 간 데이터 공유를 위한 메커니즘입니다. Provider와 Consumer 패턴을 통해 부모-자식 컴포넌트는 물론 계층을 뛰어넘는 컴포넌트 간에도 props를 한 단계씩 전달하지 않고 데이터를 전달할 수 있습니다.</p>
+        <p>컨텍스트 상태는 ofa.js에서 컴포넌트 간 데이터 공유를 위한 메커니즘입니다. 제공자(Provider)와 소비자(Consumer) 패턴을 통해 부모-자식 컴포넌트, 계층 간 컴포넌트 간 데이터 전달을 props를 통해 계층적으로 전달하지 않고도 구현할 수 있습니다.</p>
         <h2>핵심 개념</h2>
         <ul>
-          <li><strong>o-provider</strong>: 데이터 제공자, 공유할 데이터를 정의합니다</li>
-          <li><strong>o-consumer</strong>: 데이터 소비자, 가장 가까운 제공자로부터 데이터를 가져옵니다</li>
-          <li><strong>watch:xxx</strong>: 소비자 데이터의 변경을 감지하고, 컴포넌트 또는 페이지 모듈의 속성에 바인딩합니다</li>
+          <li><strong>o-provider</strong>: 데이터 제공자, 공유해야 할 데이터를 정의합니다.</li>
+          <li><strong>o-consumer</strong>: 데이터 소비자, 가장 가까운 제공자로부터 데이터를 가져옵니다.</li>
+          <li><strong>watch:xxx</strong>: 소비자 데이터의 변화를 감시하고, 컴포넌트나 페이지 모듈의 속성에 바인딩합니다.</li>
         </ul>
         <h2>o-provider 제공자</h2>
-        <p><code>o-provider</code> 컴포넌트는 공유 데이터의 제공자를 정의하는 데 사용됩니다. 이는 <code>name</code> 속성으로 자신의 이름을 식별하고, 속성(예: <code>custom-a=&quot;value&quot;</code>)을 통해 공유할 데이터를 정의합니다.</p>
+        <p><code>o-provider</code> 컴포넌트는 공유 데이터의 제공자를 정의하는 데 사용됩니다. <code>name</code> 속성을 통해 자신의 이름을 식별하고, 속성(예: <code>custom-a=&quot;value&quot;</code>)을 통해 공유할 데이터를 정의합니다.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">custom-name</span>=<span class="hljs-string">&quot;장삼&quot;</span> <span class="hljs-attr">custom-age</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
   ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span></code></pre>
         <h3>속성</h3>
         <ul>
-          <li><code>name</code>: 제공자의 고유 식별 이름으로, 소비자가 해당 제공자를 찾기 위해 사용합니다</li>
+          <li><code>name</code>: 공급자의 고유 식별 이름으로, 소비자가 해당 공급자를 찾는 데 사용됩니다.</li>
         </ul>
         <h3>특성</h3>
         <ol>
-          <li><strong>자동 속성 전달</strong>: provider상의 모든 비예약 속성은 공유 데이터로 사용됨</li>
-          <li><strong>반응형 업데이트</strong>: provider의 데이터가 변경되면 해당 provider의 대응 name을 소비하는 consumer는 자동으로 업데이트됨</li>
-          <li><strong>레벨 탐색</strong>: 소비자는 가장 가까운 상위 provider부터 대응 name의 데이터를 찾기 시작함</li>
+          <li><strong>자동 속성 전달</strong>: provider의 모든 비예약 속성은 공유 데이터로 전달됩니다.</li>
+          <li><strong>반응형 업데이트</strong>: provider의 데이터가 변경되면, 해당 provider를 소비하는 대응하는 name의 consumer가 자동으로 업데이트됩니다.</li>
+          <li><strong>계층 검색</strong>: consumer는 가장 가까운 상위 provider부터 해당 name의 데이터를 검색합니다.</li>
         </ol>
         <h2>o-consumer 소비자</h2>
         <p><code>o-consumer</code> 컴포넌트는 제공자의 데이터를 소비(사용)하는 데 사용됩니다. <code>name</code> 속성을 통해 소비할 제공자의 이름을 지정합니다.</p>
@@ -112,12 +112,12 @@
         </ul>
         <h3>특성</h3>
         <ol>
-          <li><strong>자동 데이터 획득</strong>: consumer는 자동으로 가장 가까운 상위 provider에서 해당 name의 데이터를 가져옵니다</li>
-          <li><strong>속성 병합</strong>: 만약 동일한 name을 가진 여러 provider가 특정 속성을 가지고 있다면, consumer와 가장 가까운 provider의 속성이 우선합니다</li>
-          <li><strong>속성 감시</strong>: <code>watch:xxx</code>를 통해 특정 속성의 변화를 감시할 수 있습니다</li>
+          <li><strong>자동 데이터 획득</strong>: consumer는 가장 가까운 상위 provider에서 해당 name의 데이터를 자동으로 획득합니다.</li>
+          <li><strong>속성 병합</strong>: 동일한 name을 가진 여러 provider가 특정 속성을 가지고 있다면, 소비자에게 가장 가까운 provider의 속성이 우선합니다.</li>
+          <li><strong>속성 감시</strong>: <code>watch:xxx</code>를 통해 특정 속성의 변화를 감시할 수 있습니다.</li>
         </ol>
         <h2>데이터 변경 감시</h2>
-        <p><code>watch:xxx</code>를 통해 제공자 데이터의 변경을 감시할 수 있습니다:</p>
+        <p><code>watch:xxx</code>를 통해 제공자 데이터의 변화를 감시할 수 있습니다:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">watch:custom-age</span>=<span class="hljs-string">&quot;age&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
@@ -128,7 +128,7 @@
 };
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <h2>기본 예제</h2>
-        <o-playground name="기본 예시" style="--editor-height: 500px">
+        <o-playground name="기본 예제" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-provider name="userInfo" user-id="9527">
@@ -212,18 +212,18 @@
     </template>
   </code>
         </o-playground>
-        <h2>o-root-provider 루트 공급자</h2>
-        <p><code>o-root-provider</code>는 루트 수준의 전역 제공자로, 그 스코프는 전체 문서입니다. 상위 provider가 없는 상황에서도 소비자는 루트 제공자의 데이터를 가져올 수 있습니다.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 전역 루트 공급자 정의 --&gt;</span>
+        <h2>o-root-provider 루트 제공자</h2>
+        <p><code>o-root-provider</code>는 루트 수준의 전역 제공자이며, 그 범위는 전체 문서입니다. 상위 provider가 없는 경우에도 소비자는 루트 제공자의 데이터를 얻을 수 있습니다.</p>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 전역 루트 제공자 정의 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">custom-theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">custom-language</span>=<span class="hljs-string">&quot;zh-CN&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- 페이지의 어느 위치에서나 소비 가능 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">watch:custom-theme</span>=<span class="hljs-string">&quot;theme&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
         <h3>특성</h3>
         <ol>
-          <li><strong>전역 스코프</strong>: 루트 프로바이더의 데이터는 전체 페이지에서 사용 가능</li>
+          <li><strong>전역 스코프</strong>: 루트 제공자의 데이터는 전체 페이지에서 사용 가능</li>
           <li><strong>우선순위</strong>: 동일한 name의 provider와 root-provider가 동시에 존재할 때, 소비자에게 가장 가까운 provider가 우선</li>
-          <li><strong>제거 가능</strong>: root-provider를 제거하면 소비자는 다른 provider를 찾아 다시 탐색</li>
+          <li><strong>제거 가능</strong>: root-provider를 제거하면 소비자는 다른 provider를 찾도록 되돌아감</li>
         </ol>
         <h2>root-provider 예제</h2>
         <o-playground name="root-provider 예제" style="--editor-height: 500px">
@@ -309,7 +309,7 @@
     </template>
   </code>
         </o-playground>
-        <h3>우선순위 예시</h3>
+        <h3>우선순위 예제</h3>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;parent&quot;</span>&gt;</span>
@@ -322,8 +322,8 @@
 <span class="hljs-comment">&lt;!-- 여기👇에서 가져온 custom-value는 &quot;root&quot;입니다 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
 </code></pre>
-        <h3>우선순위 예시 시연</h3>
-        <o-playground name="우선순위 예제 시연" style="--editor-height: 500px">
+        <h3>우선순위 예시 데모</h3>
+        <o-playground name="우선순위 예제 데모" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-root-provider name="test" custom-value="root"></o-root-provider>
@@ -335,7 +335,7 @@
       <l-m src="./child.html"></l-m>
       <o-provider name="test" custom-value="parent">
         <div style="padding: 10px; border: 1px solid #007acc;">
-          <p>부모 Provider의 값: {{parentValue}}</p>
+          <p>상위 Provider의 값: {{parentValue}}</p>
           <child-com></child-com>
         </div>
         <o-consumer name="test" watch:custom-value="parentValue"></o-consumer>
@@ -373,20 +373,20 @@
   </code>
         </o-playground>
         <h2>getProvider(name) 메서드</h2>
-        <p><code>getProvider(name)</code>는 인스턴스 메서드로, 해당 name의 제공자 요소를 가져오는 데 사용됩니다. DOM을 따라 위로 올라가며 가장 가까운 상위 provider를 찾고, 찾지 못하면 root-provider를 반환합니다.</p>
+        <p><code>getProvider(name)</code>는 인스턴스 메서드로, 해당 name에 해당하는 제공자 요소를 가져옵니다. DOM을 따라 위쪽으로 가장 가까운 상위 provider를 찾으며, 찾지 못하면 root-provider를 반환합니다.</p>
         <h3>컴포넌트 또는 페이지 모듈 내에서 getProvider(name) 메서드 사용</h3>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
 ...
 <span class="hljs-attr">proto</span>:{
   <span class="hljs-title function_">changeValue</span>(<span class="hljs-params"></span>){
     <span class="hljs-keyword">const</span> provider = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;name&quot;</span>);
-    provider.<span class="hljs-property">customValue</span> = <span class="hljs-string">&quot;새 값&quot;</span>;
+    provider.<span class="hljs-property">customValue</span> = <span class="hljs-string">&quot;new value&quot;</span>;
   }
 }
 ...
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-        <h2>getProvider 예제</h2>
-        <o-playground name="getProvider 예제" style="--editor-height: 500px">
+        <h2>getProvider 예시</h2>
+        <o-playground name="getProvider 예시" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-provider name="userInfo" custom-name="장삼" custom-age="25">
@@ -432,24 +432,24 @@
     </template>
   </code>
         </o-playground>
-        <h3>요소에서 provider 가져오기</h3>
+        <h3>엘리먼트에서 provider 얻기</h3>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// 현재 요소의 상위 provider 가져오기</span>
 <span class="hljs-keyword">const</span> provider = $(<span class="hljs-string">&quot;.my-element&quot;</span>).<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;userInfo&quot;</span>);
 
 <span class="hljs-keyword">if</span> (provider) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;provider 찾음:&quot;</span>, provider.<span class="hljs-property">customName</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;제공자 찾음:&quot;</span>, provider.<span class="hljs-property">customName</span>);
 }
 
-<span class="hljs-comment">// 직접 전역 root-provider 가져오기</span>
+<span class="hljs-comment">// 전역 root-provider 직접 가져오기</span>
 <span class="hljs-keyword">const</span> globalProvider = $.<span class="hljs-title function_">getRootProvider</span>(<span class="hljs-string">&quot;globalConfig&quot;</span>);</code></pre>
         <h3>사용 시나리오</h3>
         <ol>
-          <li><strong>수동으로 데이터 가져오기</strong>: 제공자의 데이터에 직접 액세스해야 하는 시나리오에서 사용</li>
-          <li><strong>Shadow DOM 건너뛰기</strong>: Shadow DOM 내부에서 상위 provider 찾기</li>
-          <li><strong>이벤트 처리</strong>: 이벤트 콜백에서 해당 provider 가져오기</li>
+          <li><strong>수동 데이터 수집</strong>: 제공자 데이터에 직접 액세스해야 하는 시나리오에서 사용</li>
+          <li><strong>Shadow DOM 간</strong>: Shadow DOM 내부에서 상위 공급자 찾기</li>
+          <li><strong>이벤트 처리</strong>: 이벤트 콜백에서 해당 공급자 가져오기</li>
         </ol>
         <h2>dispatch 이벤트 디스패치</h2>
-        <p>provider는 모든 consumer에게 이벤트를 발송할 수 있습니다:</p>
+        <p>provider는 자신을 소비하는 모든 consumer에게 이벤트를 발송할 수 있습니다:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myProvider&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;Hello&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">&quot;handleEvent&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{customValue}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -457,13 +457,13 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
-<span class="hljs-comment">// 이벤트 디스패치</span>
+<span class="hljs-comment">// 이벤트 전달</span>
 $(<span class="hljs-string">&quot;#myProvider&quot;</span>).<span class="hljs-title function_">dispatch</span>(<span class="hljs-string">&quot;custom-event&quot;</span>, {
   <span class="hljs-attr">data</span>: { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Hello World&quot;</span> }
 });
 </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-        <h2>이벤트 디스패치 예제</h2>
-        <o-playground name="이벤트 디스패치 예제" style="--editor-height: 500px">
+        <h2>이벤트 디스패치 예시</h2>
+        <o-playground name="이벤트 발송 예시" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-provider name="chat" custom-messages='["채팅방에 오신 것을 환영합니다"]' id="chatProvider">
@@ -545,7 +545,7 @@ $(<span class="hljs-string">&quot;#myProvider&quot;</span>).<span class="hljs-ti
           cursor: pointer;
         }
       </style>
-      <input type="text" sync:value="inputText" placeholder="메시지를 입력하세요...">
+      <input type="text" sync:value="inputText" placeholder="메시지 입력...">
       <button on:click="sendMessage">전송</button>
       <script>
         export default {
@@ -571,10 +571,10 @@ $(<span class="hljs-string">&quot;#myProvider&quot;</span>).<span class="hljs-ti
         </o-playground>
         <h2>모범 사례</h2>
         <ol>
-          <li><strong>적절한 명명</strong>: provider와 consumer에 의미 있는 name을 사용하여 추적과 유지보수가 용이하도록 합니다</li>
-          <li><strong>과도한 사용 방지</strong>: 컨텍스트 상태는 컴포넌트 간 데이터 공유에 적합하며, 일반적인 부모-자식 컴포넌트는 props 사용을 권장합니다</li>
-          <li><strong>루트 제공자(Root Provider)를 통한 전역 설정</strong>: 테마, 언어, 전역 상태 등은 root-provider 사용이 적합합니다</li>
-          <li><strong>적시 정리</strong>: provider가 제거되면 consumer는 자동으로 데이터를 정리하므로 수동 처리할 필요가 없습니다</li>
+          <li><strong>합리적인 명명</strong>: provider와 consumer에 의미 있는 name을 사용하여 추적과 유지보수를 용이하게 합니다.</li>
+          <li><strong>과도한 사용 피하기</strong>: context 상태는 컴포넌트 간 데이터 공유에 적합하며, 일반적인 부모-자식 컴포넌트에는 props 사용을 권장합니다.</li>
+          <li><strong>루트 프로바이더는 전역 설정용</strong>: 테마, 언어, 전역 상태 등은 root-provider를 사용하는 것이 적합합니다.</li>
+          <li><strong>적시 정리</strong>: provider가 제거되면 consumer는 데이터를 자동으로 제거하므로 수동 처리가 필요 없습니다.</li>
         </ol>
       </article>
       <div class="footer"></div>

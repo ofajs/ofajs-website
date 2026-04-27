@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>条件付きレンダリング</h1>
-        <p>ofa.jsにおいて、条件レンダリングは重要な機能であり、データの状態に基づいて特定の要素やコンポーネントをレンダリングするかどうかを決定できる。ofa.jsはコンポーネントベースの条件レンダリングソリューションを提供し、<code>o-if</code>、<code>o-else-if</code>、および<code>o-else</code>コンポーネントによって実現される。</p>
+        <p>在 ofa.js 中，条件渲染是一种重要的功能，允许根据数据状态决定是否渲染某个元素或组件。ofa.js 提供了基于组件的条件渲染方案，通过 <code>o-if</code>、<code>o-else-if</code> 和 <code>o-else</code> 组件实现。</p>
         <h2>o-if コンポーネント</h2>
-        <p><code>o-if</code> コンポーネントは、式の真偽値に基づいてその内容をレンダリングするかどうかを決定するために使用されます。バインドされた <code>value</code> 属性が真値の場合、コンポーネント内の内容がレンダリングされます。それ以外の場合、内容は DOM に表示されません。</p>
-        <o-playground name="o-if 動作原理示例" style="--editor-height: 500px">
+        <p><code>o-if</code>コンポーネントは、式の真偽値に基づいてその内容をレンダリングするかどうかを決定するために使用されます。バインドされた<code>value</code>属性が真値の場合、コンポーネント内の内容がレンダリングされます。それ以外の場合、内容はDOMに現れません。</p>
+        <o-playground name="o-if 動作原理例" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -94,7 +94,7 @@
           padding: 10px;
         }
       </style>
-      <button on:click="isHide = !isHide">表示切替</button>
+      <button on:click="isHide = !isHide">Toggle Display</button>
       <o-if :value="!isHide">
         <p>{{val}}</p>
       </o-if>
@@ -103,7 +103,7 @@
           return {
             data: {
               isHide: false,
-              val: "ofa.jsデモコード",
+              val: "Hello ofa.js Demo Code",
             },
           };
         };
@@ -111,14 +111,14 @@
     </template>
   </code>
         </o-playground>
-        <h3>o-if の仕組み</h3>
-        <p><code>o-if</code> は条件が真の場合のみ内容を DOM にレンダリングし、条件が偽の場合、o-if 内の DOM 要素は完全に削除されます。この実装方法は、条件の変化があまり頻繁でない場合に適しています。なぜなら、DOM の作成と破棄が関わるからです。</p>
-        <h2>o-else-if と o-else コンポーネント</h2>
+        <h3>o-if の動作原理</h3>
+        <p><code>o-if</code> は、条件が真の場合にのみ内容をDOMにレンダリングし、条件が偽の場合、o-if内のDOM要素は完全に削除されます。この実装方法は、条件の変更があまり頻繁でない場合に適しています。これはDOMの作成と破棄を伴うためです。</p>
+        <h2>o-else-if および o-else コンポーネント</h2>
         <p>複数の条件分岐が必要な場合、<code>o-else-if</code> と <code>o-else</code> コンポーネントを <code>o-if</code> と組み合わせて使用することで、多分岐条件レンダリングを実現できます。</p>
         <ul>
           <li><code>o-if</code>：必須の最初の条件コンポーネント</li>
-          <li><code>o-else-if</code>：オプションの中間条件コンポーネントで、複数存在可能</li>
-          <li><code>o-else</code>：オプションのデフォルト条件コンポーネントで、最後に配置</li>
+          <li><code>o-else-if</code>：省略可能な中間の条件コンポーネント、複数設定可能</li>
+          <li><code>o-else</code>：省略可能なデフォルトの条件コンポーネント、最後に配置</li>
         </ul>
         <o-playground name="多分岐条件レンダリングの例" style="--editor-height: 500px">
           <code>
@@ -130,8 +130,8 @@
           padding: 10px;
         }
       </style>
-      <button on:click="num++">表示を切り替え - {{num}}</button>
-      <!-- num を 3 で割った余りの結果に基づいて、異なる内容を表示 -->
+      <button on:click="num++">表示切替 - {{num}}</button>
+      <!-- numを3で割った余りに応じて、異なる内容を切り替えて表示 -->
       <o-if :value="num % 3 === 0">
         <p>❤️ 0 / 3</p>
       </o-if>
@@ -153,8 +153,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>実際の応用シーン例</h2>
-        <h3>ユーザー権限管理</h3>
+        <h2>実用的な応用シナリオの例</h2>
+        <h3>ユーザー権限制御</h3>
         <o-playground name="ユーザー権限制御の例" style="--editor-height: 500px">
           <code>
     <template page>
@@ -176,8 +176,8 @@
         }
       </style>
       <div>
-        <button on:click="toggleUserRole">ユーザーロールを切り替える</button>
-        <p>現在のロール: {{role}}</p>
+        <button on:click="toggleUserRole">ユーザー役割を切り替え</button>
+        <p>現在の役割: {{role}}</p>
         <o-if :value="role === 'admin'">
           <div class="admin-panel">
             <h3>管理者パネル</h3>
@@ -192,7 +192,7 @@
           </div>
         </o-else-if>
         <o-else>
-          <p>コンテンツを表示するにはログインしてください</p>
+          <p>ログインしてコンテンツを表示してください</p>
         </o-else>
       </div>
       <script>
@@ -206,7 +206,7 @@
               toggleUserRole() {
                 if (this.role === 'guest') {
                   this.role = 'user';
-                  this.userName = '張三';
+                  this.userName = '田中太郎';
                 } else if (this.role === 'user') {
                   this.role = 'admin';
                 } else {
@@ -222,7 +222,7 @@
   </code>
         </o-playground>
         <h3>フォーム検証ステータス表示</h3>
-        <o-playground name="フォーム検証ステータス表示示例" style="--editor-height: 500px">
+        <o-playground name="フォーム検証状態表示例" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -237,16 +237,16 @@
         }
       </style>
       <div>
-        <h3>メールアドレス検証示例</h3>
+        <h3>メールアドレス検証例</h3>
         <input type="email" :value="email" on:input="email = $event.target.value" placeholder="メールアドレスを入力">
         <o-if :value="email && isValidEmail(email)">
-          <p style="color:green;">✓ メールアドレスの形式が正しいです</p>
+          <p style="color:green;">✓ メール形式が正しい</p>
         </o-if>
         <o-else-if :value="email && !isValidEmail(email) && email.length > 0">
-          <p style="color:red;">✗ メールアドレスの形式が正しくありません</p>
+          <p style="color:red;">✗ メール形式が不正</p>
         </o-else-if>
         <o-else>
-          <p style="color:orange;">検証のためにメールアドレスを入力してください</p>
+          <p style="color:orange;">検証のためメールアドレスを入力してください</p>
         </o-else>
       </div>
       <script>
@@ -270,13 +270,13 @@
         <h2>条件レンダリングのベストプラクティス</h2>
         <ol>
           <li>
-            <p><strong>使用シーン</strong>：要素が異なる条件下でめったに切り替わらない場合、<code>o-if</code> を使用する方が適しています。不要な要素を完全に削除できるため、メモリを節約できます。</p>
+            <p><strong>使用シーン</strong>：要素が異なる条件でほとんど切り替わらない場合、<code>o-if</code> を使用する方が適切です。これにより不要な要素を完全に削除でき、メモリを節約できます。</p>
           </li>
           <li>
-            <p><strong>パフォーマンスの考慮</strong>：頻繁に切り替わる要素は、条件付きレンダリングよりもクラスバインディング（例：<code>class:hide</code>）の方が適しています。条件付きレンダリングは DOM の作成と破棄を伴うためです。</p>
+            <p><strong>パフォーマンスの考慮</strong>：頻繁に切り替わる要素には、条件付きレンダリングよりもクラスバインディング（<code>class:hide</code> など）を使用する方が適しています。条件付きレンダリングはDOMの作成と破棄を伴うためです。</p>
           </li>
           <li>
-            <p><strong>構造の明確さ</strong>：条件付きレンダリングは、異なる構造を持つコンテンツの切り替え、例えばタブやステップガイドなどに特に適しています。</p>
+            <p><strong>構造の明確さ</strong>：条件付きレンダリングは、タブやステップガイドなど、異なる構造を持つコンテンツの切り替えに特に適しています。</p>
           </li>
         </ol>
       </article>

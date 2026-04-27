@@ -81,14 +81,14 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Verschachtelte Seiten/Routen</h1>
-        <p>In ofa.js sind verschachtelte Seiten (auch als verschachtelte Routen bezeichnet) eine leistungsstarke Funktion, die es dir ermöglicht, Seitenstrukturen mit Eltern-Kind-Hierarchien zu erstellen. Die übergeordnete Seite fungiert als Layout-Container und rendert den Inhalt der untergeordneten Seite über ein <code>&lt;slot&gt;</code>-Element.</p>
-        <h2>Grundlegende Konzepte</h2>
+        <p>In ofa.js sind verschachtelte Seiten (auch als verschachtelte Routen bezeichnet) eine leistungsfähige Funktion, die es dir erlaubt, Seitenstrukturen mit Eltern-Kind-Hierarchien zu erstellen. Die Elternseite dient als Layout-Container und rendert den Inhalt der untergeordneten Seite über einen <code>&lt;slot&gt;</code>-Platzhalter.</p>
+        <h2>Grundbegriffe</h2>
         <ul>
-          <li><strong>Übergeordnete Seite (Layout)</strong>: Eine Seite, die als Layout-Container dient und gemeinsame UI-Elemente wie Navigationsleiste, Seitenleiste usw. enthält</li>
-          <li><strong>Untergeordnete Seite</strong>: Der konkrete Inhalt einer Geschäftsseite, der in den <code>&lt;slot&gt;</code>-Steckplatz der übergeordneten Seite gerendert wird</li>
+          <li><strong>Elternseite (Layout)</strong>: Die Seite, die als Layout-Container dient und gemeinsame UI-Elemente wie Navigationsleiste und Seitenleiste enthält</li>
+          <li><strong>Unterseite</strong>: Der spezifische Inhalt der Geschäftsseite, der im <code>&lt;slot&gt;</code>-Bereich der Elternseite gerendert wird</li>
         </ul>
-        <h2>Schreibweise der Übersichtsseite</h2>
-        <p>Die übergeordnete Seite muss das <code>&lt;slot&gt;&lt;/slot&gt;</code>-Tag verwenden, um einen Renderplatz für die untergeordnete Seite vorzusehen.</p>
+        <h2>Schreiben der übergeordneten Seite</h2>
+        <p>Die übergeordnete Seite muss das <code>&lt;slot&gt;&lt;/slot&gt;</code>-Tag verwenden, um einen Renderplatz für die untergeordnete Seite zu reservieren.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- layout.html --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
@@ -104,8 +104,8 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>Schreibweise von Unter-Seiten</h2>
-        <p>Untergeordnete Seiten geben den Pfad der übergeordneten Seite durch den Export der Eigenschaft <code>parent</code> an.</p>
+        <h2>Schreiben von Unterseiten</h2>
+        <p>Untergeordnete Seiten geben den Pfad der übergeordneten Seite an, indem sie die <code>parent</code>-Eigenschaft exportieren.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -121,14 +121,14 @@
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
       <span class="hljs-keyword">return</span> {
         <span class="hljs-attr">data</span>: {
-          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hello ofa.js Demo Code&quot;</span>,
+          <span class="hljs-attr">val</span>: <span class="hljs-string">&quot;Hallo ofa.js Demo-Code&quot;</span>,
         },
       };
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>Beispiel für verschachtelte Seiten</h2>
-        <p>Im Folgenden finden Sie ein vollständiges Beispiel für verschachtelte Routen, einschließlich Root-Layout, übergeordneter Seite und untergeordneter Seite:</p>
+        <h2>Beispiel für eine verschachtelte Seite</h2>
+        <p>Hier ist ein vollständiges Beispiel für verschachtelte Routen, das das Root-Layout, die übergeordnete Seite und die untergeordnete Seite enthält:</p>
         <o-playground name="Beispiel für verschachtelte Seiten" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -136,9 +136,9 @@
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // Startseiten-Adresse der Anwendung
+    // Startseitenadresse der Anwendung
     export const home = "./sub-page01.html";
-    // Konfiguration für Seitenwechsel-Animation
+    // Konfiguration für Seitenübergangsanimationen
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -281,7 +281,7 @@
   </code>
         </o-playground>
         <h2>Überwachung der Routing-Ereignisse der übergeordneten Seite</h2>
-        <p>Die übergeordnete Seite kann den Lebenszyklus-Hook <code>routerChange</code> verwenden, um Änderungen der Route zu überwachen, was nützlich ist, wenn du den Navigationszustand basierend auf der aktuellen Route aktualisieren musst.</p>
+        <p>Die übergeordnete Seite kann über den Lifecycle-Hook <code>routerChange</code> auf Routenänderungen hören, was sehr nützlich ist, wenn du den Navigationsstatus basierend auf der aktuellen Route aktualisieren musst.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   ...
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
@@ -312,16 +312,16 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Hinweise</h2>
         <ul>
-          <li>Der Wert der Eigenschaft <code>parent</code> kann ein relativer Pfad sein (z. B. <code>./layout.html</code>) oder ein absoluter Pfad (z. B. <code>/pages/layout.html</code>)</li>
-          <li>Die übergeordnete Seite muss das Tag <code>&lt;slot&gt;&lt;/slot&gt;</code> enthalten, andernfalls kann der Inhalt der untergeordneten Seite nicht angezeigt werden</li>
-          <li>Die Stile der übergeordneten Seite werden auf die untergeordnete Seite vererbt; die untergeordnete Seite kann jedoch auch eigene Stile definieren</li>
-          <li>Mit dem Hook <code>routerChange</code> können Router-Änderungen überwacht werden, um Funktionen wie Navigations-Hervorhebung zu realisieren</li>
+          <li>Der Wert des Attributs <code>parent</code> kann ein relativer Pfad (z.B. <code>./layout.html</code>) oder ein absoluter Pfad (z.B. <code>/pages/layout.html</code>) sein.</li>
+          <li>Die übergeordnete Seite muss das <code>&lt;slot&gt;&lt;/slot&gt;</code>-Tag enthalten, da sonst der Inhalt der Unterseite nicht angezeigt werden kann.</li>
+          <li>Die Styles der übergeordneten Seite werden an die Unterseite vererbt, die Unterseite kann aber auch eigene Styles definieren.</li>
+          <li>Mit dem <code>routerChange</code>-Hook können Router-Änderungen überwacht werden, um Funktionen wie Navigationshervorhebung zu implementieren.</li>
         </ul>
         <h2>Mehrstufige Verschachtelung</h2>
-        <p>Eine übergeordnete Seite kann ebenfalls ihre eigene übergeordnete Seite haben und so eine mehrstufige verschachtelte Struktur bilden.</p>
+        <p>Eine übergeordnete Seite kann auch ihre eigene übergeordnete Seite haben und so eine mehrstufige Verschachtelungsstruktur bilden.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Unterseite --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Unterseiteninhalt<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Inhalt der Unterseite<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">&#x27;./parent.html&#x27;</span>;
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; {
@@ -329,7 +329,7 @@
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Elternseite --&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Übergeordnete Seite --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;layout&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>Navigationsleiste<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
@@ -342,17 +342,17 @@
     };
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>Beispiel für mehrstufige Verschachtelung</h2>
-        <o-playground name="Vollständiges Beispiel für verschachtelte Routen" style="--editor-height: 500px">
+        <h2>Mehrstufige Verschachtelungsbeispiele</h2>
+        <o-playground name="Vollständiges Beispiel für verschachtelte Routing" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js" style="height:96%;"></o-app>
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // Startseiten-URL der Anwendung
+    // Startseite der Anwendung
     export const home = "./sub-page01.html";
-    // Konfiguration für Seitenwechselanimationen
+    // Konfiguration für Seitenwechsel-Animation
     export const pageAnime = {
       current: {
         opacity: 1,

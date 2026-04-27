@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>子要素の追加と削除</title>
+  <title>子要素の追加または削除</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
@@ -80,12 +80,12 @@
       </style>
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
-        <h1>子要素の追加と削除</h1>
-        <p>要素インスタンスは配列のような特性を持っており、ノードの追加や削除は配列の操作方法を使うだけで済みます。その中で <code>push</code>、<code>unshift</code>、<code>pop</code>、<code>shift</code>、<code>splice</code> メソッドを使用する際は、内部で自動的に <a href="../instance/dollar.html" olink="">$ メソッド</a> の初期化処理が実行されるため、具体的な要素の文字列やオブジェクトを直接記載できます。</p>
-        <p>同様に、他の配列メソッド、例えば <code>forEach</code>、<code>map</code>、<code>some</code> なども使用できます。</p>
-        <p>テンプレート構文を持つ要素に対して、子要素を追加または削除しないでください。</p>
+        <h1>子要素の追加または削除</h1>
+        <p>要素インスタンスは配列のような特性を持っており、ノードの追加や削除には配列の操作方法を使えばよい。<code>push</code>、<code>unshift</code>、<code>pop</code>、<code>shift</code>、<code>splice</code> メソッドを使用する際は、内部で自動的に <a href="../instance/dollar.html" olink="">$ メソッド</a> の初期化処理が実行されるため、具体的な要素の文字列やオブジェクトを直接記述できる。</p>
+        <p>同様に、<code>forEach</code>、<code>map</code>、<code>some</code> などの他の配列メソッドも使用できます。</p>
+        <p><strong>注意事項として、テンプレート構文を持つ要素に対して子要素を追加または削除しないでください。</strong></p>
         <h2>push</h2>
-        <p>末尾に子要素を追加する。</p>
+        <p>末尾から子要素を追加する。</p>
         <o-playground name="array-like - push" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -96,7 +96,7 @@
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").push(`<li style="color:red;">新しいli</li>`);
+          \$("ul").push(`<li style="color:red;">new li</li>`);
         }, 500);
       </script>
     </template>
@@ -121,7 +121,7 @@
   </code>
         </o-playground>
         <h2>pop</h2>
-        <p>末尾から子要素を削除</p>
+        <p>末尾から子要素を削除する。</p>
         <o-playground name="array-like - pop" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -139,7 +139,7 @@
   </code>
         </o-playground>
         <h2>shift</h2>
-        <p>配列の先頭から子要素を削除します。</p>
+        <p>配列の先頭から要素を削除する。</p>
         <o-playground name="array-like - shift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -157,8 +157,8 @@
   </code>
         </o-playground>
         <h2>splice</h2>
-        <p>既存の子要素を削除または置換したり、新しい子要素を追加したりすることができます。その使用方法は配列の <code>splice</code> メソッドと似ています。</p>
-        <o-playground name="array-like - splice" style="--editor-height: 300px">
+        <p>既存の子要素を削除または置換することも、新しい子要素を追加することもできます。その使用方法は配列の <code>splice</code> メソッドと似ています。</p>
+        <o-playground name="配列風 - splice" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
@@ -168,7 +168,7 @@
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").splice(1, 2, `<li style="color:green;">new li 1</li>`, `<li style="color:green;">new li 2</li>`);
+          \$("ul").splice(1, 2, `<li style="color:green;">新しいli 1</li>`, `<li style="color:green;">新しいli 2</li>`);
         }, 500);
       </script>
     </template>

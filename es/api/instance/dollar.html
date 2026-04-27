@@ -81,25 +81,25 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>$</h1>
-        <p><code>$</code> es la función central en ofa.js, utilizada para obtener y manipular instancias de elementos del DOM. A continuación se detallan las principales funcionalidades de <code>$</code>:</p>
-        <h2>Obtener instancia de elemento</h2>
-        <p>Mediante el método <code>$</code>, puedes obtener la primera instancia de elemento en la página que coincida con un <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">selector CSS</a> y realizar operaciones sobre él. Aquí tienes un ejemplo:</p>
+        <p>El método <code>$</code> es la función central en ofa.js, utilizada para obtener y manipular instancias de elementos DOM. A continuación se presentan las funciones principales de <code>$</code>:</p>
+        <h2>Obtener instancia del elemento</h2>
+        <p>Mediante el método <code>$</code>, puedes obtener la primera instancia de elemento que coincida con un <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors/Selector_list" target="_blank">selector CSS</a> en la página y operar sobre él. A continuación, se muestra un ejemplo:</p>
         <o-playground name="$ - Obtener elemento">
           <code path="demo.html">
     <template>
-      <div id="target1">texto objetivo 1</div>
+      <div id="target1">target 1 text</div>
       <script>
         setTimeout(()=>{
-          \$("#target1").text = 'cambiar objetivo 1';
+          \$("#target1").text = 'change target 1';
         },500);
       </script>
     </template>
   </code>
         </o-playground>
-        <p>En el ejemplo anterior, utilizamos el símbolo <code>$</code> para seleccionar la instancia del elemento con <code>id</code> "target1", y modificamos su contenido de texto estableciendo la propiedad <code>text</code>.</p>
-        <h2>Buscar instancias de elementos secundarios</h2>
-        <p>La instancia también tiene el método <code>$</code>, que puede obtener la primera instancia de elemento secundario que cumpla con las condiciones a través del método <code>$</code> en la instancia.</p>
-        <o-playground name="$ - Buscar elementos hijos">
+        <p>En el ejemplo anterior, usamos el símbolo <code>$</code> para seleccionar la instancia del elemento con <code>id</code> "target1", y modificamos su contenido de texto configurando la propiedad <code>text</code>.</p>
+        <h2>Ejemplo de búsqueda de elementos secundarios</h2>
+        <p>Las instancias también tienen el método <code>$</code>, a través del cual se puede obtener la primera instancia de elemento hijo que cumpla las condiciones.</p>
+        <o-playground name="$ - Buscar elemento hijo">
           <code path="demo.html">
     <template>
       <div id="target1">
@@ -113,8 +113,8 @@
     </template>
   </code>
         </o-playground>
-        <p>No insertes directamente la instancia de un elemento obtenida en otro lugar, ya que esta operación afectará al elemento original. Si necesitas crear una copia, puedes utilizar el método <a href="./clone.html" olink="">clone</a>.</p>
-        <o-playground name="$ - Características de instancia" style="--editor-height: 360px">
+        <p>Por favor, no insertes directamente la instancia de un elemento obtenida en otro lugar, ya que esta operación afectará al elemento original. Si necesitas crear una copia, puedes utilizar el método <a href="./clone.html" olink="">clone</a>.</p>
+        <o-playground name="$ - Características de la instancia" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
       <div id="pos1" style="border:red solid 1px;">
@@ -133,20 +133,20 @@
     </template>
   </code>
         </o-playground>
-        <h2>Obtener elementos secundarios dentro de nodos sombra</h2>
-        <p>Puedes obtener la instancia a través del atributo <a href="./shadow.html" olink="">shadow</a> y luego obtener el elemento deseado mediante el método <code>$</code>:</p>
+        <h2>Obtener los elementos hijos dentro del nodo sombra</h2>
+        <p>Se puede obtener una instancia a través de la propiedad <a href="./shadow.html" olink="">shadow</a>, y luego usar el método <code>$</code> para obtener el elemento deseado:</p>
         <pre><code class="hljs language-javascript">$(<span class="hljs-string">'my-component'</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">"selector"</span>).<span class="hljs-title function_">method</span>(xxx)</code></pre>
         <h2>Instanciación directa de elementos</h2>
-        <p>Puedes inicializar directamente elementos nativos como instancias de objeto <code>$</code> de la siguiente manera:</p>
+        <p>Puedes inicializar directamente el elemento nativo como una instancia de <code>$</code> de la siguiente manera:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">'div'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> ele = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">'#target'</span>);
 <span class="hljs-keyword">const</span> $ele = $(ele);</code></pre>
-        <p>De esta manera, puedes convertir convenientemente los elementos HTML existentes en instancias de <code>$</code> para operar y procesar con las funciones que proporciona <code>$</code>.</p>
-        <h2>Generar instancias de elementos</h2>
-        <p>Además de <code>$</code> para obtener instancias de elementos existentes, también se puede utilizar para crear nuevas instancias de elementos y agregarlas a la página.</p>
-        <h3>Generación a través de cadenas de texto</h3>
-        <p>Puedes usar la función <code>$</code> para crear nuevas instancias de elementos a partir de una cadena, de la siguiente manera:</p>
+        <p>De esta manera, puedes convertir fácilmente los elementos HTML existentes en instancias de <code>$</code> para utilizar las funciones que <code>$</code> proporciona para operar y procesar.</p>
+        <h2>Generar instancia de elemento</h2>
+        <p>Además, <code>$</code> para obtener instancias de elementos existentes también se puede usar para crear nuevas instancias de elementos y agregarlas a la página.</p>
+        <h3>Generación a través de cadenas</h3>
+        <p>Puedes usar la función <code>$</code> para crear una nueva instancia de elemento a partir de una cadena, como se muestra a continuación:</p>
         <o-playground name="$ - Generación de cadenas" style="--editor-height: 260px">
           <code path="demo.html">
     <template>
@@ -160,10 +160,10 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, utilizamos la función <code>$</code> para crear una nueva instancia de elemento con los estilos y el contenido de texto especificados, y la añadimos dentro de la instancia de elemento existente con <code>id</code> "target1".</p>
+        <p>En este ejemplo, utilizamos la función <code>$</code> para crear una nueva instancia de elemento con el estilo y el contenido de texto especificados, y la añadimos dentro de la instancia de elemento existente con <code>id</code> "target1".</p>
         <h3>Generación a través de objetos</h3>
-        <p>También puedes usar la función <code>$</code> para generar nuevas instancias de elementos a través de objetos, como se muestra a continuación:</p>
-        <o-playground name="$ - Generación de objetos" style="--editor-height: 360px">
+        <p>También puedes usar la función <code>$</code> para generar una nueva instancia de elemento mediante un objeto, como se muestra a continuación:</p>
+        <o-playground name="$ - generación de objetos" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
       <div id="target1">
@@ -182,7 +182,37 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, usamos la función <code>$</code> para definir una nueva instancia de elemento mediante un objeto, incluyendo el tipo de etiqueta, el contenido de texto y los atributos de estilo, y la agregamos a un elemento existente con id "target1".</p>
+        <p>En este ejemplo, usamos la función <code>$</code> para definir una nueva instancia de elemento mediante un objeto, incluyendo el tipo de etiqueta, el contenido de texto y los atributos de estilo, y la agregamos dentro de una instancia de elemento existente con el <code>id</code> "target1".</p>
+        <h2>Relación entre los ejemplos obtenidos y las instancias de páginas/componentes</h2>
+        <p><code>$</code> método se puede utilizar para obtener la instancia del elemento de página o componente correspondiente desde el ámbito global, y su función es la misma que la referencia <code>this</code> en los métodos del ciclo de vida dentro del módulo de página o componente.</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+...
+<span class="hljs-tag">&lt;<span class="hljs-name">l-m</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./test-comp.html"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">l-m</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">test-comp</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"target"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">test-comp</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>{
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">'#target'</span>).<span class="hljs-property">title</span>);  <span class="hljs-comment">// =&gt; Ejemplo de componente OFAJS</span>
+  },<span class="hljs-number">300</span>);
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- test-comp.html --&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"test-comp"</span>,
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"Ejemplo de componente OFAJS"</span>,
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>){
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span> === $(<span class="hljs-string">'#target'</span>)); <span class="hljs-comment">// true</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+ <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

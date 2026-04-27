@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>app</h1>
-        <p>Dans les éléments à l’intérieur de <code>o-app</code>, y compris ceux dans les nœuds fantômes d’un <code>o-page</code> situé dans <code>o-app</code>, ou dans les composants enfants plus profonds, leur attribut <code>app</code> pointe tous vers l’instance d’élément de cet <code>o-app</code>.</p>
-        <p>Voici un exemple montrant comment accéder à l&#39;attribut <code>app</code> dans un élément à l&#39;intérieur de <code>o-app</code> :</p>
-        <o-playground name="app - obtenir l'instance de l'application" style="--editor-height: 500px">
+        <p>Les éléments à l&#39;intérieur de <code>o-app</code>, y compris ceux à l&#39;intérieur du nœud fantôme de <code>o-page</code> à l&#39;intérieur de <code>o-app</code>, ou les composants enfants internes, leur attribut <code>app</code> pointe vers l&#39;instance d&#39;élément de ce <code>o-app</code>.</p>
+        <p>Voici un exemple qui montre comment accéder à la propriété <code>app</code> dans un élément à l&#39;intérieur de <code>o-app</code> :</p>
+        <o-playground name="app - Obtenir l'instance de l'application" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js"></o-app>
@@ -95,7 +95,7 @@
     // Méthodes disponibles sur l'application
     export const proto = {
       getSomeData(){
-        return "Hello ofa.js App Demo";
+        return "Bonjour ofa.js App Demo";
       }
     };
     // Configuration de l'animation de changement de page

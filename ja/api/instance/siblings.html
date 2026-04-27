@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>siblings</h1>
-        <p><code>siblings</code> 属性を使用すると、現在の要素のすべての隣接要素インスタンスを簡単に取得できます。これらの要素は配列として返されます。</p>
+        <p><code>siblings</code> プロパティを使用すると、現在の要素のすべての隣接要素インスタンスを簡単に取得でき、これらの要素は配列として返されます。</p>
         <o-playground name="siblings - 隣接要素" style="--editor-height: 360px">
           <code path="demo.html">
     <template>
@@ -94,7 +94,7 @@
       </ul>
       <script>
         setTimeout(()=>{
-          \$('#target').siblings.forEach(e => e.text = 'テキストを変更');
+          \$('#target').siblings.forEach(e => e.text = 'change text');
         },500);
       </script>
     </template>

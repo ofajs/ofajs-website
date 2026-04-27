@@ -81,14 +81,14 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Script Introduction</h1>
-        <p>ofa.js can be used directly via a script tag. Just add the following code to the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code> section of your HTML file:</p>
+        <p>ofa.js supports direct import via script tag. Simply add the following code in the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code> section of the HTML file:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
         <h2>Basic Usage</h2>
-        <p>After the script is loaded, ofa.js creates a <code>$</code> variable in the global scope, and all core functionality is provided through this object. You can access the various methods and properties of ofa.js via this object. Subsequent tutorials will detail its specific usage.</p>
+        <p>After introducing the script, ofa.js creates a <code>$</code> variable in the global scope, through which all core functionalities are provided. You can access various methods and properties of ofa.js through this object. The following tutorials will detail its specific usage.</p>
         <h2>Debug Mode</h2>
-        <p>During development, you can enable debug mode by appending the <code>#debug</code> parameter to the script URL.</p>
+        <p>During development, you can enable debug mode by adding the <code>#debug</code> parameter to the script URL:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs#debug&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-        <p>Debug mode enables the source map feature, allowing you to view and debug the original source code directly in the browser developer tools, thereby greatly improving development efficiency.</p>
+        <p>Debug mode enables source-map functionality, allowing you to view and debug the original source code of files directly in the browser’s developer tools, greatly boosting development efficiency.</p>
         <h2>ESM Modules</h2>
         <p>ofa.js also supports importing via ESM modules. You can use the <code>import</code> statement in your project to bring in ofa.js:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/ofajs/ofa.js/dist/ofa.min.mjs&#x27;</span>;</code></pre>

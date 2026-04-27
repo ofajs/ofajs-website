@@ -82,14 +82,14 @@
       <article class="markdown-body">
         <h1>style</h1>
         <p>L’attribut <code>style</code> reste cohérent avec la version native.</p>
-        <p>Veuillez noter que l'attribut <code>style</code> ne peut pas obtenir la valeur réelle du style, mais uniquement les valeurs définies sur l'attribut <code>style</code>. Bien que la méthode <code>style</code> soit similaire à la <a href="./css.html" olink="">méthode css</a>, elle ne permet pas de remplacer l'ensemble des styles. Par rapport à <code>css</code>, la méthode <code>style</code> a une efficacité d'exécution interne plus élevée.</p>
-        <p>Voici un exemple montrant comment utiliser <code>style</code> :</p>
+        <p>Veuillez noter que l'attribut <code>style</code> ne peut pas obtenir la valeur réelle du style, mais seulement la valeur définie dans l'attribut <code>style</code>. Bien que la méthode <code>style</code> soit similaire à la <a href="./css.html" olink="">méthode css</a>, elle ne peut pas effectuer une couverture complète des styles. Comparée à <code>css</code>, la méthode <code>style</code> a une efficacité d'exécution interne plus élevée.</p>
+        <p>Voici un exemple qui montre comment utiliser <code>style</code> :</p>
         <o-playground name="style - utilisation directe" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <div id="target">texte d'origine</div>
       <br>
-      <h4>journal</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = $("#target").style.color;
@@ -101,10 +101,10 @@
     </template>
   </code>
         </o-playground>
-        <p>N'oubliez pas que la méthode <code>style</code> ne récupère et ne définit que les valeurs de l'attribut <code>style</code>, et non les styles calculés réels.</p>
-        <h2>Utilisation de la syntaxe de modèle</h2>
-        <p>Vous pouvez également définir le style des éléments cibles via la syntaxe de modèle.</p>
-        <o-playground name="style - Syntaxe des templates" style="--editor-height: 400px">
+        <p>N’oubliez pas que la méthode <code>style</code> ne récupère et ne définit que les valeurs de l’attribut <code>style</code>, et non le style calculé réel.</p>
+        <h2>Utilisation via la syntaxe de modèle</h2>
+        <p>Vous pouvez également définir le style de l'élément cible à l'aide de la syntaxe de modèle.</p>
+        <o-playground name="style - syntaxe de modèle" style="--editor-height: 400px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./style-demo.html"></l-m>

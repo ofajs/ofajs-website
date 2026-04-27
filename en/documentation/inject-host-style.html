@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inject host styles</title>
+  <title>Injecting host styles</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,10 +80,10 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Inject host styles</h1>
-        <p>In Web Components, due to the limitations of <code>slot</code>, it is impossible to directly style multi-level elements within the slot. To solve this, ofa.js provides the <code>&lt;inject-host&gt;</code> component, allowing styles to be injected from inside the component into the host element, thereby enabling styling of multi-level elements in slotted content.</p>
+        <h1>Injecting host styles</h1>
+        <p>In Web Components, due to the limitations of the <code>slot</code> element, it is not possible to directly set styles for multi-level elements within the slot. To solve this problem, ofa.js provides the <code>&lt;inject-host&gt;</code> component, which allows injecting styles from within the component into the host element, thereby enabling style control over multi-level elements in the slot content.</p>
         <blockquote>
-          <p>Note: It is recommended to prioritize using the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> selector for styling slotted content. Only use the <code>&lt;inject-host&gt;</code> component when it is necessary to meet specific requirements.</p>
+          <p>Note: It is recommended to use the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> selector to style slot content first. Only use the <code>&lt;inject-host&gt;</code> component when the selector cannot meet the requirements.</p>
         </blockquote>
         <h2>Basic Usage</h2>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
@@ -93,7 +93,7 @@
             <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#007acc</span>;
             <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
         }
-        <span class="hljs-comment">/* Style direct first-level children */</span>
+        <span class="hljs-comment">/* Set styles for direct child level elements */</span>
         <span class="hljs-comment">/* ::slotted(user-list-item) {
             background-color: aqua;
         } */</span>
@@ -103,7 +103,7 @@
             user-list user-list-item {
                 <span class="hljs-attribute">background-color</span>: aqua;
             }
-            <span class="hljs-comment">/* You can also style deeply nested elements */</span>
+            <span class="hljs-comment">/* You can also set styles for multi-level nesting */</span>
             user-list user-list-item <span class="hljs-selector-class">.user-list-item-content</span> {
                 <span class="hljs-attribute">color</span>: red;
             }
@@ -119,7 +119,7 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Case</h2>
-        <p>The example below demonstrates how to use <code>&lt;inject-host&gt;</code> to style nested elements within a slot. We create two components: the <code>user-list</code> component serves as the list container, and the <code>user-list-item</code> component serves as the list item. Through <code>&lt;inject-host&gt;</code>, we can style <code>user-list-item</code> and its internal elements within the <code>user-list</code> component.</p>
+        <p>The following example demonstrates how to use <code>&lt;inject-host&gt;</code> to style nested elements within a slot. We create two components: a <code>user-list</code> component as the list container, and a <code>user-list-item</code> component as the list item. Through <code>&lt;inject-host&gt;</code>, we can style the <code>user-list-item</code> and its internal elements in the <code>user-list</code> component.</p>
         <o-playground name="Inject Host Styles" style="--editor-height: 500px">
           <code path="index.html" preview="">
     <template>
@@ -191,24 +191,24 @@
     </template>
   </code>
         </o-playground>
-        <p>As can be seen in the running results:- The background color of the <code>user-list-item</code> component is aqua (set via <code>&lt;inject-host&gt;</code> of the <code>user-list</code> component)</p>
+        <p>You can see in the output:- The background color of the <code>user-list-item</code> component is aqua (set via the <code>&lt;inject-host&gt;</code> of the <code>user-list</code> component) </p>
         <ul>
-          <li>The text color of the name is red (set via <code>&lt;inject-host&gt;</code> of the <code>user-list</code> component to style <code>user-list-item .item-name</code>)</li>
+          <li>The text color of the name is red (set via the <code>&lt;inject-host&gt;</code> of the <code>user-list</code> component, styling <code>user-list-item .item-name</code>)</li>
         </ul>
         <h2>How It Works</h2>
-        <p>The <code>&lt;inject-host&gt;</code> component injects the content of the internal <code>&lt;style&gt;</code> tag into the component's host element. This way, the injected style rules can penetrate the component boundary and apply to elements within the slot.</p>
-        <p>In this way, you can:- Set styles for elements at any depth within slot content</p>
+        <p><code>&lt;inject-host&gt;</code> component will inject the content of the <code>&lt;style&gt;</code> tag it contains into the component's host element. In this way, the injected style rules can penetrate the component boundary and affect elements inside the slot.</p>
+        <p>In this way, you can:- Set styles for elements at any depth within slot content </p>
         <ul>
-          <li>Use complete selector paths to ensure styles only affect target elements</li>
-          <li>Maintain component style encapsulation while achieving flexible style penetration</li>
+          <li>Use a full selector path to ensure styles apply only to the target element </li>
+          <li>Maintain component style encapsulation while enabling flexible style piercing</li>
         </ul>
         <h2>Notes</h2>
-        <p>⚠️ <strong>Style Pollution Risk</strong>: Since the injected styles will take effect in the scope where the host element is located, they may affect elements within other components. When using it, be sure to follow the following principles:</p>
+        <p>⚠️ <strong>Style contamination risk</strong>: Since injected styles act on the scope where the host element is located, they may affect elements within other components. When using, be sure to follow the following principles:</p>
         <ol>
-          <li><strong>Use specific selectors</strong>: Prefer full component tag paths; avoid overly broad selectors. </li>
-          <li><strong>Add namespace prefixes</strong>: Give your style classes a unique prefix to reduce collision risk. </li>
-          <li><strong>Avoid universal tag selectors</strong>: Favor class or attribute selectors over tag selectors. </li>
-          <li><strong>Rethink component design</strong>: Consider whether you can avoid <code>&lt;inject-host&gt;</code> by refining the component. For example, combining child components with <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> selectors is often cleaner.</li>
+          <li><strong>Use specific selectors</strong>: Try to use complete component tag paths, avoid overly broad selectors</li>
+          <li><strong>Add namespace prefixes</strong>: Add unique prefixes to your style classes to reduce the possibility of conflicts with other components</li>
+          <li><strong>Avoid using generic tag selectors</strong>: Try to use class names or attribute selectors instead of tag selectors</li>
+          <li><strong>Rethink component design</strong>: Consider whether you can avoid using <code>&lt;inject-host&gt;</code> by optimizing component design. For example, using the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> selector on child components is often more elegant.</li>
         </ol>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Recommended ✅: Use specific selectors --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
@@ -219,16 +219,16 @@
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- Not recommended ❌: Using overly generic selectors --&gt;</span>
+<span class="hljs-comment">&lt;!-- Not Recommended ❌: Use overly generic selectors --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">inject-host</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
-        <span class="hljs-selector-class">.content</span> {  <span class="hljs-comment">/* Prone to conflicts with other components */</span>
-            <span class="hljs-attribute">color</span>: red;
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-xml">
+        .content {  <span class="hljs-comment">&lt;!-- Prone to conflict with other components --&gt;</span>
+            color: red;
         }
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">inject-host</span>&gt;</span></code></pre>
         <h3>Performance Tips</h3>
-        <p>Since <code>&lt;inject-host&gt;</code> triggers style re-injection into the host, which may lead to component reflow or repaint, use it with caution in frequently updated scenarios. If you only need to style the first-level elements inside a slot, prefer using the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> pseudo-class selector instead, as it avoids the extra rendering overhead from penetrating injection and provides better performance.</p>
+        <p>Since <code>&lt;inject-host&gt;</code> triggers re-injection of host styles, which may cause component re-layout or re-rendering, use it with caution in frequently updated scenarios.<br>If you only need to style the first-level elements within the slot, give priority to the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::slotted" target="_blank">::slotted()</a> pseudo-class selector, which can avoid the extra rendering overhead caused by penetration injection, thereby achieving better performance.</p>
       </article>
       <div class="footer"></div>
       <script>

@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>index</h1>
-        <p>L&#39;attribut <code>index</code> sert à obtenir la position d’un élément parmi ses frères et sœurs. Cette position est comptée à partir de 0 : le premier élément est donc à la position 0, le second à la position 1, et ainsi de suite.</p>
-        <p>Dans l&#39;exemple ci-dessous, nous démontrons comment utiliser l&#39;attribut <code>index</code> pour obtenir la position d&#39;un élément sous son élément parent :</p>
-        <o-playground name="index - obtenir la position" style="--editor-height: 300px">
+        <p>L&#39;attribut <code>index</code> sert à obtenir la position d’un élément parmi ses frères. Cette position est comptée à partir de 0 ; ainsi, le premier élément se trouve en position 0, le second en position 1, et ainsi de suite.</p>
+        <p>Dans l&#39;exemple ci-dessous, nous démontrons comment utiliser la propriété <code>index</code> pour obtenir la position d&#39;un élément sous son élément parent :</p>
+        <o-playground name="index - Obtenir la position" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Je suis 1</li>
-        <li id="target">Je suis la cible</li>
-        <li>Je suis 3</li>
+        <li>I am 1</li>
+        <li id="target">I am target</li>
+        <li>I am 3</li>
       </ul>
       <div id="logger" style="color: green">logger</div>
       <script>
@@ -100,7 +100,7 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple, nous sélectionnons d&#39;abord un élément <code>&lt;li&gt;</code> dont l&#39;<code>id</code> vaut « target ». Ensuite, nous utilisons la propriété <code>index</code> pour obtenir la position de cet élément dans son parent <code>&lt;ul&gt;</code>, soit le deuxième élément, donc la valeur de <code>index</code> est 1. Nous affichons ensuite cette valeur dans un élément <code>&lt;div&gt;</code> dont l&#39;<code>id</code> vaut « logger ».</p>
+        <p>Dans cet exemple, nous sélectionnons d&#39;abord un élément <code>&lt;li&gt;</code> avec l&#39;<code>id</code> &quot;target&quot;. Ensuite, nous utilisons l&#39;attribut <code>index</code> pour obtenir la position de cet élément sous son élément parent <code>&lt;ul&gt;</code>, c&#39;est-à-dire le deuxième élément, donc la valeur de <code>index</code> est 1. Enfin, cette valeur est affichée dans l&#39;élément <code>&lt;div&gt;</code> avec l&#39;<code>id</code> &quot;logger&quot;.</p>
       </article>
       <div class="footer"></div>
       <script>

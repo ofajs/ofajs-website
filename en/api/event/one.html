@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>one</h1>
-        <p>Using the <code>one</code> method, you can register a one-time event handler for a target element, meaning the handler will automatically unbind after the first trigger and will not fire again.</p>
-        <p>Below is an example demonstrating how to use the <code>one</code> method to register a click event handler for a button element:</p>
-        <o-playground name="one - click one-time event" style="--editor-height: 300px">
+        <p>Using the <code>one</code> method, you can register a one-time event handler for the target element, which means the event handler will automatically unbind after the first trigger and will not be triggered again.</p>
+        <p>Below is an example showing how to use the <code>one</code> method to register a click event handler for a button element:</p>
+        <o-playground name="one-click one-time event" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <button id="target">add count</button>
@@ -99,8 +99,8 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example, we use the <code>one</code> method to add a click event handler to the button element. When the user clicks the button, the event handler triggers but will not fire again afterward because it has been unbound.</p>
-        <h2>Template Syntax Usage</h2>
+        <p>In this example, we use the <code>one</code> method to add a click event handler to the button element. When the user clicks the button, the event handler is triggered, but it will not be triggered again because it has been unbound.</p>
+        <h2>Using Template Syntax</h2>
         <p>You can also use template syntax to bind a one-time event handler to the target element.</p>
         <o-playground name="one - Template Syntax" style="--editor-height: 400px">
           <code path="demo.html" preview>
@@ -129,7 +129,7 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example, we bind a method named <code>addCount</code> to the button element using <code>one:click</code>. When the user clicks the button, this method will be called, but it will not trigger again afterward because it is a one-time event handler.</p>
+        <p>In this example, we use <code>one:click</code> on a button element to bind a method named <code>addCount</code>. When the user clicks the button, this method will be called, but it will not be triggered again because it is a one-time event handler.</p>
       </article>
       <div class="footer"></div>
       <script>

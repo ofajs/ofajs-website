@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Komponente erstellen</h1>
-        <p>In ofa.js sind Komponenten der Kernmechanismus zur Implementierung von Wiederverwendung und Modularisierung von Seiten. Im Wesentlichen ist eine Komponente ein benutzerdefiniertes Web Component, das durch die Definition von Vorlagen, Stilen und Logik wiederverwendbare UI-Elemente erstellen kann.</p>
-        <h2>Grundlegende Struktur der Komponente</h2>
-        <p>Im Gegensatz zu Seitenmodulen verwendet das <code>&lt;template&gt;</code>-Element von Komponentenmodulen stattdessen das <code>component</code>-Attribut und deklariert das <code>tag</code>-Attribut, um den Komponententagnamen anzugeben.</p>
-        <p>An der Stelle, an der die Komponente benötigt wird, wird das Komponentenmodul asynchron über das <code>l-m</code>-Tag geladen, und das System registriert es automatisch. Anschließend kann die Komponente direkt wie ein normales HTML-Tag verwendet werden.</p>
-        <o-playground name="Grundlegendes Beispiel für Komponenten" style="--editor-height: 500px">
+        <p>In ofa.js ist die Komponente der Kernmechanismus zur Wiederverwendung und Modularisierung von Seiten. Eine Komponente ist im Wesentlichen ein benutzerdefiniertes Web Component, durch das Vorlagen, Stile und Logik definiert werden, um wiederverwendbare UI-Elemente zu erstellen.</p>
+        <h2>Grundstruktur der Komponente</h2>
+        <p>Im Unterschied zum Seitenmodul verwendet das <code>&lt;template&gt;</code>-Element des Komponentenmoduls stattdessen die <code>component</code>-Eigenschaft und deklariert die <code>tag</code>-Eigenschaft, um den Komponenten-Tag-Namen anzugeben.</p>
+        <p>An der Stelle, an der die Komponente verwendet werden soll, wird das Komponentenmodul asynchron über das <code>l-m</code>-Tag geladen, und das System führt die Registrierung automatisch durch; danach kann die Komponente direkt wie ein normales HTML-Tag verwendet werden.</p>
+        <o-playground name="Komponenten-Grundbeispiel" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./demo-comp.html"></l-m>
@@ -107,7 +107,7 @@
           return {
             tag: "demo-comp",
             data: {
-              title: "OFAJS Komponentenbeispiel",
+              title: "OFAJS Komponenten-Beispiel",
             },
           };
         };
@@ -115,16 +115,18 @@
     </template>
   </code>
         </o-playground>
-        <h2>Kernkonzepte der Komponenten</h2>
-        <h3>tag - Komponenten-Tagname</h3>
-        <p><code>tag</code> ist der Tag-Name der Komponente und <strong>muss mit dem im Gebrauch verwendeten Tag-Namen übereinstimmen</strong>. Wenn Sie beispielsweise den <code>tag</code> Ihrer Komponente als <code>&quot;demo-comp&quot;</code> definieren, dann müssen Sie in der HTML-Nutzung <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> schreiben.</p>
-        <h3>Komponentenmodulreferenz</h3>
-        <p>Durch das <code>l-m</code>-Tag werden Komponentenmodule eingebunden, die automatisch registriert werden. Dies ähnelt dem Einbinden von Skripten über das <code>script</code>-Tag, aber <code>l-m</code> ist speziell für das Laden und Registrieren von Komponentenmodulen vorgesehen.</p>
-        <p>Beachten Sie: Das <code>l-m</code>-Referenztag ist eine <strong>asynchrone Referenz</strong>, die sich für das bedarfsgerechte Laden von Komponenten beim Laden der Seite eignet.</p>
-        <h2>Synchronisierte Referenzkomponente</h2>
-        <p>In manchen Szenarien müssen Sie möglicherweise Komponenten synchron laden (z. B. um sicherzustellen, dass eine Komponente registriert ist, bevor sie verwendet wird). In diesem Fall können Sie die <code>load</code>-Methode in Kombination mit dem <code>await</code>-Schlüsselwort verwenden, um eine synchrone Referenz zu implementieren.</p>
-        <p>In Komponenten- und Seitenmodulen wird automatisch eine <code>load</code>-Funktion eingefügt, mit der Entwickler die benötigten Ressourcen synchron laden können.</p>
-        <o-playground name="Synchrones Referenzkomponentenbeispiel" style="--editor-height: 500px">
+        <h2>Komponenten-Kernkonzepte</h2>
+        <h3>tag - Komponenten-Tag-Name</h3>
+        <p><code>tag</code> ist der Tag-Name der Komponente, <strong>muss mit dem verwendeten Tag-Namen der Komponente übereinstimmen</strong>. Beispiel: Wenn der <code>tag</code> Ihrer Komponente als <code>&quot;demo-comp&quot;</code> definiert ist, dann muss im HTML <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> verwendet werden.</p>
+        <h3>Komponenten-Modulreferenz</h3>
+        <p>Durch das <code>l-m</code>-Tag wird ein Komponentenmodul eingefügt, das automatisch Komponenten registriert. Dies ähnelt der Verwendung des <code>script</code>-Tags zum Einbinden von Skripten, aber <code>l-m</code> ist speziell für das Laden und Registrieren von Komponentenmodulen vorgesehen.</p>
+        <blockquote>
+          <p>Hinweis: Das <code>l-m</code>-Referenz-Tag ist ein <strong>asynchroner Verweis</strong> und eignet sich zum bedarfsgesteuerten Laden von Komponenten beim Seitenaufruf.</p>
+        </blockquote>
+        <h2>Synchronisierungszitat-Komponente</h2>
+        <p>In manchen Szenarien musst du möglicherweise Komponenten synchron laden (z. B. um sicherzustellen, dass die Komponente vor der Verwendung vollständig registriert ist). In diesem Fall kannst du die <code>load</code>-Methode mit dem Schlüsselwort <code>await</code> verwenden, um einen synchronen Verweis zu implementieren.</p>
+        <p>In Komponenten- und Seitenmodulen wird automatisch die <code>load</code>-Funktion injiziert, damit Entwickler benötigte Ressourcen synchron laden können.</p>
+        <o-playground name="Beispiel für synchrones Referenzieren von Komponenten" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-page src="page1.html"></o-page>
@@ -177,24 +179,24 @@
     </template>
   </code>
         </o-playground>
-        <h2>Asynchrone Referenzen vs. Synchrone Referenzen</h2>
+        <h2>Asynchrone Referenzen vs. synchrone Referenzen</h2>
         <table>
           <thead>
             <tr>
-              <th>Verweisart</th>
-              <th>Schlüsselwort</th>
-              <th>Merkmal</th>
+              <th>Referenzart</th>
+              <th>Stichwort</th>
+              <th>Merkmale</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Asynchroner Verweis</td>
-              <td><code>l-m</code> Tag</td>
-              <td>Nicht blockierendes Laden, geeignet für bedarfsweises Laden von Komponenten</td>
+              <td>Asynchrone Referenz</td>
+              <td><code>l-m</code>-Tag</td>
+              <td>Nicht-blockierendes Laden, geeignet für bedarfsgesteuertes Laden von Komponenten</td>
             </tr>
             <tr>
-              <td>Synchroner Verweis</td>
-              <td><code>load</code> Methode mit <code>await</code> Schlüsselwort</td>
+              <td>Synchrone Referenz</td>
+              <td><code>load</code>-Methode mit <code>await</code>-Schlüsselwort</td>
               <td>Blockierendes Laden, stellt sicher, dass die Komponente vor der Verwendung registriert ist</td>
             </tr>
           </tbody>

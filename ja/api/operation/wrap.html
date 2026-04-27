@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>wrap</h1>
-        <p><code>wrap</code> メソッドは、対象要素の外側に要素を1つラップするために使用されます。<code>wrap</code> 操作を実行する前に、自動的に <a href="../instance/dollar.html" olink="">$ メソッド</a> の初期化処理が行われるため、具体的な要素の文字列やオブジェクトを直接記述できます。</p>
-        <o-playground name="wrap - 要素のラップ" style="--editor-height: 440px">
+        <p><code>wrap</code> メソッドは、対象要素の外部に1層の要素をラップするために使用されます。<code>wrap</code> 操作を実行する前に、自動的に <a href="../instance/dollar.html" olink="">$ メソッド</a> の初期化操作が実行されるため、具体的な要素の文字列やオブジェクトを直接記述することができます。</p>
+        <o-playground name="wrap - 包み込み要素" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
       <style> div{border: #aaa solid 1px; margin:8px; padding:8px;} </style>
@@ -100,16 +100,16 @@
   </code>
         </o-playground>
         <h2>注意事項</h2>
-        <p>ターゲット要素<strong>は必ず親ノードを持つ必要があります</strong>。そうしなければ、ラップ操作は失敗します。</p>
+        <p>対象要素<strong>は親ノードを持っていなければならない</strong>、さもなくばラップ操作は失敗する。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id="target"&gt;&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// エラー、親要素がないため、ラップできません</span>
-$el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// 正しい、親要素があります</span></code></pre>
-        <p><strong>o-fill や o-if などのテンプレートコンポーネント内で操作しないでください。</strong></p>
+$el.<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// エラー：親要素がないため、ラップできません</span>
+$el.$(<span class="hljs-string">'#target'</span>).<span class="hljs-title function_">wrap</span>(<span class="hljs-string">"&lt;div&gt;new div&lt;/div&gt;"</span>); <span class="hljs-comment">// 正解：親要素がある</span></code></pre>
+        <p><strong>注意点として、o-fill や o-if などのテンプレートコンポーネント内で操作しないでください。</strong></p>
       </article>
       <div class="footer"></div>
       <script>

@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Configuration de l&#39;application</h1>
-        <p><code>app-config.js</code> Le fichier de configuration prend également en charge davantage d’options de configuration, en plus de l’adresse de la page d’accueil et de l’animation de changement de page, pour contrôler l’état de chargement de l’application, la gestion des erreurs, la logique d’initialisation et les fonctions de navigation.</p>
+        <p>Le fichier de configuration <code>app-config.js</code> prend en charge, en plus de l&#39;adresse de la page d&#39;accueil et de l&#39;animation de transition entre pages, d&#39;autres options de configuration pour contrôler l&#39;état de chargement, la gestion des erreurs, la logique d&#39;initialisation et les fonctionnalités de navigation de l&#39;application.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// Contenu affiché pendant le chargement</span>
+<span class="hljs-comment">// Contenu affiché lors du chargement</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;Loading...&lt;/div&gt;&quot;</span>;
 
-<span class="hljs-comment">// Composant affiché en cas d&#x27;échec de chargement de la page</span>
+<span class="hljs-comment">// Composant affiché en cas d&#x27;échec du chargement de la page</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
 
-<span class="hljs-comment">// Rappel une fois l&#x27;initialisation de l&#x27;application terminée</span>
+<span class="hljs-comment">// Callback après l&#x27;initialisation de l&#x27;application</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;App is ready!&quot;</span>);
 }
@@ -99,7 +99,7 @@
   <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Custom method called&quot;</span>);
   },
-};</code></pre><o-playground name="Exemple de configuration de l'application" style="--editor-height: 500px">
+};</code></pre><o-playground name="Exemple de configuration d'application" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-app src="./app-config.js"></o-app>
@@ -108,7 +108,7 @@
           <code path="app-config.js">
     // Adresse de la page d'accueil de l'application
     export const home = "./home.html";
-    // Configuration de l'animation de transition de page
+    // Configuration de l'animation de changement de page
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -156,15 +156,15 @@
         }
       </style>
       <p>{{val}}</p>
-      <a href="./about.html" olink>Go to About</a>
+      <a href="./about.html" olink>Aller à À propos</a>
       <br>
       <br>
-      <button on:click="gotoAbout">Go to About Button</button>
+      <button on:click="gotoAbout">Bouton Aller à À propos</button>
       <script>
         export default async () => {
           return {
             data: {
-              val: "Hello ofa.js App Demo",
+              val: "Démo d'application ofa.js",
             },
             proto:{
                 gotoAbout(){
@@ -184,13 +184,13 @@
           padding: 10px;
         }
       </style>
-      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
-      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <div style="padding: 8px;"> <button on:click="back()">Retour</button> </div>
+      <p> À propos de <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
       <script>
         export default async () => {
           return {
             data: {
-              val: "Hello ofa.js App Demo",
+              val: "Démo d'application ofa.js",
             },
           };
         };
@@ -199,17 +199,17 @@
   </code>
         </o-playground>
         <h2>loading - état de chargement</h2>
-        <p>Le composant affiché pendant le chargement de la page, qui peut être un template de chaîne de caractères ou une fonction retournant un template.</p>
+        <p>Le composant affiché pendant le chargement de la page, peut être un modèle de chaîne ou une fonction retournant un modèle.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Modèle de chaîne simple</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Chargement...&lt;/div&gt;&quot;</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Loading...&lt;/div&gt;&quot;</span>;
 
-<span class="hljs-comment">// Génération dynamique avec une fonction</span>
+<span class="hljs-comment">// Généré dynamiquement avec une fonction</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;loading&#x27;&gt;
-    &lt;span&gt;Chargement...&lt;/span&gt;
+    &lt;span&gt;Chargement en cours...&lt;/span&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
-        <p>Voici une implémentation de loading esthétique et prête à être copiée directement dans votre projet :</p>
+        <p>Voici une implémentation de loading belle et directement copiable dans un projet :</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">const</span> loadingEl = $({
     <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
@@ -237,16 +237,16 @@
   <span class="hljs-keyword">return</span> loadingEl;
 };</code></pre>
         <h2>fail - gestion des erreurs</h2>
-        <p>Composant affiché lors de l’échec du chargement de la page ; la fonction reçoit un objet paramètre contenant <code>src</code> (l’adresse de la page ayant échoué) et <code>error</code> (le message d’erreur).</p>
+        <p>Composant affiché en cas d’échec du chargement de la page ; la fonction reçoit un paramètre objet contenant <code>src</code> (l’adresse de la page ayant échoué) et <code>error</code> (le message d’erreur).</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{src, error}</span>) =&gt; {
   <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
     &lt;p&gt;Échec du chargement de la page&lt;/p&gt;
-    &lt;p&gt;Adresse : <span class="hljs-subst">${src}</span>&lt;/p&gt;
+    &lt;p&gt;Adresse: <span class="hljs-subst">${src}</span>&lt;/p&gt;
     &lt;button on:click=&quot;back()&quot;&gt;Retour&lt;/button&gt;
   &lt;/div&gt;`</span>;
 };</code></pre>
-        <h2>proto - Extension du prototype</h2>
-        <p>Ajoutez des méthodes et des propriétés calculées personnalisées à l’instance de l’application, accessibles dans les composants de page via <code>this.app</code>.</p>
+        <h2>proto - extension de prototype</h2>
+        <p>Ajoutez des méthodes personnalisées et des propriétés calculées à l&#39;instance de l&#39;application, ces méthodes peuvent être accessibles dans les composants de page via <code>this.app</code>.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
   <span class="hljs-comment">// Méthode personnalisée</span>
   <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
@@ -257,37 +257,37 @@
     <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
   },
 };</code></pre>
-        <p>Dans la page, appelez :</p>
+        <p>Appeler dans la page :</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>Retour à l&#x27;accueil<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Est à l&#x27;accueil : {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Êtes-vous sur la page d&#x27;accueil : {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>ready - callback d&#39;initialisation</h2>
-        <p>Fonction de rappel exécutée après le chargement de la configuration de l&#39;application, où vous pouvez effectuer des opérations d&#39;initialisation. Vous pouvez accéder aux méthodes et propriétés de l&#39;instance de l&#39;application via <code>this</code>.</p>
+        <p>Fonction de rappel exécutée après le chargement de la configuration de l&#39;application, vous pouvez effectuer des opérations d&#39;initialisation ici. Vous pouvez accéder aux méthodes et propriétés de l&#39;instance de l&#39;application via <code>this</code>.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;L&#x27;application est initialisée&quot;</span>);
-  <span class="hljs-comment">// peut accéder à this (instance de l&#x27;élément o-app)</span>
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// obtient l&#x27;instance de l&#x27;élément o-page de la page actuelle</span>
+  <span class="hljs-comment">// Peut accéder à this (instance de l&#x27;élément o-app)</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// Obtenir l&#x27;instance de l&#x27;élément o-page de la page actuelle</span>
   <span class="hljs-comment">// this.someMethod();</span>
 }</code></pre>
-        <h2>allowForward - Fonction d&#39;avancement</h2>
-        <p>Contrôle l&#39;activation de la fonction de navigation en avant du navigateur. Lorsque défini sur <code>true</code>, les boutons Précédent et Suivant du navigateur peuvent être utilisés pour naviguer.</p>
+        <h2>allowForward - Fonction d&#39;avance</h2>
+        <p>Contrôle si la fonction de navigation avant du navigateur est activée. Lorsqu&#39;elle est définie sur <code>true</code>, vous pouvez utiliser les boutons de retour et d&#39;avance du navigateur pour naviguer.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
-        <p>Une fois activé, l&#39;utilisateur peut naviguer à l&#39;aide des boutons Précédent/Suivant du navigateur, et la méthode de navigation <code>forward()</code> de l&#39;application prendra également effet.</p>
+        <p>Lorsqu&#39;il est activé, l&#39;utilisateur peut naviguer à l&#39;aide des boutons avant/arrière du navigateur, et la méthode de navigation <code>forward()</code> de l&#39;application sera également effective.</p>
         <h2>Navigation programmatique</h2>
-        <p>En plus d’utiliser des liens <code>olink</code>, vous pouvez également appeler des méthodes de navigation dans JavaScript :</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Aller à la page spécifiée (ajoute à l&#x27;historique)</span>
+        <p>En plus d&#39;utiliser le lien <code>olink</code>, vous pouvez également appeler la méthode de navigation en JavaScript :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Aller à la page spécifiée (ajouté à l&#x27;historique)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
-<span class="hljs-comment">// Remplacer la page actuelle (n&#x27;ajoute pas à l&#x27;historique)</span>
+<span class="hljs-comment">// Remplacer la page actuelle (non ajouté à l&#x27;historique)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
 
-<span class="hljs-comment">// Retour à la page précédente</span>
+<span class="hljs-comment">// Revenir à la page précédente</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();
 
-<span class="hljs-comment">// Avancer à la page suivante (nécessite allowForward: true)</span>
+<span class="hljs-comment">// Aller à la page suivante (nécessite de définir allowForward: true)</span>
 <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">forward</span>();</code></pre>
-        <h2>Historique de routage</h2>
+        <h2>Historique des routes</h2>
         <p>L&#39;attribut <code>routers</code> permet d&#39;obtenir l&#39;historique de navigation :</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Obtenir tout l&#x27;historique des routes</span>
 <span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
@@ -296,11 +296,11 @@
 <span class="hljs-comment">// Obtenir la page actuelle</span>
 <span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
         <h2>Écouter les changements de route</h2>
-        <p>On peut écouter l’événement <code>router-change</code> pour réagir aux changements de route :</p>
+        <p>Vous pouvez répondre aux changements de route en écoutant l&#39;événement <code>router-change</code> :</p>
         <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> { data } = e;
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Changement de route :&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Adresse de la page :&quot;</span>, data.<span class="hljs-property">src</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Changement de route:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Adresse de la page:&quot;</span>, data.<span class="hljs-property">src</span>);
 });</code></pre>
       </article>
       <div class="footer"></div>

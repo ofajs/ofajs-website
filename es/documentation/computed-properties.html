@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Propiedades calculadas</title>
+  <title>Propiedades computadas</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,17 +80,17 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Propiedades calculadas</h1>
-        <p>Las propiedades computadas son una forma de derivar nuevos datos a partir de datos reactivos; se actualizan automáticamente cuando cambian los datos de los que dependen. En ofa.js, las propiedades computadas se definen como métodos especiales dentro del objeto <code>proto</code>, utilizando las palabras clave <code>get</code> o <code>set</code> de JavaScript.</p>
+        <h1>Propiedades computadas</h1>
+        <p>Las propiedades calculadas son una forma de derivar nuevos datos basados en datos reactivos, que se actualizan automáticamente según los cambios de los datos de los que dependen. En ofa.js, las propiedades calculadas son métodos especiales definidos en el objeto <code>proto</code>, utilizando las palabras clave <code>get</code> o <code>set</code> de JavaScript para definirlas.</p>
         <h2>Características y ventajas</h2>
         <ul>
-          <li><strong>Almacenamiento en caché</strong>: el resultado de la propiedad calculada se almacena en caché y solo se recalcula cuando cambian los datos de los que depende </li>
-          <li><strong>Reactiva</strong>: cuando se actualizan los datos de los que depende, la propiedad calculada se actualiza automáticamente </li>
-          <li><strong>Declarativa</strong>: se crean relaciones de dependencia de forma declarativa, lo que hace que el código sea más claro y fácil de entender</li>
+          <li><strong>Características de caché</strong>: El resultado de las propiedades computadas se almacena en caché y solo se recalcula cuando cambian los datos de los que depende</li>
+          <li><strong>Reactiva</strong>: Cuando se actualizan los datos de los que depende, la propiedad computada se actualiza automáticamente</li>
+          <li><strong>Declarativa</strong>: Se crean relaciones de dependencia de forma declarativa, lo que hace que el código sea más claro y comprensible</li>
         </ul>
-        <h2>get Propiedad calculada</h2>
-        <p>La propiedad <code>get</code> se utiliza para derivar nuevos valores a partir de datos reactivos, no acepta parámetros y solo devuelve un valor calculado basado en otros datos.</p>
-        <o-playground name="get Ejemplo de propiedad calculada" style="--editor-height: 600px">
+        <h2>get propiedad computada</h2>
+        <p>La propiedad computada get se utiliza para derivar nuevos valores a partir de datos reactivos. No acepta parámetros y solo devuelve valores calculados en base a otros datos.</p>
+        <o-playground name="get ejemplo de propiedad computada" style="--editor-height: 600px">
           <code>
     <template page>
       <style>
@@ -101,7 +101,7 @@
         }
       </style>
       <button on:click="clickMe">Click Me - {{count}} - {{countDouble}}</button>
-      <p>El valor de la propiedad calculada countDouble es：{{countDouble}}</p>
+      <p>El valor de la propiedad computada countDouble es: {{countDouble}}</p>
       <script>
         export default async () => {
           return {
@@ -110,7 +110,7 @@
             },
             proto: {
               get countDouble() {
-                console.log('countDouble fue accedida');
+                console.log('countDouble ha sido accedido');
                 return this.count * 2;
               },
               clickMe() {
@@ -124,8 +124,8 @@
   </code>
         </o-playground>
         <h3>Ejemplos de escenarios de aplicación práctica</h3>
-        <p>Las propiedades computadas se utilizan comúnmente para manejar lógicas complejas de transformación de datos, como filtrar arreglos, formatear texto de visualización, etc.:</p>
-        <o-playground name="Ejemplo de propiedad calculada" style="--editor-height: 500px">
+        <p>Las propiedades computadas se utilizan a menudo para manejar lógica compleja de transformación de datos, como filtrar matrices, formatear texto mostrado, etc.:</p>
+        <o-playground name="Ejemplo de propiedad computada" style="--editor-height: 500px">
           <code>
     <template page>
       <style>
@@ -154,7 +154,7 @@
           return {
             data: {
               filterText: '',
-              names: ['Juan', 'María', 'Carlos']
+              names: ['Zhang3', 'Li4', 'Wang54']
             },
             proto: {
               get filteredNames() {
@@ -172,9 +172,9 @@
     </template>
   </code>
         </o-playground>
-        <h2>set Propiedad calculada</h2>
-        <p>Los <code>set</code> de las propiedades computadas te permiten modificar el estado de datos subyacente mediante operaciones de asignación. Recibe un parámetro, que generalmente se utiliza para actualizar inversamente los datos originales de los que depende.</p>
-        <o-playground name="set ejemplo de propiedad calculada" style="--editor-height: 700px">
+        <h2>set propiedades calculadas</h2>
+        <p>La propiedad computada &#39;set&#39; permite modificar el estado de datos subyacente mediante una operación de asignación. Recibe un parámetro y se usa generalmente para actualizar inversamente los datos originales de los que depende.</p>
+        <o-playground name="ejemplo de propiedad calculada set" style="--editor-height: 700px">
           <code>
     <template page>
       <style>
@@ -190,9 +190,9 @@
       </style>
       <div>
         <p>Valor base: {{count}}</p>
-        <p>Valor doble: {{countDouble}}</p>
-        <button on:click="resetCount">Restablecer contador</button>
-        <button on:click="setCountDouble">Establecer valor doble a 10</button>
+        <p>Valor duplicado: {{countDouble}}</p>
+        <button on:click="resetCount">Reiniciar contador</button>
+        <button on:click="setCountDouble">Establecer duplicado a 10</button>
         <button on:click="incrementCount">Incrementar valor base</button>
       </div>
       <script>
@@ -206,7 +206,7 @@
                 return this.count * 2;
               },
               set countDouble(val) {
-                this.count = Math.max(0, val / 2); // Asegura que count no sea negativo
+                this.count = Math.max(0, val / 2); // Asegurar que count no sea negativo
               },
               resetCount() {
                 this.count = 0;
@@ -224,25 +224,25 @@
     </template>
   </code>
         </o-playground>
-        <h2>Propiedades calculadas vs métodos</h2>
-        <p>Aunque los métodos también pueden lograr funcionalidades similares, las propiedades computadas tienen la característica de almacenamiento en caché y solo se recalculan cuando los datos de los que dependen cambian, lo que resulta en un mejor rendimiento.</p>
+        <h2>Propiedades computadas vs Métodos</h2>
+        <p>Aunque los métodos también pueden lograr funciones similares, las propiedades computadas tienen la característica de caché: solo se recalculan cuando cambian los datos de los que dependen, lo que ofrece un mejor rendimiento.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Usar propiedades computadas (recomendado) - con caché</span>
 <span class="hljs-keyword">get</span> <span class="hljs-title function_">fullName</span>() {
   <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
 }
 
-<span class="hljs-comment">// Usar un método - se ejecuta cada vez que se llama</span>
+<span class="hljs-comment">// Usar métodos - se ejecuta cada vez que se llama</span>
 <span class="hljs-title function_">fullName</span>(<span class="hljs-params"></span>) {
   <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">firstName</span> + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">lastName</span>;
 }</code></pre>
-        <h2>Precauciones</h2>
+        <h2>Notas importantes</h2>
         <ol>
-          <li><strong>Evitar operaciones asíncronas</strong>: Las propiedades calculadas deben mantenerse sincrónicas y sin efectos secundarios, prohibiendo llamadas asíncronas o modificaciones directas del estado del componente dentro de ellas. </li>
-          <li><strong>Seguimiento de dependencias</strong>: Asegúrese de depender únicamente de datos reactivos; de lo contrario, las actualizaciones serán impredecibles. </li>
-          <li><strong>Protección contra errores</strong>: Si dentro de una propiedad calculada se produce una dependencia circular o una asignación anómala, podría provocar fallos en la renderización o incluso bucles infinitos. Es crucial establecer condiciones límite de antemano y manejar adecuadamente las excepciones.</li>
+          <li><strong>Evitar operaciones asincrónicas</strong>: Las propiedades computadas deben mantenerse sincrónicas y sin efectos secundarios. Está prohibido realizar llamadas asincrónicas o modificar directamente el estado del componente dentro de ellas. </li>
+          <li><strong>Seguimiento de dependencias</strong>: Asegúrate de depender únicamente de datos reactivos; de lo contrario, las actualizaciones serán impredecibles. </li>
+          <li><strong>Protección contra errores</strong>: Si se producen dependencias circulares o asignaciones anómalas dentro de una propiedad computada, podría provocar fallos en el renderizado o incluso bucles infinitos. Es necesario establecer condiciones límite de antemano y realizar un manejo adecuado de excepciones.</li>
         </ol>
-        <h2>Ejemplo de aplicación práctica</h2>
-        <p>A continuación se muestra un ejemplo simple de validación de formularios, que demuestra la utilidad de las propiedades computadas：</p>
+        <h2>Ejemplos de aplicación práctica</h2>
+        <p>A continuación se muestra un ejemplo simple de validación de formularios, que demuestra la utilidad de las propiedades calculadas.</p>
         <o-playground name="Ejemplo de validación de formulario" style="--editor-height: 600px">
           <code>
     <template page>
@@ -287,7 +287,7 @@
                 return this.username.length >= 3;
               },
               get statusMessage() {
-                return this.isValid ? 'Nombre de usuario válido' : 'Longitud del nombre de usuario insuficiente';
+                return this.isValid ? 'Nombre de usuario válido' : 'Longitud de nombre de usuario insuficiente';
               },
             }
           };

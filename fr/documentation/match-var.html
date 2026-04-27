@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Requêtes de style</title>
+  <title>Requête de style</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,16 +80,16 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Requêtes de style</h1>
-        <p><code>match-var</code> est un composant fonctionnel dans ofa.js utilisé pour la correspondance de styles en fonction des variables CSS. Avec <code>match-var</code>, vous pouvez dynamiquement faire correspondre et appliquer différents styles en fonction des valeurs des variables CSS du composant actuel. Cette fonctionnalité est spécifiquement conçue pour la transmission d&#39;états de contexte liés au style, sans nécessiter l&#39;utilisation de JavaScript, ce qui la rend plus pratique à utiliser et adaptée aux besoins de transmission de styles tels que les couleurs de thème.</p>
+        <h1>Requête de style</h1>
+        <p><code>match-var</code> est un composant fonctionnel d&#39;ofa.js utilisé pour la correspondance de styles en fonction des variables CSS. Grâce à <code>match-var</code>, il est possible de faire correspondre et d&#39;appliquer dynamiquement différents styles en fonction des valeurs des variables CSS du composant actuel. Cette fonctionnalité est spécialement conçue pour le transfert d&#39;état contextuel lié au style, sans nécessiter l&#39;utilisation de JavaScript, ce qui la rend plus pratique à utiliser, notamment pour le transfert de styles comme les couleurs de thème.</p>
         <h2>Concepts clés</h2>
         <ul>
-          <li><strong>match-var</strong> : Composant de correspondance de style, qui détermine s&#39;il faut appliquer le style interne en fonction de la valeur de la variable CSS</li>
-          <li><strong>Correspondance d&#39;attributs</strong> : Définir les variables CSS à faire correspondre et les valeurs attendues via les attributs du composant</li>
-          <li><strong>Application de style</strong> : En cas de correspondance réussie, les styles de la balise <code>&lt;style&gt;</code> interne seront appliqués au composant</li>
+          <li><strong>match-var</strong>: Composant de correspondance de styles, décide si les styles internes doivent être appliqués en fonction de la valeur d&#39;une variable CSS</li>
+          <li><strong>Correspondance d&#39;attributs</strong>: Définit les variables CSS et les valeurs attendues via les attributs du composant</li>
+          <li><strong>Application des styles</strong>: En cas de correspondance réussie, les styles de la balise <code>&lt;style&gt;</code> interne sont appliqués au composant</li>
         </ul>
         <h2>Utilisation de base</h2>
-        <p>Le composant <code>match-var</code> définit les variables CSS à faire correspondre et les valeurs attendues via des attributs. Lorsque la valeur de la variable CSS du composant correspond à la valeur d&#39;attribut spécifiée, les styles définis en interne sont appliqués.</p>
+        <p>Le composant <code>match-var</code> définit les variables CSS à matcher et la valeur attendue via des attributs. Lorsque la valeur de la variable CSS du composant correspond à la valeur spécifiée dans l’attribut, le style défini en son sein est appliqué.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
@@ -98,13 +98,13 @@
     }
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
-        <h3>Attributs</h3>
+        <h3>Propriétés</h3>
         <p>Le composant <code>match-var</code> utilise des attributs arbitraires pour définir les règles de correspondance des variables CSS. Le nom de l&#39;attribut correspond au nom de la variable CSS (sans le préfixe <code>--</code>), et la valeur de l&#39;attribut est la valeur attendue pour la correspondance.</p>
-        <h3>Comment ça marche</h3>
+        <h3>Principe de fonctionnement</h3>
         <ol>
-          <li><strong>Prise en charge du navigateur</strong> : Si le navigateur prend en charge la requête <code>@container style()</code>, il utilisera directement la capacité native du CSS</li>
-          <li><strong>Traitement de dégradation</strong> : S&#39;il n&#39;est pas pris en charge, il détectera les changements de valeur des variables CSS par interrogation, et injectera dynamiquement les styles après une correspondance réussie</li>
-          <li><strong>Rafraîchissement manuel</strong> : Vous pouvez déclencher manuellement la détection de style via la méthode <code>$.checkMatch()</code></li>
+          <li><strong>Prise en charge des navigateurs</strong> : si le navigateur prend en charge la requête <code>@container style()</code>, il utilise directement les capacités CSS natives.</li>
+          <li><strong>Traitement de dégradation</strong> : si ce n&#39;est pas pris en charge, la détection des changements de valeurs des variables CSS se fait par interrogation périodique, et les styles sont injectés dynamiquement après correspondance.</li>
+          <li><strong>Actualisation manuelle</strong> : il est possible de déclencher manuellement la détection de style via la méthode <code>$.checkMatch()</code>.</li>
         </ol>
         <h2>Exemple de base</h2>
         <o-playground name="Exemple de base" style="--editor-height: 500px">
@@ -126,7 +126,7 @@
            --theme: data(currentTheme);
         }
       </style>
-      <button on:click="changeTheme">Basculer le thème</button> - Thème : {{currentTheme}}
+      <button on:click="changeTheme">Changer de thème</button> - Theme:{{currentTheme}}
       <div class="container">
         <theme-box>
           Afficher différents styles selon la variable CSS
@@ -197,17 +197,17 @@
     </template>
   </code>
         </o-playground>
-        <h2>Correspondance multicritère</h2>
-        <p>Vous pouvez utiliser plusieurs attributs simultanément pour définir des conditions de correspondance plus complexes, et les styles ne seront appliqués que lorsque toutes les variables CSS correspondent.</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;sombre&quot;</span> <span class="hljs-attr">taille</span>=<span class="hljs-string">&quot;grande&quot;</span>&gt;</span>
+        <h2>Correspondance à conditions multiples</h2>
+        <p>On peut utiliser plusieurs attributs simultanément pour définir des conditions de correspondance plus complexes ; le style ne sera appliqué que si toutes les variables CSS correspondent.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">match-var</span> <span class="hljs-attr">theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;large&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
     <span class="hljs-selector-pseudo">:host</span> {
-      rembourrage: <span class="hljs-number">20px</span>;
-      taille-de-police: <span class="hljs-number">18px</span>;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>;
+      <span class="hljs-attribute">font-size</span>: <span class="hljs-number">18px</span>;
     }
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
-        <h2>Exemple de correspondance multi-conditions</h2>
+        <h2>Exemple de correspondance multi-condition</h2>
         <o-playground name="Exemple de correspondance d'attributs" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -232,7 +232,7 @@
       <div>Taille : {{size}} <button on:click="changeSize">Changer la taille</button></div>
       <div class="content">
         <test-card>
-          <div>Exemple de correspondance de styles multi-conditions</div>
+          <div>Exemple de correspondance de style multi-conditions</div>
         </test-card>
       </div>
       <script>
@@ -308,23 +308,23 @@
     </template>
   </code>
         </o-playground>
-        <h2>checkMatch Actualisation manuelle</h2>
-        <p>Dans certains cas, les changements des variables CSS peuvent ne pas être détectés automatiquement ; vous pouvez alors appeler manuellement la méthode <code>$.checkMatch()</code> pour déclencher la détection des styles.</p>
+        <h2>checkMatch actualisation manuelle</h2>
+        <p>Dans certains cas, les changements de variables CSS peuvent ne pas être détectés automatiquement, et il est alors possible d&#39;appeler manuellement la méthode <code>$.checkMatch()</code> pour déclencher la détection de style.</p>
         <blockquote>
-          <p>Firefox ne prend pas encore en charge la requête <code>@container style()</code>, il est donc nécessaire d&#39;appeler manuellement <code>$.checkMatch()</code> ; une fois que la prise en charge native sera disponible dans les navigateurs, le système détectera automatiquement les changements de variables, sans avoir besoin de les déclencher manuellement.</p>
+          <p>Actuellement, Firefox ne supporte pas encore la requête <code>@container style()</code>, donc il faut appeler manuellement <code>$.checkMatch()</code> ; lorsque le navigateur prendra en charge nativement cette fonctionnalité à l&#39;avenir, le système détectera automatiquement les changements de variables, sans avoir besoin de déclenchement manuel.</p>
         </blockquote>
         <pre><code class="hljs language-javascript"><span class="hljs-attr">proto</span>: {
   <span class="hljs-title function_">updateTheme</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&#x27;dark&#x27;</span>;
-    <span class="hljs-comment">// Déclencher manuellement la détection de style</span>
+    <span class="hljs-comment">// Déclencher manuellement la détection de style.</span>
     $.<span class="hljs-title function_">checkMatch</span>();
   }
 }</code></pre>
-        <h2>Bonnes pratiques</h2>
+        <h2>Meilleures pratiques</h2>
         <ol>
-          <li><strong>Privilégier les capacités natives de CSS</strong> : <code>match-var</code> utilise en priorité la requête native <code>@container style()</code> du navigateur, offrant de meilleures performances dans les navigateurs modernes </li>
-          <li><strong>Organiser les styles de manière logique</strong> : regrouper les styles correspondants pour faciliter la maintenance et la compréhension </li>
-          <li><strong>Utiliser la liaison data()</strong> : combiner avec la directive <code>data()</code> permet de basculer les styles de manière réactive</li>
+          <li><strong>Privilégier les capacités natives du CSS</strong> : <code>match-var</code> utilisera en priorité la requête native <code>@container style()</code> du navigateur, offrant de meilleures performances dans les navigateurs modernes </li>
+          <li><strong>Organiser les styles de manière cohérente</strong> : regrouper les styles de correspondance associés facilite la maintenance et la compréhension </li>
+          <li><strong>Utiliser la liaison data()</strong> : combiner avec la directive <code>data()</code> permet de basculer les styles de façon réactive</li>
         </ol>
       </article>
       <div class="footer"></div>

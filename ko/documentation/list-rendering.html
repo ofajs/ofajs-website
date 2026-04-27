@@ -81,19 +81,19 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>리스트 렌더링</h1>
-        <p>ofa.js에서 <code>o-fill</code> 컴포넌트는 강력한 리스트 렌더링 기능을 제공하여 배열 데이터를 여러 개의 유사한 요소로 효율적으로 렌더링할 수 있습니다. 이는 두 가지 주요 사용 방식을 지원합니다: 직접 렌더링과 템플릿 렌더링입니다.</p>
+        <p>ofa.js에서 <code>o-fill</code> 컴포넌트는 강력한 리스트 렌더링 기능을 제공하여 배열 데이터를 여러 개의 유사한 요소로 효율적으로 렌더링할 수 있습니다. 이는 두 가지 주요 사용 방식을 지원합니다: 직접 렌더링과 템플릿 렌더링.</p>
         <h2>o-fill 컴포넌트 소개</h2>
-        <p><code>o-fill</code> 은 ofa.js에서 목록 렌더링을 위한 핵심 컴포넌트로, 배열 타입의 <code>value</code> 속성을 받아 배열의 각 항목에 대해 해당하는 DOM 요소를 생성합니다. 렌더링 과정에서 ofa.js는 배열의 변화를 자동으로 추적하고 DOM을 효율적으로 업데이트합니다.</p>
-        <h3>주요 특징：</h3>
+        <p><code>o-fill</code>는 ofa.js에서 목록 렌더링을 위한 핵심 컴포넌트로, 배열 타입의 <code>value</code> 속성을 받아 배열의 각 항목에 대해 해당하는 DOM 요소를 생성합니다. 렌더링 과정에서 ofa.js는 배열의 변화를 자동으로 추적하며 효율적으로 DOM을 업데이트합니다.</p>
+        <h3>주요 특징:</h3>
         <ul>
-          <li><strong>효율적인 업데이트</strong>: 키-값을 통해 배열 변화를 추적하고, 변경이 필요한 부분만 업데이트</li>
-          <li><strong>인덱스 접근</strong>: <code>$index</code>로 현재 항목의 인덱스에 접근</li>
-          <li><strong>데이터 접근</strong>: <code>$data</code>로 현재 항목의 데이터에 접근</li>
-          <li><strong>호스트 접근</strong>: <code>$host</code>로 현재 컴포넌트 인스턴스에 접근하여 컴포넌트 메서드를 호출하거나 컴포넌트 데이터에 접근</li>
-          <li><strong>템플릿 재사용</strong>: 명명된 템플릿을 사용하여 복잡한 목록 렌더링 지원</li>
+          <li><strong>효율적 업데이트</strong>: 키-값 추적을 통해 배열 변경 사항을 감지하고 변경이 필요한 부분만 업데이트합니다.</li>
+          <li><strong>인덱스 접근</strong>: <code>$index</code>를 통해 현재 항목의 인덱스에 접근합니다.</li>
+          <li><strong>데이터 접근</strong>: <code>$data</code>를 통해 현재 항목의 데이터에 접근합니다.</li>
+          <li><strong>호스트 접근</strong>: <code>$host</code>를 통해 현재 컴포넌트 인스턴스에 접근하여 컴포넌트 메서드를 호출하거나 데이터에 접근할 수 있습니다.</li>
+          <li><strong>템플릿 재사용</strong>: 명명된 템플릿을 사용하여 복잡한 목록 렌더링을 지원합니다.</li>
         </ul>
         <h2>직접 렌더링</h2>
-        <p>직접 렌더링은 가장 간단한 사용 방식으로, 템플릿 내용을 <code>o-fill</code> 태그 내부에 직접 작성합니다. 배열이 변경될 때, <code>o-fill</code>은 각 데이터 항목에 대해 해당하는 요소를 자동으로 생성합니다.</p>
+        <p>직접 렌더링은 가장 간단한 사용 방식으로, 템플릿 내용을 <code>o-fill</code> 태그 내부에 직접 작성합니다. 배열이 변경되면 <code>o-fill</code>은 각 데이터 항목에 해당하는 요소를 자동으로 생성합니다.</p>
         <o-playground name="o-fill - 직접 렌더링" style="--editor-height: 600px">
           <code>
     <template page>
@@ -143,14 +143,14 @@
     </template>
   </code>
         </o-playground>
-        <p>이 예시에서 우리는 볼 수 있습니다:- <code>$index</code>은 현재 항목의 인덱스를 나타냅니다 (0부터 시작)</p>
+        <p>이 예제에서 우리는 볼 수 있습니다:- <code>$index</code>는 현재 항목의 인덱스를 나타냅니다(0부터 시작)</p>
         <ul>
-          <li><code>$data</code>은 현재 항목의 데이터 객체를 나타냅니다</li>
-          <li><code>$host</code>은 현재 컴포넌트 인스턴스를 나타내며, 컴포넌트 메서드를 호출하거나 컴포넌트 데이터에 접근하는 데 사용할 수 있습니다</li>
+          <li><code>$data</code>는 현재 항목의 데이터 객체를 나타냅니다</li>
+          <li><code>$host</code>는 현재 컴포넌트 인스턴스를 나타내며, 컴포넌트 메서드를 호출하거나 컴포넌트 데이터에 접근하는 데 사용할 수 있습니다</li>
           <li>배열이 변경되면 목록이 자동으로 업데이트됩니다</li>
         </ul>
         <h2>템플릿 렌더링</h2>
-        <p>더 복잡한 리스트 항목 구조의 경우, 명명된 템플릿 방식을 사용할 수 있습니다. 템플릿을 <code>template</code> 태그 내에 정의한 다음, <code>o-fill</code>에서 <code>name</code> 속성을 통해 참조합니다.</p>
+        <p>더 복잡한 목록 항목 구조를 위해 명명된 템플릿 방식을 사용할 수 있습니다. 템플릿을 <code>template</code> 태그에 정의한 후, <code>o-fill</code>에서 <code>name</code> 속성을 통해 참조합니다.</p>
         <o-playground name="o-fill - 템플릿 렌더링" style="--editor-height: 600px">
           <code>
     <template page>
@@ -179,15 +179,15 @@
           data: {
             products: [
               { name: "MacBook Pro", price: 12999, description: "전문 작업에 적합한 고성능 노트북" },
-              { name: "iPhone 15", price: 5999, description: "최신 스마트폰, 뛰어난 사진 촬영 효과" },
-              { name: "AirPods Pro", price: 1999, description: "무선 노이즈 캔슬링 헤드폰, 뛰어난 음질" }
+              { name: "iPhone 15", price: 5999, description: "최신형 스마트폰, 뛰어난 카메라 성능" },
+              { name: "AirPods Pro", price: 1999, description: "무선 노이즈 캔슬링 이어폰, 우수한 음질" }
             ],
             productIndex: 0,
           },
           proto: {
             addProduct() {
               const productNames = ["iPad Air", "Apple Watch", "Magic Mouse", "Pro Display"];
-              const productDescs = ["얇고 휴대하기 좋은 태블릿", "스마트워치, 건강 모니터링", "인체공학적 설계 마우스", "전문가용 모니터"];
+              const productDescs = ["얇고 가벼운 태블릿", "스마트워치, 건강 모니터링", "인체공학적 디자인 마우스", "전문가용 모니터"];
               const name = productNames[this.productIndex % productNames.length];
               const desc = productDescs[this.productIndex % productDescs.length];
               this.products.push({
@@ -204,7 +204,7 @@
   </code>
         </o-playground>
         <h2>중첩 리스트 렌더링</h2>
-        <p><code>o-fill</code>은 중첩 사용을 지원하며, 트리 메뉴, 분류 목록 등과 같은 복잡한 계층 데이터 구조를 처리할 수 있습니다.</p>
+        <p><code>o-fill</code>는 중첩 사용을 지원하며, 트리 메뉴, 분류 목록 등과 같은 복잡한 계층적 데이터 구조를 처리할 수 있습니다.</p>
         <o-playground name="o-fill - 중첩 목록 렌더링" style="--editor-height: 800px">
           <code>
     <template page>
@@ -234,7 +234,7 @@
           color: #34495e;
         }
       </style>
-      <h3>상품 카테고리 네비게이션</h3>
+      <h3>상품 분류 네비게이션</h3>
       <div class="navigation">
         <o-fill :value="categories" name="category-template"></o-fill>
       </div>
@@ -261,8 +261,8 @@
                   name: "전자제품",
                   subcategories: [
                     {
-                      name: "스마트폰",
-                      items: ["아이폰", "안드로이드 폰", "피처폰"]
+                      name: "휴대폰",
+                      items: ["iPhone", "Android 휴대폰", "피처폰"]
                     },
                     {
                       name: "컴퓨터",
@@ -271,27 +271,27 @@
                   ]
                 },
                 {
-                  name: "생활용품",
+                  name: "가정용품",
                   subcategories: [
                     {
                       name: "주방용품",
-                      items: ["냄비/프라이팬", "식기류", "소형 가전"]
+                      items: ["냄비", "식기", "소형 가전"]
                     },
                     {
                       name: "침실용품",
-                      items: ["침구류", "옷장", "장식품"]
+                      items: ["침구", "옷장", "장식"]
                     }
                   ]
                 },
                 {
-                  name: "의류 및 액세서리",
+                  name: "의류 액세서리",
                   subcategories: [
                     {
-                      name: "남성 의류",
-                      items: ["티셔츠", "셔츠", "아우터"]
+                      name: "남성복",
+                      items: ["티셔츠", "셔츠", "외투"]
                     },
                     {
-                      name: "여성 의류",
+                      name: "여성복",
                       items: ["원피스", "바지", "액세서리"]
                     }
                   ]
@@ -304,20 +304,20 @@
     </template>
   </code>
         </o-playground>
-        <h2>성능 최적화 및 키-값 관리</h2>
+        <h2>성능 최적화 및 키 값 관리</h2>
         <p>빈번하게 업데이트되는 목록의 경우 <code>fill-key</code> 속성으로 고유 식별자를 지정하여 렌더링 성능을 향상시킬 수 있습니다.</p>
-        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 사용자 정의 키 값으로 성능 향상 --&gt;</span>
+        <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 사용자 정의 키-값을 사용하여 성능 향상 --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-fill</span> <span class="hljs-attr">:value</span>=<span class="hljs-string">&quot;items&quot;</span> <span class="hljs-attr">fill-key</span>=<span class="hljs-string">&quot;id&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
-        <p>위의 예제에서 <code>fill-key=&quot;id&quot;</code>는 ofa.js에게 각 항목 데이터의 <code>id</code> 속성을 고유 식별자로 사용하도록 지시합니다. 이렇게 하면 배열의 순서가 변경되어도 해당 요소를 올바르게 식별하고 업데이트할 수 있습니다.</p>
-        <h2>리스트 렌더링 베스트 프랙티스</h2>
+        <p>위의 예에서 <code>fill-key=&quot;id&quot;</code>는 ofa.js에게 각 항목 데이터의 <code>id</code> 속성을 고유 식별자로 사용하도록 지시합니다. 이렇게 하면 배열 순서가 변경되어도 해당 요소를 올바르게 식별하고 업데이트할 수 있습니다.</p>
+        <h2>목록 렌더링 모범 사례</h2>
         <ol>
-          <li><strong>이벤트 처리</strong>: 목록 항목에서 이벤트를 사용할 때 <code>$host</code>는 현재 컴포넌트 인스턴스를, <code>$data</code>는 현재 항목 데이터를 가리킴에 유의</li>
-          <li><strong>적절한 렌더링 방식 선택</strong>: 단순 목록은 직접 렌더링, 복잡한 구조는 템플릿 렌더링 사용</li>
-          <li><strong>성능 고려</strong>: 대용량 목록이나 빈번히 갱신되는 목록의 경우 <code>fill-key</code>로 키값 지정</li>
-          <li><strong>데이터 구조</strong>: 배열의 각 항목이 유효한 데이터 객체인지 확인</li>
-          <li><strong>깊은 중첩 피하기</strong>: 중첩을 지원하나 너무 깊은 중첩 단계는 피해야 함</li>
+          <li><strong>이벤트 처리</strong>: 리스트 항목에서 이벤트 사용 시, <code>$host</code>는 현재 컴포넌트 인스턴스를 가리키고, <code>$data</code>는 현재 항목 데이터를 가리킵니다.</li>
+          <li><strong>적절한 렌더링 방식 선택</strong>: 간단한 리스트는 직접 렌더링, 복잡한 구조는 템플릿 렌더링을 사용합니다.</li>
+          <li><strong>성능 고려</strong>: 큰 리스트나 자주 업데이트되는 리스트의 경우, <code>fill-key</code>를 사용하여 키 값을 지정합니다.</li>
+          <li><strong>데이터 구조</strong>: 배열의 각 항목이 유효한 데이터 객체인지 확인합니다.</li>
+          <li><strong>깊은 중첩 피하기</strong>: 중첩을 지원하지만, 너무 깊은 중첩 단계는 피해야 합니다.</li>
         </ol>
       </article>
       <div class="footer"></div>

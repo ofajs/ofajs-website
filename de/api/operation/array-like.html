@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hinzufügen oder Löschen von Unterelementen</title>
+  <title>Hinzufügen oder Entfernen von Unterelementen</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../../img/logo.svg" />
@@ -80,12 +80,12 @@
       </style>
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
-        <h1>Hinzufügen oder Löschen von Unterelementen</h1>
-        <p>Element-Instanzen haben array-ähnliche Eigenschaften. Das Hinzufügen oder Löschen von Knoten kann einfach mit den üblichen Array-Methoden erfolgen. Bei Verwendung der Methoden <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code> und <code>splice</code> führt das System intern automatisch die Initialisierungsoperation der <a href="../instance/dollar.html" olink="">$-Methode</a> aus, sodass direkt konkrete Elementzeichenketten oder Objekte angegeben werden können.</p>
-        <p>Ebenso können Sie andere Array-Methoden verwenden, z. B. <code>forEach</code>, <code>map</code>, <code>some</code> usw.</p>
-        <p><strong>Bitte beachten Sie, dass bei Elementen mit Vorlagensyntax keine Kindelemente hinzugefügt oder entfernt werden sollen.</strong></p>
+        <h1>Hinzufügen oder Entfernen von Unterelementen</h1>
+        <p>Element-Instanzen haben array-ähnliche Eigenschaften; das Hinzufügen oder Entfernen von Knoten erfolgt einfach mit den üblichen Array-Methoden. Bei Verwendung von <code>push</code>, <code>unshift</code>, <code>pop</code>, <code>shift</code> und <code>splice</code> wird intern automatisch die Initialisierung der <a href="../instance/dollar.html" olink="">$-Methode</a> ausgeführt, sodass direkt konkrete Element-Strings oder -Objekte angegeben werden können.</p>
+        <p>Gleichermaßen können Sie auch andere Array-Methoden verwenden, z. B. <code>forEach</code>, <code>map</code>, <code>some</code> usw.</p>
+        <p><strong>Beachten Sie, dass Sie auf Elementen mit Vorlagensyntax keine untergeordneten Elemente hinzufügen oder entfernen dürfen.</strong></p>
         <h2>push</h2>
-        <p>Fügen Sie ein untergeordnetes Element vom Ende hinzu.</p>
+        <p>Füge das untergeordnete Element am Ende hinzu.</p>
         <o-playground name="array-like - push" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -103,32 +103,32 @@
   </code>
         </o-playground>
         <h2>unshift</h2>
-        <p>Fügen Sie ein untergeordnetes Element am Anfang des Arrays ein.</p>
+        <p>Füge am Anfang des Arrays untergeordnete Elemente hinzu.</p>
         <o-playground name="array-like - unshift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Ich bin 1</li>
-        <li>Ich bin 2</li>
-        <li>Ich bin 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").unshift(`<li style="color:blue;">neues li</li>`);
+          \$("ul").unshift(`<li style="color:blue;">new li</li>`);
         }, 500);
       </script>
     </template>
   </code>
         </o-playground>
         <h2>pop</h2>
-        <p>Entfernen Sie Unterelemente vom Ende.</p>
+        <p>Entferne untergeordnete Elemente vom Ende.</p>
         <o-playground name="array-like - pop" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Ich bin 1</li>
-        <li>Ich bin 2</li>
-        <li>Ich bin 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
@@ -139,14 +139,14 @@
   </code>
         </o-playground>
         <h2>shift</h2>
-        <p>Ein Unterelement am Anfang des Arrays löschen.</p>
+        <p>Lösche untergeordnete Elemente am Anfang des Arrays.</p>
         <o-playground name="array-like - shift" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Ich bin 1</li>
-        <li>Ich bin 2</li>
-        <li>Ich bin 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
@@ -157,18 +157,18 @@
   </code>
         </o-playground>
         <h2>splice</h2>
-        <p>Sie können vorhandene Kindelemente löschen oder ersetzen und neue Kindelemente hinzufügen. Die Verwendung ähnelt der <code>splice</code>-Methode von Arrays.</p>
+        <p>Vorhandene untergeordnete Elemente können gelöscht oder ersetzt werden, ebenso können neue untergeordnete Elemente hinzugefügt werden. Die Verwendung ähnelt der <code>splice</code>-Methode von Arrays.</p>
         <o-playground name="array-like - splice" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>Ich bin 1</li>
-        <li>Ich bin 2</li>
-        <li>Ich bin 3</li>
+        <li>I am 1</li>
+        <li>I am 2</li>
+        <li>I am 3</li>
       </ul>
       <script>
         setTimeout(()=>{
-          \$("ul").splice(1, 2, `<li style="color:green;">neues li 1</li>`, `<li style="color:green;">neues li 2</li>`);
+          \$("ul").splice(1, 2, `<li style="color:green;">new li 1</li>`, `<li style="color:green;">new li 2</li>`);
         }, 500);
       </script>
     </template>

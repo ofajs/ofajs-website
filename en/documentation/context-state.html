@@ -81,48 +81,48 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Context Status</h1>
-        <p>Context state is a mechanism in ofa.js for cross-component data sharing. Through the Provider and Consumer pattern, it enables data transfer between parent-child components and across hierarchical components without the need to pass data layer by layer via props.</p>
+        <p>Context state is the mechanism in ofa.js for cross-component data sharing. Through the Provider and Consumer pattern, data can be passed between parent and child components, as well as across different component levels, without the need for prop drilling.</p>
         <h2>Core Concepts</h2>
         <ul>
-          <li><strong>o-provider</strong>: Data provider; defines the data to be shared.</li>
-          <li><strong>o-consumer</strong>: Data consumer; fetches data from the nearest provider.</li>
-          <li><strong>watch:xxx</strong>: Watches changes in consumer data and binds them to component or page module properties.</li>
+          <li><strong>o-provider</strong>: Data provider, defines the data to be shared</li>
+          <li><strong>o-consumer</strong>: Data consumer, retrieves data from the nearest provider</li>
+          <li><strong>watch:xxx</strong>: Listens for changes in consumer data and binds them to properties of components or page modules</li>
         </ul>
         <h2>o-provider Provider</h2>
-        <p>The <code>o-provider</code> component is used to define a provider of shared data. It identifies itself by the <code>name</code> attribute and defines the data to share through attributes such as <code>custom-a=&quot;value&quot;</code>.</p>
+        <p><code>o-provider</code> component is used to define a provider of shared data. It identifies itself via the <code>name</code> attribute and defines the data to be shared through attributes (e.g., <code>custom-a=&quot;value&quot;</code>).</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">custom-name</span>=<span class="hljs-string">&quot;Zhang San&quot;</span> <span class="hljs-attr">custom-age</span>=<span class="hljs-string">&quot;25&quot;</span>&gt;</span>
   ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span></code></pre>
         <h3>Attributes</h3>
         <ul>
-          <li><code>name</code>: The unique identifier of the provider, used by consumers to locate the corresponding provider</li>
+          <li><code>name</code>: The unique identifier name of the provider, used by the consumer to locate the corresponding provider</li>
         </ul>
         <h3>Features</h3>
         <ol>
-          <li><strong>Automatic Attribute Passing</strong>: All non-reserved attributes on a provider are passed as shared data. </li>
-          <li><strong>Reactive Updates</strong>: When a provider’s data changes, consumers with the matching name automatically update. </li>
-          <li><strong>Hierarchical Lookup</strong>: Consumers start searching for data with the given name from the nearest ancestor provider.</li>
+          <li><strong>Automatic Property Passing</strong>: All non-reserved properties on the provider are passed as shared data.</li>
+          <li><strong>Reactive Updates</strong>: When the data in the provider changes, the consumer corresponding to the same name that consumes the provider will automatically update.</li>
+          <li><strong>Hierarchical Lookup</strong>: The consumer starts looking for data with the corresponding name from the nearest ancestor provider.</li>
         </ol>
         <h2>o-consumer Consumer</h2>
-        <p>The <code>o-consumer</code> component is used to consume data from a provider. It specifies the provider to consume from via the <code>name</code> attribute.</p>
+        <p><code>o-consumer</code> component is used to consume (use) data from a provider. It specifies the provider name to consume via the <code>name</code> attribute.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
         <h3>Attributes</h3>
         <ul>
-          <li><code>name</code>: the name of the provider to consume</li>
+          <li><code>name</code>: The name of the provider to be consumed</li>
         </ul>
         <h3>Features</h3>
         <ol>
-          <li><strong>Automatic Data Retrieval</strong>: The consumer automatically fetches data corresponding to the name from the nearest parent provider.</li>
-          <li><strong>Attribute Merging</strong>: If multiple providers with the same name have a certain attribute, the attribute from the provider closest to the consumer takes precedence.</li>
-          <li><strong>Attribute Monitoring</strong>: Specific attribute changes can be monitored via <code>watch:xxx</code>.</li>
+          <li><strong>Automatic data acquisition</strong>: the consumer automatically fetches the data of the corresponding name from the nearest ancestor provider</li>
+          <li><strong>Attribute merging</strong>: if several providers with the same name have a certain attribute, the attribute of the provider closest to the consumer takes precedence</li>
+          <li><strong>Attribute watching</strong>: changes to a specific attribute can be watched via <code>watch:xxx</code></li>
         </ol>
-        <h2>Monitoring Data Changes</h2>
-        <p>You can monitor changes in provider data via <code>watch:xxx</code>:</p>
+        <h2>Listening for Data Changes</h2>
+        <p>Using <code>watch:xxx</code> you can listen to changes in provider data:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;userInfo&quot;</span> <span class="hljs-attr">watch:custom-age</span>=<span class="hljs-string">&quot;age&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
-  <span class="hljs-attr">data</span>: {
+  <span class="hljs-attr">data</span>:{
     <span class="hljs-attr">age</span>: <span class="hljs-number">0</span>,
   },
 };
@@ -213,7 +213,7 @@
   </code>
         </o-playground>
         <h2>o-root-provider Root Provider</h2>
-        <p><code>o-root-provider</code> is a root-level global provider whose scope covers the entire document. Consumers can access the root provider’s data even when no parent provider exists.</p>
+        <p><code>o-root-provider</code> is a root-level global provider whose scope is the entire document. Even without a parent provider, consumers can still access the data from the root provider.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Define global root provider --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">custom-theme</span>=<span class="hljs-string">&quot;dark&quot;</span> <span class="hljs-attr">custom-language</span>=<span class="hljs-string">&quot;zh-CN&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
 
@@ -221,9 +221,9 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;globalConfig&quot;</span> <span class="hljs-attr">watch:custom-theme</span>=<span class="hljs-string">&quot;theme&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
         <h3>Features</h3>
         <ol>
-          <li><strong>Global Scope</strong>: Data from root providers is available across the entire page. </li>
-          <li><strong>Precedence</strong>: When a provider and a root-provider share the same name, the provider closest to the consumer takes precedence. </li>
-          <li><strong>Removability</strong>: After a root-provider is removed, consumers fall back to searching for other providers.</li>
+          <li><strong>Global Scope</strong>: The data of the root provider is available throughout the entire page</li>
+          <li><strong>Priority</strong>: When there are both a provider and a root-provider with the same name, the provider closest to the consumer takes precedence</li>
+          <li><strong>Removable</strong>: After removing the root-provider, the consumer will fall back to searching for other providers</li>
         </ol>
         <h2>root-provider Example</h2>
         <o-playground name="root-provider example" style="--editor-height: 500px">
@@ -312,15 +312,16 @@
         <h3>Priority Example</h3>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-root-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-root-provider</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;custom-value=&quot;</span><span class="hljs-attr">parent</span>&quot;&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;parent&quot;</span>&gt;</span>
  ...
- <span class="hljs-comment">&lt;!-- Here👇 the custom-value obtained is &quot;parent&quot; --&gt;</span>
+ <span class="hljs-comment">&lt;!-- Here👇the obtained custom-value is &quot;parent&quot; --&gt;</span>
  <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
  ...
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-provider</span>&gt;</span>
 
-<span class="hljs-comment">&lt;!-- Here👇 the custom-value obtained is &quot;root&quot; --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span></code></pre>
+<span class="hljs-comment">&lt;!-- Here👇the obtained custom-value is &quot;root&quot; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-consumer</span>&gt;</span>
+</code></pre>
         <h3>Priority Example Demonstration</h3>
         <o-playground name="Priority Example Demo" style="--editor-height: 500px">
           <code path="demo.html" preview>
@@ -357,7 +358,7 @@
           <code path="child.html">
     <template component>
       <div style="padding: 10px;  border: 1px dashed gray;">
-        Value in child component: {{customValue}} (nearest is {{customValue}} provider)
+        Value in child component: {{customValue}} (closest is {{customValue}} provider)
       </div>
       <o-consumer name="test" watch:custom-value="customValue"></o-consumer>
       <script>
@@ -372,8 +373,8 @@
   </code>
         </o-playground>
         <h2>getProvider(name) Method</h2>
-        <p><code>getProvider(name)</code> is an instance method that retrieves the provider element matching the given name. It walks up the DOM to find the closest ancestor provider; if none is found, it returns the root-provider.</p>
-        <h3>Use the getProvider(name) method inside a component or page module.</h3>
+        <p><code>getProvider(name)</code> is an instance method used to get the provider element corresponding to the name. It traverses up the DOM to find the nearest ancestor provider, and returns the root-provider if not found.</p>
+        <h3>Using the getProvider(name) method within a component or page module</h3>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
 ...
 <span class="hljs-attr">proto</span>:{
@@ -412,10 +413,10 @@
             getProviderData() {
               const provider = this.getProvider("userInfo");
               if (provider) {
-                console.log("Provider found:", provider);
+                console.log("Found Provider:", provider);
                 console.log("Name:", provider.customName);
                 console.log("Age:", provider.customAge);
-                alert(`Provider data: ${provider.customName}, ${provider.customAge} years old`);
+                alert(`Provider Data: ${provider.customName}, ${provider.customAge} years old`);
               }
             },
             updateProvider() {
@@ -431,8 +432,8 @@
     </template>
   </code>
         </o-playground>
-        <h3>Obtaining the Provider from an Element</h3>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Get the provider from the parent of the current element</span>
+        <h3>Get provider from element</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Get the parent provider of the current element</span>
 <span class="hljs-keyword">const</span> provider = $(<span class="hljs-string">&quot;.my-element&quot;</span>).<span class="hljs-title function_">getProvider</span>(<span class="hljs-string">&quot;userInfo&quot;</span>);
 
 <span class="hljs-keyword">if</span> (provider) {
@@ -441,14 +442,14 @@
 
 <span class="hljs-comment">// Directly get the global root-provider</span>
 <span class="hljs-keyword">const</span> globalProvider = $.<span class="hljs-title function_">getRootProvider</span>(<span class="hljs-string">&quot;globalConfig&quot;</span>);</code></pre>
-        <h3>Usage Scenario</h3>
+        <h3>Usage Scenarios</h3>
         <ol>
-          <li><strong>Manual Data Retrieval</strong>: Used when direct access to provider data is required </li>
-          <li><strong>Cross Shadow DOM</strong>: Locate an ancestor provider inside Shadow DOM </li>
-          <li><strong>Event Handling</strong>: Obtain the corresponding provider within an event callback</li>
+          <li><strong>Manually fetch data</strong>: Used in scenarios where direct access to provider data is required</li>
+          <li><strong>Cross Shadow DOM</strong>: Find the upper-level provider inside the Shadow DOM</li>
+          <li><strong>Event handling</strong>: Get the corresponding provider in the event callback</li>
         </ol>
-        <h2>Dispatch Event</h2>
-        <p>A provider can dispatch events to all consumers that consume it:</p>
+        <h2>dispatch Event Dispatch</h2>
+        <p>provider can dispatch events to all consumers that consume it:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-provider</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myProvider&quot;</span> <span class="hljs-attr">custom-value</span>=<span class="hljs-string">&quot;Hello&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">o-consumer</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test&quot;</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">&quot;handleEvent&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{customValue}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -570,10 +571,10 @@ $(<span class="hljs-string">&quot;#myProvider&quot;</span>).<span class="hljs-ti
         </o-playground>
         <h2>Best Practices</h2>
         <ol>
-          <li><strong>Reasonable Naming</strong>: Use meaningful names for providers and consumers to facilitate tracking and maintenance</li>
-          <li><strong>Avoid Overuse</strong>: Context state is suitable for sharing data across components; props are recommended for regular parent-child components</li>
-          <li><strong>Root Provider for Global Configuration</strong>: Themes, languages, global states, etc. are suitable for root-provider</li>
-          <li><strong>Timely Cleanup</strong>: When a provider is removed, consumers will automatically clean up data without manual handling</li>
+          <li><strong>Rational Naming</strong>: Use meaningful names for provider and consumer to facilitate tracking and maintenance.</li>
+          <li><strong>Avoid Overuse</strong>: Context state is suitable for sharing data across components; for ordinary parent-child components, props are recommended.</li>
+          <li><strong>Root Provider for Global Configuration</strong>: Themes, languages, global states, etc., are suitable for use with root-provider.</li>
+          <li><strong>Timely Cleanup</strong>: When a provider is removed, the consumer automatically clears data without manual handling.</li>
         </ol>
       </article>
       <div class="footer"></div>

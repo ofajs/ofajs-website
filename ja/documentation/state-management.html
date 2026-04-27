@@ -82,22 +82,22 @@
       <article class="markdown-body">
         <h1>状態管理</h1>
         <h2>状態とは何か</h2>
-        <p>ofa.jsでは、<strong>状態</strong>とは、コンポーネントまたはページモジュール自身の <code>data</code> プロパティのことを指します。この状態は現在のコンポーネント上でのみ使用でき、当該コンポーネントの内部データを保存・管理します。</p>
-        <p>複数のコンポーネントやページで同じデータを共有する必要がある場合、従来の方法ではイベントの伝搬やpropsを階層的に渡していましたが、この方法は複雑なアプリケーションではコードの保守が困難になります。そのため、<strong>状態管理</strong>が必要となります――共有される状態オブジェクトを定義し、複数のコンポーネントやページモジュールがそのデータにアクセス・変更できるようにすることで、状態の共有を実現します。</p>
+        <p>ofa.jsでは、<strong>状態</strong>とはコンポーネントまたはページモジュール自身の <code>data</code> プロパティを指します。この状態は現在のコンポーネントでのみ使用でき、そのコンポーネントの内部データの保存と管理に使用されます。</p>
+        <p>当有多个组件或页面需要共享同一份数据时，传统的做法是通过事件传递或 props 层层传递，这种方式在复杂应用中会导致代码难以维护。因此需要<strong>状态管理</strong>——通过定义一个共享的状态对象，让多个组件或页面模块都可以访问和修改这份数据，从而实现状态的共享。</p>
         <blockquote>
-          <p><strong>ヒント</strong>：状態管理は、ユーザー情報、ショッピングカート、テーマ設定、グローバル設定など、コンポーネントやページをまたいでデータを共有する必要があるシナリオに適しています。</p>
+          <p><strong>ヒント</strong>：状態管理は、コンポーネントやページをまたいでデータを共有する必要があるシナリオに適しています。例えば、ユーザー情報、ショッピングカート、テーマ設定、グローバル設定などです。</p>
         </blockquote>
-        <h2>ステータスオブジェクトの生成</h2>
-        <p><code>$.stanz({})</code> を使ってリアクティブな状態オブジェクトを作成します。このメソッドは、通常のオブジェクトを初期データとして受け取り、リアクティブな状態プロキシを返します。</p>
+        <h2>生成状態オブジェクト</h2>
+        <p>通过 <code>$.stanz({})</code> を使用して、リアクティブな状態オブジェクトを作成します。このメソッドは、初期データとして通常のオブジェクトを受け取り、リアクティブな状態プロキシを返します。</p>
         <h3>基本的な使い方</h3>
-        <o-playground name="状態管理の例" style="--editor-height: 500px">
+        <o-playground name="状態管理サンプル" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // アプリケーションのホームページアドレス
+    // アプリのホームURL
     export const home = "./list.html";
     // ページ切り替えアニメーション設定
     export const pageAnime = {
@@ -120,15 +120,15 @@
     list: [{
         id: 10010,
         name: "ピート",
-        info: "毎日が新しい始まり、雨の後には必ず太陽が輝く。",
+        info: "毎日が新しい始まり、雨の後には必ず虹がかかる。",
     },{
         id: 10020,
         name: "マイク",
-        info: "人生は海のようで、意志の強い人だけが対岸にたどり着ける。",
+        info: "人生は海のようなもの、強い意志を持つ者だけが彼岸に辿り着ける。",
     },{
         id: 10030,
         name: "ジョン",
-        info: "成功の秘訣は自分の夢を諦めずに貫き通すことにある。",
+        info: "成功の秘訣は自分の夢を貫き、決して諦めないこと。",
     }]
   });
   // await fetch("/list.api").then(e=>e.json()).then(list=>data.list = list)
@@ -141,11 +141,11 @@
           padding: 10px;
         }
       </style>
-      <h2>アドレス帳</h2>
+      <h2>連絡先一覧</h2>
       <ul>
         <o-fill :value="list">
           <li>
-          名前: {{$data.name}} <button on:click="$host.gotoDetail($data)">詳細</button>
+          Name: {{$data.name}} <button on:click="$host.gotoDetail($data)">詳細</button>
           </li>
         </o-fill>
       </ul>
@@ -165,7 +165,7 @@
               this.list = contacts.list;
             },
             detached(){
-              this.list = []; // コンポーネント破棄時、マウントされた状態データをクリア
+              this.list = []; // コンポーネント破棄時にマウント状態データをクリア
             }
           };
         };
@@ -225,7 +225,7 @@
               this.userData = contacts.list.find(e=>e.id == query.id);
             },
             detached(){
-              this.userData = {}; // コンポーネント破棄時、マウントされた状態データをクリア
+              this.userData = {}; // コンポーネント破棄時にマウント状態データをクリア
             }
           };
         };
@@ -234,8 +234,8 @@
   </code>
         </o-playground>
         <h2>状態オブジェクトの特性</h2>
-        <h3>1. レスポンシブ更新</h3>
-        <p><code>$.stanz()</code> で作成された状態オブジェクトはリアクティブです。状態データが変更されたとき、そのデータを参照するすべてのコンポーネントは自動的に更新されます。</p>
+        <h3>1. リアクティブ更新</h3>
+        <p><code>$.stanz()</code> で作成される状態オブジェクトはリアクティブです。状態データに変更が発生すると、そのデータを参照しているすべてのコンポーネントが自動的に更新されます。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
 <span class="hljs-comment">// コンポーネント内</span>
@@ -257,7 +257,7 @@
   }
 };</code></pre>
         <h3>2. ディープリアクティビティ</h3>
-        <p>ステートオブジェクトは深いリアクティビティをサポートしており、ネストされたオブジェクトや配列の変更も監視されます。</p>
+        <p>状態オブジェクトは深いリアクティビティをサポートしており、ネストされたオブジェクトや配列の変更も監視されます。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
     <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>,
@@ -268,38 +268,38 @@
   <span class="hljs-attr">list</span>: []
 });
 
-<span class="hljs-comment">// ネストされたプロパティの変更も更新をトリガーする</span>
+<span class="hljs-comment">// 修改嵌套属性也会触发更新</span>
 store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;李四&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
-store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新しいタスク&quot;</span> });</code></pre>
+store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新任务&quot;</span> });</code></pre>
         <h2>ベストプラクティス</h2>
-        <h3>1. コンポーネントのattached段階でステータスをマウントする</h3>
-        <p>コンポーネントの<code>attached</code>ライフサイクルで共有状態をマウントすることをお勧めします：</p>
+        <h3>1. コンポーネントの attached フェーズでのマウント状態</h3>
+        <p>コンポーネントの <code>attached</code> ライフサイクルで共有状態をマウントすることを推奨します：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
     <span class="hljs-attr">list</span>: []
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// 共有状態をコンポーネントの data にマウントする</span>
+    <span class="hljs-comment">// 共有ステータスをコンポーネントの data にマウントする</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// コンポーネント破棄時、マウントされた状態データをクリアし、メモリリークを防ぐ</span>
+    <span class="hljs-comment">// コンポーネント破棄時に、マウントしたステータスデータをクリアしてメモリリークを防ぐ</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
   }
 };</code></pre>
-        <h3>2. 状態のスコープを合理的に管理する</h3>
+        <h3>2. 状態スコープの適切な管理</h3>
         <ul>
-          <li><strong>グローバル状態</strong>：アプリ全体からアクセスする必要があるデータ（ユーザー情報、グローバル設定など）に適用</li>
-          <li><strong>モジュール状態</strong>：特定の機能モジュール内で共有するデータに適用</li>
+          <li><strong>グローバル状態</strong>：アプリケーション全体でアクセスが必要なデータ（ユーザー情報、グローバル設定など）に適しています</li>
+          <li><strong>モジュール状態</strong>：特定の機能モジュール内部で共有されるデータに適しています</li>
         </ul>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// グローバル呼び出し状態</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
 
 <span class="hljs-comment">// モジュール内で使用する状態</span>
 <span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
-        <h2>モジュール内状態管理</h2>
-        <o-playground name="モジュール内状態管理例" style="--editor-height: 500px">
+        <h2>モジュール内の状態管理</h2>
+        <o-playground name="モジュール内状態管理サンプル" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-page src="page1.html"></o-page>
@@ -314,7 +314,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
           padding: 8px;
         }
       </style>
-      <button on:click="addItem">Add Item</button>
+      <button on:click="addItem">アイテム追加</button>
       <o-fill :value="list">
         <div>{{$index}} - <demo-comp :val="$data.val"></demo-comp></div>
       </o-fill>
@@ -345,7 +345,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
             display: inline-block;
         }
       </style>
-      {{val}} - {{cartStore.total}} <button on:click="addStoreTotal">Add Store Total</button>
+      {{val}} - {{cartStore.total}} <button on:click="addStoreTotal">合計追加</button>
       <script>
         const cartStore = $.stanz({ total: 0 });
         export default async () => {
@@ -375,16 +375,16 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <h2>注意事項</h2>
         <ol>
           <li>
-            <p><strong>状態のクリーンアップ</strong>：コンポーネントの <code>detached</code> ライフサイクルにおいて、状態データへの参照をタイムリーにクリーンアップし、メモリリークを回避する。</p>
+            <p><strong>状態のクリーンアップ</strong>：コンポーネントの <code>detached</code> ライフサイクルにおいて、状態データへの参照を速やかにクリーンアップし、メモリリークを回避する。</p>
           </li>
           <li>
-            <p><strong>循環依存を避ける</strong>：状態オブジェクト間で循環参照を形成しないようにし、これがリアクティブシステムに問題を引き起こす可能性がある。</p>
+            <p><strong>循環依存を避ける</strong>：状態オブジェクト間で循環参照を形成しないようにし、これによりリアクティブシステムに問題が生じる可能性がある。</p>
           </li>
           <li>
-            <p><strong>大規模なデータ構造</strong>：大規模なデータ構造については、算出プロパティや分割管理を検討し、不要なパフォーマンスオーバーヘッドを回避する。</p>
+            <p><strong>大規模データ構造</strong>：大規模データ構造については、計算プロパティや分割管理を検討し、不要なパフォーマンスオーバーヘッドを回避する。</p>
           </li>
           <li>
-            <p><strong>状態の一貫性</strong>：非同期操作において状態の一貫性に注意し、トランザクションやバッチ更新を使用してデータの整合性を保証できる。</p>
+            <p><strong>状態の一貫性</strong>：非同期操作において状態の一貫性に注意し、トランザクションやバッチ更新を用いてデータの整合性を保証できる。</p>
           </li>
         </ol>
       </article>

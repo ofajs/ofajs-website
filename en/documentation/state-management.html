@@ -81,14 +81,14 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>State Management</h1>
-        <h2>What is state</h2>
-        <p>In ofa.js, <strong>state</strong> refers to the <code>data</code> property of a component or page module itself. This state can only be used within the current component to store and manage its internal data.</p>
-        <p>When multiple components or pages need to share the same data, the traditional approach is to pass it through events or props layer by layer, which makes the code hard to maintain in complex applications. Therefore, <strong>state management</strong> is needed—by defining a shared state object, multiple components or page modules can access and modify this data, achieving state sharing.</p>
+        <h2>What is State</h2>
+        <p>In ofa.js, <strong>state</strong> refers to the <code>data</code> property of a component or page module. This state can only be used on the current component, and is used to store and manage the internal data of that component.</p>
+        <p>When multiple components or pages need to share the same data, the traditional approach is to pass it through events or props layer by layer, which makes the code hard to maintain in complex applications. Therefore, <strong>state management</strong> is needed—by defining a shared state object, multiple components or page modules can access and modify this data, thus achieving state sharing.</p>
         <blockquote>
-          <p><strong>Tip</strong>: State management is suitable for scenarios where data needs to be shared across components and pages, such as user information, shopping carts, theme configurations, global configurations, etc.</p>
+          <p><strong>Tip</strong>: State management is suitable for scenarios where data needs to be shared across components and pages, such as user information, shopping cart, theme configuration, global configuration, etc.</p>
         </blockquote>
-        <h2>Generate State Object</h2>
-        <p>Create a reactive state object via <code>$.stanz({})</code>. This method takes a plain object as initial data and returns a reactive state proxy.</p>
+        <h2>Generating Status Object</h2>
+        <p>Create a reactive state object by using <code>$.stanz({})</code>. This method accepts a plain object as initial data and returns a reactive state proxy.</p>
         <h3>Basic Usage</h3>
         <o-playground name="State Management Example" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
@@ -97,9 +97,9 @@
     </template>
   </code>
           <code path="app-config.js" unimportant>
-    // App homepage address
+    // Application home page address
     export const home = "./list.html";
-    // Page transition animation config
+    // Page transition animation configuration
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -120,15 +120,15 @@
     list: [{
         id: 10010,
         name: "Peter",
-        info: "Every day is a new beginning, sunshine always comes after the storm.",
+        info: "Every day is a new beginning, and the sun always shines after the storm.",
     },{
         id: 10020,
         name: "Mike",
-        info: "Life is like an ocean, only those with a strong will can reach the other shore.",
+        info: "Life is like the ocean; only those with strong will can reach the other shore.",
     },{
         id: 10030,
         name: "John",
-        info: "The secret to success is sticking to your dreams and never giving up.",
+        info: "The secret of success is to hold on to your dreams and never give up.",
     }]
   });
   // await fetch("/list.api").then(e=>e.json()).then(list=>data.list = list)
@@ -233,31 +233,31 @@
     </template>
   </code>
         </o-playground>
-        <h2>Characteristics of State Objects</h2>
-        <h3>1. Responsive Updates</h3>
-        <p>The state object created by <code>$.stanz()</code> is reactive. When the state data changes, all components referencing that data will automatically update.</p>
+        <h2>Characteristics of state objects</h2>
+        <h3>1. Reactive Update</h3>
+        <p><code>$.stanz()</code> creates a reactive state object. When the state data changes, all components that reference the data will automatically update.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
-<span class="hljs-comment">// in component</span>
+<span class="hljs-comment">// In the component</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
     <span class="hljs-attr">store</span>: {}
   },
-  <span class="hljs-attr">proto</span>: {
+  <span class="hljs-attr">proto</span>:{
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// all components referencing store.count update automatically</span>
+        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// All components that reference store.count will automatically update</span>
     }
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// directly reference properties of the state object</span>
+    <span class="hljs-comment">// Directly reference the properties of the state object</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
-  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// clear mounted state data when component is destroyed</span>
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// When component is destroyed, clear the mounted state data</span>
   }
 };</code></pre>
-        <h3>2. Deep Reactivity</h3>
-        <p>The state object supports deep reactivity, and changes to nested objects and arrays will also be observed.</p>
+        <h3>2. Deep Responsive</h3>
+        <p>The state object supports deep reactivity; changes to nested objects and arrays will also be monitored.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
     <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>,
@@ -273,33 +273,33 @@ store.<span class="hljs-property">user</span>.<span class="hljs-property">name</
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
 store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;New Task&quot;</span> });</code></pre>
         <h2>Best Practices</h2>
-        <h3>1. Mount state during the component&#39;s attached phase</h3>
-        <p>It is recommended to mount shared state in the <code>attached</code> lifecycle of a component:</p>
+        <h3>1. Mounting state during the component&#39;s attached phase</h3>
+        <p>It is recommended to mount the shared state in the component&#39;s <code>attached</code> lifecycle:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
     <span class="hljs-attr">list</span>: []
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Mount shared state to component&#x27;s data</span>
+    <span class="hljs-comment">// Mount the shared state onto the component&#x27;s data</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// When component is destroyed, clear mounted state data to prevent memory leaks</span>
+    <span class="hljs-comment">// When the component is destroyed, clear the mounted state data to prevent memory leaks</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
   }
 };</code></pre>
-        <h3>2. Properly Manage State Scope</h3>
+        <h3>2. Reasonably Manage State Scope</h3>
         <ul>
-          <li><strong>Global State</strong>: Suitable for data that needs to be accessed throughout the entire application (such as user information, global configurations) </li>
-          <li><strong>Module State</strong>: Suitable for data shared within specific functional modules</li>
+          <li><strong>Global state</strong>: Suitable for data that needs to be accessed by the entire application (e.g., user information, global configuration)</li>
+          <li><strong>Module state</strong>: Suitable for data shared within a specific functional module</li>
         </ul>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Global call state</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
 
-<span class="hljs-comment">// Module-internal state</span>
+<span class="hljs-comment">// State used within the module</span>
 <span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
-        <h2>In-Module State Management</h2>
-        <o-playground name="Module State Management Example" style="--editor-height: 500px">
+        <h2>Module-Level State Management</h2>
+        <o-playground name="Module Internal State Management Example" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-page src="page1.html"></o-page>
@@ -364,7 +364,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
                 this.cartStore = cartStore;
             },
             detached(){
-                this.cartStore = {}; // When component is destroyed, clear the mounted state data
+                this.cartStore = {}; // Clear the mounted state data when the component is destroyed
             }
           };
         };
@@ -375,16 +375,16 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <h2>Notes</h2>
         <ol>
           <li>
-            <p><strong>State Cleanup</strong>: In the <code>detached</code> lifecycle of a component, promptly clean up references to state data to avoid memory leaks.</p>
+            <p><strong>State Cleanup</strong>: In the component&#39;s <code>detached</code> lifecycle, promptly clean up references to state data to avoid memory leaks.</p>
           </li>
           <li>
-            <p><strong>Avoid Circular Dependencies</strong>: Do not create circular references between state objects, as this may cause issues in the reactive system.</p>
+            <p><strong>Avoid Circular Dependencies</strong>: Do not form circular references between state objects, as this may cause issues with the reactive system.</p>
           </li>
           <li>
-            <p><strong>Large Data Structures</strong>: For large data structures, consider using computed properties or sharding management to avoid unnecessary performance overhead.</p>
+            <p><strong>Large Data Structures</strong>: For large data structures, consider using computed properties or chunked management to avoid unnecessary performance overhead.</p>
           </li>
           <li>
-            <p><strong>State Consistency</strong>: Pay attention to state consistency during asynchronous operations. Transactions or batch updates can be used to ensure data integrity.</p>
+            <p><strong>State Consistency</strong>: Pay attention to state consistency in asynchronous operations, and use transactions or batch updates to ensure data integrity.</p>
           </li>
         </ol>
       </article>

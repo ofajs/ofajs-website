@@ -81,11 +81,11 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>스타일 쿼리</h1>
-        <p><code>match-var</code>는 ofa.js에서 CSS 변수를 기반으로 스타일을 매칭하는 기능 컴포넌트입니다. <code>match-var</code>를 통해 현재 컴포넌트의 CSS 변수 값에 따라 동적으로 다른 스타일을 매칭하고 적용할 수 있습니다. 이러한 특성은 스타일과 관련된 컨텍스트 상태 전달에 특화되어 있으며, JavaScript를 사용할 필요 없이 더욱 편리하게 사용할 수 있어, 테마 색상 등 스타일 전달 요구사항에 적합합니다.</p>
+        <p><code>match-var</code>는 ofa.js에서 CSS 변수를 기반으로 스타일을 매칭하는 기능 컴포넌트입니다. <code>match-var</code>를 통해 현재 컴포넌트의 CSS 변수 값에 따라 동적으로 다른 스타일을 매칭하고 적용할 수 있습니다. 이 특성은 스타일과 관련된 컨텍스트 상태 전달에 특화되어 있으며 JavaScript를 사용할 필요가 없어 더욱 편리하게 사용할 수 있으며, 테마 색상 등 스타일 전달 요구사항에 적합합니다.</p>
         <h2>핵심 개념</h2>
         <ul>
-          <li><strong>match-var</strong>: CSS 변수 값에 따라 내부 스타일을 적용할지 결정하는 스타일 매칭 컴포넌트</li>
-          <li><strong>속성 매칭</strong>: 컴포넌트 속성을 통해 매칭할 CSS 변수와 기대값을 정의</li>
+          <li><strong>match-var</strong>: 스타일 매칭 컴포넌트, CSS 변수 값에 따라 내부 스타일 적용 여부 결정</li>
+          <li><strong>속성 매칭</strong>: 컴포넌트 속성을 통해 매칭할 CSS 변수와 예상 값 정의</li>
           <li><strong>스타일 적용</strong>: 매칭 성공 시 내부 <code>&lt;style&gt;</code> 태그의 스타일이 컴포넌트에 적용됨</li>
         </ul>
         <h2>기본 사용법</h2>
@@ -99,15 +99,15 @@
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
         <h3>속성</h3>
-        <p><code>match-var</code> 컴포넌트는 CSS 변수의 매칭 규칙을 정의하기 위해 임의의 속성을 사용합니다. 속성 이름은 CSS 변수 이름(<code>--</code> 접두사 제외)에 해당하고, 속성 값은 기대하는 매칭 값입니다.</p>
+        <p><code>match-var</code> 컴포넌트는 임의의 속성을 사용하여 CSS 변수의 일치 규칙을 정의합니다. 속성 이름은 CSS 변수 이름( <code>--</code> 접두사 제외)에 해당하고, 속성 값은 일치시키려는 값입니다.</p>
         <h3>작동 원리</h3>
         <ol>
-          <li><strong>브라우저 지원</strong>: 브라우저가 <code>@container style()</code> 쿼리를 지원하면 CSS 네이티브 기능을 바로 사용합니다</li>
-          <li><strong>폴백 처리</strong>: 지원하지 않을 경우, CSS 변수 값 변화를 폴링하며 감지하고 매치 성공 시 동적으로 스타일을 주입합니다</li>
-          <li><strong>수동 새로고침</strong>: <code>$.checkMatch()</code> 메서드로 수동으로 스타일 감지를 트리거할 수 있습니다</li>
+          <li><strong>브라우저 지원</strong>: 브라우저가 <code>@container style()</code> 쿼리를 지원하면 CSS 네이티브 기능을 바로 사용합니다.</li>
+          <li><strong>폴백 처리</strong>: 지원하지 않을 경우 CSS 변수 값 변화를 폴링으로 감지하여, 조건에 맞으면 동적으로 스타일을 주입합니다.</li>
+          <li><strong>수동 새로고침</strong>: <code>$.checkMatch()</code> 메서드로 수동으로 스타일 감지를 트리거할 수 있습니다.</li>
         </ol>
         <h2>기본 예제</h2>
-        <o-playground name="기본 예시" style="--editor-height: 500px">
+        <o-playground name="기본 예제" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
       <o-page src="./page1.html"></o-page>
@@ -126,7 +126,7 @@
            --theme: data(currentTheme);
         }
       </style>
-      <button on:click="changeTheme">테마 전환</button> - 테마:{{currentTheme}}
+      <button on:click="changeTheme">테마 전환</button> - Theme:{{currentTheme}}
       <div class="container">
         <theme-box>
           CSS 변수에 따라 다른 스타일 표시
@@ -207,7 +207,7 @@
     }
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">match-var</span>&gt;</span></code></pre>
-        <h2>다중 조건 매칭 예시</h2>
+        <h2>다중 조건 매칭 예제</h2>
         <o-playground name="속성 매칭 예제" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -229,7 +229,7 @@
       </style>
       <l-m src="./test-card.html"></l-m>
       <div>테마: {{theme}} <button on:click="changeTheme">테마 전환</button></div>
-      <div>사이즈: {{size}} <button on:click="changeSize">사이즈 전환</button></div>
+      <div>크기: {{size}} <button on:click="changeSize">크기 전환</button></div>
       <div class="content">
         <test-card>
           <div>다중 조건 스타일 매칭 예제</div>
@@ -309,9 +309,9 @@
   </code>
         </o-playground>
         <h2>checkMatch 수동 새로고침</h2>
-        <p>어떤 경우에는 CSS 변수의 변경 사항이 자동으로 감지되지 않을 수 있으며, 이때 수동으로 <code>$.checkMatch()</code> 메서드를 호출하여 스타일 감지를 트리거할 수 있습니다.</p>
+        <p>특정 상황에서는 CSS 변수의 변화가 자동으로 감지되지 않을 수 있으며, 이때 수동으로 <code>$.checkMatch()</code> 메서드를 호출해 스타일 검사를 트리거할 수 있습니다.</p>
         <blockquote>
-          <p>현재 Firefox는 아직 <code>@container style()</code> 쿼리를 지원하지 않으므로, 수동으로 <code>$.checkMatch()</code>를 호출해야 합니다. 브라우저가 향후 네이티브로 지원하게 되면, 시스템이 변수 변경을 자동으로 감지하여 수동으로 트리거할 필요가 없어집니다.</p>
+          <p>현재 Firefox는 <code>@container style()</code> 쿼리를 지원하지 않으므로 수동으로 <code>$.checkMatch()</code>를 호출해야 합니다. 향후 브라우저가 기본적으로 지원하게 되면 시스템이 자동으로 변수 변경을 감지하므로 수동으로 트리거할 필요가 없습니다.</p>
         </blockquote>
         <pre><code class="hljs language-javascript"><span class="hljs-attr">proto</span>: {
   <span class="hljs-title function_">updateTheme</span>(<span class="hljs-params"></span>) {
@@ -322,9 +322,9 @@
 }</code></pre>
         <h2>모범 사례</h2>
         <ol>
-          <li><strong>CSS 네이티브 기능 우선 사용</strong>: <code>match-var</code>는 브라우저 네이티브 <code>@container style()</code> 쿼리를 우선 사용하며, 최신 브라우저에서 성능이 더 우수합니다 </li>
-          <li><strong>스타일을 합리적으로 구성</strong>: 관련 있는 매칭 스타일을 한데 모아 유지보수와 이해를 용이하게 합니다 </li>
-          <li><strong>data() 바인딩 활용</strong>: <code>data()</code> 디렉티브와 결합하면 반응형 스타일 전환이 가능합니다</li>
+          <li><strong>CSS 네이티브 기능 우선 사용</strong>: <code>match-var</code>는 브라우저 네이티브 <code>@container style()</code> 쿼리를 우선 사용하며, 최신 브라우저에서 성능이 더 좋습니다.</li>
+          <li><strong>스타일 합리적으로 구성</strong>: 관련된 매칭 스타일을 함께 배치하여 유지보수와 이해를 용이하게 합니다.</li>
+          <li><strong>data() 바인딩 사용</strong>: <code>data()</code> 디렉티브와 결합하여 반응형 스타일 전환을 구현할 수 있습니다.</li>
         </ol>
       </article>
       <div class="footer"></div>

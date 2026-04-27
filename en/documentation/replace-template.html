@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>replace-temp Component</h1>
-        <p>When attempting list rendering inside special elements like <code>&lt;select&gt;</code> or <code>&lt;table&gt;</code>, the browser may automatically remove the <code>&lt;x-fill&gt;</code> component, causing the list rendering to fail. In such cases, the <code>replace-temp</code> approach can be used to solve the problem.</p>
+        <p>When we attempt to render a list inside special elements such as select or table, the browser may automatically remove the <code>&lt;x-fill&gt;</code> component, causing the list rendering to fail. In this case, the replace-temp approach can be used to resolve the issue.</p>
         <p>The usage method is: set <code>is=&quot;replace-temp&quot;</code> on the <code>&lt;template&gt;</code> tag, and place it inside an element that the browser will automatically correct.</p>
         <o-playground name="replace-temp component" style="--editor-height: 500px">
           <code>

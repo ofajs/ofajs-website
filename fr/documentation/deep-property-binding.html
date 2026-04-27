@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comprendre la liaison d'attributs</title>
+  <title>Comprendre la liaison des propriétés</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,12 +80,12 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Comprendre la liaison d'attributs</h1>
-        <p>Dans le contenu précédent, nous avons présenté les bases de l'utilisation de la <a href="./property-binding.html" olink="">liaison de propriétés</a>. L'exemple précédent consistait à lier l'attribut value d'un élément natif du navigateur (comme <code>textarea</code>). Cette section approfondira l'exploration de la nature de la liaison de propriétés — elle lie en réalité aux propriétés JavaScript de l'instance du composant, et non aux attributs HTML.</p>
-        <h2>Mécanisme de liaison des propriétés des composants</h2>
-        <p>Dans ofa.js, lorsque nous utilisons la syntaxe <code>:toProp="fromProp"</code> dans un composant parent, nous définissons une propriété JavaScript de l'instance du composant enfant, et non un attribut HTML. Cela constitue une différence importante par rapport à la définition directe d'un attribut HTML (comme <code>attr:toKey="fromKey"</code>).</p>
-        <p>L'exemple suivant montre comment transmettre des données à un composant personnalisé via la liaison d'attributs :</p>
-        <o-playground name="Comprendre la liaison d'attributs" style="--editor-height: 500px">
+        <h1>Comprendre la liaison des propriétés</h1>
+        <p>Dans le contenu précédent, nous avons présenté brièvement la méthode de base de la <a href="./property-binding.html" olink="">liaison de propriétés</a>. L’exemple précédent servait à lier l’attribut <code>value</code> d’un élément natif du navigateur (comme <code>textarea</code>). Cette section approfondira l’essence de la liaison de propriétés : il s’agit en réalité de lier une propriété JavaScript après l’instanciation du composant, et non un attribut HTML.</p>
+        <h2>Mécanisme de liaison des propriétés du composant</h2>
+        <p>Dans ofa.js, lorsque nous utilisons la syntaxe <code>:toProp="fromProp"</code> dans le composant parent, nous définissons la propriété JavaScript de l’instance du composant enfant, et non un attribut HTML. Cela diffère de la définition directe d’un attribut HTML (comme <code>attr:toKey="fromKey"</code>), et cette distinction est importante.</p>
+        <p>L'exemple ci-dessous montre comment transmettre des données à un composant personnalisé via la liaison de propriétés :</p>
+        <o-playground name="Compréhension de la liaison des propriétés" style="--editor-height: 500px">
           <code path="demo.html" preview="" unimportant="">
     <template>
       <o-page src="page1.html"></o-page>
@@ -124,7 +124,7 @@
           margin: 8px;
         }
       </style>
-      <p>Nom complet : {{fullName}}</p>
+      <p>FullName: {{fullName}}</p>
       <script>
         export default async ({ load }) => {
           return {
@@ -138,39 +138,39 @@
     </template>
   </code>
         </o-playground>
-        <p>Dans cet exemple :- Les données <code>val</code> du composant parent sont liées à la propriété <code>fullName</code> du composant enfant <code>&lt;demo-comp&gt;</code></p>
+        <p>Dans cet exemple :- La donnée <code>val</code> du composant parent est liée à la propriété <code>fullName</code> du composant enfant <code>&lt;demo-comp&gt;</code></p>
         <ul>
-          <li>Utiliser la syntaxe <code>:full-name="val"</code> pour transmettre la valeur <code>val</code> du composant parent à la propriété <code>fullName</code> du composant enfant</li>
-          <li>Après réception de cette valeur, le composant enfant l’affiche dans le modèle via <code>{{fullName}}</code></li>
+          <li>La syntaxe <code>:full-name="val"</code> est utilisée pour transmettre la valeur de <code>val</code> du composant parent à la propriété <code>fullName</code> du composant enfant</li>
+          <li>Après avoir reçu cette valeur, le composant enfant l'affiche dans le template via <code>{{fullName}}</code></li>
         </ul>
-        <h2>Liaison d'attributs vs Héritage d'attributs de caractéristiques</h2>
-        <p>Il est important de noter que la liaison d'attributs (<code>:</code>) et l'héritage des attributs de caractéristiques (<code>attr:</code>) présentent les différences clés suivantes :</p>
+        <h2>Liaison de propriétés vs héritage de propriétés caractéristiques</h2>
+        <p>Il convient de noter que la liaison de propriété (<code>:</code>) et l’héritage des attributs de caractéristique (<code>attr:</code>) présentent les différences clés suivantes :</p>
         <h3>Liaison de propriété (<code>:</code>)</h3>
         <ul>
           <li>Propriétés JavaScript liées à l’instance du composant</li>
           <li>Les données transmises conservent leur type d’origine (chaîne, nombre, booléen, etc.)</li>
-          <li>Elles sont directement accessibles et modifiables à l’intérieur du composant, sans même avoir à définir au préalable un <code>data</code> dans le composant</li>
+          <li>Accessibles et modifiables directement à l’intérieur du composant, sans même avoir à définir au préalable <code>data</code> dans le composant</li>
         </ul>
         <h3>Héritage des attributs de caractéristiques (<code>attr:</code>)</h3>
         <ul>
-          <li>Définir les attributs HTML</li>
+          <li>Définir des attributs HTML</li>
           <li>Toutes les valeurs sont converties en chaînes de caractères</li>
           <li>Principalement utilisé pour transmettre des attributs aux éléments DOM sous-jacents</li>
           <li>Nécessite un traitement spécial pour analyser les données complexes</li>
-          <li>Doit être défini à l'avance dans le composant avec <code>attrs</code> pour recevoir les valeurs d'attribut</li>
+          <li>Il est nécessaire de définir <code>attrs</code> à l'intérieur du composant à l'avance pour pouvoir recevoir les valeurs d'attribut</li>
         </ul>
         <p>Comparaison grammaticale :```html</p>
-        <!-- Liaison d'attributs : transmettre des valeurs JavaScript, conserver les types de données -->
+        <!-- Liaison de propriété : transmettre des valeurs JavaScript, en conservant le type de données -->
         <p><my-component :data-value="complexObject"></my-component>
           <my-component :count="42"></my-component>
           <my-component :is-active="true"></my-component>
         </p>
         <!-- Héritage d'attributs : définir des attributs HTML, toutes les valeurs sont converties en chaînes -->
         <p><my-component attr:data-value="simpleString"></my-component>
-          <my-component attr:count="42"></my-component> <!-- Chaîne "42" réellement transmise -->
+          <my-component attr:count="42"></my-component> <!-- en pratique, la chaîne de caractères "42" est transmise -->
         </p>
         <pre><code class="hljs"><span class="language-xml">
-## Comparaison des cas et différences
+## Comparaison des différences des cas
 
 <span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Comparaison des différences de cas"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 500px"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
@@ -236,17 +236,17 @@
   <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
 
-Ici, `vone` est une propriété de l'instance du composant, `vtwo` est un attribut HTML, la valeur de l'attribut sera sélectionnée par le sélecteur `[vtwo]` et les styles seront appliqués, tandis que `vone` est une propriété de l'instance du composant, elle ne sera pas sélectionnée par le sélecteur `[vone]`.
+où `vone` est une propriété de l'instance du composant, `vtwo` est un attribut HTML, la valeur de l'attribut sera sélectionnée par le sélecteur `[vtwo]` et un style lui sera appliqué, tandis que `vone` est une propriété de l'instance du composant et ne sera pas sélectionnée par le sélecteur `[vone]`.
 
 ## Liaison de données bidirectionnelle
 
-Les composants instanciés prennent également en charge la liaison de données bidirectionnelle, en utilisant la syntaxe `sync:toProp="fromProp"`. La liaison bidirectionnelle permet la synchronisation des données entre le composant parent et le composant enfant ; lorsque les données changent d'un côté, l'autre côté est mis à jour en conséquence.
+Une fois instancié, le composant prend également en charge la liaison de données bidirectionnelle via la syntaxe `sync:toProp="fromProp"`. Cette liaison bidirectionnelle permet la synchronisation des données entre le composant parent et le composant enfant ; lorsque les données changent d’un côté, l’autre côté se met à jour en conséquence.
 
-&gt; Contrairement à Angular et Vue, ofa.js n'a pas besoin d'ajouter de configuration spéciale ou d'opérations supplémentaires aux composants pour prendre en charge nativement la syntaxe de liaison de données bidirectionnelle.
+&gt; Contrairement à Angular et Vue, ofa.js prend en charge nativement la syntaxe de liaison de données bidirectionnelle sans nécessiter de configuration spéciale ou d'opérations supplémentaires pour les composants.
 
 ### Exemple de liaison bidirectionnelle
 
-L'exemple ci-dessous montre comment établir une liaison de données bidirectionnelle entre un composant parent et un composant enfant :
+L'exemple suivant montre comment établir une liaison de données bidirectionnelle entre un composant parent et un composant enfant :
 
 <span class="hljs-tag">&lt;<span class="hljs-name">o-playground</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Exemple de liaison bidirectionnelle"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"--editor-height: 600px"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">code</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"demo.html"</span> <span class="hljs-attr">preview</span> <span class="hljs-attr">unimportant</span>&gt;</span>
@@ -264,9 +264,9 @@ L'exemple ci-dessous montre comment établir une liaison de données bidirection
           <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
         }
       </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:blue;"</span>&gt;</span>Valeur dans le composant parent : </span><span class="hljs-template-variable">{{<span class="hljs-name">val</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:blue;"</span>&gt;</span>Valeur dans le composant parent: </span><span class="hljs-template-variable">{{<span class="hljs-name">val</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modifier la valeur du composant parent via la zone de saisie :<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Saisissez du texte dans la zone..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"val"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Saisissez du texte dans la zone de saisie..."</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Modifier la valeur du composant parent via le composant enfant :<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">demo-comp</span> <span class="hljs-attr">sync:full-name</span>=<span class="hljs-string">"val"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">demo-comp</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
@@ -290,8 +290,8 @@ L'exemple ci-dessous montre comment établir une liaison de données bidirection
           <span class="hljs-attribute">margin</span>: <span class="hljs-number">8px</span>;
         }
       </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Valeur affichée par le composant enfant : </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Saisissez dans la zone du composant enfant..."</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Valeur affichée dans le composant enfant : </span><span class="hljs-template-variable">{{<span class="hljs-name">fullName</span>}}</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">sync:value</span>=<span class="hljs-string">"fullName"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Saisissez dans la zone de saisie du composant enfant..."</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
         <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
           <span class="hljs-keyword">return</span> {
@@ -306,22 +306,22 @@ L'exemple ci-dessous montre comment établir une liaison de données bidirection
   <span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-playground</span>&gt;</span>
 
-Dans cet exemple :- Le `val` du composant parent et le `fullName` du composant enfant réalisent une liaison bidirectionnelle via `sync:full-name="val"`
-- Lorsqu’on saisit du contenu dans le champ du composant parent, le composant enfant affiche immédiatement la nouvelle valeur
-- Lorsqu’on saisit du contenu dans le champ du composant enfant, le composant parent se met également à jour et affiche la nouvelle valeur
+Dans cet exemple :- La propriété `val` du composant parent et la propriété `fullName` du composant enfant sont liées de manière bidirectionnelle via `sync:full-name="val"`
+- Lorsque l'utilisateur saisit du contenu dans la zone de saisie du composant parent, le composant enfant affiche immédiatement la nouvelle valeur
+- Lorsque l'utilisateur saisit du contenu dans la zone de saisie du composant enfant, le composant parent est également mis à jour immédiatement
 
 ### Différence entre la liaison bidirectionnelle et la liaison de propriété normale
 
-| Caractéristique | Liaison d’attribut normale (`:`) | Liaison bidirectionnelle (`sync:`) |
+| Caractéristique | Liaison de propriété normale (`:`) | Liaison bidirectionnelle (`sync:`) |
 |------|-------------------|-------------------|
 | Flux de données | Unidirectionnel : parent → enfant | Bidirectionnel : parent ↔ enfant |
 | Syntaxe | `:prop="value"` | `sync:prop="value"` |
-| Modification du composant enfant | N’affecte pas le composant parent | Affecte le composant parent |
-| Scénarios applicables | Le composant parent transmet la configuration au composant enfant | Synchronisation des données entre parent et enfant requise |### Remarques
+| Modification par l'enfant | N'affecte pas le parent | Affecte le parent |
+| Cas d'utilisation | Parent transmet une configuration à l'enfant | Nécessite la synchronisation des données entre parent et enfant |### Remarques
 
-1. **Considérations de performance** : La liaison bidirectionnelle déclenche un nouveau rendu lors des changements de données, elle doit être utilisée avec prudence dans des scénarios complexes.
-2. **Contrôle du flux de données** : Un excès de liaisons bidirectionnelles peut rendre le flux de données difficile à suivre, il est recommandé de concevoir judicieusement les modes de communication entre les composants.
-3. **Compatibilité des composants** : Tous les composants ne sont pas adaptés à l'utilisation de la liaison bidirectionnelle, il faut tenir compte de l'objectif de conception du composant.</span></code></pre>
+1. **Considérations de performance** : la liaison bidirectionnelle déclenche un nouveau rendu lorsque les données changent ; elle doit être utilisée avec prudence dans des scénarios complexes  
+2. **Contrôle du flux de données** : trop de liaisons bidirectionnelles peuvent rendre le flux de données difficile à suivre ; il est conseillé de concevoir rationnellement les modes de communication entre composants  
+3. **Compatibilité des composants** : tous les composants ne sont pas adaptés à la liaison bidirectionnelle ; l’objectif de conception du composant doit être pris en compte</span></code></pre>
       </article>
       <div class="footer"></div>
       <script>

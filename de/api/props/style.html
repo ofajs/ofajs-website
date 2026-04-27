@@ -81,15 +81,15 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>style</h1>
-        <p>Das <code>style</code>-Attribut bleibt mit dem nativen Stil konsistent.</p>
-        <p>Bitte beachten Sie, dass das <code>style</code>-Attribut nicht die tatsächlichen Werte des Stils abrufen kann, sondern nur die Werte, die im <code>style</code>-Attribut gesetzt wurden. Obwohl die <code>style</code>-Methode ähnlich wie die <a href="./css.html" olink="">css-Methode</a> ist, kann sie keine vollständige Stilüberschreibung durchführen. Im Vergleich zu <code>css</code> ist die interne Ausführungseffizienz der <code>style</code>-Methode höher.</p>
-        <p>Nachfolgend ein Beispiel, das zeigt, wie man <code>style</code> verwendet:</p>
+        <p><code>style</code> Attribut bleibt konsistent mit dem nativen.</p>
+        <p>Bitte beachten Sie, dass das <code>style</code>-Attribut nicht den tatsächlichen Wert eines Stils abrufen kann, sondern nur den im <code>style</code>-Attribut gesetzten Wert. Obwohl die <code>style</code>-Methode der <a href="./css.html" olink="">css-Methode</a> ähnelt, kann sie keine vollständige Stilüberschreibung vornehmen. Im Vergleich zu <code>css</code> ist die interne Ausführungseffizienz der <code>style</code>-Methode höher.</p>
+        <p>Im Folgenden ein Beispiel, das zeigt, wie <code>style</code> verwendet wird:</p>
         <o-playground name="style - direkte Verwendung" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
-      <div id="target">ursprünglicher Text</div>
+      <div id="target">origin text</div>
       <br>
-      <h4>Logger</h4>
+      <h4>logger</h4>
       <div id="logger" style="border:#aaa solid 1px;padding:8px;"></div>
       <script>
         $("#logger").text = $("#target").style.color;
@@ -101,10 +101,10 @@
     </template>
   </code>
         </o-playground>
-        <p>Bitte beachte, dass die <code>style</code>-Methode nur Werte abruft und auf dem <code>style</code>-Attribut setzt, nicht jedoch die tatsächliche berechnete Darstellung.</p>
-        <h2>Verwendung auf Template-Syntax-Weise</h2>
-        <p>Sie können auch über die Template-Syntax den Stil des Zielelements festlegen.</p>
-        <o-playground name="style - Template-Syntax" style="--editor-height: 400px">
+        <p>Bitte beachten Sie, dass die <code>style</code>-Methode nur die Werte des <code>style</code>-Attributs abruft und setzt, nicht jedoch die tatsächlichen berechneten Stile.</p>
+        <h2>Verwendung der Vorlagensyntax</h2>
+        <p>Du kannst auch über die Template-Syntax die Stile des Ziel-Elements festlegen.</p>
+        <o-playground name="style - Vorlagen-Syntax" style="--editor-height: 400px">
           <code path="demo.html" preview="">
     <template>
       <l-m src="./style-demo.html"></l-m>
@@ -118,7 +118,7 @@
   </code>
           <code path="style-demo.html" active="">
     <template component="">
-      <div :style.color="txt">Ich bin das Ziel</div>
+      <div :style.color="txt">I am target</div>
       <script>
         export default {
           tag: "style-demo",

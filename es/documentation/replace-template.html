@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Componente replace-temp</h1>
-        <p>Cuando intentamos renderizar una lista dentro de elementos especiales como <code>select</code> o <code>table</code>, el navegador puede eliminar automáticamente el componente <code>&lt;x-fill&gt;</code>, lo que provoca un fallo en el renderizado de la lista. En este caso, podemos utilizar el método <code>replace-temp</code> para resolver este problema.</p>
+        <p>Cuando intentamos renderizar una lista dentro de elementos especiales como select o table, el navegador puede eliminar automáticamente el componente <code>&lt;x-fill&gt;</code>, provocando que el renderizado de la lista falle. En este caso, se puede utilizar el método replace-temp para resolver este problema.</p>
         <p>El método de uso es: establece <code>is=&quot;replace-temp&quot;</code> en la etiqueta <code>&lt;template&gt;</code> y colócala dentro de un elemento que el navegador corregirá automáticamente.</p>
-        <o-playground name="Componente replace-temp" style="--editor-height: 500px">
+        <o-playground name="replace-temp componente" style="--editor-height: 500px">
           <code>
     <template page>
       <style>

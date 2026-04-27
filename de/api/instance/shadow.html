@@ -81,7 +81,7 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>shadow</h1>
-        <p>Mit dem <code>shadow</code>-Attribut können Sie die Instanz des Schattenwurzelknotens eines Elements abrufen.</p>
+        <p>Mit der <code>shadow</code>-Eigenschaft können Sie die Instanz des Shadow-Root-Knotens eines Elements abrufen.</p>
         <o-playground name="shadow - Schattenknoten" style="--editor-height: 400px">
           <code path="demo.html" preview>
     <template>
@@ -109,17 +109,17 @@
     </template>
   </code>
         </o-playground>
-        <p>Es ist zu beachten, dass innerhalb von Elementen mit Vorlagensyntax direkte Änderungen an Elementen innerhalb des Schattenknotens vermieden werden sollten, um Konsistenz und Wartbarkeit der Operationen sicherzustellen.</p>
-        <h2>Abrufen von Elementinstanzen innerhalb des Schatten-DOM einer Komponente von außen</h2>
-        <p>Sie können auch eine benutzerdefinierte Elementinstanz von extern beziehen und dann über die Eigenschaft <code>shadow</code> auf die Elemente innerhalb des Schattenknotens zugreifen, wie folgt:</p>
-        <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="Schatten - Externer Zugriff" style="--editor-height: 400px">
+        <p>Es ist zu beachten, dass die direkte Modifikation von Elementen innerhalb von Schattenknoten in Elementen mit Vorlagensyntax vermieden werden sollte, um die Konsistenz und Wartbarkeit der Operationen zu gewährleisten.</p>
+        <h2>Instanzen von Elementen innerhalb der Schatten-DOM-Komponente von außen abrufen</h2>
+        <p>Sie können auch eine benutzerdefinierte Elementinstanz von außen abrufen und dann über die <code>shadow</code>-Eigenschaft auf Elemente im Schattenknoten zugreifen, wie unten gezeigt:</p>
+        <pre><code class="hljs language-javascript">$(<span class="hljs-string">&quot;test-shadow&quot;</span>).<span class="hljs-property">shadow</span>.$(<span class="hljs-string">&#x27;selector&#x27;</span>).<span class="hljs-title function_">method</span>(xxx);</code></pre><o-playground name="shadow - externer Zugriff" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./test-shadow.html"></l-m>
       <test-shadow></test-shadow>
       <script>
         setTimeout(()=>{
-          $("test-shadow").shadow.$("#target").text = 'Ziel von außen ändern - ' + new Date();
+          $("test-shadow").shadow.$("#target").text = 'change target from outside - ' + new Date();
         },1000);
       </script>
     </template>
@@ -127,16 +127,16 @@
           <code path="test-shadow.html">
     <template component>
       <ul>
-        <li>Element 1</li>
-        <li id="target">Element 2</li>
-        <li>Element 3</li>
+        <li>item 1</li>
+        <li id="target">item 2</li>
+        <li>item 3</li>
       </ul>
       <script>
         export default {
           tag:"test-shadow",
           ready(){
             setTimeout(()=>{
-              this.shadow.$("#target").text = 'Ziel ändern';
+              this.shadow.$("#target").text = 'change target';
             },500);
           }
         };

@@ -81,13 +81,13 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>インスタンスデータの特徴</h1>
-        <p><code>$</code> によって取得または作成されたインスタンスオブジェクトは、完全な stanz データ特性を持っている。なぜなら <code>$</code> インスタンスは stanz を継承しているからである。これは、<code>stanz</code> が提供するデータ操作メソッドと特性を利用して、インスタンスオブジェクトのデータを操作・監視できることを意味する。</p>
+        <p><code>$</code> によって取得または作成されたインスタンスオブジェクトは、完全な stanz データ特性を持っている。なぜなら、<code>$</code> インスタンスは stanz を継承しているからだ。これは、stanz が提供するデータ操作メソッドや特性を利用して、インスタンスオブジェクトのデータを操作し、監視できることを意味する。</p>
         <blockquote>
-          <p>以下の例では通常の要素を使用しています。カスタムコンポーネントは通常登録済みのデータを持っていますが、通常の要素は通常タグ情報のみを含んでいるため、デモンストレーションにより適しています。</p>
+          <p>以下の例では通常の要素を使用しています。カスタムコンポーネントは通常、登録済みのデータを持っているのに対し、通常の要素はタグ情報のみを含むことが多いため、デモに適しています。</p>
         </blockquote>
         <h2>watch</h2>
-        <p>インスタンスは<code>watch</code>メソッドを通じて値の変更を監視できます。オブジェクトの子オブジェクトの値を変更した場合でも、オブジェクトの<code>watch</code>メソッドで変更を検知できます。</p>
-        <p>以下は、<code>$</code>インスタンスと<code>watch</code>メソッドの使い方を示す例です：</p>
+        <p>インスタンスは <code>watch</code> メソッドを使って値の変更を監視できます。オブジェクトの子オブジェクトの値を変更しても、そのオブジェクトの <code>watch</code> メソッドで変更を監視できます。</p>
+        <p>以下は、<code>$</code> インスタンスと <code>watch</code> メソッドの使用方法を示す例です：</p>
         <o-playground name="stanz - watch" style="--editor-height: 480px">
           <code path="demo.html">
     <template>
@@ -116,12 +116,13 @@
       </script>
     </template>
   </code>
-          <p>この例では、まず <code>$</code> インスタンスオブジェクト <code>target</code> を作成し、次に <code>watch</code> メソッドを使用してその変更を監視します。たとえオブジェクトの子オブジェクトの値、例えば <code>target.bbb.child.val</code> の値を変更しても、<code>watch</code> メソッド内でこれらの変更を監視し、<code>logger</code> 要素の内容を更新することができます。これは <code>$</code> インスタンスオブジェクトの強力な特性を示しており、オブジェクトの変化を簡単に監視できるようにします。</p>
-          <h2>watchTick</h2>
-          <p><code>watchTick</code>と<code>watch</code>メソッドは機能が似ていますが、<code>watchTick</code>の内部にはスロットリング処理があり、単一スレッドで1回実行されるため、パフォーマンスがより要求されるシナリオでデータの変更をより効率的に監視できます。</p>
-          <p>以下は、<code>$</code> インスタンスの <code>watchTick</code> メソッドの使用方法を示す例です：</p>
-          <o-playground name="stanz - watchTick" style="--editor-height: 480px">
-            <code path="demo.html">
+        </o-playground>
+        <p>この例では、まず <code>$</code> インスタンスオブジェクト <code>target</code> を作成し、<code>watch</code> メソッドを使ってその変更を監視します。オブジェクトの子オブジェクトの値（例えば <code>target.bbb.child.val</code> の値）を変更しても、<code>watch</code> メソッドでそれらの変更を検出し、<code>logger</code> 要素の内容を更新できます。これは <code>$</code> インスタンスオブジェクトの強力な特性を示しており、オブジェクトの変化を簡単に監視できるようにします。</p>
+        <h2>watchTick</h2>
+        <p><code>watchTick</code> と <code>watch</code> メソッドの機能は似ていますが、<code>watchTick</code> 内部にはスロットル操作があり、単一スレッドで1回実行されるため、パフォーマンスがより求められるシナリオでは、データの変動をより効果的に監視できます。</p>
+        <p>以下は、<code>$</code> インスタンスの <code>watchTick</code> メソッドの使用方法を示す例です：</p>
+        <o-playground name="stanz - watchTick" style="--editor-height: 480px">
+          <code path="demo.html">
     <template>
       <div id="target"></div>
       <br>
@@ -147,13 +148,13 @@
       </script>
     </template>
   </code>
-          </o-playground>
-          <p>この例では、まず <code>$</code> インスタンスオブジェクト <code>target</code> を作成します。次に、<code>watch</code> メソッドと <code>watchTick</code> メソッドを使用してオブジェクトの変更を監視します。<code>watch</code> メソッドはデータが変更されたときに即座に実行されますが、<code>watchTick</code> メソッドは単一のスレッドで一度だけ実行されるため、監視操作の頻度を制限することができます。必要に応じて、データの変更を監視するために <code>watch</code> または <code>watchTick</code> メソッドを選択できます。</p>
-          <h2>unwatch</h2>
-          <p><code>unwatch</code> メソッドはデータのリスニングをキャンセルするために使用され、以前に登録した <code>watch</code> または <code>watchTick</code> のリスニングを取り消すことができます。</p>
-          <p>以下は、 <code>$</code> インスタンスの <code>unwatch</code> メソッドの使用例です：</p>
-          <o-playground name="stanz - unwatch" style="--editor-height: 480px">
-            <code path="demo.html">
+        </o-playground>
+        <p>この例では、まず <code>$</code> インスタンスオブジェクト <code>target</code> を作成します。そして、<code>watch</code> メソッドと <code>watchTick</code> メソッドを使用して、オブジェクトの変更を監視します。<code>watch</code> メソッドはデータが変更されるとすぐに実行され、<code>watchTick</code> メソッドは単一スレッド下で一度だけ実行されるため、監視操作の頻度を制限できます。ニーズに応じて、<code>watch</code> または <code>watchTick</code> メソッドを使用してデータの変化を監視できます。</p>
+        <h2>unwatch</h2>
+        <p><code>unwatch</code>メソッドは、データの監視を解除するために使用され、以前に登録した<code>watch</code>または<code>watchTick</code>の監視をキャンセルできます。</p>
+        <p>以下は、<code>$</code> インスタンスの <code>unwatch</code> メソッドの使用例です：</p>
+        <o-playground name="stanz - unwatch" style="--editor-height: 480px">
+          <code path="demo.html">
     <template>
       <div id="target"></div>
       <br>
@@ -178,14 +179,14 @@
       </script>
     </template>
   </code>
-          </o-playground>
-          <p>この例では、まず <code>$</code> インスタンスオブジェクト <code>target</code> を作成し、次に <code>watch</code> メソッドと <code>watchTick</code> メソッドを使用してそれぞれ2つのリスナーを登録しました。その後、<code>unwatch</code> メソッドに以前保存したリスナーの戻り値 <code>tid1</code> と <code>tid2</code> を渡して、これら2つのリスナーを解除しました。これは、最初の <code>setTimeout</code> 内でのプロパティ変更がリスナーをトリガーしないことを意味します。なぜなら、リスナーは既に解除されているからです。</p>
-          <h2>監視されない値</h2>
-          <p><code>$</code> インスタンスでは、アンダースコア <code>_</code> で始まるプロパティ名は、<code>watch</code> や <code>watchTick</code> メソッドによって監視されないことを示します。これは、一時的またはプライベートなプロパティに非常に便利です。監視をトリガーせずに自由に変更できます。</p>
-          <p>テンプレート内では、これは<a href="../../documentation/state-management.html" olink="">非リアクティブデータ</a>と呼ばれます。</p>
-          <p>以下は、アンダースコアで始まるプロパティ値を使用して監視を回避する方法を示す例です：</p>
-          <o-playground name="stanz - 非応答性データ" style="--editor-height: 480px">
-            <code path="demo.html">
+        </o-playground>
+        <p>この例では、まず <code>$</code> インスタンスオブジェクト <code>target</code> を作成し、次に <code>watch</code> メソッドと <code>watchTick</code> メソッドを使用してそれぞれ2つのリスナーを登録しました。その後、<code>unwatch</code> メソッドを使用して、前に保存したリスナーの戻り値 <code>tid1</code> と <code>tid2</code> を渡し、これら2つのリスナーを取り消します。つまり、最初の <code>setTimeout</code> 内でのプロパティ変更は、リスナーが取り消されているため、どのリスナーもトリガーされません。</p>
+        <h2>盗聴されない値</h2>
+        <p><code>$</code> インスタンスでは、アンダースア <code>_</code> で始まるプロパティ名は、<code>watch</code> や <code>watchTick</code> メソッドで監視されないことを示します。これは一時的またはプライベートなプロパティに非常に便利で、監視をトリガーせずに自由に変更できます。</p>
+        <p>テンプレート内では、これは<a href="../../documentation/state-management.html" olink="">非反応データ</a>と呼ばれます。</p>
+        <p>以下は、アンダースコアで始まる属性値を使用して監視を避ける方法を示す例です：</p>
+        <o-playground name="stanz - 非リアクティブデータ" style="--editor-height: 480px">
+          <code path="demo.html">
     <template>
       <div id="target"></div>
       <br>
@@ -205,19 +206,19 @@
       </script>
     </template>
   </code>
-          </o-playground>
-          <p>この例では、<code>$</code> インスタンスオブジェクト <code>target</code> を作成し、<code>watch</code> メソッドを使ってプロパティ値の変更を監視します。<code>setTimeout</code> の中で <code>_aaa</code> プロパティ値を変更しようとしますが、この変更は監視をトリガーしません。これは、監視をトリガーせずにプロパティ値を更新する必要がある場合に非常に便利です。</p>
-          <h2>基本特徴</h2>
-          <p>インスタンスに設定されたオブジェクトデータは、Stanzインスタンスに変換されます。このStanzインスタンスでは、リスニング（監視）が可能になります。</p>
-          <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> obj = {
-  <span class="hljs-attr">val</span>: <span class="hljs-string">"私はobjです"</span>
+        </o-playground>
+        <p>この例では、<code>$</code> インスタンスオブジェクト <code>target</code> を作成し、<code>watch</code> メソッドを使ってプロパティ値の変更を監視しています。<code>setTimeout</code> 内で <code>_aaa</code> プロパティ値を変更しようとしますが、この変更は監視をトリガーしません。これは、監視をトリガーせずにプロパティ値を更新する必要がある場合に非常に便利です。</p>
+        <h2>基本特徴</h2>
+        <p>インスタンスに設定されたオブジェクトデータはStanzインスタンスに変換され、このStanzインスタンスは監視を可能にします。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> obj = {
+  <span class="hljs-attr">val</span>: <span class="hljs-string">"I am obj"</span>
 };
 
 $(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> = obj;
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span>.<span class="hljs-property">val</span> === obj.<span class="hljs-property">val</span>);
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>($(<span class="hljs-string">"#target"</span>).<span class="hljs-property">obj</span> === obj);</code></pre>
-          <p>私たちは <code>$.stanz</code> を使って、インスタンスにバインドされていない Stanz データを作成することもできます。</p>
-          <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> data = $.<span class="hljs-title function_">stanz</span>({
+        <p>また <code>$.stanz</code> を使用して、インスタンスにバインドされていない Stanz データを作成することもできます。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> data = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">val</span>: <span class="hljs-string">"I am val"</span>
 });
 
@@ -226,9 +227,8 @@ data.<span class="hljs-title function_">watch</span>(<span class="hljs-function"
 });
 
 data.<span class="hljs-property">val</span> = <span class="hljs-string">"change val"</span>;</code></pre>
-          <p>これらの例は、監視のためにオブジェクトデータをStanzインスタンスに設定する基本的な特徴を示しています。</p>
-          <p>より完全な機能については <a href="https://github.com/ofajs/stanz" target="_blank">stanz</a> をご覧ください。</p>
-        </o-playground>
+        <p>これらの例は、オブジェクトデータを Stanz インスタンスに設定してリスニングを行うための基本的な特徴を示しています。</p>
+        <p>より完全な機能については <a href="https://github.com/ofajs/stanz" target="_blank">stanz</a> をご覧ください。</p>
       </article>
       <div class="footer"></div>
       <script>

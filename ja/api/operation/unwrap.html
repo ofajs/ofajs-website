@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>unwrap</h1>
-        <p><code>unwrap</code> メソッドは、ターゲット要素の外側のラッピング要素を削除するために使用されます。</p>
-        <o-playground name="unwrap - ラップを解除" style="--editor-height: 440px">
+        <p><code>unwrap</code> メソッドは、対象要素の外部ラップ層要素を削除するために使用されます。</p>
+        <o-playground name="unwrap - ラッパーを削除" style="--editor-height: 440px">
           <code path="demo.html">
     <template>
       <style> div{border: #aaa solid 1px; margin:8px; padding:8px;} </style>
@@ -98,16 +98,16 @@
   </code>
         </o-playground>
         <h2>注意事項</h2>
-        <p>対象要素<strong>は親ノードを持っている必要があります</strong>、そうでないと unwrap 操作を実行できません。</p>
+        <p>対象要素は<strong>親ノードを持っている必要があります</strong>、そうでなければunwrap操作を実行できません。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 `</span>);
 
-$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// エラー、親要素がないため、unwrapできません</span>
-$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// 正しい、ラップ要素を取り除きます</span></code></pre>
-        <p>ターゲット要素が他の兄弟要素を持っている場合、unwrap を実行することもできません。</p>
+$el.<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// エラー、親要素が存在しないため unwrap できない</span>
+$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// 正しい、囲んでいる要素を取り除く</span></code></pre>
+        <p>対象要素が他の兄弟要素を持っている場合も、unwrapを実行することはできません。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> $el = $(<span class="hljs-string">`
 &lt;div&gt;
     &lt;div id=&quot;target&quot;&gt;&lt;/div&gt;
@@ -115,8 +115,8 @@ $el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-ti
 &lt;/div&gt;
 `</span>);
 
-$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// エラー、他の隣接ノードが存在するため</span></code></pre>
-        <p><strong>o-fill や o-if などのテンプレートコンポーネント内で操作しないでください。</strong></p>
+$el.$(<span class="hljs-string">&#x27;#target&#x27;</span>).<span class="hljs-title function_">unwrap</span>(); <span class="hljs-comment">// エラー、他の隣接ノードを持っているため</span></code></pre>
+        <p><strong>注意点として、o-fill や o-if などのテンプレートコンポーネント内で操作しないでください。</strong></p>
       </article>
       <div class="footer"></div>
       <script>

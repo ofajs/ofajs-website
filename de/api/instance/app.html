@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>app</h1>
-        <p>Elemente innerhalb von <code>o-app</code>, einschließlich derer in den Shadow-Knoten von <code>o-page</code> innerhalb von <code>o-app</code> oder in tieferliegenden untergeordneten Komponenten, verweisen mit ihrer <code>app</code>-Eigenschaft alle auf diese <code>o-app</code>-Elementinstanz.</p>
-        <p>Im Folgenden ein Beispiel, das zeigt, wie innerhalb eines Elements in <code>o-app</code> auf die <code>app</code>-Eigenschaft zugegriffen wird:</p>
+        <p>In <code>o-app</code> enthaltene Elemente, einschließlich der Elemente im Schattenknoten von <code>o-page</code> innerhalb von <code>o-app</code> oder der inneren Unterkomponenten, deren <code>app</code>-Eigenschaft auf die Elementinstanz dieses <code>o-app</code> verweist.</p>
+        <p>Das Folgende ist ein Beispiel, das zeigt, wie man innerhalb eines <code>o-app</code>-Elements auf die <code>app</code>-Eigenschaft zugreift:</p>
         <o-playground name="app - App-Instanz abrufen" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -90,15 +90,15 @@
     </template>
   </code>
           <code path="app-config.js">
-    // Startseite der App
+    // URL der App-Startseite
     export const home = "./home.html";
-    // Verfügbare Methoden der App
+    // Verfügbare Methoden in der App
     export const proto = {
       getSomeData(){
-        return "Hallo ofa.js App Demo";
+        return "Hello ofa.js App Demo";
       }
     };
-    // Konfiguration der Seitenübergangsanimation
+    // Konfiguration der Seitenwechselanimation
     export const pageAnime = {
       current: {
         opacity: 1,

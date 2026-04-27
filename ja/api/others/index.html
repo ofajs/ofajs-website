@@ -81,8 +81,8 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>index</h1>
-        <p><code>index</code> 属性は、要素がその親要素内で占める位置を取得するために使用されます。この位置は0から始まるため、最初の要素の位置は0、2番目の要素は1、というように続きます。</p>
-        <p>以下の例では、<code>index</code> プロパティを使用して要素が親要素内で何番目に位置するかを取得する方法を示します：</p>
+        <p><code>index</code> 属性は、要素がその親要素内で何番目にあるかを取得するために使用します。この位置は0から数えられます。つまり、最初の要素の位置は0、2番目は1、といった具合です。</p>
+        <p>以下の例では、<code>index</code> プロパティを使用して要素が親要素の中で何番目に位置するかを取得する方法を示します：</p>
         <o-playground name="index - 位置を取得" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
@@ -100,7 +100,7 @@
     </template>
   </code>
         </o-playground>
-        <p>この例では、まず <code>id</code> が &quot;target&quot; の <code>&lt;li&gt;</code> 要素を選択します。次に、<code>index</code> プロパティを使用してその要素が親要素である <code>&lt;ul&gt;</code> の中で何番目にあるかを取得します。2番目の要素なので、<code>index</code> の値は1となります。その後、この値を <code>id</code> が &quot;logger&quot; の <code>&lt;div&gt;</code> 要素に表示します。</p>
+        <p>この例では、最初に <code>id</code> が &quot;target&quot; の <code>&lt;li&gt;</code> 要素を選択します。次に、<code>index</code> プロパティを使用して、その要素が親要素 <code>&lt;ul&gt;</code> の中で何番目の位置にあるかを取得します。つまり、2番目の要素なので <code>index</code> の値は 1 となります。そして、この値を <code>id</code> が &quot;logger&quot; の <code>&lt;div&gt;</code> 要素に表示します。</p>
       </article>
       <div class="footer"></div>
       <script>

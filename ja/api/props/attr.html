@@ -83,7 +83,7 @@
         <h1>attr</h1>
         <p><code>attr</code> メソッドは、要素の attributes を取得または設定するために使用されます。</p>
         <h2>直接使用</h2>
-        <p>あなたは直接 <code>attr</code> メソッドを使用して要素の属性を取得または設定できます。</p>
+        <p>要素の属性を取得または設定するには、<code>attr</code> メソッドを直接使用できます。</p>
         <o-playground name="attr - 直接使用" style="--editor-height: 500px">
           <code path="demo.html">
     <template>
@@ -95,9 +95,9 @@
           color: green;
         }
       </style>
-      <div id="target1" test-attr="1">私はターゲット1</div>
-      <div id="target2">私はターゲット2</div>
-      <div id="logger" style="border:blue solid 1px;padding:8px;margin:8px;">ロガー</div>
+      <div id="target1" test-attr="1">I am target 1</div>
+      <div id="target2">I am target 2</div>
+      <div id="logger" style="border:blue solid 1px;padding:8px;margin:8px;">logger</div>
       <script>
         $("#logger").text = $("#target1").attr('test-attr');
         setTimeout(()=> {
@@ -107,7 +107,9 @@
       </script>
     </template>
   </code>
-        </o-playground> ## テンプレート構文方式での使用 <p>あなたは <code>attr:aaa=&quot;bbb&quot;</code> の方法を使用して、ターゲット要素の <strong>aaa</strong> 属性をコンポーネント <strong>bbb</strong> の値に設定することもできます。この方法は、コンポーネントのレンダリングに特に役立ちます。</p>
+        </o-playground>
+        <h2>テンプレート構文方式での使用</h2>
+        <p><code>attr:aaa=&quot;bbb&quot;</code> という方法も使用でき、対象要素の <strong>aaa</strong> 属性をコンポーネントの <strong>bbb</strong> の値に設定します。この方法は、コンポーネントのレンダリングに特に役立ちます。</p>
         <o-playground name="attr - テンプレート構文" style="--editor-height: 600px">
           <code path="demo.html" preview>
     <template>

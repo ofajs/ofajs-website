@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Respuesta de atributo</title>
+  <title>Respuesta de atributos</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,9 +80,9 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Respuesta de atributo</h1>
-        <p>En el anterior <a href="./property-binding.html" olink="">enlace de propiedades</a> presentamos un mecanismo de respuesta de propiedades simple, es decir, cómo renderizar el valor de una propiedad del componente en la visualización de texto.</p>
-        <p>ofa.js no solo soporta la reactividad de valores de propiedades básicas, sino que también soporta el renderizado reactivo de valores de propiedades internas de objetos multinivel anidados.</p>
+        <h1>Respuesta de atributos</h1>
+        <p>En el <a href="./property-binding.html" olink="">enlace de propiedades</a> anterior, presentamos el mecanismo simple de respuesta de propiedades, es decir, cómo renderizar los valores de propiedades de un componente en la visualización de texto.</p>
+        <p>ofa.js no solo admite la reactividad de valores de propiedades básicas, sino también la renderización reactiva de valores de propiedades dentro de objetos anidados en múltiples niveles.</p>
         <o-playground name="Ejemplo de datos no reactivos" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -117,10 +117,10 @@
     </template>
   </code>
         </o-playground>
-        <p>Todos los datos vinculados a la instancia de ofa.js se convertirán automáticamente en datos reactivos. Los datos reactivos solo admiten tipos de datos básicos como cadenas, números, booleanos, arrays y objetos. Para tipos de datos complejos como funciones o instancias de clases, deben almacenarse como <strong>propiedades no reactivas</strong>, cuyos cambios no provocarán una nueva renderización del componente.</p>
+        <p>Todos los datos vinculados al objeto de instancia de ofa.js se convertirán automáticamente en datos reactivos. Los datos reactivos solo admiten tipos de datos básicos como cadenas, números, booleanos, arreglos y objetos. Para tipos de datos complejos como funciones e instancias de clase, deben almacenarse como <strong>propiedades no reactivas</strong>, cuyos cambios no activarán el re-renderizado del componente.</p>
         <h2>Datos no reactivos</h2>
-        <p>A veces necesitamos almacenar algunos datos que no requieren actualización reactiva, como instancias de Promise, objetos de expresiones regulares u otros objetos complejos, en estos casos es necesario usar propiedades no reactivas. Los cambios en estas propiedades no provocarán la re-renderización del componente, son adecuadas para almacenar datos que no requieren vinculación con la vista.</p>
-        <p>Los nombres de las propiedades no reactivas suelen llevar un guion bajo <code>_</code> como prefijo, para distinguirlas de las propiedades reactivas.</p>
+        <p>A veces necesitamos almacenar datos que no requieren actualizaciones reactivas, como instancias de Promise, objetos de expresión regular u otros objetos complejos. En estos casos, es necesario utilizar propiedades no reactivas. Los cambios en estas propiedades no desencadenan un nuevo renderizado del componente, y son adecuados para almacenar datos que no necesitan estar sincronizados con la vista.</p>
+        <p>Los nombres de las propiedades no reactivas generalmente se prefijan con un guion bajo <code>_</code> antes del nombre de la propiedad, para distinguirlas de las propiedades reactivas.</p>
         <o-playground name="Ejemplo de datos no reactivos" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -148,8 +148,8 @@
     </template>
   </code>
         </o-playground>
-        <p>Al hacer clic en el botón <code>Green increments</code>, aunque el valor de <code>_count2</code> realmente ha aumentado, debido a que es una propiedad no reactiva, no desencadena una actualización de la vista, por lo que la visualización en la interfaz no cambia. Al hacer clic en el botón <code>Blue increases</code>, dado que <code>count</code> es una propiedad reactiva, desencadena un nuevo renderizado de todo el componente, y es en ese momento cuando se actualiza sincrónicamente el contenido mostrado por Green.</p>
-        <p>Los datos de objetos no reactivos tienen un mejor rendimiento que los datos de objetos reactivos porque los datos no reactivos no desencadenan la re-renderización de componentes.</p>
+        <p>Al hacer clic en el botón <code>Incrementos verdes</code>, aunque el valor de <code>_count2</code> ya ha aumentado, al ser una propiedad no reactiva, no desencadena una actualización de la vista, por lo que la visualización en la interfaz no cambia. Al hacer clic en el botón <code>Aumentos azules</code>, dado que <code>count</code> es una propiedad reactiva, desencadena un nuevo renderizado de todo el componente, momento en el que se actualiza sincrónicamente el contenido de la visualización verde.</p>
+        <p>Los datos de objetos no reactivos tienen un mejor rendimiento que los datos de objetos reactivos, porque los datos no reactivos no desencadenan el re-renderizado de los componentes.</p>
       </article>
       <div class="footer"></div>
       <script>

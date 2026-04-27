@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Micro-applications</title>
+  <title>Micro-application</title>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
   <link rel="icon" href="../../img/logo.svg" />
@@ -80,8 +80,8 @@
       </style>
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
-        <h1>Micro-applications</h1>
-        <p>Utilisez <code>o-app</code> pour l&#39;applicationisation, cette balise représente une micro-application, elle chargera le fichier de configuration <code>app-config.js</code>, qui définit l&#39;adresse de la page d&#39;accueil de l&#39;application et la configuration des animations de changement de page.</p>
+        <h1>Micro-application</h1>
+        <p>Utilisez <code>o-app</code> pour l&#39;applicationisation, cette balise représente une micro-application, elle chargera le fichier de configuration <code>app-config.js</code>, ce fichier définit l&#39;adresse de la page d&#39;accueil et la configuration de l&#39;animation de changement de page.</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
 <span class="hljs-comment">// Adresse de la page d&#x27;accueil de l&#x27;application</span>
@@ -101,14 +101,14 @@
     <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
     <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
   },
-};</code></pre><o-playground name="Exemple d'application micro" style="--editor-height: 500px">
+};</code></pre><o-playground name="Exemple de micro-application" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
   </code>
           <code path="app-config.js">
-    // URL de la page d'accueil de l'application
+    // Adresse de la page d'accueil de l'application
     export const home = "./home.html";
     // Configuration de l'animation de changement de page
     export const pageAnime = {
@@ -135,10 +135,10 @@
         }
       </style>
       <p>{{val}}</p>
-      <a href="./about.html?id=10010" olink>Aller à About (10010)</a>
+      <a href="./about.html?id=10010" olink>Go to About (10010)</a>
       <br>
       <br>
-      <a href="./about.html?id=10030" olink>Aller à About (10030)</a>
+      <a href="./about.html?id=10030" olink>Go to About (10030)</a>
       <script>
         export default async () => {
           return {
@@ -158,9 +158,9 @@
           padding: 10px;
         }
       </style>
-      <div style="padding: 8px;"> <button on:click="back()">Retour</button> </div>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
       <p>{{val}}</p>
-      <p> À propos de <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
       <script>
         export default async ({query}) => {
           return {
@@ -173,11 +173,11 @@
     </template>
   </code>
         </o-playground>
-        <h2>home - Adresse de la page d&#39;accueil</h2>
-        <p>Spécifie le chemin du module de la page d&#39;accueil chargée au démarrage de l&#39;application, prenant en charge les chemins relatifs et absolus.</p>
+        <h2>accueil - adresse de la page d&#39;accueil</h2>
+        <p>Spécifiez le chemin du module de la page d&#39;accueil chargé au démarrage de l&#39;application, prend en charge les chemins relatifs et absolus.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
-        <h2>pageAnime - Animation de transition de page</h2>
-        <p>Contrôler les effets d&#39;animation de transition lors du changement de page, comprenant trois états :</p>
+        <h2>pageAnime - Animation de changement de page</h2>
+        <p>Contrôle l&#39;effet d&#39;animation de transition lors du changement de page, comprenant trois états :</p>
         <table>
           <thead>
             <tr>
@@ -192,11 +192,11 @@
             </tr>
             <tr>
               <td><code>next</code></td>
-              <td>Style de départ lors de l&#39;entrée de la nouvelle page</td>
+              <td>Style initial à l&#39;entrée de la nouvelle page</td>
             </tr>
             <tr>
               <td><code>previous</code></td>
-              <td>Style cible lorsque l&#39;ancienne page quitte</td>
+              <td>Style cible au départ de l&#39;ancienne page</td>
             </tr>
             <tr>
               <td>export const pageAnime = {</td>
@@ -212,17 +212,17 @@
 <span class="hljs-symbol">transform:</span> <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,</code></pre>
         <p> }, next: { opacity: 0, transform: &quot;translate(30px, 0)&quot;, }, previous: { opacity: 0, transform: &quot;translate(-30px, 0)&quot;, }, };</p>
         <pre><code class="hljs">
-## <span class="hljs-keyword">M</span>éthodes <span class="hljs-keyword">de</span> passage <span class="hljs-keyword">de</span> paramètres
+## <span class="hljs-keyword">M</span>éthode <span class="hljs-keyword">de</span> passage <span class="hljs-keyword">de</span> paramètres
 
-Dans `o-<span class="hljs-keyword">app</span>`, <span class="hljs-keyword">la</span> navigation entre pages prend <span class="hljs-keyword">en</span> charge <span class="hljs-keyword">la</span> transmission <span class="hljs-keyword">de</span> paramètres via URL <span class="hljs-keyword">Query</span>, et <span class="hljs-keyword">la</span> page cible reçoit les paramètres via le paramètre `<span class="hljs-keyword">query</span>` <span class="hljs-keyword">de</span> <span class="hljs-keyword">la</span> fonction du module.
+Dans `o-<span class="hljs-keyword">app</span>`, <span class="hljs-keyword">la</span> navigation <span class="hljs-keyword">de</span> page prend <span class="hljs-keyword">en</span> charge <span class="hljs-keyword">la</span> transmission <span class="hljs-keyword">de</span> paramètres via <span class="hljs-keyword">l</span>&#x27;URL <span class="hljs-keyword">Query</span>, et <span class="hljs-keyword">la</span> page cible les reçoit via le paramètre `<span class="hljs-keyword">query</span>` <span class="hljs-keyword">de</span> <span class="hljs-keyword">la</span> fonction du module.
 
 ## Navigation <span class="hljs-keyword">de</span> <span class="hljs-keyword">la</span> page
 
-Dans <span class="hljs-keyword">l</span>&#x27;application o-<span class="hljs-keyword">app</span>, chaque module <span class="hljs-keyword">de</span> page peut utiliser <span class="hljs-keyword">la</span> balise `&lt;a&gt;` avec <span class="hljs-keyword">l</span>&#x27;attribut `olink` pour changer <span class="hljs-keyword">de</span> page. Cette balise <span class="hljs-keyword">d</span>éclenche le changement <span class="hljs-keyword">de</span> route <span class="hljs-keyword">de</span> <span class="hljs-keyword">l</span>&#x27;application, avec une animation <span class="hljs-keyword">de</span> transition, sans rafraîchir <span class="hljs-keyword">la</span> page entière.
+Dans o-<span class="hljs-keyword">app</span>, chaque module <span class="hljs-keyword">de</span> page peut utiliser <span class="hljs-keyword">la</span> balise `&lt;a&gt;` avec <span class="hljs-keyword">l</span>&#x27;attribut `olink` pour effectuer <span class="hljs-keyword">la</span> navigation entre les pages. Cette balise <span class="hljs-keyword">d</span>éclenche <span class="hljs-keyword">la</span> transition <span class="hljs-keyword">de</span> route <span class="hljs-keyword">de</span> <span class="hljs-keyword">l</span>&#x27;application, avec une animation <span class="hljs-keyword">de</span> transition, sans recharger <span class="hljs-keyword">la</span> page entière.
 
 ```html
 &lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;Aller à <span class="hljs-keyword">la</span> page À propos&lt;/a&gt;</code></pre>
-        <p>Dans les composants de page, vous pouvez utiliser la méthode <code>back()</code> pour revenir à la page précédente :</p>
+        <p>Dans le composant de page, vous pouvez utiliser la méthode <code>back()</code> pour revenir à la page précédente :</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;back()&quot;</span>&gt;</span>Retour<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>

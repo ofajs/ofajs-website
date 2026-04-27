@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>PATH</h1>
-        <p><code>PATH</code> プロパティは通常、カスタムコンポーネントまたはページコンポーネントで使用され、そのコンポーネントが登録されているコンポーネントファイルのアドレスを取得するために使われます。これは開発過程でコンポーネントの出所を理解するのに役立ち、特に他のリソースファイルを参照または読み込む必要がある場合に、<code>PATH</code> プロパティを使用してファイルパスを構築できます。</p>
-        <p>以下は、カスタムコンポーネントで <code>PATH</code> 属性を使用する簡単な例です：</p>
+        <p><code>PATH</code> 属性は通常、カスタムコンポーネントまたはページコンポーネントで使用され、そのコンポーネントの登録ファイルのアドレスを取得するために使われます。これは開発過程でコンポーネントの出所を理解するのに役立ち、特に他のリソースファイルを参照またはロードする必要がある場合に、<code>PATH</code> 属性を使ってファイルパスを構築できます。</p>
+        <p>以下は、カスタムコンポーネントで <code>PATH</code> プロパティを使用する方法を示す簡単な例です：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> componentPath = $(<span class="hljs-string">&quot;#myCustomComponent&quot;</span>).<span class="hljs-property">PATH</span>;</code></pre>
-        <p>この例では、<code>id</code> が &quot;myCustomComponent&quot; である <code>my-comp</code> 要素を選択し、<code>PATH</code> 属性を通じてそのカスタムコンポーネントのファイルパスを取得しました。スクリプト部分で <code>componentPath</code> 変数を必要に応じて使用できます。たとえば、他のリソースファイルのパスを構築したり、他の操作を行ったりするために使用できます。</p>
+        <p>この例では、<code>id</code> が &quot;myCustomComponent&quot; の <code>my-comp</code> 要素を選択し、<code>PATH</code> 属性を介してそのカスタムコンポーネントのファイルパスを取得しました。スクリプト部分で必要に応じて <code>componentPath</code> 変数を使用できます。例えば、それを使って他のリソースファイルのパスを構築したり、他の操作を行ったりできます。</p>
       </article>
       <div class="footer"></div>
       <script>

@@ -81,9 +81,9 @@
       <link rel="stylesheet" href="../../../css/page.css" />
       <article class="markdown-body">
         <h1>on</h1>
-        <p>Using the <code>on</code> method, you can register event handlers for target elements, making it easy to capture and respond to user interactions.</p>
-        <p>Here is an example demonstrating how to use the <code>on</code> method to register a click event handler for a button element:</p>
-        <o-playground name="on-click event" style="--editor-height: 300px">
+        <p>Using the <code>on</code> method, you can register event handlers for target elements. This allows you to easily capture and respond to user interactions.</p>
+        <p>Below is an example demonstrating how to use the <code>on</code> method to register a click event handler for a button element:</p>
+        <o-playground name="on - click event" style="--editor-height: 300px">
           <code path="demo.html">
     <template>
       <button id="target">add count</button>
@@ -99,8 +99,8 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example, we use the <code>on</code> method to attach a click event handler to the button element. When the user clicks the button, the handler is triggered, the counter increments, and the result is displayed on the page.</p>
-        <h2>Template Syntax Usage</h2>
+        <p>In this example, we use the <code>on</code> method to add a click event handler to the button element. When the user clicks the button, the event handler is triggered, the counter increments, and the result is displayed on the page.</p>
+        <h2>Using Template Syntax</h2>
         <p>You can also use template syntax to bind methods to target elements.</p>
         <o-playground name="on - Template Syntax" style="--editor-height: 400px">
           <code path="demo.html" preview>
@@ -129,9 +129,9 @@
     </template>
   </code>
         </o-playground>
-        <p>In this example, we bind a method called <code>addCount</code> to the button element using <code>on:click</code>. When the user clicks the button, this method will be called, the counter&#39;s value will increment and be displayed on the page. This approach allows you to associate event handlers with component methods to implement more complex interactions.</p>
+        <p>In this example, we use <code>on:click</code> on a button element to bind a method named <code>addCount</code>. When the user clicks the button, this method will be called, the counter value will increment and be displayed on the page. This approach allows you to associate event handlers with component methods, enabling more complex interactions.</p>
         <h2>event</h2>
-        <p>After registering the event, the triggered function will receive the event argument, consistent with the native behavior.</p>
+        <p>After registering an event, the triggered function will be passed an event parameter, consistent with the native behavior:</p>
         <o-playground name="on - event parameter" style="--editor-height: 300px">
           <code path="demo.html">
     <template>

@@ -83,41 +83,41 @@
         <h1>extend</h1>
         <p><code>extend</code> es un método de orden superior utilizado para extender las propiedades o métodos de una instancia.</p>
         <blockquote>
-          <p>Normalmente, no se recomienda que los usuarios extiendan las propiedades o métodos de una instancia, ya que esto aumenta la curva de aprendizaje. A menos que haya un escenario especial dentro del equipo que requiera personalizar el comportamiento de la instancia, no se recomienda hacerlo.</p>
+          <p>Normalmente, no se recomienda que los usuarios extiendan las propiedades o métodos de la instancia, ya que esto aumenta el costo de aprendizaje. A menos que haya escenarios específicos dentro del equipo que requieran personalizar el comportamiento de la instancia, no se recomienda hacerlo.</p>
         </blockquote>
-        <o-playground name="extend - extender instancia" style="--editor-height: 560px">
+        <o-playground name="extend - Ejemplo de extensión" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
-        <li>I am 1</li>
-        <li id="target">I am target</li>
-        <li>I am 3</li>
+        <li>Soy 1</li>
+        <li id="target">Soy el objetivo</li>
+        <li>Soy 3</li>
       </ul>
-      <div id="logger">logger</div>
+      <div id="logger">registrador</div>
       <script>
         const target = $("#target");
         target.extend({
           get good(){
-            return "ofa.js is good";
+            return "ofa.js es bueno";
           },
           say(){
-            return 'hello';
+            return 'hola';
           }
         });
         setTimeout(() => {
           const target = $("#target");
           \$("#logger").html = `
-          good : ${target.good} <br>
-          say() : ${target.say()}
+          bueno : ${target.good} <br>
+          decir() : ${target.say()}
           `;
         }, 500);
       </script>
     </template>
   </code>
         </o-playground>
-        <h2>Extensión de la capa inferior de $</h2>
-        <p>De forma similar a jQuery, también puedes usar fn.extend para expandir las propiedades o métodos de la instancia base; las propiedades o métodos extendidos desde fn se aplicarán a todas las instancias.</p>
-        <o-playground name="extend - extender el nivel inferior" style="--editor-height: 560px">
+        <h2>Extender $ capa inferior</h2>
+        <p>Similar a jQuery, también puedes extender las propiedades o métodos de la instancia subyacente mediante fn.extend; las propiedades o métodos extendidos desde fn se aplicarán a todas las instancias.</p>
+        <o-playground name="extend - extensión base" style="--editor-height: 560px">
           <code path="demo.html">
     <template>
       <ul>
@@ -145,19 +145,19 @@
     </template>
   </code>
         </o-playground>
-        <h2>Sintaxis de plantilla extendida</h2>
-        <p>Al extender propiedades o funciones mediante <code>extend</code>, se puede ampliar la funcionalidad de la sintaxis de plantillas e incluso proporcionar un azúcar sintáctico de plantillas exclusivo para los componentes. Sin embargo, hay que tener en cuenta que se debe intentar <strong>no utilizar</strong> sintaxis de plantillas no oficiales, ya que esto conlleva un cierto costo de aprendizaje para los usuarios, y el uso de una gran cantidad de azúcar sintáctico no oficial puede reducir la experiencia de desarrollo.</p>
-        <h3>Atributos extendidos</h3>
-        <p>Puedes configurar en la plantilla usando <code>:</code> a través de propiedades extendidas. A continuación, extenderemos una propiedad <code>red</code>, cuando <code>red</code> sea <code>true</code>, el color de la fuente se volverá rojo:</p>
+        <h2>Sintaxis de plantilla ampliada</h2>
+        <p>Mediante la extensión de propiedades o funciones con <code>extend</code>, se pueden aumentar las funcionalidades de la sintaxis de plantillas, e incluso proporcionar azúcar sintáctico exclusivo para componentes. Pero es importante tener en cuenta que <strong>no se debe usar</strong> sintaxis de plantilla no oficial, ya que imponen un cierto costo de aprendizaje para los usuarios, y una gran cantidad de azúcar sintáctico no oficial puede reducir la experiencia de desarrollo.</p>
+        <h3>Propiedades extendidas</h3>
+        <p>Puedes usar <code>:</code> en la plantilla a través de la extensión de atributos. A continuación, extenderemos un atributo <code>red</code>. Cuando <code>red</code> sea <code>true</code>, el color de la fuente se volverá rojo:</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-keyword">set</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">bool</span>){
     <span class="hljs-keyword">if</span>(bool){
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;rojo&quot;</span>;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;red&quot;</span>;
     }<span class="hljs-keyword">else</span>{
       <span class="hljs-variable language_">this</span>.<span class="hljs-property">css</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&#x27;&#x27;</span>;
     }
   }
-});</code></pre><o-playground name="extend - Atributos extendidos" style="--editor-height: 400px">
+});</code></pre><o-playground name="extend - atributo extendido" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-one.html"></l-m>
@@ -195,11 +195,11 @@
     </template>
   </code>
         </o-playground>
-        <p>En este ejemplo, hemos añadido un atributo <code>red</code> a la sintaxis de la plantilla. Cuando <code>count % 3</code> no sea 0, el color de la fuente cambiará a rojo.</p>
+        <p>En este ejemplo, agregamos un atributo <code>red</code> a la sintaxis de la plantilla. Cuando <code>count % 3</code> no es igual a 0, el color de la fuente se vuelve rojo.</p>
         <h3>Métodos de extensión</h3>
-        <p>También puedes hacer que esté disponible en la sintaxis de plantilla a través del método de extensión <code>extend</code>. El nombre del método es la parte anterior a los dos puntos. Aquí, hemos extendido una sintaxis de plantilla <code>color</code>, y los parámetros que le siguen se pasarán al método de extensión definido.</p>
-        <p>Aquí se establece el atributo <code>always</code> como <code>true</code>, lo que significa que cada vez que el componente necesite actualizar la interfaz, se llamará a este método definido. Si no se establece <code>always</code>, esta función de sintaxis de plantilla solo se ejecutará una vez.</p>
-        <p>Entre ellos, <code>options</code> proporciona más parámetros que pueden ayudarte a desarrollar una sintaxis de plantillas más personalizada:</p>
+        <p>También puedes hacerlo disponible en la sintaxis de plantilla mediante el método de extensión <code>extend</code>. El nombre del método es la parte antes de los dos puntos. Aquí, hemos extendido una sintaxis de plantilla <code>color</code>, y los parámetros que la siguen se pasarán al método de extensión definido.</p>
+        <p>Aquí se ha establecido el atributo <code>always</code> como <code>true</code>, lo que significa que cada vez que el componente necesite refrescar la interfaz, se llamará a este método definido. Si no se establece <code>always</code>, esta función de sintaxis de plantilla solo se ejecutará una vez.</p>
+        <p>Entre ellos, <code>options</code> proporciona más parámetros, que pueden ayudarte a desarrollar una sintaxis de plantilla más personalizada:</p>
         <pre><code class="hljs language-javascript">$.fn.<span class="hljs-title function_">extend</span>({
   <span class="hljs-title function_">color</span>(<span class="hljs-params">value, func, options</span>){
     <span class="hljs-keyword">const</span> bool = <span class="hljs-title function_">func</span>();
@@ -211,7 +211,7 @@
   }
 });
 
-$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - Método de extensión" style="--editor-height: 400px">
+$.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always</span> = <span class="hljs-literal">true</span>;</code></pre><o-playground name="extend - método de extensión" style="--editor-height: 400px">
           <code path="demo.html" preview active>
     <template>
       <l-m src="./temp-two.html"></l-m>
@@ -233,7 +233,7 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
   </code>
           <code path="temp-two.html">
     <template component>
-      <button on:click="addCount" color:blue="count % 3">Añadir Contador</button>
+      <button on:click="addCount" color:blue="count % 3">Add Count</button>
       <div color:red="!(count % 3)">{{count}}</div>
       <script>
         export default {
@@ -251,14 +251,14 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
     </template>
   </code>
         </o-playground>
-        <h2>Principios de la sintaxis de plantillas</h2>
-        <p>Hasta ahora, deberías haber comprendido que gran parte de la sintaxis de plantillas en ofa.js en realidad se extiende mediante <code>extend</code>:</p>
+        <h2>Principio de sintaxis de plantillas</h2>
+        <p>Hasta ahora, deberías haber entendido que muchas de las sintaxis de plantillas en ofa.js en realidad se extienden a través de <code>extend</code>:</p>
         <ul>
-          <li>los métodos <code>class</code>, <code>attr</code> se ejecutan cada vez que se actualiza la vista </li>
-          <li>la vinculación de funciones como <code>on</code>, <code>one</code> solo se ejecuta una vez</li>
+          <li>Los métodos <code>class</code>, <code>attr</code> se ejecutan cada vez que se actualiza la vista</li>
+          <li>La vinculación de funciones como <code>on</code>, <code>one</code> solo se ejecuta una vez</li>
         </ul>
         <p>Puedes consultar el siguiente ejemplo para comprender mejor el principio de renderizado de plantillas de ofa.js:</p>
-        <o-playground name="extend - Principios de la sintaxis de plantilla" style="--editor-height: 480px">
+        <o-playground name="extend - principio de la sintaxis de plantillas" style="--editor-height: 480px">
           <code path="demo.html" preview>
     <template>
       <l-m src="./temp-three.html"></l-m>
@@ -267,9 +267,9 @@ $.fn.<span class="hljs-property">color</span>.<span class="hljs-property">always
   </code>
           <code path="temp-three.html" active>
     <template component>
-      <div>class siempre => {{classalways}}</div>
-      <div>attr siempre => {{attralways}}</div>
-      <div>on siempre => {{onalways}}</div>
+      <div>class always => {{classalways}}</div>
+      <div>attr always => {{attralways}}</div>
+      <div>on always => {{onalways}}</div>
       <script>
         export default {
           tag: "temp-three",

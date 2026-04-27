@@ -81,10 +81,10 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>イベントバインディング</h1>
-        <p>ofa.jsでは、イベントバインディングはユーザーインタラクションを実現する重要なメカニズムです。あなたは様々な方法で要素にイベントハンドラをバインドし、ユーザーの操作に応答することができます。</p>
-        <h2>proto からイベントをバインド</h2>
-        <p>これは推奨されるイベントバインディングの方法で、複雑なイベント処理ロジックに適しています。イベント処理関数を <code>proto</code> オブジェクト内で定義することで、コードロジックをより良く整理でき、メンテナンスや再利用が容易になります。</p>
-        <o-playground name="protoからのイベントバインディング" style="--editor-height: 500px">
+        <p>ofa.jsでは、イベントバインディングはユーザーインタラクションを実現する重要なメカニズムです。複数の方法で要素にイベントハンドラをバインドし、ユーザーの操作に応答することができます。</p>
+        <h2>protoからイベントをバインドする</h2>
+        <p>これは推奨されるイベントバインディング方法であり、複雑なイベント処理ロジックに適しています。イベント処理関数を <code>proto</code> オブジェクトに定義することで、コードロジックをより良く整理でき、保守や再利用が容易になります。</p>
+        <o-playground name="protoからのイベントバインド" style="--editor-height: 500px">
           <code>
     <template page="">
       <style>
@@ -112,8 +112,8 @@
     </template>
   </code>
         </o-playground>
-        <h2>直接に関数を実行する</h2>
-        <p>単純な操作（カウンタの増加や状態の切り替えなど）については、イベント属性に短い式を直接記述できます。この方法は簡潔で分かりやすく、単純なロジックの処理に適しています。</p>
+        <h2>関数を直接実行する</h2>
+        <p>簡単な操作（カウンターの増加、状態の切り替えなど）については、イベント属性内で簡潔な式を直接記述できます。この方法は明瞭で、シンプルなロジックの処理に適しています。</p>
         <o-playground name="直接実行関数" style="--editor-height: 500px">
           <code>
     <template page="">
@@ -124,7 +124,7 @@
           padding: 10px;
         }
       </style>
-      <button on:click="count++">Click Me - {{count}}</button>
+      <button on:click="count++">クリックしてね - {{count}}</button>
       <script>
         export default async () => {
           return {
@@ -137,18 +137,18 @@
     </template>
   </code>
         </o-playground>
-        <h2>サポートされるイベントタイプ</h2>
-        <p>ofa.js は、以下を含むすべての標準 DOM イベントをサポートしています：</p>
+        <h2>サポートされているイベントタイプ</h2>
+        <p>ofa.js はすべての標準 DOM イベントをサポートしています。以下を含みますがこれに限定されません：</p>
         <ul>
-          <li>マウスイベント：<code>click</code>、<code>dblclick</code>、<code>mousedown</code>、<code>mouseup</code>、<code>mouseover</code>、<code>mouseout</code> など</li>
-          <li>キーボードイベント：<code>keydown</code>、<code>keyup</code>、<code>keypress</code> など</li>
-          <li>フォームイベント：<code>submit</code>、<code>change</code>、<code>input</code>、<code>focus</code>、<code>blur</code> など</li>
-          <li>タッチイベント：<code>touchstart</code>、<code>touchmove</code>、<code>touchend</code> など</li>
+          <li>マウスイベント：<code>click</code>、<code>dblclick</code>、<code>mousedown</code>、<code>mouseup</code>、<code>mouseover</code>、<code>mouseout</code> 等</li>
+          <li>キーボードイベント：<code>keydown</code>、<code>keyup</code>、<code>keypress</code> 等</li>
+          <li>フォームイベント：<code>submit</code>、<code>change</code>、<code>input</code>、<code>focus</code>、<code>blur</code> 等</li>
+          <li>タッチイベント：<code>touchstart</code>、<code>touchmove</code>、<code>touchend</code> 等</li>
         </ul>
-        <p>ofa.jsでサポートされるイベントタイプは、ネイティブDOMイベントと完全に一致します。詳細については、<a href="https://developer.mozilla.org/ja/docs/Web/API/Event" target="_blank">MDNイベントドキュメント</a>を参照してください。</p>
-        <h2>イベントハンドラへのパラメータ受け渡し</h2>
-        <p>イベントハンドラに引数を渡すこともできます：</p>
-        <o-playground name="イベントハンドラーへの引数渡し" style="--editor-height: 600px">
+        <p>ofa.js でサポートされているイベントタイプは、ネイティブ DOM イベントと完全に同じです。詳細については、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event" target="_blank">MDN イベントドキュメント</a> を参照してください。</p>
+        <h2>イベントハンドラにパラメータを渡す</h2>
+        <p>イベントハンドラーにパラメータを渡すこともできます：</p>
+        <o-playground name="イベントハンドラへのパラメータ渡し" style="--editor-height: 600px">
           <code>
     <template page="">
       <style>
@@ -178,7 +178,7 @@
   </code>
         </o-playground>
         <h2>イベントオブジェクトへのアクセス</h2>
-        <p>イベントハンドラでは、<code>event</code> パラメータを通じてネイティブイベントオブジェクトにアクセスできます：</p>
+        <p>イベントハンドラ内では、<code>event</code> パラメータを通じてネイティブイベントオブジェクトにアクセスできます。</p>
         <o-playground name="イベントオブジェクトへのアクセス" style="--editor-height: 700px">
           <code>
     <template page="">
@@ -197,7 +197,7 @@
           justify-content: center;
         }
       </style>
-      <div class="container" on:click="handleClick">クリックして座標を表示</div>
+      <div class="container" on:click="handleClick">任意の位置をクリックして座標を表示</div>
       <p>X: {{x}}, Y: {{y}}</p>
       <script>
         export default async () => {
@@ -218,12 +218,12 @@
     </template>
   </code>
         </o-playground>
-        <p>また、<code>$event</code> パラメータを使用して式内でネイティブイベントオブジェクトにアクセスすることもできます。例えば、マウスクリックの座標を取得する場合：</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>任意の場所をクリックして座標を表示<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-        <h2>カスタムイベントのリスニング</h2>
-        <p>ネイティブDOMイベントをリッスンするだけでなく、コンポーネントが発行するカスタムイベントも簡単にリッスンできます：</p>
+        <p>式の中で <code>$event</code> パラメータを使用してネイティブイベントオブジェクトにアクセスすることもできます。例えば、マウスクリックの座標を取得する場合：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"handleClick($event)"</span>&gt;</span>どこかをクリックして座標を表示<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+        <h2>カスタムイベントのリッスン</h2>
+        <p>ネイティブDOMイベントのリッスンに加えて、コンポーネントが発するカスタムイベントを簡単にリッスンすることもできます：</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">custom-comp</span> <span class="hljs-attr">on:custom-event</span>=<span class="hljs-string">"handleCustomEvent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">custom-comp</span>&gt;</span></code></pre>
-        <p>カスタムイベントについて詳しく知りたい場合は、<a href="custom-events.html" olink="">カスタムイベント</a>の章を参照してください。チュートリアルの順序に従って段階的に進めることをお勧めします。そうすれば、後の内容が自然に展開されます。もちろん、事前に理解を深めるためにいつでも参照することも歓迎します。</p>
+        <p>カスタムイベントの詳細については、<a href="custom-events.html" olink="">カスタムイベント</a>のセクションを参照してください。チュートリアルの順序に従って段階的に進めることをお勧めします。以降の内容は自然に展開されます。もちろん、随時確認して事前に把握していただいても構いません。</p>
       </article>
       <div class="footer"></div>
       <script>
