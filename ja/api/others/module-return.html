@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>モジュールが返すオブジェクトの属性</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>モジュールが返すオブジェクトの属性</h1>
+        <p>ofa.jsでは、ページモジュールでもコンポーネントモジュールでも、<code>export default async () =&gt; {}</code> を使用してオブジェクトを返し、モジュールの設定や動作を定義する必要があります。本ドキュメントでは、返すオブジェクトに含めることができるすべてのプロパティをまとめています。</p>
+        <h2>プロパティ概要</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>プロパティ</th>
+              <th>型</th>
+              <th align="center">ページモジュール</th>
+              <th align="center">コンポーネントモジュール</th>
+              <th>説明</th>
+              <th>関連ドキュメント</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tag</code></td>
+              <td><code>string</code></td>
+              <td align="center">❌</td>
+              <td align="center">✅ 必須</td>
+              <td>コンポーネントのタグ名</td>
+              <td><a href="../../documentation/create-component.html" olink="">コンポーネントの作成</a></td>
+            </tr>
+            <tr>
+              <td><code>data</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>リアクティブデータオブジェクト</td>
+              <td><a href="../../documentation/property-response.html" olink="">プロパティのリアクティビティ</a></td>
+            </tr>
+            <tr>
+              <td><code>attrs</code></td>
+              <td><code>object</code></td>
+              <td align="center">❌</td>
+              <td align="center">✅</td>
+              <td>コンポーネント属性の定義</td>
+              <td><a href="../../documentation/inherit-attributes.html" olink="">属性の継承</a></td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>メソッドと算出プロパティ</td>
+              <td><a href="../../documentation/computed-properties.html" olink="">算出プロパティ</a></td>
+            </tr>
+            <tr>
+              <td><code>watch</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>ウォッチャー</td>
+              <td><a href="../../documentation/watchers.html" olink="">ウォッチャー</a></td>
+            </tr>
+            <tr>
+              <td><code>ready</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>DOM作成完了時に呼ばれる</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">ライフサイクル</a></td>
+            </tr>
+            <tr>
+              <td><code>attached</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>DOMにアタッチされた時に呼ばれる</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">ライフサイクル</a></td>
+            </tr>
+            <tr>
+              <td><code>detached</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>DOMからデタッチされた時に呼ばれる</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">ライフサイクル</a></td>
+            </tr>
+            <tr>
+              <td><code>loaded</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>完全にロードが完了した時に呼ばれる</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">ライフサイクル</a></td>
+            </tr>
+            <tr>
+              <td><code>routerChange</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅ 親ページ</td>
+              <td align="center">❌</td>
+              <td>ルート変更時に呼ばれる</td>
+              <td><a href="../../documentation/nested-routes.html" olink="">ネストされたページ/ルート</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>コア属性</h2>
+        <h3>tag</h3>
+        <p><code>tag</code> はコンポーネントのタグ名であり、<strong>コンポーネントモジュールではこのプロパティを定義する必要があります</strong>。ページモジュールでは <code>tag</code> を定義する必要はありません。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+    <span class="hljs-comment">// ...</span>
+  };
+};</code></pre>
+        <blockquote>
+          <p>注意：<code>tag</code> の値は、コンポーネント使用時のタグ名と一致する必要があります。</p>
+        </blockquote>
+        <h3>data</h3>
+        <p><code>data</code> はリアクティブなデータオブジェクトで、コンポーネントやページの状態データを格納するために使用されます。データが変更されると、自動的にビューが更新されます。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello"</span>,
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">user</span>: {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"張三"</span>,
+        <span class="hljs-attr">age</span>: <span class="hljs-number">25</span>
+      },
+      <span class="hljs-attr">items</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+    }
+  };
+};</code></pre>
+        <blockquote>
+          <p>注意：<code>data</code> はオブジェクトであり、関数ではありません。Vue フレームワークとは異なります。</p>
+        </blockquote>
+        <h3>attrs</h3>
+        <p><code>attrs</code>はコンポーネントの属性を定義するために使用され、外部から渡されるデータを受け取ります。<code>attrs</code>を定義する必要があるのは、コンポーネントモジュールだけです。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+    <span class="hljs-attr">attrs</span>: {
+      <span class="hljs-attr">title</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// デフォルト値なし</span>
+      <span class="hljs-attr">disabled</span>: <span class="hljs-string">""</span>,     <span class="hljs-comment">// デフォルト値あり</span>
+      <span class="hljs-attr">size</span>: <span class="hljs-string">"medium"</span>    <span class="hljs-comment">// デフォルト値あり</span>
+    }
+  };
+};</code></pre>
+        <p>コンポーネント使用時に属性を渡す：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"タイトル"</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"large"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
+        <blockquote>
+          <p>重要ルール：</p>
+          <ul>
+            <li>渡される attribute 値は文字列である必要があり、文字列でない場合は自動的に文字列に変換されます</li>
+            <li>命名変換：<code>fullName</code> → <code>full-name</code>（ケバブケース形式）</li>
+            <li><code>attrs</code> と <code>data</code> のキーは重複できません</li>
+          </ul>
+        </blockquote>
+        <h3>proto</h3>
+        <p><code>proto</code> はメソッドと算出プロパティを定義するために使用します。算出プロパティは JavaScript の <code>get</code> と <code>set</code> キーワードを使って定義します。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+    },
+    <span class="hljs-attr">proto</span>: {
+      <span class="hljs-comment">// メソッド定義</span>
+      <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+      },
+      
+      <span class="hljs-comment">// 計算プロパティ（getter）</span>
+      <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+      },
+      
+      <span class="hljs-comment">// 計算プロパティ</span>
+      <span class="hljs-keyword">set</span> <span class="hljs-title function_">doubleCount</span>(<span class="hljs-params">val</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> = val / <span class="hljs-number">2</span>;
+      }
+    }
+  };
+};</code></pre>
+        <blockquote>
+          <p>注意：ofa.js は <code>get</code>/<code>set</code> キーワードを使用して算出プロパティを定義します。Vue の <code>computed</code> オプションではありません。</p>
+        </blockquote>
+        <h3>watch</h3>
+        <p><code>watch</code> はウォッチャーを定義するために使用され、データの変更を監視して対応するロジックを実行します。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">""</span>
+    },
+    <span class="hljs-attr">watch</span>: {
+      <span class="hljs-comment">// 単一のプロパティを監視</span>
+      <span class="hljs-title function_">count</span>(<span class="hljs-params">newVal, { watchers }</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count が変更されました:'</span>, newVal);
+      },
+      
+      <span class="hljs-comment">// 複数のプロパティを監視</span>
+      <span class="hljs-string">"count,name"</span>() {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count または name が変更されました'</span>);
+      }
+    }
+  };
+};</code></pre>
+        <p>リスナーコールバック関数は2つのパラメーターを受け取ります：- <code>newValue</code>：変更後の新しい値</p>
+        <ul>
+          <li><code>{ watchers }</code>：現在のコンポーネントのすべてのウォッチャーオブジェクト</li>
+        </ul>
+        <h2>ライフサイクルフック</h2>
+        <p>ライフサイクルフックを使用すると、コンポーネントのさまざまな段階で特定のロジックを実行できます。</p>
+        <h3>ready</h3>
+        <p><code>ready</code> フックはコンポーネントの準備が整ったときに呼び出され、この時点でコンポーネントのテンプレートはレンダリングが完了し、DOM 要素は作成されていますが、まだドキュメントに挿入されていない可能性があります。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'DOM が作成されました'</span>);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initDomElements</span>();
+}</code></pre>
+        <h3>attached</h3>
+        <p><code>attached</code> フックは、コンポーネントがドキュメントに挿入されたときに呼び出され、コンポーネントがページにマウントされたことを示します。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'DOMにマウントされました'</span>);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">_timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+  }, <span class="hljs-number">1000</span>);
+}</code></pre>
+        <h3>detached</h3>
+        <p><code>detached</code> フックはコンポーネントがドキュメントから削除されるときに呼び出され、コンポーネントがまもなくアンマウントされることを示します。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'DOMから削除されました'</span>);
+  <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">_timer</span>);
+}</code></pre>
+        <h3>loaded</h3>
+        <p><code>loaded</code> フックは、コンポーネントとそのすべての子コンポーネント、非同期リソースがすべて読み込まれた後にトリガーされます。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">loaded</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'完全に読み込みが完了しました'</span>);
+}</code></pre>
+        <h3>routerChange</h3>
+        <p><code>routerChange</code> フックはルート変更時に呼び出され、親ページが子ページの切り替えを監視するためだけに使用されます。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">routerChange</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">refreshActive</span>();
+}</code></pre>
+        <h2>ライフサイクル実行順序</h2>
+        <pre><code class="hljs">ready → attached → loaded
+                 ↓
+              detached（削除時）</code></pre>
+        <h2>特殊なエクスポート：parent</h2>
+        <p><code>parent</code> はネストされたルーティングに使用され、現在のページの親ページパスを指定します。これは独立したエクスポートであり、返却オブジェクトには含まれません。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; }</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>子页面内容<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-comment">// 親ページを指定</span>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">"./layout.html"</span>;
+    
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {}
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>完全な例</h2>
+        <h3>コンポーネントモジュール</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>カウント: {{count}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>二倍: {{doubleCount}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"increment"</span>&gt;</span>増加<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+        <span class="hljs-attr">attrs</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"デフォルトのタイトル"</span>
+        },
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+        },
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+          },
+          <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+          }
+        },
+        <span class="hljs-attr">watch</span>: {
+          <span class="hljs-title function_">count</span>(<span class="hljs-params">newVal</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count が次に変化しました:'</span>, newVal);
+          }
+        },
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'コンポーネントの準備ができました'</span>);
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'コンポーネントがマウントされました'</span>);
+        },
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'コンポーネントがアンマウントされました'</span>);
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>ページモジュール</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{message}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">"./layout.html"</span>;
+    
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello ofa.js"</span>
+        },
+        
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'clicked'</span>);
+          }
+        },
+        
+        <span class="hljs-attr">watch</span>: {
+          <span class="hljs-title function_">message</span>(<span class="hljs-params">val</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'message changed:'</span>, val);
+          }
+        },
+        
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'ページ準備完了'</span>);
+        },
+        
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'ページがマウントされました'</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'クエリパラメータ:'</span>, query);
+        },
+        
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'ページがマウント解除されました'</span>);
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>よくある間違い</h2>
+        <h3>1. attrs と data のキーが重複している</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ 誤り</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">attrs</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">""</span> },
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">"Hello"</span> }  <span class="hljs-comment">// attrs と重複</span>
+};
+
+<span class="hljs-comment">// ✅ 正しい</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">attrs</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">""</span> },
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello"</span> }  <span class="hljs-comment">// 異なるキーを使用する</span>
+};</code></pre>
+        <h3>2. Vueスタイルで算出プロパティを定義する</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ 間違い</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">computed</span>: {
+    <span class="hljs-title function_">doubleCount</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+    }
+  }
+};
+
+<span class="hljs-comment">// ✅ 正しい</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">proto</span>: {
+    <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+    }
+  }
+};</code></pre>
+        <h3>3. data は関数として定義する</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ エラー</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> };
+  }
+};
+
+<span class="hljs-comment">// ✅ 正解</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+  }
+};</code></pre>
+        <h3>4. メソッド定義位置の誤り</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ 間違い</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">methods</span>: {
+    <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {}
+  }
+};
+
+<span class="hljs-comment">// ✅ 正しい</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">proto</span>: {
+    <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {}
+  }
+};</code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

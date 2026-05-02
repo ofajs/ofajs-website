@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>模块返回对象属性</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>模块返回对象属性</h1>
+        <p>在 ofa.js 中，无论是页面模块还是组件模块，都需要通过 <code>export default async () =&gt; {}</code> 返回一个对象来定义模块的配置和行为。本文档汇总了返回对象可以包含的所有属性。</p>
+        <h2>属性总览</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>属性</th>
+              <th>类型</th>
+              <th align="center">页面模块</th>
+              <th align="center">组件模块</th>
+              <th>说明</th>
+              <th>相关文档</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tag</code></td>
+              <td><code>string</code></td>
+              <td align="center">❌</td>
+              <td align="center">✅ 必须</td>
+              <td>组件标签名</td>
+              <td><a href="../../documentation/create-component.html" olink="">创建组件</a></td>
+            </tr>
+            <tr>
+              <td><code>data</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>响应式数据对象</td>
+              <td><a href="../../documentation/property-response.html" olink="">属性响应</a></td>
+            </tr>
+            <tr>
+              <td><code>attrs</code></td>
+              <td><code>object</code></td>
+              <td align="center">❌</td>
+              <td align="center">✅</td>
+              <td>组件属性定义</td>
+              <td><a href="../../documentation/inherit-attributes.html" olink="">传递特征属性</a></td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>方法和计算属性</td>
+              <td><a href="../../documentation/computed-properties.html" olink="">计算属性</a></td>
+            </tr>
+            <tr>
+              <td><code>watch</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>侦听器</td>
+              <td><a href="../../documentation/watchers.html" olink="">侦听器</a></td>
+            </tr>
+            <tr>
+              <td><code>ready</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>DOM 创建完成时调用</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">生命周期</a></td>
+            </tr>
+            <tr>
+              <td><code>attached</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>挂载到 DOM 时调用</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">生命周期</a></td>
+            </tr>
+            <tr>
+              <td><code>detached</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>从 DOM 移除时调用</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">生命周期</a></td>
+            </tr>
+            <tr>
+              <td><code>loaded</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>完全加载完成时调用</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">生命周期</a></td>
+            </tr>
+            <tr>
+              <td><code>routerChange</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅ 父页面</td>
+              <td align="center">❌</td>
+              <td>路由变化时调用</td>
+              <td><a href="../../documentation/nested-routes.html" olink="">嵌套页面/路由</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <blockquote>
+          <p><strong>特殊导出</strong>：<code>export const parent = "./layout.html"</code> - 用于嵌套路由，指定父页面路径（不在返回对象中）。详见 <a href="../../documentation/nested-routes.html" olink="">嵌套页面/路由</a>。</p>
+        </blockquote>
+        <h2>核心属性</h2>
+        <h3>tag</h3>
+        <p><code>tag</code> 是组件的标签名，<strong>组件模块必须定义此属性</strong>。页面模块不需要定义 <code>tag</code>。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+    <span class="hljs-comment">// ...</span>
+  };
+};</code></pre>
+        <blockquote>
+          <p>注意：<code>tag</code> 的值必须与使用组件时的标签名一致。</p>
+        </blockquote>
+        <h3>data</h3>
+        <p><code>data</code> 是响应式数据对象，用于存储组件或页面的状态数据。数据变化时会自动更新视图。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello"</span>,
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">user</span>: {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"张三"</span>,
+        <span class="hljs-attr">age</span>: <span class="hljs-number">25</span>
+      },
+      <span class="hljs-attr">items</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+    }
+  };
+};</code></pre>
+        <blockquote>
+          <p>注意：<code>data</code> 是对象而非函数，与 Vue 框架不同。</p>
+        </blockquote>
+        <h3>attrs</h3>
+        <p><code>attrs</code> 用于定义组件属性，接收外部传入的数据。只有组件模块需要定义 <code>attrs</code>。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+    <span class="hljs-attr">attrs</span>: {
+      <span class="hljs-attr">title</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// 无默认值</span>
+      <span class="hljs-attr">disabled</span>: <span class="hljs-string">""</span>,     <span class="hljs-comment">// 有默认值</span>
+      <span class="hljs-attr">size</span>: <span class="hljs-string">"medium"</span>    <span class="hljs-comment">// 有默认值</span>
+    }
+  };
+};</code></pre>
+        <p>使用组件时传入属性：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"标题"</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"large"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
+        <blockquote>
+          <p>重要规则：</p>
+          <ul>
+            <li>传递的 attribute 值必须是字符串，如果不是字符串将会被自动转换为字符串</li>
+            <li>命名转换：<code>fullName</code> → <code>full-name</code>（kebab-case 格式）</li>
+            <li><code>attrs</code> 和 <code>data</code> 的 key 不能重复</li>
+          </ul>
+        </blockquote>
+        <h3>proto</h3>
+        <p><code>proto</code> 用于定义方法和计算属性。计算属性使用 JavaScript 的 <code>get</code> 和 <code>set</code> 关键字定义。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+    },
+    <span class="hljs-attr">proto</span>: {
+      <span class="hljs-comment">// 方法定义</span>
+      <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+      },
+      
+      <span class="hljs-comment">// 计算属性（getter）</span>
+      <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+      },
+      
+      <span class="hljs-comment">// 计算属性</span>
+      <span class="hljs-keyword">set</span> <span class="hljs-title function_">doubleCount</span>(<span class="hljs-params">val</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> = val / <span class="hljs-number">2</span>;
+      }
+    }
+  };
+};</code></pre>
+        <blockquote>
+          <p>注意：ofa.js 使用 <code>get</code>/<code>set</code> 关键字定义计算属性，而非 Vue 的 <code>computed</code> 选项。</p>
+        </blockquote>
+        <h3>watch</h3>
+        <p><code>watch</code> 用于定义侦听器，监听数据变化并执行相应逻辑。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">""</span>
+    },
+    <span class="hljs-attr">watch</span>: {
+      <span class="hljs-comment">// 监听单个属性</span>
+      <span class="hljs-title function_">count</span>(<span class="hljs-params">newVal, { watchers }</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count changed:'</span>, newVal);
+      },
+      
+      <span class="hljs-comment">// 监听多个属性</span>
+      <span class="hljs-string">"count,name"</span>() {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count 或 name 发生变化'</span>);
+      }
+    }
+  };
+};</code></pre>
+        <p>侦听器回调函数接收两个参数：</p>
+        <ul>
+          <li><code>newValue</code>：变化后的新值</li>
+          <li><code>{ watchers }</code>：当前组件的所有侦听器对象</li>
+        </ul>
+        <h2>生命周期钩子</h2>
+        <p>生命周期钩子允许你在组件的不同阶段执行特定逻辑。</p>
+        <h3>ready</h3>
+        <p><code>ready</code> 钩子在组件准备就绪时调用，此时组件的模板已经渲染完成，DOM 元素已经创建，但可能尚未插入到文档中。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'DOM 已创建'</span>);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initDomElements</span>();
+}</code></pre>
+        <h3>attached</h3>
+        <p><code>attached</code> 钩子在组件被插入到文档中时调用，表示组件已经挂载到页面上。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'已挂载到 DOM'</span>);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">_timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+  }, <span class="hljs-number">1000</span>);
+}</code></pre>
+        <h3>detached</h3>
+        <p><code>detached</code> 钩子在组件从文档中移除时调用，表示组件即将被卸载。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'已从 DOM 移除'</span>);
+  <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">_timer</span>);
+}</code></pre>
+        <h3>loaded</h3>
+        <p><code>loaded</code> 钩子在组件及其所有子组件、异步资源全部加载完毕后触发。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">loaded</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'完全加载完成'</span>);
+}</code></pre>
+        <h3>routerChange</h3>
+        <p><code>routerChange</code> 钩子在路由变化时调用，仅用于父页面监听子页面切换。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">routerChange</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">refreshActive</span>();
+}</code></pre>
+        <h2>生命周期执行顺序</h2>
+        <pre><code class="hljs">ready → attached → loaded
+                 ↓
+              detached（移除时）</code></pre>
+        <h2>特殊导出：parent</h2>
+        <p><code>parent</code> 用于嵌套路由，指定当前页面的父页面路径。这是一个独立的导出，不在返回对象中。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; }</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>子页面内容<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-comment">// 指定父页面</span>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">"./layout.html"</span>;
+    
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {}
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>完整示例</h2>
+        <h3>组件模块</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>计数: {{count}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>双倍: {{doubleCount}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"increment"</span>&gt;</span>增加<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+        <span class="hljs-attr">attrs</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"默认标题"</span>
+        },
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+        },
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+          },
+          <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+          }
+        },
+        <span class="hljs-attr">watch</span>: {
+          <span class="hljs-title function_">count</span>(<span class="hljs-params">newVal</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count 变化为:'</span>, newVal);
+          }
+        },
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'组件准备就绪'</span>);
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'组件已挂载'</span>);
+        },
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'组件已卸载'</span>);
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>页面模块</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{message}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">"./layout.html"</span>;
+    
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello ofa.js"</span>
+        },
+        
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'clicked'</span>);
+          }
+        },
+        
+        <span class="hljs-attr">watch</span>: {
+          <span class="hljs-title function_">message</span>(<span class="hljs-params">val</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'message changed:'</span>, val);
+          }
+        },
+        
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'页面准备就绪'</span>);
+        },
+        
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'页面已挂载'</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'查询参数:'</span>, query);
+        },
+        
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'页面已卸载'</span>);
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>常见错误</h2>
+        <h3>1. attrs 和 data 的 key 重复</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ 错误</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">attrs</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">""</span> },
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">"Hello"</span> }  <span class="hljs-comment">// 与 attrs 重复</span>
+};
+
+<span class="hljs-comment">// ✅ 正确</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">attrs</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">""</span> },
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello"</span> }  <span class="hljs-comment">// 使用不同的 key</span>
+};</code></pre>
+        <h3>2. 使用 Vue 风格定义计算属性</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ 错误</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">computed</span>: {
+    <span class="hljs-title function_">doubleCount</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+    }
+  }
+};
+
+<span class="hljs-comment">// ✅ 正确</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">proto</span>: {
+    <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+    }
+  }
+};</code></pre>
+        <h3>3. data 定义为函数</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ 错误</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> };
+  }
+};
+
+<span class="hljs-comment">// ✅ 正确</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+  }
+};</code></pre>
+        <h3>4. 方法定义位置错误</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ 错误</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">methods</span>: {
+    <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {}
+  }
+};
+
+<span class="hljs-comment">// ✅ 正确</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">proto</span>: {
+    <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {}
+  }
+};</code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

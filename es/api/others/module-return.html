@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propiedades del objeto devuelto por el módulo</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../../img/logo.svg" />
+  <link rel="stylesheet" href="../../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../../css/hljs.css" />
+      <l-m src="../../../comps/center-block.html"></l-m>
+      <l-m src="../../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Propiedades del objeto devuelto por el módulo</h1>
+        <p>En ofa.js, ya sea un módulo de página o un módulo de componente, es necesario devolver un objeto mediante <code>export default async () =&gt; {}</code> para definir la configuración y el comportamiento del módulo. Este documento recopila todas las propiedades que puede contener el objeto devuelto.</p>
+        <h2>Descripción general de los atributos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Propiedad</th>
+              <th>Tipo</th>
+              <th align="center">Módulo de página</th>
+              <th align="center">Módulo de componente</th>
+              <th>Descripción</th>
+              <th>Documentación relacionada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>tag</code></td>
+              <td><code>string</code></td>
+              <td align="center">❌</td>
+              <td align="center">✅ Requerido</td>
+              <td>Nombre de la etiqueta del componente</td>
+              <td><a href="../../documentation/create-component.html" olink="">Crear componente</a></td>
+            </tr>
+            <tr>
+              <td><code>data</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Objeto de datos reactivo</td>
+              <td><a href="../../documentation/property-response.html" olink="">Respuesta de propiedades</a></td>
+            </tr>
+            <tr>
+              <td><code>attrs</code></td>
+              <td><code>object</code></td>
+              <td align="center">❌</td>
+              <td align="center">✅</td>
+              <td>Definición de atributos del componente</td>
+              <td><a href="../../documentation/inherit-attributes.html" olink="">Heredar atributos</a></td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Métodos y propiedades computadas</td>
+              <td><a href="../../documentation/computed-properties.html" olink="">Propiedades computadas</a></td>
+            </tr>
+            <tr>
+              <td><code>watch</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Observadores</td>
+              <td><a href="../../documentation/watchers.html" olink="">Observadores</a></td>
+            </tr>
+            <tr>
+              <td><code>ready</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Se llama cuando el DOM está creado</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">Ciclo de vida</a></td>
+            </tr>
+            <tr>
+              <td><code>attached</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Se llama al montar en el DOM</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">Ciclo de vida</a></td>
+            </tr>
+            <tr>
+              <td><code>detached</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Se llama al eliminar del DOM</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">Ciclo de vida</a></td>
+            </tr>
+            <tr>
+              <td><code>loaded</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Se llama cuando la carga está completa</td>
+              <td><a href="../../documentation/lifecycle.html" olink="">Ciclo de vida</a></td>
+            </tr>
+            <tr>
+              <td><code>routerChange</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅ Página padre</td>
+              <td align="center">❌</td>
+              <td>Se llama cuando la ruta cambia</td>
+              <td><a href="../../documentation/nested-routes.html" olink="">Páginas/rutas anidadas</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>Atributos principales</h2>
+        <h3>tag</h3>
+        <p><code>tag</code> es el nombre de la etiqueta del componente, <strong>el módulo del componente debe definir este atributo</strong>. El módulo de página no necesita definir <code>tag</code>.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+    <span class="hljs-comment">// ...</span>
+  };
+};</code></pre>
+        <blockquote>
+          <p>Nota: El valor de <code>tag</code> debe coincidir con el nombre de la etiqueta al usar el componente.</p>
+        </blockquote>
+        <h3>data</h3>
+        <p><code>data</code> es un objeto de datos reactivo que se utiliza para almacenar el estado de un componente o página. Cuando los datos cambian, la vista se actualiza automáticamente.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello"</span>,
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">user</span>: {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Zhang San"</span>,
+        <span class="hljs-attr">age</span>: <span class="hljs-number">25</span>
+      },
+      <span class="hljs-attr">items</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+    }
+  };
+};</code></pre>
+        <blockquote>
+          <p>Nota: <code>data</code> es un objeto, no una función, a diferencia de Vue.</p>
+        </blockquote>
+        <h3>attrs</h3>
+        <p><code>attrs</code> se utiliza para definir las propiedades del componente y recibir datos externos. Solo el módulo del componente necesita definir <code>attrs</code>.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+    <span class="hljs-attr">attrs</span>: {
+      <span class="hljs-attr">title</span>: <span class="hljs-literal">null</span>,      <span class="hljs-comment">// Sin valor por defecto</span>
+      <span class="hljs-attr">disabled</span>: <span class="hljs-string">""</span>,     <span class="hljs-comment">// Con valor por defecto</span>
+      <span class="hljs-attr">size</span>: <span class="hljs-string">"medium"</span>    <span class="hljs-comment">// Con valor por defecto</span>
+    }
+  };
+};</code></pre>
+        <p>Al usar el componente, pase las propiedades:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"título"</span> <span class="hljs-attr">disabled</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"large"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
+        <blockquote>
+          <p>Reglas importantes:</p>
+          <ul>
+            <li>El valor del atributo pasado debe ser una cadena de texto, si no lo es se convertirá automáticamente en cadena</li>
+            <li>Conversión de nombres: <code>fullName</code> → <code>full-name</code> (formato kebab-case)</li>
+            <li>Las claves de <code>attrs</code> y <code>data</code> no pueden repetirse</li>
+          </ul>
+        </blockquote>
+        <h3>proto</h3>
+        <p><code>proto</code> se utiliza para definir métodos y propiedades computadas. Las propiedades computadas se definen usando las palabras clave <code>get</code> y <code>set</code> de JavaScript.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+    },
+    <span class="hljs-attr">proto</span>: {
+      <span class="hljs-comment">// Definición de métodos</span>
+      <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+      },
+      
+      <span class="hljs-comment">// Propiedad calculada (getter)</span>
+      <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+      },
+      
+      <span class="hljs-comment">// Propiedad calculada</span>
+      <span class="hljs-keyword">set</span> <span class="hljs-title function_">doubleCount</span>(<span class="hljs-params">val</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> = val / <span class="hljs-number">2</span>;
+      }
+    }
+  };
+};</code></pre>
+        <p>Nota: ofa.js usa las palabras clave <code>get</code>/<code>set</code> para definir propiedades computadas, en lugar de la opción <code>computed</code> de Vue.</p>
+        <h3>watch</h3>
+        <p><code>watch</code> se utiliza para definir observadores que monitorizan cambios en los datos y ejecutan la lógica correspondiente.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">""</span>
+    },
+    <span class="hljs-attr">watch</span>: {
+      <span class="hljs-comment">// Escucha un solo atributo</span>
+      <span class="hljs-title function_">count</span>(<span class="hljs-params">newVal, { watchers }</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count changed:'</span>, newVal);
+      },
+      
+      <span class="hljs-comment">// Escucha múltiples atributos</span>
+      <span class="hljs-string">"count,name"</span>() {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'count o name ha cambiado'</span>);
+      }
+    }
+  };
+};</code></pre>
+        <p>La función de callback del listener recibe dos parámetros:- <code>newValue</code>：El nuevo valor después del cambio</p>
+        <ul>
+          <li><code>{ watchers }</code>：El objeto de todos los watchers del componente actual</li>
+        </ul>
+        <h2>Hooks del ciclo de vida</h2>
+        <p>Los hooks del ciclo de vida te permiten ejecutar lógica específica en diferentes etapas del componente.</p>
+        <h3>ready</h3>
+        <p>El hook <code>ready</code> se llama cuando el componente está listo, en ese momento la plantilla del componente ya se ha renderizado, los elementos del DOM ya se han creado, pero es posible que aún no se hayan insertado en el documento.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'DOM creado'</span>);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">initDomElements</span>();
+}</code></pre>
+        <h3>attached</h3>
+        <p>El hook <code>attached</code> se llama cuando el componente es insertado en el documento, indicando que el componente ya se ha montado en la página.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Montado en el DOM'</span>);
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">_timer</span> = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+  }, <span class="hljs-number">1000</span>);
+}</code></pre>
+        <h3>detached</h3>
+        <p><code>detached</code> gancho se llama cuando el componente se elimina del documento, indicando que el componente está a punto de ser desmontado.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Eliminado del DOM'</span>);
+  <span class="hljs-built_in">clearInterval</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">_timer</span>);
+}</code></pre>
+        <h3>loaded</h3>
+        <p>El hook <code>loaded</code> se activa después de que el componente, todos sus componentes secundarios y los recursos asincrónicos se hayan cargado completamente.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">loaded</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Completamente cargado'</span>);
+}</code></pre>
+        <h3>routerChange</h3>
+        <p><code>routerChange</code> gancho se llama cuando la ruta cambia, se utiliza solo para que la página padre escuche el cambio de página hijo.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-title function_">routerChange</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">refreshActive</span>();
+}</code></pre>
+        <h2>Orden de ejecución del ciclo de vida</h2>
+        <pre><code class="hljs">ready → attached → loaded
+                 ↓
+              detached（cuando se elimina）</code></pre>
+        <h2>Exportación especial：parent</h2>
+        <p><code>parent</code> se utiliza para rutas anidadas, especificando la ruta de la página padre de la página actual. Esta es una exportación independiente, que no se encuentra en el objeto retornado.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; }</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>contenido de la subpágina<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-comment">// Especificar página principal</span>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">"./layout.html"</span>;
+    
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {}
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>Ejemplo completo</h2>
+        <h3>Módulo de componentes</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{title}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Contador: {{count}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Doble: {{doubleCount}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">"increment"</span>&gt;</span>Incrementar<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">tag</span>: <span class="hljs-string">"my-component"</span>,
+        <span class="hljs-attr">attrs</span>: {
+          <span class="hljs-attr">title</span>: <span class="hljs-string">"Título predeterminado"</span>
+        },
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+        },
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span>++;
+          },
+          <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+          }
+        },
+        <span class="hljs-attr">watch</span>: {
+          <span class="hljs-title function_">count</span>(<span class="hljs-params">newVal</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'contador cambiado a:'</span>, newVal);
+          }
+        },
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Componente listo'</span>);
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Componente montado'</span>);
+        },
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Componente desmontado'</span>);
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>Módulo de página</h3>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{message}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parent = <span class="hljs-string">"./layout.html"</span>;
+    
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello ofa.js"</span>
+        },
+        
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'clicked'</span>);
+          }
+        },
+        
+        <span class="hljs-attr">watch</span>: {
+          <span class="hljs-title function_">message</span>(<span class="hljs-params">val</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'message changed:'</span>, val);
+          }
+        },
+        
+        <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Página lista'</span>);
+        },
+        
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Página montada'</span>);
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Parámetros de consulta:'</span>, query);
+        },
+        
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Página desmontada'</span>);
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>Errores comunes</h2>
+        <h3>1. Clave duplicada en attrs y data</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ Error</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">attrs</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">""</span> },
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">"Hello"</span> }  <span class="hljs-comment">// Duplicado con attrs</span>
+};
+
+<span class="hljs-comment">// ✅ Correcto</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">attrs</span>: { <span class="hljs-attr">title</span>: <span class="hljs-string">""</span> },
+  <span class="hljs-attr">data</span>: { <span class="hljs-attr">message</span>: <span class="hljs-string">"Hello"</span> }  <span class="hljs-comment">// Usar una clave diferente</span>
+};</code></pre>
+        <h3>2. Usar el estilo Vue para definir propiedades computadas</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ Incorrecto</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">computed</span>: {
+    <span class="hljs-title function_">doubleCount</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+    }
+  }
+};
+
+<span class="hljs-comment">// ✅ Correcto</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">proto</span>: {
+    <span class="hljs-keyword">get</span> <span class="hljs-title function_">doubleCount</span>() {
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> * <span class="hljs-number">2</span>;
+    }
+  }
+};</code></pre>
+        <h3>3. Los datos se definen como una función</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ Incorrecto</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> { <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> };
+  }
+};
+
+<span class="hljs-comment">// ✅ Correcto</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>
+  }
+};</code></pre>
+        <h3>4. Posición errónea de la definición del método</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ❌ Incorrecto</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">methods</span>: {
+    <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {}
+  }
+};
+
+<span class="hljs-comment">// ✅ Correcto</span>
+<span class="hljs-keyword">return</span> {
+  <span class="hljs-attr">proto</span>: {
+    <span class="hljs-title function_">handleClick</span>(<span class="hljs-params"></span>) {}
+  }
+};</code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>
