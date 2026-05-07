@@ -82,7 +82,147 @@
       <article class="markdown-body">
         <h1>モジュールが返すオブジェクトの属性</h1>
         <p>ofa.jsでは、ページモジュールでもコンポーネントモジュールでも、<code>export default async () =&gt; {}</code> を使用してオブジェクトを返し、モジュールの設定や動作を定義する必要があります。本ドキュメントでは、返すオブジェクトに含めることができるすべてのプロパティをまとめています。</p>
-        <h2>プロパティ概要</h2>
+        <h2>async 関数のパラメータ</h2>
+        <p><code>export default async () =&gt; {}</code> 内の async 関数は、以下のプロパティを含む引数オブジェクトを受け取ります：</p>
+        <h3>パラメータリスト</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>パラメータ</th>
+              <th>型</th>
+              <th align="center">ページモジュール</th>
+              <th align="center">コンポーネントモジュール</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>load</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>他のモジュールやリソースを読み込む関数</td>
+            </tr>
+            <tr>
+              <td><code>url</code></td>
+              <td><code>string</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>現在のページまたはコンポーネントモジュールのファイルアドレス</td>
+            </tr>
+            <tr>
+              <td><code>query</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">❌</td>
+              <td>URL クエリパラメータオブジェクト</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><code>load</code> は、他のモジュール、コンポーネント、またはリソースを読み込むための関数です。コンポーネントモジュールとページモジュールの両方で使用できます。<code>load</code> 関数の読み込み効果は <code>&lt;l-m&gt;</code> コンポーネントと同様で、主に ofa.js のページやコンポーネントの HTML ファイルを読み込むために使用されます。</p>
+        <p><strong>同期読み込み</strong>: <code>await</code> キーワードを使用し、モジュールの読み込みが完了するまで実行をブロックします。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> { someModule } = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  <span class="hljs-keyword">const</span> component = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./my-component.html"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleData</span>: someModule
+    }
+  };
+};</code></pre>
+        <p><strong>非同期ロード</strong>：<code>await</code>キーワードを使用せず、Promiseオブジェクトを返し、実行をブロックしません。必要なときに読み込むシーンに適しています。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> modulePromise = <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  
+  modulePromise.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">{ someModule }</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'モジュールロード完了:'</span>, someModule);
+  });
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {}
+  };
+};</code></pre>
+        <p>使用シーン：- コンポーネントを同期的に読み込み、使用前に登録されていることを確認する</p>
+        <ul>
+          <li>共有データモジュールを読み込む</li>
+          <li>設定ファイルを読み込む</li>
+          <li>非同期読み込みは、オンデマンド読み込みに適した場面で行う</li>
+        </ul>
+        <blockquote>
+          <p>注意：</p>
+          <ul>
+            <li><code>await</code> を使用した同期的な読み込みは実行をブロックします。実際の要件に応じて同期または非同期の方式を選択することを推奨します</li>
+            <li>必要に応じた読み込みの要件がない場合は、<code>&lt;l-m&gt;</code> タグを使用してコンポーネントを直接読み込むことを推奨します</li>
+          </ul>
+        </blockquote>
+        <h3>URLパラメータ</h3>
+        <p><code>url</code> パラメータはページモジュールとコンポーネントモジュールの両方で利用可能で、現在のモジュールのファイルアドレスを示します。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ url }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'現在のモジュールアドレス:'</span>, url);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleUrl</span>: url
+    }
+  };
+};</code></pre>
+        <h3>query パラメータ</h3>
+        <p><code>query</code> パラメータはページモジュールでのみ利用可能で、URL のクエリパラメータを含みます。<code>query</code> オブジェクトを通じて URL のクエリ文字列パラメータに直接アクセスできます。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'クエリパラメータ:'</span>, query);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span>,
+      <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-number">1</span>
+    }
+  };
+};</code></pre>
+        <p>使用例：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>ユーザー詳細<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>ユーザーID: {{userId}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>ページ: {{page}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span> || <span class="hljs-string">'不明'</span>,
+          <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-string">'1'</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>アクセス方法：```html <o-page src="./user.html?id=123&amp;page=2"></o-page></p>
+        <pre><code class="hljs">
+&gt; 重要：Vue のような `<span class="hljs-keyword">this</span>.$route.query` の方法でクエリパラメータを取得しないでください。ofa.js では関数のパラメータを通じてのみ取得できます。
+
+<span class="hljs-meta">### 完全なパラメータ例</span>
+
+```<span class="hljs-function">javascript
+export <span class="hljs-literal">default</span> <span class="hljs-keyword">async</span> (<span class="hljs-params">{ load, url, query }</span>)</span> =&gt; {
+  <span class="hljs-keyword">const</span> { config } = <span class="hljs-keyword">await</span> load(<span class="hljs-string">"./config.js"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    data: {
+      configData: config,
+      moduleUrl: url,
+      queryParams: query
+    },
+    ready() {
+      console.log(<span class="hljs-string">'モジュールURL:'</span>, url);
+      console.log(<span class="hljs-string">'クエリパラメータ:'</span>, query);
+    }
+  };
+};</code></pre>
+        <h2>返却属性の概要</h2>
         <table>
           <thead>
             <tr>

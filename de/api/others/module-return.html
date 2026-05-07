@@ -82,7 +82,147 @@
       <article class="markdown-body">
         <h1>Modul-Rückgabeobjekteigenschaften</h1>
         <p>In ofa.js müssen sowohl Seitenmodule als auch Komponentenmodule über <code>export default async () =&gt; {}</code> ein Objekt zurückgeben, um die Konfiguration und das Verhalten des Moduls zu definieren. Dieses Dokument fasst alle Eigenschaften zusammen, die das zurückgegebene Objekt enthalten kann.</p>
-        <h2>Attributübersicht</h2>
+        <h2>async Funktionsparameter</h2>
+        <p>Die async-Funktion in <code>export default async () =&gt; {}</code> erhält ein Parameterobjekt mit den folgenden Attributen:</p>
+        <h3>Parameterliste</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Typ</th>
+              <th align="center">Seitenmodul</th>
+              <th align="center">Komponentenmodul</th>
+              <th>Beschreibung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>load</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Funktion zum Laden anderer Module oder Ressourcen</td>
+            </tr>
+            <tr>
+              <td><code>url</code></td>
+              <td><code>string</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>Dateiadresse des aktuellen Seiten- oder Komponentenmoduls</td>
+            </tr>
+            <tr>
+              <td><code>query</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">❌</td>
+              <td>URL-Abfrageparameterobjekt</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><code>load</code> ist eine Funktion zum Laden anderer Module, Komponenten oder Ressourcen. Sie kann sowohl in Komponentenmodulen als auch in Seitenmodulen verwendet werden. Die Ladeauswirkung der <code>load</code>-Funktion entspricht der der <code>&lt;l-m&gt;</code>-Komponente und dient hauptsächlich zum Laden der HTML-Dateien einer ofa.js-Seite oder -Komponente.</p>
+        <p><strong>Synchrones Laden</strong>: Verwendung des Schlüsselworts <code>await</code>, blockiert die Ausführung, bis das Modul geladen ist.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> { someModule } = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  <span class="hljs-keyword">const</span> component = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./my-component.html"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleData</span>: someModule
+    }
+  };
+};</code></pre>
+        <p><strong>Asynchrones Laden</strong>: Kein <code>await</code>-Schlüsselwort, gibt ein Promise-Objekt zurück und blockiert die Ausführung nicht. Geeignet für Szenarien, bei denen bedarfsabhängiges Laden erforderlich ist.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> modulePromise = <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  
+  modulePromise.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">{ someModule }</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Modul geladen:'</span>, someModule);
+  });
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {}
+  };
+};</code></pre>
+        <p>Anwendungsszenarien:- Synchrones Laden von Komponenten, um sicherzustellen, dass die Komponenten vor der Nutzung registriert sind</p>
+        <ul>
+          <li>Laden des gemeinsamen Datenmoduls</li>
+          <li>Laden der Konfigurationsdatei</li>
+          <li>Asynchrones Laden für szenarien, die bedarfsgesteuertes Laden erfordern</li>
+        </ul>
+        <blockquote>
+          <p>Hinweis:</p>
+          <ul>
+            <li>Die synchronisierte Verwendung von <code>await</code> blockiert die Ausführung. Es wird empfohlen, je nach tatsächlichem Bedarf die synchrone oder asynchrone Methode zu wählen.</li>
+            <li>Wenn keine bedarfsabhängige Ladung erforderlich ist, wird empfohlen, die Komponente direkt über das <code>&lt;l-m&gt;</code>-Tag zu laden.</li>
+          </ul>
+        </blockquote>
+        <h3>URL-Parameter</h3>
+        <p>Der <code>url</code>-Parameter ist sowohl im Seitenmodul als auch im Komponentenmodul verfügbar und stellt die Dateiadresse des aktuellen Moduls dar.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ url }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Aktuelle Moduladresse:'</span>, url);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleUrl</span>: url
+    }
+  };
+};</code></pre>
+        <h3>Query-Parameter</h3>
+        <p>Der <code>query</code>-Parameter ist nur in Seitenmodulen verfügbar und enthält die Abfrageparameter der URL. Über das <code>query</code>-Objekt können Sie direkt auf die Query-String-Parameter der URL zugreifen.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'Abfrageparameter:'</span>, query);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span>,
+      <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-number">1</span>
+    }
+  };
+};</code></pre>
+        <p>Anwendungsbeispiel:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Benutzerdetails<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Benutzer-ID: {{userId}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Seite: {{page}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span> || <span class="hljs-string">'Unbekannt'</span>,
+          <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-string">'1'</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>Zugriffsart:```html <o-page src="./user.html?id=123&amp;page=2"></o-page></p>
+        <pre><code class="hljs">
+&gt; Wichtig: Verwenden Sie nicht die Vue-ähnliche `<span class="hljs-keyword">this</span>.$route.query`-Methode, um Abfrageparameter zu erhalten. ofa.js unterstützt nur den Erhalt über Funktionsparameter.
+
+<span class="hljs-meta">### Vollständiges Parameterbeispiel</span>
+
+```<span class="hljs-function">javascript
+export <span class="hljs-literal">default</span> <span class="hljs-keyword">async</span> (<span class="hljs-params">{ load, url, query }</span>)</span> =&gt; {
+  <span class="hljs-keyword">const</span> { config } = <span class="hljs-keyword">await</span> load(<span class="hljs-string">"./config.js"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    data: {
+      configData: config,
+      moduleUrl: url,
+      queryParams: query
+    },
+    ready() {
+      console.log(<span class="hljs-string">'Moduladresse:'</span>, url);
+      console.log(<span class="hljs-string">'Abfrageparameter:'</span>, query);
+    }
+  };
+};</code></pre>
+        <h2>Zurückgegebene Eigenschaftenübersicht</h2>
         <table>
           <thead>
             <tr>

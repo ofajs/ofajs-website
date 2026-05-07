@@ -82,7 +82,147 @@
       <article class="markdown-body">
         <h1>모듈 반환 객체 속성</h1>
         <p>ofa.js에서 페이지 모듈이든 컴포넌트 모듈이든 모두 <code>export default async () =&gt; {}</code>를 통해 객체를 반환하여 모듈의 구성과 동작을 정의해야 합니다. 이 문서는 반환 객체에 포함될 수 있는 모든 속성을 정리하였습니다.</p>
-        <h2>속성 개요</h2>
+        <h2>async 함수 매개변수</h2>
+        <p><code>export default async () =&gt; {}</code>의 async 함수는 다음 속성들을 포함하는 매개변수 객체를 받습니다:</p>
+        <h3>매개변수 목록</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>매개변수</th>
+              <th>유형</th>
+              <th align="center">페이지 모듈</th>
+              <th align="center">컴포넌트 모듈</th>
+              <th>설명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>load</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>다른 모듈이나 리소스를 로드하는 함수</td>
+            </tr>
+            <tr>
+              <td><code>url</code></td>
+              <td><code>string</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>현재 페이지 또는 컴포넌트 모듈의 파일 주소</td>
+            </tr>
+            <tr>
+              <td><code>query</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">❌</td>
+              <td>URL 쿼리 매개변수 객체</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><code>load</code>는 다른 모듈, 컴포넌트 또는 리소스를 로드하는 데 사용되는 함수입니다. 컴포넌트 모듈과 페이지 모듈 모두에서 사용할 수 있습니다. <code>load</code> 함수의 로드 효과는 <code>&lt;l-m&gt;</code> 컴포넌트와 동일하며, 주로 ofa.js 페이지 또는 컴포넌트의 HTML 파일을 로드하는 데 사용됩니다.</p>
+        <p><strong>동기 로딩</strong>: <code>await</code> 키워드를 사용하면 모듈 로딩이 완료될 때까지 실행이 차단됩니다.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> { someModule } = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  <span class="hljs-keyword">const</span> component = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./my-component.html"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleData</span>: someModule
+    }
+  };
+};</code></pre>
+        <p><strong>비동기 로딩</strong>: <code>await</code> 키워드를 사용하지 않고 Promise 객체를 반환하며 실행을 차단하지 않습니다. 필요에 따라 로딩하는 시나리오에 적합합니다.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> modulePromise = <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  
+  modulePromise.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">{ someModule }</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'모듈 로딩 완료:'</span>, someModule);
+  });
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {}
+  };
+};</code></pre>
+        <p>사용 시나리오:- 구성 요소를 동기적으로 로드하여 사용 전 등록 보장</p>
+        <ul>
+          <li>공유 데이터 모듈 로드</li>
+          <li>구성 파일 로드</li>
+          <li>필요에 따라 로드하는 시나리오에 적합한 비동기 로드</li>
+        </ul>
+        <blockquote>
+          <p>참고:</p>
+          <ul>
+            <li><code>await</code>를 사용한 동기 로딩은 실행을 차단하므로, 실제 필요에 따라 동기 또는 비동기 방식을 선택하는 것을 권장합니다.</li>
+            <li>지연 로딩(lazy loading)이 필요하지 않다면 <code>&lt;l-m&gt;</code> 태그를 직접 사용하여 컴포넌트를 로드하는 것을 권장합니다.</li>
+          </ul>
+        </blockquote>
+        <h3>url 매개변수</h3>
+        <p><code>url</code> 매개변수는 페이지 모듈과 컴포넌트 모듈에서 모두 사용할 수 있으며, 현재 모듈의 파일 주소를 나타냅니다.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ url }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'현재 모듈 주소:'</span>, url);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleUrl</span>: url
+    }
+  };
+};</code></pre>
+        <h3>쿼리 매개변수</h3>
+        <p><code>query</code> 매개변수는 페이지 모듈에서만 사용할 수 있으며, URL의 쿼리 매개변수를 포함합니다. <code>query</code> 객체를 통해 URL의 쿼리 문자열 매개변수에 직접 접근할 수 있습니다.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'쿼리 파라미터:'</span>, query);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span>,
+      <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-number">1</span>
+    }
+  };
+};</code></pre>
+        <p>사용 예시:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>사용자 상세<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>사용자 ID: {{userId}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>페이지: {{page}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span> || <span class="hljs-string">'알 수 없음'</span>,
+          <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-string">'1'</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>접속 방법:```html <o-page src="./user.html?id=123&amp;page=2"></o-page></p>
+        <pre><code class="hljs">
+&gt; 중요: Vue의 `<span class="hljs-keyword">this</span>.$route.query`와 같은 방식으로 쿼리 매개변수를 가져오지 마세요, ofa.js는 함수 매개변수를 통해서만 가져오기를 지원합니다
+
+<span class="hljs-meta">### 전체 매개변수 예제</span>
+
+```<span class="hljs-function">javascript
+export <span class="hljs-literal">default</span> <span class="hljs-keyword">async</span> (<span class="hljs-params">{ load, url, query }</span>)</span> =&gt; {
+  <span class="hljs-keyword">const</span> { config } = <span class="hljs-keyword">await</span> load(<span class="hljs-string">"./config.js"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    data: {
+      configData: config,
+      moduleUrl: url,
+      queryParams: query
+    },
+    ready() {
+      console.log(<span class="hljs-string">'모듈 주소:'</span>, url);
+      console.log(<span class="hljs-string">'조회 매개변수:'</span>, query);
+    }
+  };
+};</code></pre>
+        <h2>반환 속성 개요</h2>
         <table>
           <thead>
             <tr>

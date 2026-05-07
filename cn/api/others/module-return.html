@@ -82,7 +82,148 @@
       <article class="markdown-body">
         <h1>模块返回对象属性</h1>
         <p>在 ofa.js 中，无论是页面模块还是组件模块，都需要通过 <code>export default async () =&gt; {}</code> 返回一个对象来定义模块的配置和行为。本文档汇总了返回对象可以包含的所有属性。</p>
-        <h2>属性总览</h2>
+        <h2>async 函数参数</h2>
+        <p><code>export default async () =&gt; {}</code> 中的 async 函数接收一个参数对象，包含以下属性：</p>
+        <h3>参数列表</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>参数</th>
+              <th>类型</th>
+              <th align="center">页面模块</th>
+              <th align="center">组件模块</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>load</code></td>
+              <td><code>function</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>加载其他模块或资源的函数</td>
+            </tr>
+            <tr>
+              <td><code>url</code></td>
+              <td><code>string</code></td>
+              <td align="center">✅</td>
+              <td align="center">✅</td>
+              <td>当前页面或组件模块的文件地址</td>
+            </tr>
+            <tr>
+              <td><code>query</code></td>
+              <td><code>object</code></td>
+              <td align="center">✅</td>
+              <td align="center">❌</td>
+              <td>URL 查询参数对象</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>load 参数</h3>
+        <p><code>load</code> 是一个用于加载其他模块、组件或资源的函数。在组件模块和页面模块中都可以使用。<code>load</code> 函数的加载效果与 <code>&lt;l-m&gt;</code> 组件一致，主要用于加载 ofa.js 页面或组件的 HTML 文件。</p>
+        <p><strong>同步加载</strong>：使用 <code>await</code> 关键字，会阻塞执行直到模块加载完成。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> { someModule } = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  <span class="hljs-keyword">const</span> component = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./my-component.html"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleData</span>: someModule
+    }
+  };
+};</code></pre>
+        <p><strong>异步加载</strong>：不使用 <code>await</code> 关键字，返回 Promise 对象，不会阻塞执行。适合按需加载的场景。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load }) =&gt; {
+  <span class="hljs-keyword">const</span> modulePromise = <span class="hljs-title function_">load</span>(<span class="hljs-string">"./some-module.js"</span>);
+  
+  modulePromise.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">{ someModule }</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'模块加载完成:'</span>, someModule);
+  });
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {}
+  };
+};</code></pre>
+        <p>使用场景：</p>
+        <ul>
+          <li>同步加载组件，确保组件在使用前已注册</li>
+          <li>加载共享数据模块</li>
+          <li>加载配置文件</li>
+          <li>异步加载适合按需加载的场景</li>
+        </ul>
+        <blockquote>
+          <p>注意：</p>
+          <ul>
+            <li>使用 <code>await</code> 同步加载会阻塞执行，建议根据实际需求选择同步或异步方式</li>
+            <li>如果没有按需加载的需求，建议直接使用 <code>&lt;l-m&gt;</code> 标签加载组件</li>
+          </ul>
+        </blockquote>
+        <h3>url 参数</h3>
+        <p><code>url</code> 参数在页面模块和组件模块中都可用，表示当前模块的文件地址。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ url }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'当前模块地址:'</span>, url);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">moduleUrl</span>: url
+    }
+  };
+};</code></pre>
+        <h3>query 参数</h3>
+        <p><code>query</code> 参数仅在页面模块中可用，包含 URL 中的查询参数。通过 <code>query</code> 对象可以直接访问 URL 中的查询字符串参数。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'查询参数:'</span>, query);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span>,
+      <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-number">1</span>
+    }
+  };
+};</code></pre>
+        <p>使用示例：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> { <span class="hljs-attribute">display</span>: block; <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>; }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>用户详情<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>用户ID: {{userId}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>页面: {{page}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">userId</span>: query.<span class="hljs-property">id</span> || <span class="hljs-string">'未知'</span>,
+          <span class="hljs-attr">page</span>: query.<span class="hljs-property">page</span> || <span class="hljs-string">'1'</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>访问方式：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-page</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./user.html?id=123&amp;page=2"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-page</span>&gt;</span></code></pre>
+        <blockquote>
+          <p>重要：不要使用类似 Vue 的 <code>this.$route.query</code> 方式获取查询参数，ofa.js 只支持通过函数参数获取。</p>
+        </blockquote>
+        <h3>完整参数示例</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ load, url, query }) =&gt; {
+  <span class="hljs-keyword">const</span> { config } = <span class="hljs-keyword">await</span> <span class="hljs-title function_">load</span>(<span class="hljs-string">"./config.js"</span>);
+  
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">configData</span>: config,
+      <span class="hljs-attr">moduleUrl</span>: url,
+      <span class="hljs-attr">queryParams</span>: query
+    },
+    <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'模块地址:'</span>, url);
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">'查询参数:'</span>, query);
+    }
+  };
+};</code></pre>
+        <h2>返回属性总览</h2>
         <table>
           <thead>
             <tr>
