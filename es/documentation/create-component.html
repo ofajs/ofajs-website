@@ -118,6 +118,7 @@
         <h2>Conceptos centrales del componente</h2>
         <h3>tag - nombre de la etiqueta del componente</h3>
         <p><code>tag</code> es el nombre de la etiqueta del componente, <strong>debe coincidir con el nombre de la etiqueta utilizada para el componente</strong>. Por ejemplo, si el <code>tag</code> de tu componente se define como <code>&quot;demo-comp&quot;</code>, entonces al usarlo en HTML debes escribir <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>.</p>
+        <p>Dado que los componentes son esencialmente Web Components, <strong>el nombre de la etiqueta del componente debe contener un guion <code>-</code></strong>. Este es un requisito de la especificación de Web Components para evitar conflictos con los nombres de etiquetas de elementos HTML nativos. Por ejemplo, <code>demo-comp</code>, <code>my-button</code>, <code>user-card</code> son nombres de etiqueta válidos, mientras que <code>democomp</code>, <code>button</code>, <code>card</code> sin guion no son válidos.</p>
         <h3>Referencia al módulo de componentes</h3>
         <p>Se introduce el módulo de componente mediante la etiqueta <code>l-m</code>, y el módulo se registra automáticamente. Es similar a incluir un script con la etiqueta <code>script</code>, pero <code>l-m</code> está diseñada específicamente para cargar y registrar módulos de componentes.</p>
         <blockquote>

@@ -118,6 +118,7 @@
         <h2>組件覈心槪唸</h2>
         <h3>tag - 組件標籤名</h3>
         <p><code>tag</code> 是組件的標籤名，<strong>必須和組件的使用標籤名一緻</strong>。例如，如菓妳的組件 <code>tag</code> 定義爲 <code>&quot;demo-comp&quot;</code>，那麼在 HTML 中使用時就必須寫 <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>。</p>
+        <p>由於組件本質上是 Web Component，因此<strong>組件標籤名必須包含連字符 <code>-</code></strong>。這是 Web Component 規範的要求，以確保與原生 HTML 元素的標籤名不衝突。例如 <code>demo-comp</code>、<code>my-button</code>、<code>user-card</code> 等都是有效的標籤名，而 <code>democomp</code>、<code>button</code>、<code>card</code> 等沒有連字符的標籤名是無效的。</p>
         <h3>組件模塊引用</h3>
         <p>通過 <code>l-m</code> 標籤引入組件模塊，組件模塊會自動註冊組件。這類似於使用 <code>script</code> 標籤引入腳本，但 <code>l-m</code> 專門用於組件模塊的加載和註冊。</p>
         <blockquote>

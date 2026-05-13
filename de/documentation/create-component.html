@@ -118,6 +118,7 @@
         <h2>Komponenten-Kernkonzepte</h2>
         <h3>tag - Komponenten-Tag-Name</h3>
         <p><code>tag</code> ist der Tag-Name der Komponente, <strong>muss mit dem verwendeten Tag-Namen der Komponente übereinstimmen</strong>. Beispiel: Wenn der <code>tag</code> Ihrer Komponente als <code>&quot;demo-comp&quot;</code> definiert ist, dann muss im HTML <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> verwendet werden.</p>
+        <p>Da Komponenten im Wesentlichen Web Components sind, <strong>muss der Komponenten-Tag-Name einen Bindestrich <code>-</code> enthalten</strong>. Dies ist eine Anforderung der Web-Component-Spezifikation, um Konflikte mit den Tag-Namen nativer HTML-Elemente zu vermeiden. Beispielsweise sind <code>demo-comp</code>, <code>my-button</code>, <code>user-card</code> usw. gültige Tag-Namen, während <code>democomp</code>, <code>button</code>, <code>card</code> usw. ohne Bindestrich ungültig sind.</p>
         <h3>Komponenten-Modulreferenz</h3>
         <p>Durch das <code>l-m</code>-Tag wird ein Komponentenmodul eingefügt, das automatisch Komponenten registriert. Dies ähnelt der Verwendung des <code>script</code>-Tags zum Einbinden von Skripten, aber <code>l-m</code> ist speziell für das Laden und Registrieren von Komponentenmodulen vorgesehen.</p>
         <blockquote>

@@ -118,6 +118,7 @@
         <h2>Concepts clés des composants</h2>
         <h3>tag - nom de l&#39;étiquette du composant</h3>
         <p><code>tag</code> est le nom de la balise du composant, <strong>doit être identique au nom de la balise utilisée pour le composant</strong>. Par exemple, si votre composant <code>tag</code> est défini comme <code>&quot;demo-comp&quot;</code>, alors lors de l&#39;utilisation en HTML, vous devez écrire <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>.</p>
+        <p>Étant donné que les composants sont essentiellement des Web Components, <strong>le nom du tag du composant doit contenir un trait d&#39;union <code>-</code></strong>. Ceci est une exigence de la spécification Web Components, afin d&#39;éviter les conflits avec les noms de balises des éléments HTML natifs. Par exemple, <code>demo-comp</code>, <code>my-button</code>, <code>user-card</code> sont des noms de balises valides, tandis que <code>democomp</code>, <code>button</code>, <code>card</code> sans trait d&#39;union ne sont pas valides.</p>
         <h3>Référence du module composant</h3>
         <p>En introduisant le module de composants via la balise <code>l-m</code>, le module de composants enregistre automatiquement les composants. Cela ressemble à l&#39;utilisation de la balise <code>script</code> pour introduire un script, mais <code>l-m</code> est spécifiquement destiné au chargement et à l&#39;enregistrement des modules de composants.</p>
         <blockquote>

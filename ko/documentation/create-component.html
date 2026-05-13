@@ -118,6 +118,7 @@
         <h2>컴포넌트 핵심 개념</h2>
         <h3>tag - 컴포넌트 태그 이름</h3>
         <p><code>tag</code>는 컴포넌트의 태그 이름이며, <strong>반드시 컴포넌트를 사용하는 태그 이름과 일치해야 합니다</strong>. 예를 들어, 컴포넌트의 <code>tag</code>가 <code>&quot;demo-comp&quot;</code>로 정의되어 있다면, HTML에서 사용할 때 반드시 <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code>라고 작성해야 합니다.</p>
+        <p>컴포넌트는 본질적으로 Web Component이므로 <strong>컴포넌트 태그 이름에는 반드시 하이픈 <code>-</code>이 포함되어야 합니다</strong>. 이는 네이티브 HTML 요소의 태그 이름과 충돌하지 않도록 하기 위한 Web Component 사양의 요구 사항입니다. 예를 들어 <code>demo-comp</code>, <code>my-button</code>, <code>user-card</code> 등은 유효한 태그 이름이며, <code>democomp</code>, <code>button</code>, <code>card</code>와 같이 하이픈이 없는 태그 이름은 유효하지 않습니다.</p>
         <h3>구성 요소 모듈 참조</h3>
         <p><code>l-m</code> 태그를 통해 컴포넌트 모듈을 가져오면, 컴포넌트 모듈이 자동으로 컴포넌트를 등록합니다. 이는 <code>script</code> 태그를 사용하여 스크립트를 가져오는 것과 유사하지만, <code>l-m</code>은 컴포넌트 모듈의 로드 및 등록에 특화되어 있습니다.</p>
         <blockquote>

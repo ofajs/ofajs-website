@@ -118,6 +118,7 @@
         <h2>Core Component Concepts</h2>
         <h3>tag - Component Tag Name</h3>
         <p><code>tag</code> is the component&#39;s tag name and <strong>must match the tag name used for the component</strong>. For example, if your component&#39;s <code>tag</code> is defined as <code>&quot;demo-comp&quot;</code>, you must use <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> in the HTML.</p>
+        <p>Since components are essentially Web Components, <strong>component tag names must contain a hyphen <code>-</code></strong>. This is a requirement of the Web Component specification to ensure they do not conflict with the tag names of native HTML elements. For example, <code>demo-comp</code>, <code>my-button</code>, <code>user-card</code>, etc. are valid tag names, while <code>democomp</code>, <code>button</code>, <code>card</code>, etc. without a hyphen are invalid.</p>
         <h3>Component Module Reference</h3>
         <p>Introduce component modules through the <code>l-m</code> tag, and the component modules will automatically register the components. This is similar to using the <code>script</code> tag to introduce scripts, but <code>l-m</code> is specifically used for loading and registering component modules.</p>
         <blockquote>

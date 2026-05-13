@@ -118,6 +118,7 @@
         <h2>コンポーネントの核心概念</h2>
         <h3>tag - コンポーネントタグ名</h3>
         <p><code>tag</code> はコンポーネントのタグ名であり、<strong>コンポーネントの使用タグ名と一致しなければなりません</strong>。例えば、コンポーネントの <code>tag</code> が <code>&quot;demo-comp&quot;</code> と定義されている場合、HTML で使用する際には <code>&lt;demo-comp&gt;&lt;/demo-comp&gt;</code> と記述する必要があります。</p>
+        <p>コンポーネントは本質的に Web Component であるため、<strong>コンポーネントのタグ名には必ずハイフン <code>-</code> を含める必要があります</strong>。これは Web Component の仕様で、ネイティブ HTML 要素のタグ名と競合しないようにするための要件です。例えば <code>demo-comp</code>、<code>my-button</code>、<code>user-card</code> などは有効なタグ名ですが、<code>democomp</code>、<code>button</code>、<code>card</code> などのハイフンがないタグ名は無効です。</p>
         <h3>コンポーネントモジュール参照</h3>
         <p><code>l-m</code> タグを使用してコンポーネントモジュールを導入すると、コンポーネントモジュールは自動的にコンポーネントを登録します。これは <code>script</code> タグを使用してスクリプトを導入するのと似ていますが、<code>l-m</code> はコンポーネントモジュールの読み込みと登録に特化しています。</p>
         <blockquote>
