@@ -151,6 +151,20 @@
           <li>Änderung des DOM-Elements → Aktualisierung der Komponentendaten</li>
           <li>Geeignet für Szenarien, die Benutzereingaben und Datensynchronisation erfordern</li>
         </ul>
+        <h3>Zweiseitige Datenbindung von Objekten</h3>
+        <p>Für die Datenbindung bei Objekttypen <strong>ist die <code>sync</code>-Syntax nicht erforderlich</strong>, verwenden Sie einfach die unidirektionale Übergabe mit <code>:</code>. Dies liegt daran, dass JavaScript-Objekte als Referenz geteilt werden. Wenn die Elternkomponente ein Objekt an die Kindkomponente übergibt, erhält die Kindkomponente eine Referenz auf dasselbe Objekt. Änderungen am Objekt wirken sich direkt auf die ursprünglichen Daten aus.</p>
+        <p>ofa.js bewahrt diese Eigenschaft von JavaScript, daher entspricht die unidirektionale Übergabe von Objekten tatsächlich der bidirektionalen Übergabe. Zum Beispiel:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:userData</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: { <span class="hljs-attr">userInfo</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">25</span> } }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>Im Kind-Komponenten <code>child-comp</code> wird direkt <code>userData.name</code> geändert, und im Eltern-Komponenten wird <code>userInfo.name</code> gleichzeitig aktualisiert, da sie auf dieselbe Objektreferenz verweisen.</p>
         <h3>Häufige Szenarien für bidirektionale Bindung</h3>
         <o-playground name="Formular-Zwei-Wege-Bindung Beispiel" style="--editor-height: 700px">
           <code>

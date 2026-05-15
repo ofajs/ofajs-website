@@ -151,6 +151,20 @@
           <li>Changement de l&#39;élément DOM → mise à jour des données du composant</li>
           <li>Convient aux scénarios nécessitant une saisie utilisateur et une synchronisation des données</li>
         </ul>
+        <h3>Liaison bidirectionnelle de l&#39;objet</h3>
+        <p>Pour la liaison de données de type objet, <strong>il n&#39;est pas nécessaire d&#39;utiliser la syntaxe <code>sync</code></strong>, il suffit d&#39;utiliser <code>:</code> pour une transmission unidirectionnelle. Cela est dû au fait que les objets en JavaScript sont partagés par référence : lorsque le composant parent transmet un objet au composant enfant, ce dernier obtient une référence au même objet, et toute modification de l&#39;objet se reflète directement sur les données d&#39;origine.</p>
+        <p>ofa.js conserve cette caractéristique de JavaScript, de sorte que la transmission unidirectionnelle d&#39;un objet équivaut en réalité à une transmission bidirectionnelle. Par exemple :</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:userData</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: { <span class="hljs-attr">userInfo</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Jean&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">25</span> } }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>Dans le composant <code>child-comp</code>, si vous modifiez directement <code>userData.name</code>, le <code>userInfo.name</code> dans le composant parent sera également mis à jour, car ils pointent vers la même référence d&#39;objet.</p>
         <h3>Scènes courantes de liaison bidirectionnelle</h3>
         <o-playground name="Exemple de liaison bidirectionnelle de formulaire" style="--editor-height: 700px">
           <code>

@@ -151,6 +151,20 @@
           <li>DOM要素の変更 → コンポーネントのデータ更新</li>
           <li>ユーザー入力とデータ同期が必要なシナリオに適しています</li>
         </ul>
+        <h3>オブジェクトの双方向バインディング</h3>
+        <p>オブジェクトタイプのデータバインディングには、<strong><code>sync</code> 構文を使用する必要はありません</strong>。<code>:</code> を使った単方向の受け渡しで十分です。これは、JavaScript のオブジェクトが参照で共有されるためで、親コンポーネントが子コンポーネントにオブジェクトを渡すと、子コンポーネントは同じオブジェクトの参照を取得し、オブジェクトの変更は元のデータに直接反映されます。</p>
+        <p>ofa.js は JavaScript のこの特性を保持しているため、オブジェクトの一方向の受け渡しは実際には双方向の受け渡しに相当する。例えば：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:userData</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: { <span class="hljs-attr">userInfo</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">25</span> } }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p><code>child-comp</code> コンポーネント内で <code>userData.name</code> を直接変更すると、親コンポーネントの <code>userInfo.name</code> も同時に更新されます。これらは同じオブジェクト参照を指しているためです。</p>
         <h3>よくある双方向バインディングのシナリオ</h3>
         <o-playground name="フォーム双方向バインディングサンプル" style="--editor-height: 700px">
           <code>

@@ -151,6 +151,20 @@
           <li>Cambio en elemento DOM → Actualización de datos del componente</li>
           <li>Adecuado para escenarios que requieren entrada del usuario y sincronización de datos</li>
         </ul>
+        <h3>Vinculación bidireccional de objetos</h3>
+        <p>Para el enlace de datos de tipo objeto, <strong>no es necesario usar la sintaxis <code>sync</code></strong>, simplemente use <code>:</code> para la transmisión unidireccional. Esto se debe a que los objetos en JavaScript son compartidos por referencia; cuando el componente padre pasa un objeto al componente hijo, este último obtiene una referencia al mismo objeto, por lo que las modificaciones en el objeto se reflejarán directamente en los datos originales.</p>
+        <p>ofa.js conserva esta característica de JavaScript, por lo que el paso unidireccional de objetos equivale en realidad a un paso bidireccional. Por ejemplo:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:userData</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: { <span class="hljs-attr">userInfo</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">25</span> } }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>Al modificar directamente <code>userData.name</code> en el componente <code>child-comp</code>, <code>userInfo.name</code> en el componente padre también se actualizará al mismo tiempo, ya que apuntan a la misma referencia de objeto.</p>
         <h3>Escenarios comunes de enlace bidireccional</h3>
         <o-playground name="Ejemplo de enlace bidireccional de formulario" style="--editor-height: 700px">
           <code>

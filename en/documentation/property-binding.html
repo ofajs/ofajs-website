@@ -151,6 +151,20 @@
           <li>DOM element changes → component data updates</li>
           <li>Suitable for scenarios requiring user input and data synchronization</li>
         </ul>
+        <h3>Two-Way Binding of Objects</h3>
+        <p>For object type data binding, <strong>you do not need to use the <code>sync</code> syntax</strong>; you can directly use <code>:</code> for one-way passing. This is because JavaScript objects are shared by reference. When a parent component passes an object to a child component, the child component receives a reference to the same object, and modifications to the object will directly reflect on the original data.</p>
+        <p>ofa.js retains this characteristic of JavaScript, so the unidirectional passing of objects is effectively equivalent to bidirectional passing. For example:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:userData</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: { <span class="hljs-attr">userInfo</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">25</span> } }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p>Directly modifying <code>userData.name</code> in the <code>child-comp</code> component will also update <code>userInfo.name</code> in the parent component, because they point to the same object reference.</p>
         <h3>Common two-way binding scenarios</h3>
         <o-playground name="Two-way Binding Example" style="--editor-height: 700px">
           <code>

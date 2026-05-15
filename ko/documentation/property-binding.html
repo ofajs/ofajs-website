@@ -151,6 +151,20 @@
           <li>DOM 요소 변화 → 컴포넌트 데이터 업데이트</li>
           <li>사용자 입력과 데이터 동기화가 필요한 시나리오에 적합</li>
         </ul>
+        <h3>객체의 양방향 바인딩</h3>
+        <p>객체 유형의 데이터 바인딩에서는 <strong><code>sync</code> 문법을 사용할 필요가 없으며</strong>, <code>:</code> 단방향 전달만 사용하면 됩니다. 이는 JavaScript의 객체가 참조 공유되기 때문입니다. 부모 컴포넌트가 객체를 자식 컴포넌트에 전달할 때, 자식 컴포넌트는 동일한 객체의 참조를 받게 되며, 객체의 수정 사항이 원본 데이터에 바로 반영됩니다.</p>
+        <p>ofa.js는 JavaScript의 이 특성을 그대로 유지하므로, 객체의 단방향 전달은 실제로 양방향 전달과 같습니다. 예를 들어:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child-comp</span> <span class="hljs-attr">:userData</span>=<span class="hljs-string">&quot;userInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-comp</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: { <span class="hljs-attr">userInfo</span>: { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;장산&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">25</span> } }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <p><code>child-comp</code> 컴포넌트에서 <code>userData.name</code>을 직접 수정하면 부모 컴포넌트의 <code>userInfo.name</code>도 동시에 업데이트됩니다. 이는 동일한 객체 참조를 가리키기 때문입니다.</p>
         <h3>일반적인 양방향 바인딩 시나리오</h3>
         <o-playground name="양방향 폼 바인딩 예제" style="--editor-height: 700px">
           <code>
