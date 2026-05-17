@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Routage et navigation</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Routage et navigation</h1>
+        <p>La navigation entre les pages dans l&#39;application est une fonctionnalité essentielle d&#39;une application monopage. Ce chapitre explique comment utiliser la navigation programmatique, gérer l&#39;historique des routes et écouter les changements de route.</p>
+        <h2>allowForward - Fonction d&#39;avance</h2>
+        <p>Par défaut, l&#39;application ne prend en charge que la navigation arrière. Après avoir défini <code>allowForward</code> sur <code>true</code> dans <code>app-config.js</code>, vous pouvez activer la fonction de navigation avant de l&#39;application.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <p>Après activation:</p>
+        <ul>
+          <li>Les utilisateurs peuvent utiliser les boutons avant/arrière du navigateur pour naviguer</li>
+          <li>La méthode <code>forward()</code> de l&#39;application fonctionne correctement</li>
+        </ul>
+        <h2>Navigation programmatique</h2>
+        <p>En plus des liens utilisant l&#39;attribut <code>olink</code>, vous pouvez également appeler des méthodes de navigation en JavaScript.</p>
+        <h3>goto - Aller à la page</h3>
+        <p>Aller à la page spécifiée et l&#39;ajouter à l&#39;historique :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Aller à la page spécifiée</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// Aller à la page avec paramètres</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./detail.html?id=123&quot;</span>);</code></pre>
+        <h3>replace - Remplacer la page</h3>
+        <p>Remplacer la page actuelle, sans l&#39;ajouter à l&#39;historique :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Remplacer la page actuelle</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);</code></pre>
+        <p>Souvent utilisé pour la redirection après la connexion, afin d&#39;éviter que l&#39;utilisateur ne clique sur le bouton retour pour revenir à la page de connexion.</p>
+        <h3>back - retour</h3>
+        <p>Retour à la page précédente :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();</code></pre>
+        <h3>forward - avancer</h3>
+        <p>Passer à la page suivante (nécessite de définir <code>allowForward: true</code>) :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Appeler dans une page ou un composant</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">forward</span>();</code></pre>
+        <blockquote>
+          <p><strong>Attention</strong>：la méthode <code>forward</code> doit être appelée sur l&#39;instance de l&#39;application (<code>app</code>), et non sur l&#39;instance de la page. Par exemple, utilisez <code>this.app.forward()</code> au lieu de <code>this.forward()</code>.</p>
+        </blockquote>
+        <h3>Comparaison des méthodes de navigation</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Méthode</th>
+              <th>Historique</th>
+              <th>Scénario d&#39;utilisation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>goto</code></td>
+              <td>Ajouter un nouvel enregistrement</td>
+              <td>Navigation normale de page</td>
+            </tr>
+            <tr>
+              <td><code>replace</code></td>
+              <td>Remplacer l&#39;enregistrement actuel</td>
+              <td>Navigation après connexion, redirection</td>
+            </tr>
+            <tr>
+              <td><code>back</code></td>
+              <td>Revenir à l&#39;enregistrement précédent</td>
+              <td>Opération de retour</td>
+            </tr>
+            <tr>
+              <td><code>forward</code></td>
+              <td>Avancer à l&#39;enregistrement suivant</td>
+              <td>Opération d&#39;avance（doit être activée）</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>Obtenir l&#39;historique des itinéraires</h3>
+        <p>Récupérez tout l&#39;historique des routes via la propriété <code>routers</code> :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
+<span class="hljs-comment">// Format de retour: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span></code></pre>
+        <h3>Obtenir la page actuelle</h3>
+        <p>Obtenez l&#39;instance de page actuelle via la propriété <code>current</code> :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Page actuelle :&quot;</span>, currentPage.<span class="hljs-property">src</span>);</code></pre>
+        <h3>Exemple d&#39;historique de routage</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">canGoBack</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">1</span>;
+  },
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">canGoForward</span>() {
+    <span class="hljs-comment">// Nécessite d&#x27;être utilisé avec allowForward</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentIndex</span> &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>;
+  },
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">currentPath</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span> || <span class="hljs-string">&quot;&quot;</span>;
+  },
+};</code></pre>
+        <h2>Écouter les changements de route</h2>
+        <p>Réagissez aux changements de route en écoutant l&#39;événement <code>router-change</code>.</p>
+        <h3>Utilisation de base</h3>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> { data } = e;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Changement de route :&quot;</span>, data.<span class="hljs-property">name</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Adresse de la page :&quot;</span>, data.<span class="hljs-property">src</span>);
+});</code></pre>
+        <h3>Données d&#39;événement</h3>
+        <p>L&#39;objet de données de l&#39;événement <code>router-change</code> contient：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Attribut</th>
+              <th>Description</th>
+              <th>Valeurs possibles</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>name</code></td>
+              <td>Type de navigation</td>
+              <td><code>goto</code>, <code>replace</code>, <code>forward</code>, <code>back</code></td>
+            </tr>
+            <tr>
+              <td><code>src</code></td>
+              <td>Adresse de la page cible</td>
+              <td>Chemin de la page</td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// Écouter les changements de route</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { name, src } = e.<span class="hljs-property">data</span>;
+
+    <span class="hljs-comment">// Enregistrer la visite de page</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`[<span class="hljs-subst">${name}</span>] Naviguer vers : <span class="hljs-subst">${src}</span>`</span>);
+
+    <span class="hljs-comment">// Mettre à jour le titre de la page</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateTitle</span>(src);
+
+    <span class="hljs-comment">// Envoyer les données statistiques</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">trackPageView</span>(src);
+  });
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">updateTitle</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-keyword">const</span> titles = {
+      <span class="hljs-string">&quot;home.html&quot;</span>: <span class="hljs-string">&quot;Accueil&quot;</span>,
+      <span class="hljs-string">&quot;about.html&quot;</span>: <span class="hljs-string">&quot;À propos de nous&quot;</span>,
+      <span class="hljs-string">&quot;contact.html&quot;</span>: <span class="hljs-string">&quot;Nous contacter&quot;</span>,
+    };
+
+    <span class="hljs-keyword">const</span> pageName = src.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;/&quot;</span>).<span class="hljs-title function_">pop</span>();
+    <span class="hljs-variable language_">document</span>.<span class="hljs-property">title</span> = titles[pageName] || <span class="hljs-string">&quot;Application&quot;</span>;
+  },
+
+  <span class="hljs-title function_">trackPageView</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-comment">// Envoyer les statistiques de visite de page</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Statistiques de visite de page :&quot;</span>, src);
+  },
+};</code></pre>
+        <h2>Gardes de navigation de page</h2>
+        <p>En combinant la surveillance de la route, il est possible d&#39;implémenter une fonction de garde de navigation :</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { src } = e.<span class="hljs-property">data</span>;
+
+    <span class="hljs-comment">// Vérifie si l&#x27;authentification est requise</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.requiresAuth(src) &amp;&amp; !<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">isLoggedIn</span>()) {
+      e.<span class="hljs-title function_">preventDefault</span>();
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);
+    }
+  });
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">requiresAuth</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-keyword">const</span> authPages = [<span class="hljs-string">&quot;profile.html&quot;</span>, <span class="hljs-string">&quot;settings.html&quot;</span>];
+    <span class="hljs-keyword">return</span> authPages.<span class="hljs-title function_">some</span>(<span class="hljs-function">(<span class="hljs-params">page</span>) =&gt;</span> src.<span class="hljs-title function_">includes</span>(page));
+  },
+
+  <span class="hljs-title function_">isLoggedIn</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;
+  },
+};</code></pre>
+        <h2>Exemple complet</h2>
+        <o-playground name="Exemple de routage et de navigation" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // Adresse de la page d'accueil de l'application
+    export const home = "./home.html";
+    export const allowForward = true;
+    // Configuration de l'animation de transition de page
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const ready = function() {
+      console.log("Application initialisée");
+      this.on("router-change", (e) => {
+        console.log("Changement de route :", e.data);
+      });
+    };
+    export const proto = {
+      get routerCount() {
+        return this.routers?.length || 0;
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <p>Nombre d'historique de routage : {{app.routerCount}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <br><br>
+      <button on:click="gotoAbout">Navigation programmatique</button>
+      <br><br>
+      <button on:click="goForward()">Avancer</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+            proto: {
+              gotoAbout() {
+                this.goto("./about.html");
+              },
+              goForward() {
+                this.app.forward();
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;">
+        <button on:click="back()">Reculer</button>
+      </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <p>Nombre d'historique de routage : {{app.routerCount}}</p>
+      <p style="color: #666; font-size: 14px;">Astuce : après avoir cliqué sur "Reculer", vous pouvez cliquer sur "Avancer" sur la page d'accueil pour revenir ici.</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

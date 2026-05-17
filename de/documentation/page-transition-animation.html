@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seitenübergangsanimation</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Seitenübergangsanimation</h1>
+        <p><code>pageAnime</code> Konfigurationselement wird verwendet, um die Übergangsanimationen beim Seitenwechsel zu steuern und die Benutzererfahrung zu verbessern.</p>
+        <h2>Grundkonfiguration</h2>
+        <p>Konfiguriere die Seitenübergangsanimation in <code>app-config.js</code>:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre>
+        <h2>Animationsstatus</h2>
+        <p>Die Seitenwechselanimation umfasst drei Zustände:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Beschreibung</th>
+              <th>Auslösezeitpunkt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>Stil nach Ende der Animation der aktuellen Seite</td>
+              <td>Nach Abschluss des Seitenwechsels</td>
+            </tr>
+            <tr>
+              <td><code>next</code></td>
+              <td>Anfangsstil beim Einblenden einer neuen Seite</td>
+              <td>Wenn die neue Seite zu erscheinen beginnt</td>
+            </tr>
+            <tr>
+              <td><code>previous</code></td>
+              <td>Zielstil beim Verlassen der alten Seite</td>
+              <td>Wenn die alte Seite zu verschwinden beginnt</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>current（aktueller Status）</strong>- Endgültiger Stil nach Abschluss des Seitenwechsels</p>
+        <ul>
+          <li>In der Regel der normale Anzeigezustand der Seite</li>
+          <li>Zum Beispiel: <code>opacity: 1, transform: &quot;translate(0, 0)&quot;</code></li>
+        </ul>
+        <p><strong>Nächster (Status der nächsten Seite)</strong>- Initialer Stil beim Betreten einer neuen Seite</p>
+        <ul>
+          <li>Wird verwendet, um zu definieren, von wo aus eine neue Seite betreten wird</li>
+          <li>Zum Beispiel: <code>opacity: 0, transform: &quot;translate(30px, 0)&quot;</code> bedeutet, dass die Seite von rechts eintritt</li>
+        </ul>
+        <p><strong>vorherige（vorheriger Seitenstatus）</strong>- Zielstil beim Verlassen der alten Seite</p>
+        <ul>
+          <li>Dient zur Definition, wohin die alte Seite gehen soll</li>
+          <li>Beispiel: <code>opacity: 0, transform: &quot;translate(-30px, 0)&quot;</code> bedeutet, dass sie nach links verschwindet</li>
+        </ul>
+        <h2>Integrierte Animationseffekte</h2>
+        <h3>Horizontal wischen (Standard)</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre>
+        <p>Wirkungserklärung:- Neue Seite gleitet von rechts herein (Startposition 30px rechts, Deckkraft 0)</p>
+        <ul>
+          <li>Alte Seite gleitet nach links heraus (Endposition -30px links, Deckkraft 0)</li>
+          <li>Schließlich kehren beide Seiten in ihre normale Position zurück (Deckkraft 1, Position 0)</li>
+        </ul>
+        <h3>Ein- und Ausblenden</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+  },
+};</code></pre>
+        <p>Wirkungserklärung:- Neue Seite blendet von transparent zu sichtbar ein</p>
+        <ul>
+          <li>Alte Seite blendet von sichtbar zu transparent aus</li>
+          <li>Geeignet für einen klaren, eleganten Anwendungsstil</li>
+        </ul>
+        <h3>Nach oben und unten wischen</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 30px)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, -30px)&quot;</span>,
+  },
+};</code></pre>
+        <p>Wirkungserklärung:- Neue Seite gleitet von unten herein</p>
+        <ul>
+          <li>Alte Seite gleitet nach oben hinaus</li>
+          <li>Geeignet für Anwendungen mit vertikalem Scroll-Stil</li>
+        </ul>
+        <h3>Zoom-Effekt</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;scale(1)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;scale(0.8)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;scale(1.2)&quot;</span>,
+  },
+};</code></pre>
+        <p>Wirkungserklärung:- Neue Seite vergrößert sich von klein auf Normalgröße</p>
+        <ul>
+          <li>Alte Seite vergrößert sich von Normalgröße und verschwindet</li>
+          <li>Geeignet für Apps mit Karten- oder Modal-Stil</li>
+        </ul>
+        <h3>Kippeffekt</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;rotateY(0deg)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;rotateY(-90deg)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;rotateY(90deg)&quot;</span>,
+  },
+};</code></pre>
+        <p>Wirkungserklärung:- Neue Seite klappt von links herein</p>
+        <ul>
+          <li>Alte Seite klappt nach rechts heraus</li>
+          <li>Geeignet für Anwendungen mit 3D-Effekten</li>
+        </ul>
+        <h2>Benutzerdefinierte Animation</h2>
+        <h3>Kombinieren mehrerer Attribute</h3>
+        <p>Es können mehrere CSS-Eigenschaften kombiniert werden, um komplexe Animationen zu erstellen:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0) scale(1)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(50px, 50px) scale(0.9)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-50px, -50px) scale(1.1)&quot;</span>,
+  },
+};</code></pre>
+        <h3>Verschiedene Easing-Funktionen verwenden</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+    <span class="hljs-attr">transition</span>: <span class="hljs-string">&quot;all 0.3s cubic-bezier(0.4, 0, 0.2, 1)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre>
+        <h2>Unterstützte CSS-Eigenschaften</h2>
+        <p><code>pageAnime</code> unterstützt alle CSS-animierbaren Eigenschaften:</p>
+        <h3>Allgemeine Eigenschaften</h3>
+        <ul>
+          <li><code>opacity</code> - Deckkraft (0-1)</li>
+          <li><code>transform</code> - Transformation<ul>
+              <li><code>translate(x, y)</code> - Verschiebung</li>
+              <li><code>scale(n)</code> - Skalierung</li>
+              <li><code>rotate(deg)</code> - Drehung</li>
+              <li><code>rotateX/Y(deg)</code> - 3D-Drehung</li>
+            </ul>
+          </li>
+          <li><code>width</code> / <code>height</code> - Breite/Höhe</li>
+          <li><code>margin</code> / <code>padding</code> - Außenabstand/Innenabstand</li>
+          <li><code>background-color</code> - Hintergrundfarbe</li>
+          <li><code>border-radius</code> - Rahmenradius</li>
+        </ul>
+        <h3>Hinweise</h3>
+        <ol>
+          <li><strong>Leistungsoptimierung</strong>: Bevorzugen Sie <code>transform</code> und <code>opacity</code>, da sie die beste Leistung bieten</li>
+          <li><strong>Layout-Verschiebungen vermeiden</strong>: Vermeiden Sie Eigenschaften, die Layout-Rückflüsse auslösen (z. B. <code>width</code>, <code>height</code>, <code>margin</code>)</li>
+          <li><strong>Übergangsdauer</strong>: ofa.js fügt automatisch Übergangseffekte hinzu, standardmäßig 300ms</li>
+        </ol>
+        <h2>Vollständiges Beispiel</h2>
+        <o-playground name="Seitenwechsel-Animation Beispiel" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // App-Startseitenadresse
+    export const home = "./home.html";
+    // Seitenwechsel-Animation Konfiguration
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>Beste Praktiken</h2>
+        <h3>1. Animation einfach halten</h3>
+        <p>Vermeiden Sie übermäßig komplexe Animationen; einfache Animationseffekte sind besser:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ✅ Empfohlen: Einfach und effektiv</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span> },
+  <span class="hljs-attr">next</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span> },
+  <span class="hljs-attr">previous</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span> },
+};
+
+<span class="hljs-comment">// ❌ Nicht empfohlen: Zu kompliziert</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0) rotate(0deg) scale(1)&quot;</span>,
+    <span class="hljs-attr">borderRadius</span>: <span class="hljs-string">&quot;0&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 30px) rotate(45deg) scale(0.5)&quot;</span>,
+    <span class="hljs-attr">borderRadius</span>: <span class="hljs-string">&quot;50%&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, -30px) rotate(-45deg) scale(1.5)&quot;</span>,
+    <span class="hljs-attr">borderRadius</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+  },
+};</code></pre>
+        <h3>2. Berücksichtigung der Benutzererfahrung</h3>
+        <ul>
+          <li>Die Animationsdauer sollte nicht zu lang sein（empfohlen 200-400ms）</li>
+          <li>Vermeiden Sie Animationen, die Schwindel verursachen.</li>
+          <li>Stellen Sie sicher, dass Animationen flüssig und ohne Ruckeln sind.</li>
+        </ul>
+        <h3>3. Anpassung an verschiedene Geräte</h3>
+        <p>Erwägen Sie, Animationen auf Geräten mit geringer Leistung zu deaktivieren oder zu vereinfachen:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Erkennung der Geräteleistung</span>
+<span class="hljs-keyword">const</span> isLowEndDevice = navigator.<span class="hljs-property">hardwareConcurrency</span> &lt; <span class="hljs-number">4</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = isLowEndDevice ? {
+  <span class="hljs-attr">current</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span> },
+  <span class="hljs-attr">next</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span> },
+  <span class="hljs-attr">previous</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span> },
+} : {
+  <span class="hljs-attr">current</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span> },
+  <span class="hljs-attr">next</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span> },
+  <span class="hljs-attr">previous</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span> },
+};</code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

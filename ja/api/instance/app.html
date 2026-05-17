@@ -82,17 +82,18 @@
       <article class="markdown-body">
         <h1>app</h1>
         <p><code>o-app</code> 内の要素（<code>o-app</code> 内の <code>o-page</code> のシャドウノード内の要素、またはさらに内部のサブコンポーネントを含む）の <code>app</code> 属性は、すべてこの <code>o-app</code> の要素インスタンスを指します。</p>
+        <h2>アプリケーションインスタンスの取得</h2>
         <p>以下は、<code>o-app</code>内の要素から<code>app</code>属性にアクセスする方法を示す例です：</p>
-        <o-playground name="app - アプリケーションインスタンスを取得" style="--editor-height: 500px">
-          <code path="demo.html" preview unimportant>
+        <o-playground name="app - アプリインスタンスの取得" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
   </code>
           <code path="app-config.js">
-    // アプリケーションのホームページアドレス
+    // アプリのホームページアドレス
     export const home = "./home.html";
-    // アプリケーションで利用可能なメソッド
+    // アプリで利用可能なメソッド
     export const proto = {
       getSomeData(){
         return "Hello ofa.js App Demo";
@@ -114,8 +115,8 @@
       },
     };
   </code>
-          <code path="home.html" active>
-    <template page>
+          <code path="home.html" active="">
+    <template page="">
       <l-m src="./test-comp.html"></l-m>
       <style>
         :host {
@@ -141,7 +142,7 @@
     </template>
   </code>
           <code path="test-comp.html">
-    <template component>
+    <template component="">
       <style>
         :host {
           display: inline-block;
@@ -166,6 +167,107 @@
     </template>
   </code>
         </o-playground>
+        <h2>アプリケーションインスタンスの使用</h2>
+        <p><code>app</code> インスタンスを取得したら、次のことができます：</p>
+        <h3>1. アプリのカスタムメソッドにアクセスする</h3>
+        <p><code>app-config.js</code> の <code>proto</code> 設定項目を通じて追加されたカスタムメソッドは、任意のページやコンポーネント内で <code>this.app</code> を通じて呼び出すことができます：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">"./home.html"</span>);
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isLoggedIn</span>() {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;
+  },
+  
+  <span class="hljs-title function_">showMessage</span>(<span class="hljs-params">message</span>) {
+    <span class="hljs-title function_">alert</span>(message);
+  },
+};</code></pre>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ページまたはコンポーネントで使用する</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">navigateToHome</span>();
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">showMessage</span>(<span class="hljs-string">"Hello World"</span>);
+
+<span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">isLoggedIn</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"ユーザーはログイン済み"</span>);
+}</code></pre>
+        <h3>2. アプリケーション属性へのアクセス</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 現在のページを取得</span>
+<span class="hljs-keyword">const</span> currentPage = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">current</span>;
+
+<span class="hljs-comment">// ルーティング履歴を取得</span>
+<span class="hljs-keyword">const</span> routers = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">routers</span>;
+
+<span class="hljs-comment">// グローバルデータにアクセス</span>
+<span class="hljs-keyword">const</span> user = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;</code></pre>
+        <h3>3. ナビゲーションメソッドの呼び出し</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ページ遷移</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">"./about.html"</span>);
+
+<span class="hljs-comment">// 前のページに戻る</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">back</span>();
+
+<span class="hljs-comment">// 現在のページを置き換え</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">"./login.html"</span>);</code></pre>
+        <h3>4. アプリイベントの監視</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ルート変更の監視</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">"router-change"</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"ルート変更:"</span>, e.<span class="hljs-property">data</span>);
+});</code></pre>
+        <h2>詳細ドキュメント</h2>
+        <p><code>app-config.js</code> でアプリケーション初期化ロジックの設定方法とカスタムメソッドの追加方法については、以下を参照してください：</p>
+        <ul>
+          <li><strong><a href="../../documentation/app-initialization.html" olink="">アプリの初期化</a></strong> - <code>ready</code> と <code>proto</code> 設定オプションの使い方を詳しく説明します</li>
+          <li><strong><a href="../../documentation/app-navigation.html" olink="">ルーティングとナビゲーション</a></strong> - アプリのナビゲーション方法とルート監視について詳しく説明します</li>
+        </ul>
+        <h2>アプリケーションインスタンスのよく使うプロパティとメソッド</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>プロパティ/メソッド</th>
+              <th>説明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>現在のページインスタンス</td>
+            </tr>
+            <tr>
+              <td><code>routers</code></td>
+              <td>ルーティング履歴</td>
+            </tr>
+            <tr>
+              <td><code>globalData</code></td>
+              <td>グローバルデータ（<code>ready</code> で自身で初期化する必要があります）</td>
+            </tr>
+            <tr>
+              <td><code>goto(src)</code></td>
+              <td>指定ページへ遷移</td>
+            </tr>
+            <tr>
+              <td><code>back()</code></td>
+              <td>前のページに戻る</td>
+            </tr>
+            <tr>
+              <td><code>replace(src)</code></td>
+              <td>現在のページを置き換える</td>
+            </tr>
+            <tr>
+              <td><code>forward()</code></td>
+              <td>次のページに進む</td>
+            </tr>
+            <tr>
+              <td><code>on(event, callback)</code></td>
+              <td>アプリイベントを監視</td>
+            </tr>
+            <tr>
+              <td>カスタムメソッド</td>
+              <td><code>proto</code> 設定によって追加されたメソッド</td>
+            </tr>
+          </tbody>
+        </table>
       </article>
       <div class="footer"></div>
       <script>

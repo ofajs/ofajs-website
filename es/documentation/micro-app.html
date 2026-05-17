@@ -81,13 +81,26 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>Microaplicación</h1>
-        <p>Usa <code>o-app</code> para aplicación, esta etiqueta representa una microaplicación, que cargará el archivo de configuración <code>app-config.js</code>, el cual define la dirección de la página de inicio y la configuración de animación de cambio de página.</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
+        <p><code>o-app</code> es el componente contenedor central en ofa.js, utilizado para crear microaplicaciones independientes. Cargará el archivo de configuración <code>app-config.js</code>, que define varios comportamientos de la aplicación.</p>
+        <h2>Uso básico</h2>
+        <p>En HTML, use la etiqueta <code>o-app</code> para crear una micro aplicación:</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <h2>Crear archivo de configuración</h2>
+        <p>Crea el archivo <code>app-config.js</code> y define la configuración básica de la aplicación:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// Dirección de la página de inicio de la aplicación</span>
+
+<span class="hljs-comment">// Dirección de la página de inicio de la aplicación (obligatorio)</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./home.html&quot;</span>;
 
-<span class="hljs-comment">// Configuración de animación de cambio de página</span>
+<span class="hljs-comment">// Configuración de animación de cambio de página (opcional)</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
   <span class="hljs-attr">current</span>: {
     <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
@@ -173,59 +186,136 @@
     </template>
   </code>
         </o-playground>
-        <h2>home - dirección de la página de inicio</h2>
-        <p>Especifica la ruta del módulo de la página de inicio que se carga al iniciar la aplicación, compatible con rutas relativas y absolutas.</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
-        <h2>pageAnime - Animación de transición de página</h2>
-        <p>Controla los efectos de animación de transición al cambiar de página, incluye tres estados:</p>
+        <h2>Navegación de página</h2>
+        <h3>Usar el atributo olink</h3>
+        <p>Dentro de <code>o-app</code>, utilice la etiqueta <code>&lt;a&gt;</code> con el atributo <code>olink</code> para cambiar de página:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./about.html&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>Ir a la página acerca<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p><code>olink</code> activa el cambio de ruta de la aplicación, con animaciones de transición, y sin recargar toda la página.</p>
+        <h3>Navegación programática</h3>
+        <p>En los componentes de página, se pueden usar métodos de navegación:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Ir a la página especificada</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// Reemplazar la página actual (no se añade al historial)</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// Volver a la página anterior</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();</code></pre>
+        <h2>Paso de parámetros de página</h2>
+        <p>Pasar parámetros a través de URL Query, la página de destino los recibe mediante el parámetro <code>query</code> de la función del módulo:</p>
+        <p><strong>Página de envío:</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./detail.html?id=123&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>Ver detalles<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p><strong>Página de recepción:</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(query.<span class="hljs-property">id</span>); <span class="hljs-comment">// &quot;123&quot;</span>
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">id</span>: query.<span class="hljs-property">id</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>Explicación detallada del archivo de configuración</h2>
+        <p><code>app-config.js</code> admite múltiples opciones de configuración para controlar el comportamiento de la aplicación:</p>
         <table>
           <thead>
             <tr>
-              <th>Estado</th>
+              <th>Configuración</th>
+              <th>¿Es obligatorio?</th>
               <th>Descripción</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>current</code></td>
-              <td>Estilo de la página actual después de la animación</td>
+              <td><code>home</code></td>
+              <td>Requerido</td>
+              <td>Dirección de la página de inicio de la aplicación</td>
             </tr>
             <tr>
-              <td><code>next</code></td>
-              <td>Estilo inicial al entrar en una nueva página</td>
+              <td><code>pageAnime</code></td>
+              <td>Opcional</td>
+              <td>Configuración de la animación de cambio de página</td>
             </tr>
             <tr>
-              <td><code>previous</code></td>
-              <td>Estilo objetivo al salir de la página anterior</td>
+              <td><code>loading</code></td>
+              <td>Opcional</td>
+              <td>Contenido mostrado al cargar la página</td>
             </tr>
             <tr>
-              <td>export const pageAnime = {</td>
-              <td></td>
+              <td><code>fail</code></td>
+              <td>Opcional</td>
+              <td>Contenido mostrado cuando falla la carga de la página</td>
             </tr>
             <tr>
-              <td>current: {</td>
-              <td></td>
+              <td><code>ready</code></td>
+              <td>Opcional</td>
+              <td>Función de devolución de llamada después de que se completa la inicialización de la aplicación</td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td>Opcional</td>
+              <td>Métodos y propiedades agregados al prototipo de la aplicación</td>
+            </tr>
+            <tr>
+              <td><code>allowForward</code></td>
+              <td>Opcional</td>
+              <td>Si se habilita la función de avance del navegador</td>
             </tr>
           </tbody>
         </table>
-        <pre><code class="hljs"><span class="hljs-symbol">opacity:</span> <span class="hljs-number">1</span>,
-<span class="hljs-symbol">transform:</span> <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,</code></pre>
-        <p> }, next: { opacity: 0, transform: &quot;translate(30px, 0)&quot;, }, previous: { opacity: 0, transform: &quot;translate(-30px, 0)&quot;, }, };</p>
-        <pre><code class="hljs">
-## <span class="hljs-keyword">Forma</span> <span class="hljs-keyword">de</span> pasar parámetros
-
-<span class="hljs-keyword">En</span> `o-<span class="hljs-keyword">app</span>`, <span class="hljs-keyword">la</span> navegació<span class="hljs-keyword">n</span> entre páginas admite pasar parámetros a través <span class="hljs-keyword">de</span> <span class="hljs-keyword">la</span> URL <span class="hljs-keyword">Query</span>, y <span class="hljs-keyword">la</span> página <span class="hljs-keyword">de</span> destino los recibe mediante el parámetro `<span class="hljs-keyword">query</span>` <span class="hljs-keyword">de</span> <span class="hljs-keyword">la</span> funció<span class="hljs-keyword">n</span> del <span class="hljs-keyword">m</span>ódulo.
-
-## Navegació<span class="hljs-keyword">n</span> <span class="hljs-keyword">de</span> página
-
-Dentro <span class="hljs-keyword">de</span> o-<span class="hljs-keyword">app</span>, cada <span class="hljs-keyword">m</span>ódulo <span class="hljs-keyword">de</span> página puede usar <span class="hljs-keyword">la</span> etiqueta `&lt;a&gt;` con el atributo `olink` para cambiar <span class="hljs-keyword">de</span> página. Esta etiqueta activa el cambio <span class="hljs-keyword">de</span> ruta <span class="hljs-keyword">de</span> <span class="hljs-keyword">la</span> aplicació<span class="hljs-keyword">n</span>, incluye animaciones <span class="hljs-keyword">de</span> transició<span class="hljs-keyword">n</span> y <span class="hljs-keyword">no</span> recarga toda <span class="hljs-keyword">la</span> página.
-
-```html
-&lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;<span class="hljs-keyword">Ir</span> a <span class="hljs-keyword">la</span> página acerca&lt;/a&gt;</code></pre>
-        <p>En el componente de página, puedes utilizar el método <code>back()</code> para volver a la página anterior:</p>
+        <h3>Independencia</h3>
+        <p>Cada instancia de <code>o-app</code> es una microaplicación independiente, con su propia:- historial de enrutamiento</p>
+        <ul>
+          <li>pila de páginas</li>
+          <li>gestión de estado</li>
+          <li>opciones de configuración</li>
+        </ul>
+        <h3>Uso anidado</h3>
+        <p><code>o-app</code> se puede anidar para implementar estructuras de aplicaciones complejas:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;back()&quot;</span>&gt;</span>Volver<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./sub-app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>Diferencias con los componentes</h3>
+        <p><code>o-app</code> se diferencia de los componentes normales principalmente en que:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Característica</th>
+              <th>o-app</th>
+              <th>Componente normal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gestión de enrutamiento</td>
+              <td>✅ Sistema de enrutamiento integrado</td>
+              <td>❌ No</td>
+            </tr>
+            <tr>
+              <td>Pila de páginas</td>
+              <td>✅ Administra el historial de páginas</td>
+              <td>❌ No</td>
+            </tr>
+            <tr>
+              <td>Archivo de configuración</td>
+              <td>✅ Configuración independiente</td>
+              <td>❌ No</td>
+            </tr>
+            <tr>
+              <td>Animación de transición entre páginas</td>
+              <td>✅ Soporte</td>
+              <td>❌ No</td>
+            </tr>
+            <tr>
+              <td>Escenario de uso</td>
+              <td>Contenedor de nivel de aplicación</td>
+              <td>Componente funcional</td>
+            </tr>
+          </tbody>
+        </table>
       </article>
       <div class="footer"></div>
       <script>

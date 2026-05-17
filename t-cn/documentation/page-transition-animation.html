@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>頁面切換動畫</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>頁面切換動畫</h1>
+        <p><code>pageAnime</code> 配置項用於控製頁面切換時的過渡動畫效菓，提升用戶體驗。</p>
+        <h2>基本配置</h2>
+        <p>在 <code>app-config.js</code> 中配置頁面切換動畫：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre>
+        <h2>動畫狀態</h2>
+        <p>頁面切換動畫包含三個狀態：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>狀態</th>
+              <th>說明</th>
+              <th>觸發時機</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>當前頁面動畫結束後的樣式</td>
+              <td>頁面切換完成後</td>
+            </tr>
+            <tr>
+              <td><code>next</code></td>
+              <td>新頁面進入時的起始樣式</td>
+              <td>新頁面開始進入時</td>
+            </tr>
+            <tr>
+              <td><code>previous</code></td>
+              <td>舊頁面離開時的目標樣式</td>
+              <td>舊頁面開始離開時</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>狀態詳解</h3>
+        <p><strong>current（當前狀態）</strong></p>
+        <ul>
+          <li>頁面切換完成後的最終樣式</li>
+          <li>通常是頁面的正常顯示狀態</li>
+          <li>例如：<code>opacity: 1, transform: &quot;translate(0, 0)&quot;</code></li>
+        </ul>
+        <p><strong>next（下一頁狀態）</strong></p>
+        <ul>
+          <li>新頁面進入時的初始樣式</li>
+          <li>用於定義新頁面從哪裏開始進入</li>
+          <li>例如：<code>opacity: 0, transform: &quot;translate(30px, 0)&quot;</code> 錶示從右側進入</li>
+        </ul>
+        <p><strong>previous（上一頁狀態）</strong></p>
+        <ul>
+          <li>舊頁面離開時的目標樣式</li>
+          <li>用於定義舊頁面要到哪裏去</li>
+          <li>例如：<code>opacity: 0, transform: &quot;translate(-30px, 0)&quot;</code> 錶示向左離開</li>
+        </ul>
+        <h2>內置動畫效菓</h2>
+        <h3>左右滑動（默認）</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre>
+        <p>效菓說明：</p>
+        <ul>
+          <li>新頁面從右側滑入（初始位置在右側 30px，透明度爲 0）</li>
+          <li>舊頁面向左滑齣（最終位置在左側 -30px，透明度爲 0）</li>
+          <li>最終兩個頁面都迴到正常位置（透明度爲 1，位置爲 0）</li>
+        </ul>
+        <h3>淡入淡齣</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+  },
+};</code></pre>
+        <p>效菓說明：</p>
+        <ul>
+          <li>新頁面從透明漸變爲可見</li>
+          <li>舊頁面從可見漸變爲透明</li>
+          <li>適閤簡潔、優雅的應用風格</li>
+        </ul>
+        <h3>上下滑動</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 30px)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, -30px)&quot;</span>,
+  },
+};</code></pre>
+        <p>效菓說明：</p>
+        <ul>
+          <li>新頁面從下方滑入</li>
+          <li>舊頁面向上方滑齣</li>
+          <li>適閤垂直滾動風格的應用</li>
+        </ul>
+        <h3>縮放效菓</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;scale(1)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;scale(0.8)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;scale(1.2)&quot;</span>,
+  },
+};</code></pre>
+        <p>效菓說明：</p>
+        <ul>
+          <li>新頁面從小放大到正常大小</li>
+          <li>舊頁面從正常大小放大消失</li>
+          <li>適閤卡片式或模態框風格的應用</li>
+        </ul>
+        <h3>翻轉效菓</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;rotateY(0deg)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;rotateY(-90deg)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;rotateY(90deg)&quot;</span>,
+  },
+};</code></pre>
+        <p>效菓說明：</p>
+        <ul>
+          <li>新頁面從左側翻轉進入</li>
+          <li>舊頁面向右側翻轉離開</li>
+          <li>適閤需要3D效菓的應用</li>
+        </ul>
+        <h2>自定義動畫</h2>
+        <h3>組閤多個屬性</h3>
+        <p>可以組閤多個 CSS 屬性創建復雜動畫：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0) scale(1)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(50px, 50px) scale(0.9)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-50px, -50px) scale(1.1)&quot;</span>,
+  },
+};</code></pre>
+        <h3>使用不衕的緩動函數</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+    <span class="hljs-attr">transition</span>: <span class="hljs-string">&quot;all 0.3s cubic-bezier(0.4, 0, 0.2, 1)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre>
+        <h2>支持的 CSS 屬性</h2>
+        <p><code>pageAnime</code> 支持所有 CSS 可動畫屬性：</p>
+        <h3>常用屬性</h3>
+        <ul>
+          <li><code>opacity</code> - 透明度（0-1）</li>
+          <li><code>transform</code> - 變換<ul>
+              <li><code>translate(x, y)</code> - 位移</li>
+              <li><code>scale(n)</code> - 縮放</li>
+              <li><code>rotate(deg)</code> - 鏇轉</li>
+              <li><code>rotateX/Y(deg)</code> - 3D鏇轉</li>
+            </ul>
+          </li>
+          <li><code>width</code> / <code>height</code> - 寬高</li>
+          <li><code>margin</code> / <code>padding</code> - 外邊距/內邊距</li>
+          <li><code>background-color</code> - 揹景色</li>
+          <li><code>border-radius</code> - 圓角</li>
+        </ul>
+        <h3>註意事項</h3>
+        <ol>
+          <li><strong>性能優化</strong>：優先使用 <code>transform</code> 和 <code>opacity</code>，牠們性能最好</li>
+          <li><strong>避免佈侷抖動</strong>：避免使用會觸發佈侷重排的屬性（如 <code>width</code>, <code>height</code>, <code>margin</code>）</li>
+          <li><strong>過渡時間</strong>：ofa.js 會自動添加過渡效菓，默認爲 300ms</li>
+        </ol>
+        <h2>完整示例</h2>
+        <o-playground name="頁面切換動畫示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 應用首頁地址
+    export const home = "./home.html";
+    // 頁面切換動畫配置
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <h2>最佳實踐</h2>
+        <h3>1. 保持動畫簡潔</h3>
+        <p>避免過於復雜的動畫，簡潔的動畫效菓更好：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// ✅ 推薦：簡潔有效</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span> },
+  <span class="hljs-attr">next</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span> },
+  <span class="hljs-attr">previous</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span> },
+};
+
+<span class="hljs-comment">// ❌ 不推薦：過於復雜</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0) rotate(0deg) scale(1)&quot;</span>,
+    <span class="hljs-attr">borderRadius</span>: <span class="hljs-string">&quot;0&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 30px) rotate(45deg) scale(0.5)&quot;</span>,
+    <span class="hljs-attr">borderRadius</span>: <span class="hljs-string">&quot;50%&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, -30px) rotate(-45deg) scale(1.5)&quot;</span>,
+    <span class="hljs-attr">borderRadius</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+  },
+};</code></pre>
+        <h3>2. 考慮用戶體驗</h3>
+        <ul>
+          <li>動畫時間不宜過長（建議 200-400ms）</li>
+          <li>避免使用讓用戶眩暈的動畫</li>
+          <li>確保動畫流暢，不卡頓</li>
+        </ul>
+        <h3>3. 適配不衕設備</h3>
+        <p>在低端設備上，可以考慮禁用或簡化動畫：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 檢測設備性能</span>
+<span class="hljs-keyword">const</span> isLowEndDevice = navigator.<span class="hljs-property">hardwareConcurrency</span> &lt; <span class="hljs-number">4</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = isLowEndDevice ? {
+  <span class="hljs-attr">current</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span> },
+  <span class="hljs-attr">next</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span> },
+  <span class="hljs-attr">previous</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span> },
+} : {
+  <span class="hljs-attr">current</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span> },
+  <span class="hljs-attr">next</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span> },
+  <span class="hljs-attr">previous</span>: { <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span> },
+};</code></pre>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -81,13 +81,26 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>마이크로 앱</h1>
-        <p><code>o-app</code>를 사용하여 애플리케이션화합니다. 이 태그는 마이크로 애플리케이션을 나타내며, <code>app-config.js</code> 구성 파일을 로드합니다. 이 파일은 애플리케이션의 홈 페이지 주소와 페이지 전환 애니메이션 구성을 정의합니다.</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
+        <p><code>o-app</code>은 ofa.js의 핵심 컨테이너 컴포넌트로, 독립적인 마이크로 앱을 생성하는 데 사용됩니다. 이는 <code>app-config.js</code> 설정 파일을 로드하며, 해당 파일은 앱의 다양한 동작을 정의합니다.</p>
+        <h2>기본 사용</h2>
+        <p>HTML에서 <code>o-app</code> 태그를 사용하여 마이크로 앱을 생성합니다:</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <h2>구성 파일 생성</h2>
+        <p><code>app-config.js</code> 파일을 생성하고 애플리케이션의 기본 설정을 정의합니다:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// 애플리케이션 홈 주소</span>
+
+<span class="hljs-comment">// 앱 홈 페이지 주소 (필수)</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./home.html&quot;</span>;
 
-<span class="hljs-comment">// 페이지 전환 애니메이션 설정</span>
+<span class="hljs-comment">// 페이지 전환 애니메이션 설정 (선택)</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
   <span class="hljs-attr">current</span>: {
     <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
@@ -173,59 +186,136 @@
     </template>
   </code>
         </o-playground>
-        <h2>home - 홈페이지 주소</h2>
-        <p>지정된 애플리케이션 시작 시 로드되는 홈페이지 모듈 경로로, 상대 경로와 절대 경로를 지원합니다.</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
-        <h2>pageAnime - 페이지 전환 애니메이션</h2>
-        <p>페이지 전환 시의 전환 애니메이션 효과를 제어하며, 세 가지 상태를 포함합니다:</p>
+        <h2>페이지 네비게이션</h2>
+        <h3>olink 속성 사용</h3>
+        <p><code>o-app</code> 내에서 <code>olink</code> 속성이 있는 <code>&lt;a&gt;</code> 태그를 사용하여 페이지를 전환합니다:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./about.html&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>소개 페이지로 이동<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p><code>olink</code>는 앱의 라우팅 전환을 트리거하며, 전환 애니메이션과 함께 동작하고 전체 페이지를 새로고침하지 않습니다.</p>
+        <h3>프로그래밍 방식 내비게이션</h3>
+        <p>페이지 컴포넌트에서 탐색 메서드를 사용할 수 있습니다:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 지정된 페이지로 이동</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 현재 페이지 교체 (히스토리에 추가되지 않음)</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 이전 페이지로 돌아가기</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();</code></pre>
+        <h2>페이지 매개변수 전달</h2>
+        <p>URL 쿼리를 통해 매개변수를 전달하면 대상 페이지는 모듈 함수의 <code>query</code> 매개변수를 통해 수신합니다:</p>
+        <p>보내는 페이지:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./detail.html?id=123&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>상세 보기<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p>수신 페이지:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(query.<span class="hljs-property">id</span>); <span class="hljs-comment">// &quot;123&quot;</span>
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">id</span>: query.<span class="hljs-property">id</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>설정 파일 상세 설명</h2>
+        <p><code>app-config.js</code>는 앱 동작을 제어하기 위한 다양한 구성 옵션을 지원합니다：</p>
         <table>
           <thead>
             <tr>
-              <th>상태</th>
+              <th>설정 항목</th>
+              <th>필수 여부</th>
               <th>설명</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>current</code></td>
-              <td>현재 페이지 애니메이션 종료 후의 스타일</td>
+              <td><code>home</code></td>
+              <td>필수</td>
+              <td>앱 홈페이지 주소</td>
             </tr>
             <tr>
-              <td><code>next</code></td>
-              <td>새 페이지 진입 시의 시작 스타일</td>
+              <td><code>pageAnime</code></td>
+              <td>선택</td>
+              <td>페이지 전환 애니메이션 설정</td>
             </tr>
             <tr>
-              <td><code>previous</code></td>
-              <td>이전 페이지가 떠날 때의 목표 스타일</td>
+              <td><code>loading</code></td>
+              <td>선택</td>
+              <td>페이지 로딩 시 표시할 내용</td>
             </tr>
             <tr>
-              <td>export const pageAnime = {</td>
-              <td></td>
+              <td><code>fail</code></td>
+              <td>선택</td>
+              <td>페이지 로딩 실패 시 표시할 내용</td>
             </tr>
             <tr>
-              <td>current: {</td>
-              <td></td>
+              <td><code>ready</code></td>
+              <td>선택</td>
+              <td>앱 초기화 완료 후 호출되는 콜백</td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td>선택</td>
+              <td>앱 프로토타입에 추가할 메서드 및 속성</td>
+            </tr>
+            <tr>
+              <td><code>allowForward</code></td>
+              <td>선택</td>
+              <td>브라우저 앞으로 가기 기능 사용 여부</td>
             </tr>
           </tbody>
         </table>
-        <pre><code class="hljs"><span class="hljs-symbol">opacity:</span> <span class="hljs-number">1</span>,
-<span class="hljs-symbol">transform:</span> <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,</code></pre>
-        <p> }, next: { opacity: 0, transform: &quot;translate(30px, 0)&quot;, }, previous: { opacity: 0, transform: &quot;translate(-30px, 0)&quot;, }, };</p>
-        <pre><code class="hljs">
-## 매개변수 전달 방식
-
-`o-app`에서 페이지 이동은 URL Query를 통해 파라미터를 전달하는 것을 지원하며, 대상 페이지는 모듈 함수의 `query` 파라미터로 받습니다.
-
-## 페이지 네비게이션
-
-o-app 내에서 각 페이지 모듈은 `olink` 속성이 있는 `&lt;a&gt;` 태그를 사용하여 페이지를 전환할 수 있습니다. 이 태그는 애플리케이션의 라우트 전환을 트리거하며, 전환 애니메이션을 포함하고 전체 페이지를 새로고침하지 않습니다.
-
-```html
-&lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;소개 페이지로 이동&lt;/a&gt;</code></pre>
-        <p>페이지 컴포넌트에서 <code>back()</code> 메서드를 사용하여 이전 페이지로 돌아갈 수 있습니다:</p>
+        <h3>독립성</h3>
+        <p>각 <code>o-app</code> 인스턴스는 독립적인 마이크로 앱으로, 자체적으로 다음을 가집니다:- 라우팅 히스토리</p>
+        <ul>
+          <li>페이지 스택</li>
+          <li>상태 관리</li>
+          <li>구성 옵션</li>
+        </ul>
+        <h3>중첩 사용</h3>
+        <p><code>o-app</code>은 중첩하여 사용할 수 있어 복잡한 애플리케이션 구조를 구현할 수 있습니다:</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;back()&quot;</span>&gt;</span>돌아가기<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./sub-app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>컴포넌트와의 차이점</h3>
+        <p><code>o-app</code>와 일반 컴포넌트의 주요 차이점:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>특성</th>
+              <th>o-app</th>
+              <th>일반 컴포넌트</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>라우팅 관리</td>
+              <td>✅ 내장 라우팅 시스템</td>
+              <td>❌ 없음</td>
+            </tr>
+            <tr>
+              <td>페이지 스택</td>
+              <td>✅ 페이지 히스토리 관리</td>
+              <td>❌ 없음</td>
+            </tr>
+            <tr>
+              <td>설정 파일</td>
+              <td>✅ 독립 설정</td>
+              <td>❌ 없음</td>
+            </tr>
+            <tr>
+              <td>페이지 전환 애니메이션</td>
+              <td>✅ 지원</td>
+              <td>❌ 없음</td>
+            </tr>
+            <tr>
+              <td>적용 시나리오</td>
+              <td>앱 수준 컨테이너</td>
+              <td>기능 컴포넌트</td>
+            </tr>
+          </tbody>
+        </table>
       </article>
       <div class="footer"></div>
       <script>

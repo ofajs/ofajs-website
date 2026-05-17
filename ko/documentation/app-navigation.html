@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>라우팅과 네비게이션</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>라우팅과 네비게이션</h1>
+        <p>앱 내 페이지 탐색은 단일 페이지 애플리케이션의 핵심 기능입니다. 이 장에서는 프로그래밍 방식 탐색 사용법, 라우팅 히스토리 관리 및 라우트 변경 감지 방법을 소개합니다.</p>
+        <h2>allowForward - 전진 기능</h2>
+        <p>기본적으로, 앱은 뒤로 가기 탐색만 지원합니다. <code>app-config.js</code>에서 <code>allowForward</code>를 <code>true</code>로 설정하면 앱의 앞으로 가기 기능을 활성화할 수 있습니다.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <p>활성화 후:</p>
+        <ul>
+          <li>사용자가 브라우저의 앞으로/뒤로 버튼을 사용하여 탐색할 수 있습니다</li>
+          <li>앱의 <code>forward()</code> 메서드가 정상적으로 작동합니다</li>
+        </ul>
+        <h2>프로그래밍 방식 네비게이션</h2>
+        <p><code>olink</code> 속성을 사용하는 링크 외에도 JavaScript에서 내비게이션 메서드를 호출할 수 있습니다.</p>
+        <h3>goto - 페이지 이동</h3>
+        <p>지정된 페이지로 이동하고, 기록에 추가합니다:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 지정된 페이지로 이동</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 매개변수와 함께 이동</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./detail.html?id=123&quot;</span>);</code></pre>
+        <h3>replace - 페이지 교체</h3>
+        <p>현재 페이지를 대체하고, 방문 기록에 추가하지 않음:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 현재 페이지 교체</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);</code></pre>
+        <p>로그인 후 이동 시 자주 사용되며, 사용자가 뒤로가기 버튼을 클릭하여 로그인 페이지로 돌아가는 것을 방지합니다.</p>
+        <h3>back - 뒤로</h3>
+        <p>이전 페이지로 돌아가기:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();</code></pre>
+        <h3>앞으로 - 전진</h3>
+        <p>다음 페이지로 이동 ( <code>allowForward: true</code> 설정 필요 ):</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 페이지 또는 컴포넌트에서 호출합니다.</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">forward</span>();</code></pre>
+        <blockquote>
+          <p><strong>참고</strong>: <code>forward</code> 메서드는 페이지 인스턴스가 아닌 애플리케이션 인스턴스(<code>app</code>)에서 호출해야 합니다. 예를 들어 <code>this.forward()</code> 대신 <code>this.app.forward()</code>를 사용하세요.</p>
+        </blockquote>
+        <h3>네비게이션 방법 비교</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>메소드</th>
+              <th>히스토리</th>
+              <th>사용 시나리오</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>goto</code></td>
+              <td>새 기록 추가</td>
+              <td>일반적인 페이지 이동</td>
+            </tr>
+            <tr>
+              <td><code>replace</code></td>
+              <td>현재 기록 대체</td>
+              <td>로그인 후 이동, 리디렉션</td>
+            </tr>
+            <tr>
+              <td><code>back</code></td>
+              <td>이전 기록으로 되돌아가기</td>
+              <td>돌아가기 동작</td>
+            </tr>
+            <tr>
+              <td><code>forward</code></td>
+              <td>다음 기록으로 앞으로 가기</td>
+              <td>앞으로 가기 동작 (활성화 필요)</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>라우팅 기록 가져오기</h3>
+        <p><code>routers</code> 속성을 통해 모든 라우팅 기록 가져오기:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
+<span class="hljs-comment">// 반환 형식: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span></code></pre>
+        <h3>현재 페이지 가져오기</h3>
+        <p><code>current</code> 속성을 통해 현재 페이지 인스턴스를 가져옵니다:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;현재 페이지:&quot;</span>, currentPage.<span class="hljs-property">src</span>);</code></pre>
+        <h3>라우팅 기록 예시</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">canGoBack</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">1</span>;
+  },
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">canGoForward</span>() {
+    <span class="hljs-comment">// allowForward와 함께 사용해야 합니다</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentIndex</span> &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>;
+  },
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">currentPath</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span> || <span class="hljs-string">&quot;&quot;</span>;
+  },
+};</code></pre>
+        <h2>라우트 변경 감시</h2>
+        <p><code>router-change</code> 이벤트를 수신하여 라우팅 변경에 응답합니다.</p>
+        <h3>기본 사용법</h3>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> { data } = e;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;라우터 변경:&quot;</span>, data.<span class="hljs-property">name</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;페이지 주소:&quot;</span>, data.<span class="hljs-property">src</span>);
+});</code></pre>
+        <h3>이벤트 데이터</h3>
+        <p><code>router-change</code> 이벤트의 데이터 객체에는 다음이 포함됩니다:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>속성</th>
+              <th>설명</th>
+              <th>가능한 값</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>name</code></td>
+              <td>네비게이션 유형</td>
+              <td><code>goto</code>, <code>replace</code>, <code>forward</code>, <code>back</code></td>
+            </tr>
+            <tr>
+              <td><code>src</code></td>
+              <td>대상 페이지 주소</td>
+              <td>페이지 경로</td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 라우팅 변화 감지</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { name, src } = e.<span class="hljs-property">data</span>;
+
+    <span class="hljs-comment">// 페이지 방문 기록</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`[<span class="hljs-subst">${name}</span>] 탐색 대상: <span class="hljs-subst">${src}</span>`</span>);
+
+    <span class="hljs-comment">// 페이지 제목 업데이트</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateTitle</span>(src);
+
+    <span class="hljs-comment">// 통계 데이터 전송</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">trackPageView</span>(src);
+  });
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">updateTitle</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-keyword">const</span> titles = {
+      <span class="hljs-string">&quot;home.html&quot;</span>: <span class="hljs-string">&quot;홈&quot;</span>,
+      <span class="hljs-string">&quot;about.html&quot;</span>: <span class="hljs-string">&quot;회사 소개&quot;</span>,
+      <span class="hljs-string">&quot;contact.html&quot;</span>: <span class="hljs-string">&quot;문의하기&quot;</span>,
+    };
+
+    <span class="hljs-keyword">const</span> pageName = src.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;/&quot;</span>).<span class="hljs-title function_">pop</span>();
+    <span class="hljs-variable language_">document</span>.<span class="hljs-property">title</span> = titles[pageName] || <span class="hljs-string">&quot;앱&quot;</span>;
+  },
+
+  <span class="hljs-title function_">trackPageView</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-comment">// 페이지 방문 통계 전송</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;페이지 방문 통계:&quot;</span>, src);
+  },
+};</code></pre>
+        <h2>페이지 내비게이션 가드</h2>
+        <p>라우트 리스닝과 결합하여 내비게이션 가드 기능을 구현할 수 있습니다:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { src } = e.<span class="hljs-property">data</span>;
+
+    <span class="hljs-comment">// 로그인 필요 여부 확인</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.requiresAuth(src) &amp;&amp; !<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">isLoggedIn</span>()) {
+      e.<span class="hljs-title function_">preventDefault</span>();
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);
+    }
+  });
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">requiresAuth</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-keyword">const</span> authPages = [<span class="hljs-string">&quot;profile.html&quot;</span>, <span class="hljs-string">&quot;settings.html&quot;</span>];
+    <span class="hljs-keyword">return</span> authPages.<span class="hljs-title function_">some</span>(<span class="hljs-function">(<span class="hljs-params">page</span>) =&gt;</span> src.<span class="hljs-title function_">includes</span>(page));
+  },
+
+  <span class="hljs-title function_">isLoggedIn</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;
+  },
+};</code></pre>
+        <h2>전체 예시</h2>
+        <o-playground name="라우팅 및 탐색 예제" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 앱 홈페이지 주소
+    export const home = "./home.html";
+    export const allowForward = true;
+    // 페이지 전환 애니메이션 설정
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const ready = function() {
+      console.log("앱이 초기화되었습니다");
+      this.on("router-change", (e) => {
+        console.log("라우트 변경:", e.data);
+      });
+    };
+    export const proto = {
+      get routerCount() {
+        return this.routers?.length || 0;
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <p>라우트 히스토리 수: {{app.routerCount}}</p>
+      <a href="./about.html" olink>About으로 이동</a>
+      <br><br>
+      <button on:click="gotoAbout">프로그래밍 방식 이동</button>
+      <br><br>
+      <button on:click="goForward()">앞으로 가기</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+            proto: {
+              gotoAbout() {
+                this.goto("./about.html");
+              },
+              goForward() {
+                this.app.forward();
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;">
+        <button on:click="back()">뒤로 가기</button>
+      </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <p>라우트 히스토리 수: {{app.routerCount}}</p>
+      <p style="color: #666; font-size: 14px;">힌트: "뒤로 가기"를 클릭한 후, 홈페이지에서 "앞으로 가기"를 클릭하면 여기로 돌아옵니다</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

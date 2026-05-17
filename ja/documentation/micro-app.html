@@ -81,13 +81,26 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>マイクロアプリ</h1>
-        <p><code>o-app</code> を使用してアプリケーション化します。このタグはマイクロアプリケーションを表し、<code>app-config.js</code> 設定ファイルを読み込みます。このファイルはアプリケーションのホームページアドレスとページ切り替えアニメーション設定を定義します。</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
+        <p><code>o-app</code> は ofa.js のコアコンテナコンポーネントであり、独立したマイクロアプリケーションを作成するために使用されます。<code>app-config.js</code> 設定ファイルを読み込み、このファイルがアプリケーションのさまざまな動作を定義します。</p>
+        <h2>基本的な使い方</h2>
+        <p>HTML で <code>o-app</code> タグを使用してマイクロアプリケーションを作成する：</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <h2>設定ファイルの作成</h2>
+        <p><code>app-config.js</code>ファイルを作成し、アプリの基本設定を定義します：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// アプリケーションのホームページアドレス</span>
+
+<span class="hljs-comment">// アプリのホームページアドレス（必須）</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./home.html&quot;</span>;
 
-<span class="hljs-comment">// ページ切り替えアニメーション設定</span>
+<span class="hljs-comment">// ページ切り替えアニメーション設定（オプション）</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
   <span class="hljs-attr">current</span>: {
     <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
@@ -173,59 +186,136 @@
     </template>
   </code>
         </o-playground>
-        <h2>home - トップページアドレス</h2>
-        <p>指定应用启动时加载的首页模块路径，支持相对路径和绝对路径。 アプリケーション起動時に読み込むトップページモジュールのパスを指定します。相対パスと絶対パスをサポートします。</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
-        <h2>pageAnime - ページ切り替えアニメーション</h2>
-        <p>ページ切り替え時のトランジションアニメーション効果を制御し、3つの状態を含みます：</p>
+        <h2>ページナビゲーション</h2>
+        <h3>olink 属性の使用</h3>
+        <p><code>o-app</code> 内で、<code>olink</code> 属性を持つ <code>&lt;a&gt;</code> タグを使用してページ切り替えを行います：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./about.html&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>概要ページにジャンプ<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p><code>olink</code> はアプリのルート切り替えをトリガーし、トランジションアニメーションを伴い、ページ全体をリフレッシュしません。</p>
+        <h3>プログラミングによるナビゲーション</h3>
+        <p>ページコンポーネントでは、ナビゲーションメソッドを使用できます：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 指定されたページに移動する</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 現在のページを置き換える（履歴に追加しない）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 前のページに戻る</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();</code></pre>
+        <h2>ページ間のパラメータ受け渡し</h2>
+        <p>URLクエリでパラメータを渡し、ターゲットページはモジュール関数の <code>query</code> パラメータで受け取ります：</p>
+        <p><strong>送信ページ：</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./detail.html?id=123&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>詳細を見る<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p><strong>受信ページ：</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(query.<span class="hljs-property">id</span>); <span class="hljs-comment">// &quot;123&quot;</span>
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">id</span>: query.<span class="hljs-property">id</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>設定ファイルの詳細</h2>
+        <p><code>app-config.js</code> は、アプリケーションの動作を制御するためのさまざまな設定オプションをサポートしています：</p>
         <table>
           <thead>
             <tr>
-              <th>状態</th>
+              <th>設定項目</th>
+              <th>必須かどうか</th>
               <th>説明</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>current</code></td>
-              <td>現在のページのアニメーション終了後のスタイル</td>
+              <td><code>home</code></td>
+              <td>必須</td>
+              <td>アプリのトップページアドレス</td>
             </tr>
             <tr>
-              <td><code>next</code></td>
-              <td>新しいページが入ってくる際の開始スタイル</td>
+              <td><code>pageAnime</code></td>
+              <td>オプション</td>
+              <td>ページ切り替えアニメーションの設定</td>
             </tr>
             <tr>
-              <td><code>previous</code></td>
-              <td>古いページが離れる際の目標スタイル</td>
+              <td><code>loading</code></td>
+              <td>オプション</td>
+              <td>ページ読み込み中に表示する内容</td>
             </tr>
             <tr>
-              <td>export const pageAnime = {</td>
-              <td></td>
+              <td><code>fail</code></td>
+              <td>オプション</td>
+              <td>ページ読み込み失敗時に表示する内容</td>
             </tr>
             <tr>
-              <td>current: {</td>
-              <td></td>
+              <td><code>ready</code></td>
+              <td>オプション</td>
+              <td>アプリ初期化完了後のコールバック</td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td>オプション</td>
+              <td>アプリのプロトタイプに追加するメソッドとプロパティ</td>
+            </tr>
+            <tr>
+              <td><code>allowForward</code></td>
+              <td>オプション</td>
+              <td>ブラウザの「進む」機能を有効にするかどうか</td>
             </tr>
           </tbody>
         </table>
-        <pre><code class="hljs"><span class="hljs-symbol">opacity:</span> <span class="hljs-number">1</span>,
-<span class="hljs-symbol">transform:</span> <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,</code></pre>
-        <p> }, next: { opacity: 0, transform: &quot;translate(30px, 0)&quot;, }, previous: { opacity: 0, transform: &quot;translate(-30px, 0)&quot;, }, };</p>
-        <pre><code class="hljs">
-## パラメータの渡し方
-
-在 `o-app` 内では、ページ遷移は URL Query を介してパラメータを渡すことをサポートし、ターゲットページはモジュール関数の `query` パラメータで受け取ります。
-
-## ページナビゲーション
-
-o-app内では、各ページモジュールは `olink` 属性を持つ `&lt;a&gt;` タグを使用してページ切り替えを行うことができます。このタグはアプリのルート切り替えをトリガーし、トランジションアニメーションを伴い、ページ全体をリフレッシュしません。
-
-```html
-&lt;a href=<span class="hljs-string">&quot;./about.html&quot;</span> olink&gt;概要ページにジャンプ&lt;/a&gt;</code></pre>
-        <p>ページコンポーネントでは、 <code>back()</code> メソッドを使って前のページに戻ることができます：</p>
+        <h3>独立性</h3>
+        <p>各 <code>o-app</code> インスタンスは独立したマイクロアプリケーションであり、独自の：- ルート履歴</p>
+        <ul>
+          <li>ページスタック</li>
+          <li>状態管理</li>
+          <li>設定オプション</li>
+        </ul>
+        <h3>ネストして使用</h3>
+        <p><code>o-app</code> はネストして使用でき、複雑なアプリケーション構造を実現します：</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;back()&quot;</span>&gt;</span>戻る<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./sub-app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>コンポーネントとの違い</h3>
+        <p><code>o-app</code> と通常のコンポーネントの主な違い：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>特性</th>
+              <th>o-app</th>
+              <th>一般コンポーネント</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ルート管理</td>
+              <td>✅ 内蔵ルートシステム</td>
+              <td>❌ なし</td>
+            </tr>
+            <tr>
+              <td>ページスタック</td>
+              <td>✅ ページ履歴管理</td>
+              <td>❌ なし</td>
+            </tr>
+            <tr>
+              <td>設定ファイル</td>
+              <td>✅ 独立設定</td>
+              <td>❌ なし</td>
+            </tr>
+            <tr>
+              <td>ページ切替アニメーション</td>
+              <td>✅ 対応</td>
+              <td>❌ なし</td>
+            </tr>
+            <tr>
+              <td>適用シーン</td>
+              <td>アプリレベルのコンテナ</td>
+              <td>機能コンポーネント</td>
+            </tr>
+          </tbody>
+        </table>
       </article>
       <div class="footer"></div>
       <script>

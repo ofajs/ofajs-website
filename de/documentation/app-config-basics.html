@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grundlagen der Anwendungskonfiguration</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>Grundlagen der Anwendungskonfiguration</h1>
+        <p><code>app-config.js</code> Konfigurationsdatei wird verwendet, um verschiedene Verhaltensweisen der Anwendung zu definieren. Dieses Kapitel stellt die grundlegende Struktur der Konfigurationsdatei und alle verfügbaren Konfigurationsoptionen vor.</p>
+        <h2>Konfigurationsdateistruktur</h2>
+        <p>Erstellen Sie die Datei <code>app-config.js</code> und exportieren Sie Konfigurationselemente mit ES6-Modul-Syntax:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+
+<span class="hljs-comment">// Startseitenadresse der App (erforderlich)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">"./home.html"</span>;
+
+<span class="hljs-comment">// Konfiguration der Seitenwechsel-Animation (optional)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(0, 0)"</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(30px, 0)"</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(-30px, 0)"</span>,
+  },
+};
+
+<span class="hljs-comment">// Ladezustand (optional)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">"&lt;div&gt;Loading...&lt;/div&gt;"</span>;
+};
+
+<span class="hljs-comment">// Fehlerbehandlung (optional)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{ src, error }</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
+};
+
+<span class="hljs-comment">// App-Initialisierung (optional)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"App is ready"</span>);
+};
+
+<span class="hljs-comment">// Prototyp-Erweiterung (optional)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Custom method"</span>);
+  },
+};
+
+<span class="hljs-comment">// Vorwärtsfunktion aktivieren (optional)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <h2>Konfigurationselemente-Übersicht</h2>
+        <p><code>app-config.js</code> unterstützt die folgenden Konfigurationsoptionen:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Konfigurationsoption</th>
+              <th>Erforderlich</th>
+              <th>Beschreibung</th>
+              <th>Detaillierte Dokumentation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>home</code></td>
+              <td>✅ Erforderlich</td>
+              <td>Startseiten-Adresse der App</td>
+              <td>Dieses Kapitel</td>
+            </tr>
+            <tr>
+              <td><code>pageAnime</code></td>
+              <td>Optional</td>
+              <td>Konfiguration der Seitenübergangsanimation</td>
+              <td><a href="./page-transition-animation.html" olink="">Seitenübergangsanimation</a></td>
+            </tr>
+            <tr>
+              <td><code>loading</code></td>
+              <td>Optional</td>
+              <td>Inhalt, der beim Laden der Seite angezeigt wird</td>
+              <td><a href="./app-loading-error.html" olink="">Laden und Fehlerbehandlung</a></td>
+            </tr>
+            <tr>
+              <td><code>fail</code></td>
+              <td>Optional</td>
+              <td>Inhalt, der bei fehlgeschlagenem Laden der Seite angezeigt wird</td>
+              <td><a href="./app-loading-error.html" olink="">Laden und Fehlerbehandlung</a></td>
+            </tr>
+            <tr>
+              <td><code>ready</code></td>
+              <td>Optional</td>
+              <td>Callback nach Abschluss der App-Initialisierung</td>
+              <td><a href="./app-initialization.html" olink="">App-Initialisierung</a></td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td>Optional</td>
+              <td>Methoden und Eigenschaften, die dem App-Prototypen hinzugefügt werden</td>
+              <td><a href="./app-initialization.html" olink="">App-Initialisierung</a></td>
+            </tr>
+            <tr>
+              <td><code>allowForward</code></td>
+              <td>Optional</td>
+              <td>Aktiviert die Vorwärtsfunktion des Browsers</td>
+              <td><a href="./app-navigation.html" olink="">Routing und Navigation</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p><code>home</code> ist eine erforderliche Konfigurationsoption, die den Pfad des Home-Moduls angibt, das beim Anwendungsstart geladen wird.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">"./pages/home.html"</span>;</code></pre>
+        <p><strong>Pfadregeln:</strong>- Unterstützt relative Pfade（bezogen auf die <code>app-config.js</code>-Datei）</p>
+        <ul>
+          <li>Unterstützt absolute Pfade</li>
+          <li>Der Pfad verweist auf eine Seitenmoduldatei（<code>.html</code>-Datei）</li>
+        </ul>
+        <h2>pageAnime - Seitenwechsel-Animation</h2>
+        <p><code>pageAnime</code> ist eine optionale Konfigurationsoption, die die Übergangsanimation beim Seitenwechsel steuert.</p>
+        <h3>Grundlegende Verwendung</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(0, 0)"</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(30px, 0)"</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(-30px, 0)"</span>,
+  },
+};</code></pre>
+        <h3>Erläuterung der Animationszustände</h3>
+        <p>Die Seitenwechselanimation umfasst drei Zustände:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Beschreibung</th>
+              <th>Auslösezeitpunkt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>Stil nach Ende der Animation der aktuellen Seite</td>
+              <td>Nach Abschluss des Seitenwechsels</td>
+            </tr>
+            <tr>
+              <td><code>next</code></td>
+              <td>Anfangsstil beim Einblenden einer neuen Seite</td>
+              <td>Wenn die neue Seite zu erscheinen beginnt</td>
+            </tr>
+            <tr>
+              <td><code>previous</code></td>
+              <td>Zielstil beim Verlassen der alten Seite</td>
+              <td>Wenn die alte Seite zu verschwinden beginnt</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Seitenwechselanimationen unterstützen mehrere Effekte, einschließlich:- Links-/Rechtswischen (Standard)</p>
+        <ul>
+          <li>Ein-/Ausblenden</li>
+          <li>Hoch-/Runterswischen</li>
+          <li>Zoomeffekt</li>
+          <li>Umdreheffekt</li>
+          <li>Benutzerdefinierte Animation</li>
+        </ul>
+        <p>Detaillierte Konfiguration der Animationen und Beispiele für Effekte finden Sie im Kapitel <a href="./page-transition-animation.html" olink="">Seitenübergangsanimation</a>.</p>
+        <h2>Konfigurationsdateien in HTML verwenden</h2>
+        <p>In einer HTML-Datei wird die Konfigurationsdatei über das <code>o-app</code>-Tag eingebunden:</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./app-config.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><o-playground name="Grundlegendes Beispiel für Anwendungskonfiguration" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // Adresse der Startseite der Anwendung
+    export const home = "./home.html";
+    // Konfiguration der Seitenwechselanimation
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="home.html" active="">
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink="">Zu About</a>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Zurück</button> </div>
+      <p> Über <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

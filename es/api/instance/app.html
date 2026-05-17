@@ -82,9 +82,10 @@
       <article class="markdown-body">
         <h1>app</h1>
         <p>Los elementos dentro de <code>o-app</code>, incluyendo aquellos dentro del nodo sombra de <code>o-page</code> dentro de <code>o-app</code>, o subcomponentes internos, su atributo <code>app</code> apunta a la instancia del elemento <code>o-app</code>.</p>
+        <h2>Obtener una instancia de la aplicación</h2>
         <p>A continuación se muestra un ejemplo que demuestra cómo acceder al atributo <code>app</code> dentro de los elementos en <code>o-app</code>:</p>
-        <o-playground name="app - obtener instancia de aplicación" style="--editor-height: 500px">
-          <code path="demo.html" preview unimportant>
+        <o-playground name="app - Obtener instancia de la aplicación" style="--editor-height: 500px">
+          <code path="demo.html" preview="" unimportant="">
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
@@ -98,7 +99,7 @@
         return "Hello ofa.js App Demo";
       }
     };
-    // Configuración de animación de cambio de página
+    // Configuración de la animación de cambio de página
     export const pageAnime = {
       current: {
         opacity: 1,
@@ -114,8 +115,8 @@
       },
     };
   </code>
-          <code path="home.html" active>
-    <template page>
+          <code path="home.html" active="">
+    <template page="">
       <l-m src="./test-comp.html"></l-m>
       <style>
         :host {
@@ -141,7 +142,7 @@
     </template>
   </code>
           <code path="test-comp.html">
-    <template component>
+    <template component="">
       <style>
         :host {
           display: inline-block;
@@ -166,6 +167,107 @@
     </template>
   </code>
         </o-playground>
+        <h2>Ejemplos de uso de la aplicación</h2>
+        <p>Después de obtener la instancia <code>app</code>, puedes:</p>
+        <h3>1. Método personalizado para acceder a la aplicación</h3>
+        <p>Los métodos personalizados agregados a través de la opción de configuración <code>proto</code> en <code>app-config.js</code> pueden ser llamados desde cualquier página o componente mediante <code>this.app</code>:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">"./home.html"</span>);
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isLoggedIn</span>() {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;
+  },
+  
+  <span class="hljs-title function_">showMessage</span>(<span class="hljs-params">message</span>) {
+    <span class="hljs-title function_">alert</span>(message);
+  },
+};</code></pre>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Usar en una página o componente</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">navigateToHome</span>();
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">showMessage</span>(<span class="hljs-string">"Hello World"</span>);
+
+<span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">isLoggedIn</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Usuario ha iniciado sesión"</span>);
+}</code></pre>
+        <h3>2. Acceder a las propiedades de la aplicación</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Obtener la página actual</span>
+<span class="hljs-keyword">const</span> currentPage = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">current</span>;
+
+<span class="hljs-comment">// Obtener el historial de enrutamiento</span>
+<span class="hljs-keyword">const</span> routers = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">routers</span>;
+
+<span class="hljs-comment">// Acceder a los datos globales</span>
+<span class="hljs-keyword">const</span> user = <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;</code></pre>
+        <h3>3. Llamar al método de navegación</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Navegar a página</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">"./about.html"</span>);
+
+<span class="hljs-comment">// Volver a la página anterior</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">back</span>();
+
+<span class="hljs-comment">// Reemplazar la página actual</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">"./login.html"</span>);</code></pre>
+        <h3>4. Escuchar eventos de la aplicación</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Escuchar cambios de ruta</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">"router-change"</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Cambio de ruta:"</span>, e.<span class="hljs-property">data</span>);
+});</code></pre>
+        <h2>Documentación detallada</h2>
+        <p>Para obtener información sobre cómo configurar la lógica de inicialización de la aplicación y agregar métodos personalizados en <code>app-config.js</code>, consulte:</p>
+        <ul>
+          <li><strong><a href="../../documentation/app-initialization.html" olink="">Inicialización de la aplicación</a></strong> - Explica detalladamente cómo usar las opciones de configuración <code>ready</code> y <code>proto</code></li>
+          <li><strong><a href="../../documentation/app-navigation.html" olink="">Enrutamiento y navegación</a></strong> - Explica detalladamente los métodos de navegación de la aplicación y la escucha de rutas</li>
+        </ul>
+        <h2>Propiedades y métodos comunes de la instancia de la aplicación</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Propiedad/Método</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>Instancia de página actual</td>
+            </tr>
+            <tr>
+              <td><code>routers</code></td>
+              <td>Historial de rutas</td>
+            </tr>
+            <tr>
+              <td><code>globalData</code></td>
+              <td>Datos globales (debes inicializarlos en <code>ready</code> por ti mismo)</td>
+            </tr>
+            <tr>
+              <td><code>goto(src)</code></td>
+              <td>Saltar a la página especificada</td>
+            </tr>
+            <tr>
+              <td><code>back()</code></td>
+              <td>Volver a la página anterior</td>
+            </tr>
+            <tr>
+              <td><code>replace(src)</code></td>
+              <td>Reemplazar la página actual</td>
+            </tr>
+            <tr>
+              <td><code>forward()</code></td>
+              <td>Ir a la página siguiente</td>
+            </tr>
+            <tr>
+              <td><code>on(event, callback)</code></td>
+              <td>Escuchar eventos de la aplicación</td>
+            </tr>
+            <tr>
+              <td>Métodos personalizados</td>
+              <td>Métodos personalizados añadidos mediante la configuración <code>proto</code></td>
+            </tr>
+          </tbody>
+        </table>
       </article>
       <div class="footer"></div>
       <script>

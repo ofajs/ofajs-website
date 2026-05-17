@@ -81,13 +81,26 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>微應用</h1>
-        <p>使用 <code>o-app</code> 進行應用化，這個標籤就代錶著一個微應用，牠會加載 <code>app-config.js</code> 配置文件，該文件定義瞭應用的首頁地址和頁面切換動畫配置。</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span></code></pre>
+        <p><code>o-app</code> 是 ofa.js 中的覈心容器組件，用於創建獨立的微應用。牠會加載 <code>app-config.js</code> 配置文件，該文件定義瞭應用的各種行爲。</p>
+        <h2>基本使用</h2>
+        <p>在 HTML 中使用 <code>o-app</code> 標籤創建微應用：</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+        <h2>創建配置文件</h2>
+        <p>創建 <code>app-config.js</code> 文件，定義應用的基本配置：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// 應用首頁地址</span>
+
+<span class="hljs-comment">// 應用首頁地址（必需）</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./home.html&quot;</span>;
 
-<span class="hljs-comment">// 頁面切換動畫配置</span>
+<span class="hljs-comment">// 頁面切換動畫配置（可選）</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
   <span class="hljs-attr">current</span>: {
     <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
@@ -173,56 +186,138 @@
     </template>
   </code>
         </o-playground>
-        <h2>home - 首頁地址</h2>
-        <p>指定應用啓動時加載的首頁模塊路徑，支持相對路徑和絕對路徑。</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
-        <h2>pageAnime - 頁面切換動畫</h2>
-        <p>控製頁面切換時的過渡動畫效菓，包含三個狀態：</p>
+        <h2>頁面導航</h2>
+        <h3>使用 olink 屬性</h3>
+        <p>在 <code>o-app</code> 內，使用帶有 <code>olink</code> 屬性的 <code>&lt;a&gt;</code> 標籤進行頁面切換：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./about.html&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>跳轉到關於頁面<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p><code>olink</code> 會觸發應用的路由切換，帶上過渡動畫，且不會刷新整個頁面。</p>
+        <h3>編程式導航</h3>
+        <p>在頁面組件中，可以使用導航方法：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 跳轉到指定頁面</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 替換當前頁面（不添加到歷史記錄）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 返迴上一頁</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();</code></pre>
+        <h2>頁面傳參</h2>
+        <p>通過 URL Query 傳遞參數，目標頁面通過模塊函數的 <code>query</code> 參數接收：</p>
+        <p><strong>發送頁面：</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./detail.html?id=123&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>査看詳情<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
+        <p><strong>接收頁面：</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> ({ query }) =&gt; {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(query.<span class="hljs-property">id</span>); <span class="hljs-comment">// &quot;123&quot;</span>
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">id</span>: query.<span class="hljs-property">id</span>
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>配置文件詳解</h2>
+        <p><code>app-config.js</code> 支持多種配置選項，用於控製應用的行爲：</p>
         <table>
           <thead>
             <tr>
-              <th>狀態</th>
+              <th>配置項</th>
+              <th>是否必需</th>
               <th>說明</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>current</code></td>
-              <td>當前頁面動畫結束後的樣式</td>
+              <td><code>home</code></td>
+              <td>必需</td>
+              <td>應用首頁地址</td>
             </tr>
             <tr>
-              <td><code>next</code></td>
-              <td>新頁面進入時的起始樣式</td>
+              <td><code>pageAnime</code></td>
+              <td>可選</td>
+              <td>頁面切換動畫配置</td>
             </tr>
             <tr>
-              <td><code>previous</code></td>
-              <td>舊頁面離開時的目標樣式</td>
+              <td><code>loading</code></td>
+              <td>可選</td>
+              <td>頁面加載時顯示的內容</td>
+            </tr>
+            <tr>
+              <td><code>fail</code></td>
+              <td>可選</td>
+              <td>頁面加載失敗時顯示的內容</td>
+            </tr>
+            <tr>
+              <td><code>ready</code></td>
+              <td>可選</td>
+              <td>應用初始化完成後的迴調</td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td>可選</td>
+              <td>添加到應用原型的方法和屬性</td>
+            </tr>
+            <tr>
+              <td><code>allowForward</code></td>
+              <td>可選</td>
+              <td>是否啓用瀏覽器前進功能</td>
             </tr>
           </tbody>
         </table>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
-  <span class="hljs-attr">current</span>: {
-    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
-    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
-  },
-  <span class="hljs-attr">next</span>: {
-    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
-    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
-  },
-  <span class="hljs-attr">previous</span>: {
-    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
-    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
-  },
-};</code></pre>
-        <h2>傳參方式</h2>
-        <p>在 <code>o-app</code> 中，頁面跳轉支持通過 URL Query 傳遞參數，目標頁面通過模塊函數的 <code>query</code> 參數接收。</p>
-        <h2>頁面導航</h2>
-        <p>在 o-app 內，每個頁面模塊可以使用帶有 <code>olink</code> 屬性的 <code>&lt;a&gt;</code> 標籤進行頁面切換。這個標籤會觸發應用的路由切換，帶上過渡動畫，且不會刷新整個頁面。</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./about.html&quot;</span> <span class="hljs-attr">olink</span>&gt;</span>跳轉到關於頁面<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre>
-        <p>在頁面組件中，可以使用 <code>back()</code> 方法返迴上一頁：</p>
+        <h2>微應用特性</h2>
+        <h3>獨立性</h3>
+        <p>每個 <code>o-app</code> 實例都是獨立的微應用，擁有自己的：</p>
+        <ul>
+          <li>路由歷史</li>
+          <li>頁面棧</li>
+          <li>狀態管理</li>
+          <li>配置選項</li>
+        </ul>
+        <h3>嵌套使用</h3>
+        <p><code>o-app</code> 可以嵌套使用，實現復雜的應用結構：</p>
         <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;back()&quot;</span>&gt;</span>返迴<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./sub-app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>與組件的區別</h3>
+        <p><code>o-app</code> 與普通組件的主要區別：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>特性</th>
+              <th>o-app</th>
+              <th>普通組件</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>路由管理</td>
+              <td>✅ 內置路由系統</td>
+              <td>❌ 無</td>
+            </tr>
+            <tr>
+              <td>頁面棧</td>
+              <td>✅ 管理頁面歷史</td>
+              <td>❌ 無</td>
+            </tr>
+            <tr>
+              <td>配置文件</td>
+              <td>✅ 獨立配置</td>
+              <td>❌ 無</td>
+            </tr>
+            <tr>
+              <td>頁面切換動畫</td>
+              <td>✅ 支持</td>
+              <td>❌ 無</td>
+            </tr>
+            <tr>
+              <td>適用場景</td>
+              <td>應用級容器</td>
+              <td>功能組件</td>
+            </tr>
+          </tbody>
+        </table>
       </article>
       <div class="footer"></div>
       <script>

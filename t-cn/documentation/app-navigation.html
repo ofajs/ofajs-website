@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>路由與導航</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>路由與導航</h1>
+        <p>應用內的頁面導航是單頁面應用的覈心功能。本章介紹如何使用編程式導航、管理路由歷史，以及監聽路由變化。</p>
+        <h2>allowForward - 前進功能</h2>
+        <p>默認情況下，應用隻支持後退導航。在 <code>app-config.js</code> 中設置 <code>allowForward</code> 爲 <code>true</code> 後，可以啓用應用的前進功能。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <p>啓用後：</p>
+        <ul>
+          <li>用戶可以使用瀏覽器的前進/後退按鈕進行導航</li>
+          <li>應用的 <code>forward()</code> 方法可以正常工作</li>
+        </ul>
+        <h2>編程式導航</h2>
+        <p>除瞭使用 <code>olink</code> 屬性的鏈接，還可以在 JavaScript 中調用導航方法。</p>
+        <h3>goto - 跳轉頁面</h3>
+        <p>跳轉到指定頁面，並添加到歷史記錄：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 跳轉到指定頁面</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 帶參數跳轉</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./detail.html?id=123&quot;</span>);</code></pre>
+        <h3>replace - 替換頁面</h3>
+        <p>替換當前頁面，不添加到歷史記錄：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 替換當前頁面</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);</code></pre>
+        <p>常用於登錄後跳轉，避免用戶點擊後退按鈕迴到登錄頁。</p>
+        <h3>back - 後退</h3>
+        <p>返迴到上一頁：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();</code></pre>
+        <h3>forward - 前進</h3>
+        <p>前進到下一頁（需要設置 <code>allowForward: true</code>）：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 在頁面或組件中調用</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">forward</span>();</code></pre>
+        <blockquote>
+          <p><strong>註意</strong>：<code>forward</code> 方法必須在應用實例（<code>app</code>）上調用，而不是在頁面實例上調用。例如使用 <code>this.app.forward()</code> 而不是 <code>this.forward()</code>。</p>
+        </blockquote>
+        <h3>導航方法對比</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>方法</th>
+              <th>歷史記錄</th>
+              <th>使用場景</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>goto</code></td>
+              <td>添加新記錄</td>
+              <td>正常頁面跳轉</td>
+            </tr>
+            <tr>
+              <td><code>replace</code></td>
+              <td>替換當前記錄</td>
+              <td>登錄後跳轉、重定向</td>
+            </tr>
+            <tr>
+              <td><code>back</code></td>
+              <td>迴退到上一條</td>
+              <td>返迴操作</td>
+            </tr>
+            <tr>
+              <td><code>forward</code></td>
+              <td>前進到下一條</td>
+              <td>前進操作（需啓用）</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>路由歷史</h2>
+        <h3>獲取路由歷史</h3>
+        <p>通過 <code>routers</code> 屬性獲取所有路由歷史：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
+<span class="hljs-comment">// 返迴格式: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span></code></pre>
+        <h3>獲取當前頁面</h3>
+        <p>通過 <code>current</code> 屬性獲取當前頁面實例：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;當前頁面:&quot;</span>, currentPage.<span class="hljs-property">src</span>);</code></pre>
+        <h3>路由歷史示例</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">canGoBack</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">1</span>;
+  },
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">canGoForward</span>() {
+    <span class="hljs-comment">// 需要配閤 allowForward 使用</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentIndex</span> &lt; <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>.<span class="hljs-property">length</span> - <span class="hljs-number">1</span>;
+  },
+
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">currentPath</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span> || <span class="hljs-string">&quot;&quot;</span>;
+  },
+};</code></pre>
+        <h2>監聽路由變化</h2>
+        <p>通過監聽 <code>router-change</code> 事件來響應路由變化。</p>
+        <h3>基本用法</h3>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> { data } = e;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;路由變化:&quot;</span>, data.<span class="hljs-property">name</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;頁面地址:&quot;</span>, data.<span class="hljs-property">src</span>);
+});</code></pre>
+        <h3>事件數據</h3>
+        <p><code>router-change</code> 事件的數據對象包含：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>屬性</th>
+              <th>說明</th>
+              <th>可能的值</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>name</code></td>
+              <td>導航類型</td>
+              <td><code>goto</code>, <code>replace</code>, <code>forward</code>, <code>back</code></td>
+            </tr>
+            <tr>
+              <td><code>src</code></td>
+              <td>目標頁面地址</td>
+              <td>頁面路徑</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>使用示例</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 監聽路由變化</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { name, src } = e.<span class="hljs-property">data</span>;
+
+    <span class="hljs-comment">// 記錄頁面訪問</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`[<span class="hljs-subst">${name}</span>] 導航到: <span class="hljs-subst">${src}</span>`</span>);
+
+    <span class="hljs-comment">// 更新頁面標題</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">updateTitle</span>(src);
+
+    <span class="hljs-comment">// 發送統計數據</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">trackPageView</span>(src);
+  });
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">updateTitle</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-keyword">const</span> titles = {
+      <span class="hljs-string">&quot;home.html&quot;</span>: <span class="hljs-string">&quot;首頁&quot;</span>,
+      <span class="hljs-string">&quot;about.html&quot;</span>: <span class="hljs-string">&quot;關於我們&quot;</span>,
+      <span class="hljs-string">&quot;contact.html&quot;</span>: <span class="hljs-string">&quot;聯系我們&quot;</span>,
+    };
+
+    <span class="hljs-keyword">const</span> pageName = src.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;/&quot;</span>).<span class="hljs-title function_">pop</span>();
+    <span class="hljs-variable language_">document</span>.<span class="hljs-property">title</span> = titles[pageName] || <span class="hljs-string">&quot;應用&quot;</span>;
+  },
+
+  <span class="hljs-title function_">trackPageView</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-comment">// 發送頁面訪問統計</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;統計頁面訪問:&quot;</span>, src);
+  },
+};</code></pre>
+        <h2>頁面導航守衛</h2>
+        <p>結閤路由監聽，可以實現導航守衛功能：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { src } = e.<span class="hljs-property">data</span>;
+
+    <span class="hljs-comment">// 檢査是否需要登錄</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.requiresAuth(src) &amp;&amp; !<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">isLoggedIn</span>()) {
+      e.<span class="hljs-title function_">preventDefault</span>();
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);
+    }
+  });
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">requiresAuth</span>(<span class="hljs-params">src</span>) {
+    <span class="hljs-keyword">const</span> authPages = [<span class="hljs-string">&quot;profile.html&quot;</span>, <span class="hljs-string">&quot;settings.html&quot;</span>];
+    <span class="hljs-keyword">return</span> authPages.<span class="hljs-title function_">some</span>(<span class="hljs-function">(<span class="hljs-params">page</span>) =&gt;</span> src.<span class="hljs-title function_">includes</span>(page));
+  },
+
+  <span class="hljs-title function_">isLoggedIn</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;
+  },
+};</code></pre>
+        <h2>完整示例</h2>
+        <o-playground name="路由與導航示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 應用首頁地址
+    export const home = "./home.html";
+    export const allowForward = true;
+    // 頁面切換動畫配置
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const ready = function() {
+      console.log("應用已初始化");
+      this.on("router-change", (e) => {
+        console.log("路由變化:", e.data);
+      });
+    };
+    export const proto = {
+      get routerCount() {
+        return this.routers?.length || 0;
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <p>路由歷史數量: {{app.routerCount}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <br><br>
+      <button on:click="gotoAbout">編程式跳轉</button>
+      <br><br>
+      <button on:click="goForward()">前進</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+            proto: {
+              gotoAbout() {
+                this.goto("./about.html");
+              },
+              goForward() {
+                this.app.forward();
+              },
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;">
+        <button on:click="back()">後退</button>
+      </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <p>路由歷史數量: {{app.routerCount}}</p>
+      <p style="color: #666; font-size: 14px;">提示：點擊"後退"後，在首頁可以點擊"前進"迴到這裏</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

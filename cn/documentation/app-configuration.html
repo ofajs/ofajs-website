@@ -81,31 +81,248 @@
       <link rel="stylesheet" href="../../css/page.css" />
       <article class="markdown-body">
         <h1>应用配置</h1>
-        <p><code>app-config.js</code> 配置文件除了首页地址和页面切换动画外，还支持更多的配置选项，用于控制应用的加载状态、错误处理、初始化逻辑和导航功能。</p>
+        <p><code>app-config.js</code> 配置文件用于定义应用的各种行为，包括首页地址、页面切换动画、加载状态、错误处理、初始化逻辑等。</p>
+        <h2>完整配置示例</h2>
+        <p>下面是一个包含所有配置项的完整 <code>app-config.js</code> 文件示例：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
-<span class="hljs-comment">// 加载中显示的内容</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-string">&quot;&lt;div&gt;Loading...&lt;/div&gt;&quot;</span>;
 
-<span class="hljs-comment">// 页面加载失败时显示的组件</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">src, error</span>) =&gt; <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
+<span class="hljs-comment">// 【必需】应用首页地址</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./home.html&quot;</span>;
 
-<span class="hljs-comment">// 应用初始化完成后的回调</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;App is ready!&quot;</span>);
-}
-
-<span class="hljs-comment">// 添加到应用原型的方法和属性</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
-  <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Custom method called&quot;</span>);
+<span class="hljs-comment">// 【可选】页面切换动画配置</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
   },
-};</code></pre><o-playground name="应用配置示例" style="--editor-height: 500px">
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};
+
+<span class="hljs-comment">// 【可选】加载中显示的内容</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">const</span> loadingEl = $({
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
+    <span class="hljs-attr">css</span>: {
+      <span class="hljs-attr">width</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+      <span class="hljs-attr">height</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+      <span class="hljs-attr">position</span>: <span class="hljs-string">&quot;absolute&quot;</span>,
+      <span class="hljs-attr">zIndex</span>: <span class="hljs-number">1000</span>,
+    },
+    <span class="hljs-attr">html</span>: <span class="hljs-string">`
+      &lt;div style=&quot;transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);&quot;&gt;&lt;/div&gt;
+    `</span>,
+  });
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> (loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;98%&quot;</span>));
+  loadingEl.<span class="hljs-property">remove</span> = <span class="hljs-function">() =&gt;</span> {
+    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>[<span class="hljs-string">&quot;transition-duration&quot;</span>] = <span class="hljs-string">&quot;0.1s&quot;</span>;
+    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;100%&quot;</span>;
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      $.fn.<span class="hljs-property">remove</span>.<span class="hljs-title function_">call</span>(loadingEl);
+    }, <span class="hljs-number">200</span>);
+  };
+  <span class="hljs-keyword">return</span> loadingEl;
+};
+
+<span class="hljs-comment">// 【可选】页面加载失败时显示的组件</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{ src, error }</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div style=&quot;padding: 20px; color: #c00;&quot;&gt;
+    &lt;h3&gt;页面加载失败&lt;/h3&gt;
+    &lt;p&gt;地址: <span class="hljs-subst">${src}</span>&lt;/p&gt;
+    &lt;p&gt;错误: <span class="hljs-subst">${error.message}</span>&lt;/p&gt;
+    &lt;button on:click=&quot;back()&quot;&gt;返回上一页&lt;/button&gt;
+  &lt;/div&gt;`</span>;
+};
+
+<span class="hljs-comment">// 【可选】应用初始化完成后的回调</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;应用已初始化&quot;</span>);
+  <span class="hljs-comment">// this 指向 o-app 元素实例</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;当前页面:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>);
+};
+
+<span class="hljs-comment">// 【可选】添加到应用原型的方法和属性</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 自定义方法</span>
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./home.html&quot;</span>);
+  },
+  <span class="hljs-comment">// 计算属性</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+};
+
+<span class="hljs-comment">// 【可选】是否启用浏览器前进功能</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <h2>配置项详解</h2>
+        <h3>home - 首页地址（必需）</h3>
+        <p>指定应用启动时加载的首页模块路径。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">&quot;./pages/home.html&quot;</span>;</code></pre>
+        <h3>pageAnime - 页面切换动画（可选）</h3>
+        <p>控制页面切换时的过渡动画效果，包含三个状态：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>状态</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>当前页面动画结束后的样式</td>
+            </tr>
+            <tr>
+              <td><code>next</code></td>
+              <td>新页面进入时的起始样式</td>
+            </tr>
+            <tr>
+              <td><code>previous</code></td>
+              <td>旧页面离开时的目标样式</td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(0, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(30px, 0)&quot;</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">&quot;translate(-30px, 0)&quot;</span>,
+  },
+};</code></pre>
+        <h3>loading - 加载状态（可选）</h3>
+        <p>在页面加载过程中显示的组件，可以是字符串模板或返回模板的函数。</p>
+        <p><strong>简单字符串模板：</strong></p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Loading...&lt;/div&gt;&quot;</span>;</code></pre>
+        <p><strong>函数动态生成：</strong></p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;loading&#x27;&gt;
+    &lt;span&gt;加载中...&lt;/span&gt;
+  &lt;/div&gt;`</span>;
+};</code></pre>
+        <p><strong>完整进度条示例：</strong></p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">const</span> loadingEl = $({
+    <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
+    <span class="hljs-attr">css</span>: {
+      <span class="hljs-attr">width</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+      <span class="hljs-attr">height</span>: <span class="hljs-string">&quot;100%&quot;</span>,
+      <span class="hljs-attr">position</span>: <span class="hljs-string">&quot;absolute&quot;</span>,
+      <span class="hljs-attr">zIndex</span>: <span class="hljs-number">1000</span>,
+    },
+    <span class="hljs-attr">html</span>: <span class="hljs-string">`
+      &lt;div style=&quot;transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);&quot;&gt;&lt;/div&gt;
+    `</span>,
+  });
+
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> (loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;98%&quot;</span>));
+
+  loadingEl.<span class="hljs-property">remove</span> = <span class="hljs-function">() =&gt;</span> {
+    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>[<span class="hljs-string">&quot;transition-duration&quot;</span>] = <span class="hljs-string">&quot;0.1s&quot;</span>;
+    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;100%&quot;</span>;
+    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      $.fn.<span class="hljs-property">remove</span>.<span class="hljs-title function_">call</span>(loadingEl);
+    }, <span class="hljs-number">200</span>);
+  };
+
+  <span class="hljs-keyword">return</span> loadingEl;
+};</code></pre>
+        <h3>fail - 错误处理（可选）</h3>
+        <p>页面加载失败时显示的组件，函数接收一个对象参数，包含 <code>src</code>（失败页面的地址）和 <code>error</code>（错误信息）。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{ src, error }</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
+    &lt;p&gt;页面加载失败&lt;/p&gt;
+    &lt;p&gt;地址: <span class="hljs-subst">${src}</span>&lt;/p&gt;
+    &lt;p&gt;错误: <span class="hljs-subst">${error.message}</span>&lt;/p&gt;
+    &lt;button on:click=&quot;back()&quot;&gt;返回&lt;/button&gt;
+  &lt;/div&gt;`</span>;
+};</code></pre>
+        <h3>ready - 初始化回调（可选）</h3>
+        <p>应用配置加载完成后执行的回调函数，可以在这里进行初始化操作。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;应用已初始化&quot;</span>);
+  <span class="hljs-comment">// this 指向 o-app 元素实例</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;当前页面:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>);
+};</code></pre>
+        <blockquote>
+          <p><strong>注意</strong>：<code>ready</code> 必须使用函数声明或函数表达式，不能使用箭头函数（因为需要正确的 <code>this</code> 绑定）。</p>
+        </blockquote>
+        <h3>proto - 原型扩展（可选）</h3>
+        <p>向应用实例添加自定义方法和计算属性，这些方法可以在页面组件中通过 <code>this.app</code> 访问。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./home.html&quot;</span>);
+  },
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+};</code></pre>
+        <p><strong>在页面中使用：</strong></p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>返回首页<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>是否在首页: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h3>allowForward - 前进功能（可选）</h3>
+        <p>控制是否启用浏览器前进功能。设置为 <code>true</code> 后，可以使用浏览器的后退和前进按钮进行导航。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <h2>编程式导航</h2>
+        <p>除了使用 <code>olink</code> 链接，还可以在 JavaScript 中调用导航方法：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 跳转到指定页面（添加到历史记录）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 替换当前页面（不添加到历史记录）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
+
+<span class="hljs-comment">// 后退到上一页</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();
+
+<span class="hljs-comment">// 前进到下一页（需要设置 allowForward: true）</span>
+<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">forward</span>();</code></pre>
+        <h2>路由历史</h2>
+        <p>通过 <code>routers</code> 属性可以获取浏览历史记录：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 获取所有路由历史</span>
+<span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
+<span class="hljs-comment">// 返回格式: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span>
+
+<span class="hljs-comment">// 获取当前页面</span>
+<span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
+        <h2>监听路由变化</h2>
+        <p>可以通过监听 <code>router-change</code> 事件来响应路由变化：</p>
+        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> { data } = e;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;路由变化:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;页面地址:&quot;</span>, data.<span class="hljs-property">src</span>);
+});</code></pre>
+        <h2>在 HTML 中使用配置文件</h2>
+        <p>在 HTML 文件中，通过 <code>o-app</code> 标签引入配置文件：</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./app-config.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><o-playground name="应用配置示例" style="--editor-height: 500px">
           <code path="demo.html" preview>
     <template>
       <o-app src="./app-config.js"></o-app>
     </template>
   </code>
-          <code path="app-config.js">
+          <code path="app-config.js" active>
     // 应用首页地址
     export const home = "./home.html";
     // 页面切换动画配置
@@ -147,7 +364,7 @@
   return loadingEl;
 };
   </code>
-          <code path="home.html" active>
+          <code path="home.html">
     <template page>
       <style>
         :host {
@@ -198,110 +415,6 @@
     </template>
   </code>
         </o-playground>
-        <h2>loading - 加载状态</h2>
-        <p>在页面加载过程中显示的组件，可以是字符串模板或返回模板的函数。</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 简单字符串模板</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> loading = <span class="hljs-string">&quot;&lt;div class=&#x27;loading&#x27;&gt;Loading...&lt;/div&gt;&quot;</span>;
-
-<span class="hljs-comment">// 使用函数动态生成</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
-  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;loading&#x27;&gt;
-    &lt;span&gt;加载中...&lt;/span&gt;
-  &lt;/div&gt;`</span>;
-};</code></pre>
-        <p>下面是一个美观且可直接复制到项目中使用的 loading 实现：</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
-  <span class="hljs-keyword">const</span> loadingEl = $({
-    <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,
-    <span class="hljs-attr">css</span>: {
-      <span class="hljs-attr">width</span>: <span class="hljs-string">&quot;100%&quot;</span>,
-      <span class="hljs-attr">height</span>: <span class="hljs-string">&quot;100%&quot;</span>,
-      <span class="hljs-attr">position</span>: <span class="hljs-string">&quot;absolute&quot;</span>,
-      <span class="hljs-attr">zIndex</span>: <span class="hljs-number">1000</span>,
-    },
-    <span class="hljs-attr">html</span>: <span class="hljs-string">`
-      &lt;div style=&quot;transition: all 10s cubic-bezier(0, 0, 0.22, 0.84) 0s; height: 2px;width: 0;background-color: rgb(0, 161, 46);&quot;&gt;&lt;/div&gt;
-    `</span>,
-  });
-
-  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> (loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;98%&quot;</span>));
-
-  loadingEl.<span class="hljs-property">remove</span> = <span class="hljs-function">() =&gt;</span> {
-    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>[<span class="hljs-string">&quot;transition-duration&quot;</span>] = <span class="hljs-string">&quot;0.1s&quot;</span>;
-    loadingEl[<span class="hljs-number">0</span>].<span class="hljs-property">style</span>.<span class="hljs-property">width</span> = <span class="hljs-string">&quot;100%&quot;</span>;
-    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
-      $.fn.<span class="hljs-property">remove</span>.<span class="hljs-title function_">call</span>(loadingEl);
-    }, <span class="hljs-number">200</span>);
-  };
-
-  <span class="hljs-keyword">return</span> loadingEl;
-};</code></pre>
-        <h2>fail - 错误处理</h2>
-        <p>页面加载失败时显示的组件，函数接收一个对象参数，包含 <code>src</code>（失败页面的地址）和 <code>error</code>（错误信息）。</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{src, error}</span>) =&gt; {
-  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&#x27;error&#x27;&gt;
-    &lt;p&gt;页面加载失败&lt;/p&gt;
-    &lt;p&gt;地址: <span class="hljs-subst">${src}</span>&lt;/p&gt;
-    &lt;button on:click=&quot;back()&quot;&gt;返回&lt;/button&gt;
-  &lt;/div&gt;`</span>;
-};</code></pre>
-        <h2>proto - 原型扩展</h2>
-        <p>向应用实例添加自定义方法和计算属性，这些方法可以在页面组件中通过 <code>this.app</code> 访问。</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
-  <span class="hljs-comment">// 自定义方法</span>
-  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
-  },
-  <span class="hljs-comment">// 计算属性</span>
-  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
-    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
-  },
-};</code></pre>
-        <p>在页面中调用：</p>
-        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>返回首页<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>是否在首页: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-        <h2>ready - 初始化回调</h2>
-        <p>应用配置加载完成后执行的回调函数，可以在这里进行初始化操作。可以通过 <code>this</code> 访问应用实例的方法和属性。</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">ready</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;应用已初始化&quot;</span>);
-  <span class="hljs-comment">// 可以访问 this (o-app 元素实例)</span>
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>); <span class="hljs-comment">// 获取当前页面 o-page 元素实例</span>
-  <span class="hljs-comment">// this.someMethod();</span>
-}</code></pre>
-        <h2>allowForward - 前进功能</h2>
-        <p>控制是否启用浏览器前进功能。设置为 <code>true</code> 后，可以使用浏览器的后退和前进按钮进行导航。</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
-        <p>当启用后，用户可以通过浏览器的前进/后退按钮导航，应用的导航方法 <code>forward()</code> 也会生效。</p>
-        <h2>编程式导航</h2>
-        <p>除了使用 <code>olink</code> 链接，还可以在 JavaScript 中调用导航方法：</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 跳转到指定页面（添加到历史记录）</span>
-<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
-
-<span class="hljs-comment">// 替换当前页面（不添加到历史记录）</span>
-<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;./about.html&quot;</span>);
-
-<span class="hljs-comment">// 后退到上一页</span>
-<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">back</span>();
-
-<span class="hljs-comment">// 前进到下一页（需要设置 allowForward: true）</span>
-<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">forward</span>();</code></pre>
-        <h2>路由历史</h2>
-        <p>通过 <code>routers</code> 属性可以获取浏览历史记录：</p>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 获取所有路由历史</span>
-<span class="hljs-keyword">const</span> history = app.<span class="hljs-property">routers</span>;
-<span class="hljs-comment">// 返回格式: [{ src: &quot;./page1.html&quot; }, { src: &quot;./page2.html&quot; }, ...]</span>
-
-<span class="hljs-comment">// 获取当前页面</span>
-<span class="hljs-keyword">const</span> currentPage = app.<span class="hljs-property">current</span>;</code></pre>
-        <h2>监听路由变化</h2>
-        <p>可以通过监听 <code>router-change</code> 事件来响应路由变化：</p>
-        <pre><code class="hljs language-javascript">app.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> { data } = e;
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;路由变化:&quot;</span>, data.<span class="hljs-property">name</span>); <span class="hljs-comment">// goto, replace, forward, back</span>
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;页面地址:&quot;</span>, data.<span class="hljs-property">src</span>);
-});</code></pre>
       </article>
       <div class="footer"></div>
       <script>

@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>앱 초기화</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>앱 초기화</h1>
+        <p>애플리케이션 초기화 단계에서 사용자 정의 메서드 추가, 이벤트 리스닝 등과 같은 전역 설정을 수행할 수 있습니다. <code>app-config.js</code>는 초기화 로직을 처리하기 위해 <code>ready</code>와 <code>proto</code> 두 개의 구성 항목을 제공합니다.</p>
+        <h2>ready - 초기화 콜백</h2>
+        <p><code>ready</code>는 앱 구성이 로드된 후 실행되는 콜백 함수로, 여기서 초기화 작업을 수행할 수 있습니다.</p>
+        <h3>기본 사용법</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;앱이 초기화되었습니다&quot;</span>);
+  <span class="hljs-comment">// this는 o-app 요소 인스턴스를 가리킵니다</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;현재 페이지:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>);
+};</code></pre>
+        <blockquote>
+          <p><strong>참고</strong>: <code>ready</code>는 반드시 함수 선언 또는 함수 표현식을 사용해야 하며, 화살표 함수를 사용해서는 안 됩니다(올바른 <code>this</code> 바인딩이 필요하기 때문입니다).</p>
+        </blockquote>
+        <h3>애플리케이션 인스턴스에 접근</h3>
+        <p><code>ready</code> 함수에서 <code>this</code>는 <code>o-app</code> 요소 인스턴스를 가리키며, 애플리케이션의 모든 메서드와 속성에 접근할 수 있습니다:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 현재 페이지 가져오기</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;현재 페이지:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>);
+  
+  <span class="hljs-comment">// 라우팅 히스토리 가져오기</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;라우팅 히스토리:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>);
+  
+  <span class="hljs-comment">// 라우트 변경 감시</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;라우트 변경:&quot;</span>, e.<span class="hljs-property">data</span>);
+  });
+};</code></pre>
+        <h3>초기화 예제</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 전역 상태 초기화</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span> = {
+    <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span>,
+  };
+  
+  <span class="hljs-comment">// 로컬 스토리지에서 사용자 정보 복원</span>
+  <span class="hljs-keyword">const</span> savedUser = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;user&quot;</span>);
+  <span class="hljs-keyword">if</span> (savedUser) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span> = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(savedUser);
+  }
+  
+  <span class="hljs-comment">// 라우트 변경 감지</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-comment">// 페이지 방문 기록</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;방문 페이지:&quot;</span>, e.<span class="hljs-property">data</span>.<span class="hljs-property">src</span>);
+  });
+};</code></pre>
+        <h2>proto - 프로토타입 확장</h2>
+        <p><code>proto</code>는 애플리케이션 인스턴스에 사용자 정의 메서드와 계산된 속성을 추가하는 데 사용되며, 이러한 메서드는 모든 페이지에서 <code>this.app</code>을 통해 접근할 수 있습니다.</p>
+        <h3>사용자 정의 메서드 추가</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 사용자 정의 메서드</span>
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./home.html&quot;</span>);
+  },
+  
+  <span class="hljs-title function_">navigateToProfile</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./profile.html&quot;</span>);
+  },
+  
+  <span class="hljs-comment">// 매개변수가 있는 메서드</span>
+  <span class="hljs-title function_">navigateToDetail</span>(<span class="hljs-params">id</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">`./detail.html?id=<span class="hljs-subst">${id}</span>`</span>);
+  },
+};</code></pre>
+        <h3>계산 속성 추가</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 계산된 속성</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">currentPath</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span> || <span class="hljs-string">&quot;&quot;</span>;
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">routerCount</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>?.<span class="hljs-property">length</span> || <span class="hljs-number">0</span>;
+  },
+};</code></pre>
+        <h3>전체 예시</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 네비게이션 메서드</span>
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./home.html&quot;</span>);
+  },
+  
+  <span class="hljs-title function_">navigateToProfile</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./profile.html&quot;</span>);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);
+    }
+  },
+  
+  <span class="hljs-comment">// 계산된 속성</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isLoggedIn</span>() {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;
+  },
+  
+  <span class="hljs-comment">// 유틸리티 메서드</span>
+  <span class="hljs-title function_">showMessage</span>(<span class="hljs-params">message</span>) {
+    <span class="hljs-title function_">alert</span>(message);
+  },
+};</code></pre>
+        <h2>페이지에서 사용</h2>
+        <p>페이지 컴포넌트에서 <code>this.app</code>을 통해 애플리케이션 인스턴스의 사용자 정의 메서드와 속성에 접근할 수 있습니다:</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>홈으로 돌아가기<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToProfile()&quot;</span>&gt;</span>프로필<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>홈인지: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>로그인 여부: {{app.isLoggedIn}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {},
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">goToDetail</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-comment">// 앱 인스턴스의 메서드 호출</span>
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">navigateToDetail</span>(<span class="hljs-number">123</span>);
+          },
+        },
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>전역 상태 관리</h2>
+        <p><code>ready</code>와 <code>proto</code>를 결합하면 간단한 전역 상태 관리를 구현할 수 있습니다:</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 전역 상태 초기화</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span> = {
+    <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">cart</span>: [],
+    <span class="hljs-attr">theme</span>: <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;theme&quot;</span>) || <span class="hljs-string">&quot;light&quot;</span>,
+  };
+  
+  <span class="hljs-comment">// 로컬 저장소에서 데이터 복원</span>
+  <span class="hljs-keyword">const</span> savedCart = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;cart&quot;</span>);
+  <span class="hljs-keyword">if</span> (savedCart) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span> = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(savedCart);
+  }
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 사용자 관련</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isLoggedIn</span>() {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span>;
+  },
+  
+  <span class="hljs-title function_">login</span>(<span class="hljs-params">userData</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span> = userData;
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(userData));
+  },
+  
+  <span class="hljs-title function_">logout</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span> = <span class="hljs-literal">null</span>;
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">removeItem</span>(<span class="hljs-string">&quot;user&quot;</span>);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);
+  },
+  
+  <span class="hljs-comment">// 장바구니 관련</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">cartCount</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span>.<span class="hljs-property">length</span>;
+  },
+  
+  <span class="hljs-title function_">addToCart</span>(<span class="hljs-params">item</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span>.<span class="hljs-title function_">push</span>(item);
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;cart&quot;</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span>));
+  },
+  
+  <span class="hljs-comment">// 테마 관련</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">currentTheme</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span>;
+  },
+  
+  <span class="hljs-title function_">toggleTheme</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span> === <span class="hljs-string">&quot;light&quot;</span> ? <span class="hljs-string">&quot;dark&quot;</span> : <span class="hljs-string">&quot;light&quot;</span>;
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;theme&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span>);
+  },
+};</code></pre>
+        <h2>전체 예시</h2>
+        <o-playground name="앱 초기화 예제" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 앱 홈 페이지 주소
+    export const home = "./home.html";
+    // 페이지 전환 애니메이션 설정
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const ready = function() {
+      console.log("앱이 초기화되었습니다");
+      this.visitCount = (this.visitCount || 0) + 1;
+      console.log("방문 횟수:", this.visitCount);
+    };
+    export const proto = {
+      navigateToHome() {
+        this.goto("./home.html");
+      },
+      get isAtHome() {
+        return this.current?.src.includes("home.html");
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <p>홈 페이지에 있습니까: {{app.isAtHome}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <br><br>
+      <button on:click="app.navigateToHome()">홈으로 돌아가기</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <p>홈 페이지에 있습니까: {{app.isAtHome}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

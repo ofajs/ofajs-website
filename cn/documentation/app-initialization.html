@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>应用初始化</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>应用初始化</h1>
+        <p>应用初始化阶段可以执行一些全局性的设置，比如添加自定义方法、监听事件等。<code>app-config.js</code> 提供了 <code>ready</code> 和 <code>proto</code> 两个配置项来处理初始化逻辑。</p>
+        <h2>ready - 初始化回调</h2>
+        <p><code>ready</code> 是应用配置加载完成后执行的回调函数，可以在这里进行初始化操作。</p>
+        <h3>基本用法</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;应用已初始化&quot;</span>);
+  <span class="hljs-comment">// this 指向 o-app 元素实例</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;当前页面:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>);
+};</code></pre>
+        <blockquote>
+          <p><strong>注意</strong>：<code>ready</code> 必须使用函数声明或函数表达式，不能使用箭头函数（因为需要正确的 <code>this</code> 绑定）。</p>
+        </blockquote>
+        <h3>访问应用实例</h3>
+        <p>在 <code>ready</code> 函数中，<code>this</code> 指向 <code>o-app</code> 元素实例，可以访问应用的所有方法和属性：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 获取当前页面</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;当前页面:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>);
+  
+  <span class="hljs-comment">// 获取路由历史</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;路由历史:&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>);
+  
+  <span class="hljs-comment">// 监听路由变化</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;路由变化:&quot;</span>, e.<span class="hljs-property">data</span>);
+  });
+};</code></pre>
+        <h3>初始化示例</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 初始化全局状态</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span> = {
+    <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span>,
+  };
+  
+  <span class="hljs-comment">// 从本地存储恢复用户信息</span>
+  <span class="hljs-keyword">const</span> savedUser = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;user&quot;</span>);
+  <span class="hljs-keyword">if</span> (savedUser) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span> = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(savedUser);
+  }
+  
+  <span class="hljs-comment">// 监听路由变化</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;router-change&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    <span class="hljs-comment">// 记录页面访问</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;访问页面:&quot;</span>, e.<span class="hljs-property">data</span>.<span class="hljs-property">src</span>);
+  });
+};</code></pre>
+        <h2>proto - 原型扩展</h2>
+        <p><code>proto</code> 用于向应用实例添加自定义方法和计算属性，这些方法可以在所有页面中通过 <code>this.app</code> 访问。</p>
+        <h3>添加自定义方法</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 自定义方法</span>
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./home.html&quot;</span>);
+  },
+  
+  <span class="hljs-title function_">navigateToProfile</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./profile.html&quot;</span>);
+  },
+  
+  <span class="hljs-comment">// 带参数的方法</span>
+  <span class="hljs-title function_">navigateToDetail</span>(<span class="hljs-params">id</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">`./detail.html?id=<span class="hljs-subst">${id}</span>`</span>);
+  },
+};</code></pre>
+        <h3>添加计算属性</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 计算属性</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">currentPath</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span> || <span class="hljs-string">&quot;&quot;</span>;
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">routerCount</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">routers</span>?.<span class="hljs-property">length</span> || <span class="hljs-number">0</span>;
+  },
+};</code></pre>
+        <h3>完整示例</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 导航方法</span>
+  <span class="hljs-title function_">navigateToHome</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./home.html&quot;</span>);
+  },
+  
+  <span class="hljs-title function_">navigateToProfile</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./profile.html&quot;</span>);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);
+    }
+  },
+  
+  <span class="hljs-comment">// 计算属性</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isAtHome</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">current</span>?.<span class="hljs-property">src</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;home.html&quot;</span>);
+  },
+  
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isLoggedIn</span>() {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>?.<span class="hljs-property">user</span>;
+  },
+  
+  <span class="hljs-comment">// 工具方法</span>
+  <span class="hljs-title function_">showMessage</span>(<span class="hljs-params">message</span>) {
+    <span class="hljs-title function_">alert</span>(message);
+  },
+};</code></pre>
+        <h2>在页面中使用</h2>
+        <p>在页面组件中，可以通过 <code>this.app</code> 访问应用实例的自定义方法和属性：</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">page</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+    <span class="hljs-selector-pseudo">:host</span> {
+      <span class="hljs-attribute">display</span>: block;
+      <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToHome()&quot;</span>&gt;</span>返回首页<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">on:click</span>=<span class="hljs-string">&quot;app.navigateToProfile()&quot;</span>&gt;</span>个人中心<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>是否在首页: {{app.isAtHome}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>是否已登录: {{app.isLoggedIn}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {},
+        <span class="hljs-attr">proto</span>: {
+          <span class="hljs-title function_">goToDetail</span>(<span class="hljs-params"></span>) {
+            <span class="hljs-comment">// 调用应用实例的方法</span>
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">app</span>.<span class="hljs-title function_">navigateToDetail</span>(<span class="hljs-number">123</span>);
+          },
+        },
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+        <h2>全局状态管理</h2>
+        <p>结合 <code>ready</code> 和 <code>proto</code>，可以实现简单的全局状态管理：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-comment">// 初始化全局状态</span>
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span> = {
+    <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">cart</span>: [],
+    <span class="hljs-attr">theme</span>: <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;theme&quot;</span>) || <span class="hljs-string">&quot;light&quot;</span>,
+  };
+  
+  <span class="hljs-comment">// 从本地存储恢复数据</span>
+  <span class="hljs-keyword">const</span> savedCart = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;cart&quot;</span>);
+  <span class="hljs-keyword">if</span> (savedCart) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span> = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(savedCart);
+  }
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-comment">// 用户相关</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">isLoggedIn</span>() {
+    <span class="hljs-keyword">return</span> !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span>;
+  },
+  
+  <span class="hljs-title function_">login</span>(<span class="hljs-params">userData</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span> = userData;
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(userData));
+  },
+  
+  <span class="hljs-title function_">logout</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">user</span> = <span class="hljs-literal">null</span>;
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">removeItem</span>(<span class="hljs-string">&quot;user&quot;</span>);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">goto</span>(<span class="hljs-string">&quot;./login.html&quot;</span>);
+  },
+  
+  <span class="hljs-comment">// 购物车相关</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">cartCount</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span>.<span class="hljs-property">length</span>;
+  },
+  
+  <span class="hljs-title function_">addToCart</span>(<span class="hljs-params">item</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span>.<span class="hljs-title function_">push</span>(item);
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;cart&quot;</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">cart</span>));
+  },
+  
+  <span class="hljs-comment">// 主题相关</span>
+  <span class="hljs-keyword">get</span> <span class="hljs-title function_">currentTheme</span>() {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span>;
+  },
+  
+  <span class="hljs-title function_">toggleTheme</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span> === <span class="hljs-string">&quot;light&quot;</span> ? <span class="hljs-string">&quot;dark&quot;</span> : <span class="hljs-string">&quot;light&quot;</span>;
+    <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;theme&quot;</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">globalData</span>.<span class="hljs-property">theme</span>);
+  },
+};</code></pre>
+        <h2>完整示例</h2>
+        <o-playground name="应用初始化示例" style="--editor-height: 500px">
+          <code path="demo.html" preview>
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 应用首页地址
+    export const home = "./home.html";
+    // 页面切换动画配置
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+    export const ready = function() {
+      console.log("应用已初始化");
+      this.visitCount = (this.visitCount || 0) + 1;
+      console.log("访问次数:", this.visitCount);
+    };
+    export const proto = {
+      navigateToHome() {
+        this.goto("./home.html");
+      },
+      get isAtHome() {
+        return this.current?.src.includes("home.html");
+      },
+    };
+  </code>
+          <code path="home.html" active>
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <p>是否在首页: {{app.isAtHome}}</p>
+      <a href="./about.html" olink>Go to About</a>
+      <br><br>
+      <button on:click="app.navigateToHome()">返回首页</button>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page>
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <p>是否在首页: {{app.isAtHome}}</p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>

@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>應用配置基礎</title>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/dist/ofa.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kirakiray/ofa.js@4.6.20/libs/scsr/dist/scsr.min.mjs" type="module"></script>
+  <link rel="icon" href="../../img/logo.svg" />
+  <link rel="stylesheet" href="../../css/palette.css" pui-colors />
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/github-markdown.css" />
+  <link rel="stylesheet" href="../../css/hljs.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        Segoe UI,
+        Microsoft Yahei,
+        Helvetica,
+        Arial,
+        sans-serif,
+        Apple Color Emoji,
+        Segoe UI Emoji;
+    }
+
+    o-app {
+      height: 100%;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    o-app {
+      animation: fadein 0.1s ease-in-out;
+    }
+  </style>
+  <script type="module" src="../../js/util.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L1TCCJZT6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-7L1TCCJZT6");
+  </script>
+</head>
+
+<body>
+  <o-app src="../../js/app-config.js">
+    <template page>
+      <link rel="stylesheet" href="../../css/github-markdown.css" />
+      <link rel="stylesheet" href="../../css/hljs.css" />
+      <l-m src="../../comps/center-block.html"></l-m>
+      <l-m src="../../comps/article-code.html"></l-m>
+      <l-m src="https://playground.ofajs.com/comps/o-playground/o-playground.html"></l-m>
+      <style>
+        :host {
+          display: block;
+          height: 100%;
+          box-sizing: border-box;
+          overflow: auto;
+        }
+      </style>
+      <link rel="stylesheet" href="../../css/page.css" />
+      <article class="markdown-body">
+        <h1>應用配置基礎</h1>
+        <p><code>app-config.js</code> 配置文件用於定義應用的各種行爲。本章介紹配置文件的基本結構和所有可用的配置項。</p>
+        <h2>配置文件結構</h2>
+        <p>創建 <code>app-config.js</code> 文件，使用 ES6 模塊語法導齣配置項：</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// app-config.js</span>
+
+<span class="hljs-comment">// 應用首頁地址（必需）</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">"./home.html"</span>;
+
+<span class="hljs-comment">// 頁面切換動畫配置（可選）</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(0, 0)"</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(30px, 0)"</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(-30px, 0)"</span>,
+  },
+};
+
+<span class="hljs-comment">// 加載狀態（可選）</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">loading</span> = (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">"&lt;div&gt;Loading...&lt;/div&gt;"</span>;
+};
+
+<span class="hljs-comment">// 錯誤處理（可選）</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">fail</span> = (<span class="hljs-params">{ src, error }</span>) =&gt; {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;Failed to load: <span class="hljs-subst">${src}</span>&lt;/div&gt;`</span>;
+};
+
+<span class="hljs-comment">// 應用初始化（可選）</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ready = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"App is ready"</span>);
+};
+
+<span class="hljs-comment">// 原型擴展（可選）</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> proto = {
+  <span class="hljs-title function_">customMethod</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Custom method"</span>);
+  },
+};
+
+<span class="hljs-comment">// 啓用前進功能（可選）</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> allowForward = <span class="hljs-literal">true</span>;</code></pre>
+        <h2>配置項總覽</h2>
+        <p><code>app-config.js</code> 支持以下配置項：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>配置項</th>
+              <th>是否必需</th>
+              <th>說明</th>
+              <th>詳細文檔</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>home</code></td>
+              <td>✅ 必需</td>
+              <td>應用首頁地址</td>
+              <td>本章</td>
+            </tr>
+            <tr>
+              <td><code>pageAnime</code></td>
+              <td>可選</td>
+              <td>頁面切換動畫配置</td>
+              <td><a href="./page-transition-animation.html" olink="">頁面切換動畫</a></td>
+            </tr>
+            <tr>
+              <td><code>loading</code></td>
+              <td>可選</td>
+              <td>頁面加載時顯示的內容</td>
+              <td><a href="./app-loading-error.html" olink="">加載與錯誤處理</a></td>
+            </tr>
+            <tr>
+              <td><code>fail</code></td>
+              <td>可選</td>
+              <td>頁面加載失敗時顯示的內容</td>
+              <td><a href="./app-loading-error.html" olink="">加載與錯誤處理</a></td>
+            </tr>
+            <tr>
+              <td><code>ready</code></td>
+              <td>可選</td>
+              <td>應用初始化完成後的迴調</td>
+              <td><a href="./app-initialization.html" olink="">應用初始化</a></td>
+            </tr>
+            <tr>
+              <td><code>proto</code></td>
+              <td>可選</td>
+              <td>添加到應用原型的方法和屬性</td>
+              <td><a href="./app-initialization.html" olink="">應用初始化</a></td>
+            </tr>
+            <tr>
+              <td><code>allowForward</code></td>
+              <td>可選</td>
+              <td>是否啓用瀏覽器前進功能</td>
+              <td><a href="./app-navigation.html" olink="">路由與導航</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>home - 首頁地址</h2>
+        <p><code>home</code> 是必需配置項，指定應用啓動時加載的首頁模塊路徑。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> home = <span class="hljs-string">"./pages/home.html"</span>;</code></pre>
+        <p><strong>路徑規則：</strong></p>
+        <ul>
+          <li>支持相對路徑（相對於 <code>app-config.js</code> 文件）</li>
+          <li>支持絕對路徑</li>
+          <li>路徑指向一個頁面模塊文件（<code>.html</code> 文件）</li>
+        </ul>
+        <h2>pageAnime - 頁面切換動畫</h2>
+        <p><code>pageAnime</code> 是可選配置項，用於控製頁面切換時的過渡動畫效菓。</p>
+        <h3>基本用法</h3>
+        <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pageAnime = {
+  <span class="hljs-attr">current</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(0, 0)"</span>,
+  },
+  <span class="hljs-attr">next</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(30px, 0)"</span>,
+  },
+  <span class="hljs-attr">previous</span>: {
+    <span class="hljs-attr">opacity</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">transform</span>: <span class="hljs-string">"translate(-30px, 0)"</span>,
+  },
+};</code></pre>
+        <h3>動畫狀態說明</h3>
+        <p>頁面切換動畫包含三個狀態：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>狀態</th>
+              <th>說明</th>
+              <th>觸發時機</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>current</code></td>
+              <td>當前頁面動畫結束後的樣式</td>
+              <td>頁面切換完成後</td>
+            </tr>
+            <tr>
+              <td><code>next</code></td>
+              <td>新頁面進入時的起始樣式</td>
+              <td>新頁面開始進入時</td>
+            </tr>
+            <tr>
+              <td><code>previous</code></td>
+              <td>舊頁面離開時的目標樣式</td>
+              <td>舊頁面開始離開時</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>更多動畫效菓</h3>
+        <p>頁面切換動畫支持多種效菓，包括：</p>
+        <ul>
+          <li>左右滑動（默認）</li>
+          <li>淡入淡齣</li>
+          <li>上下滑動</li>
+          <li>縮放效菓</li>
+          <li>翻轉效菓</li>
+          <li>自定義動畫</li>
+        </ul>
+        <p>詳細的動畫配置和效菓示例，請參考 <a href="./page-transition-animation.html" olink="">頁面切換動畫</a> 章節。</p>
+        <h2>在 HTML 中使用配置文件</h2>
+        <p>在 HTML 文件中，通過 <code>o-app</code> 標籤引入配置文件：</p>
+        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/gh/kirakiray/ofa.js/dist/ofa.min.mjs"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">o-app</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./app-config.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">o-app</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre><o-playground name="應用配置基礎示例" style="--editor-height: 500px">
+          <code path="demo.html" preview="">
+    <template>
+      <o-app src="./app-config.js"></o-app>
+    </template>
+  </code>
+          <code path="app-config.js">
+    // 應用首頁地址
+    export const home = "./home.html";
+    // 頁面切換動畫配置
+    export const pageAnime = {
+      current: {
+        opacity: 1,
+        transform: "translate(0, 0)",
+      },
+      next: {
+        opacity: 0,
+        transform: "translate(30px, 0)",
+      },
+      previous: {
+        opacity: 0,
+        transform: "translate(-30px, 0)",
+      },
+    };
+  </code>
+          <code path="home.html" active="">
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <p>{{val}}</p>
+      <a href="./about.html" olink="">Go to About</a>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+          <code path="about.html">
+    <template page="">
+      <style>
+        :host {
+          display: block;
+          padding: 10px;
+        }
+      </style>
+      <div style="padding: 8px;"> <button on:click="back()">Back</button> </div>
+      <p> About <a href="https://ofajs.com" target="_blank">ofa.js</a></p>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              val: "Hello ofa.js App Demo",
+            },
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+      </article>
+      <div class="footer"></div>
+      <script>
+        export const parent = "../../layout.html";
+        export default async ({
+          load,
+          query
+        }) => {
+          const {
+            init,
+            revoke
+          } = await load("../../js/init.js");
+          return {
+            data: {},
+            attached() {
+              init(this, query);
+              setTimeout(() => {
+                this.style.transform = "";
+              }, 300);
+            },
+            detached() {
+              revoke(this);
+            },
+          };
+        };
+      </script>
+    </template>
+  </o-app>
+  <o-root-provider name="pui" theme="dark"></o-root-provider>
+</body>
+
+</html>
