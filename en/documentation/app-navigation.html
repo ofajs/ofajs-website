@@ -93,6 +93,20 @@
         </ul>
         <h2>Programmatic Navigation</h2>
         <p>In addition to links that use the <code>olink</code> attribute, navigation methods can also be called in JavaScript.</p>
+        <blockquote>
+          <p><strong>Important Notes</strong>:</p>
+          <ul>
+            <li>The <code>goto</code>, <code>replace</code>, and <code>back</code> methods are available on both <strong>page instance</strong> and <strong>app instance</strong></li>
+            <li>The <code>forward</code> method is only available on the <strong>app instance</strong></li>
+            <li>In pages: use <code>this.goto()</code> or <code>this.app.goto()</code></li>
+            <li>In components: use <code>this.app.goto()</code> (must be called via the app instance)</li>
+          </ul>
+          <p><strong>Path Relativity Notes</strong>:</p>
+          <ul>
+            <li>When using <code>goto</code> or <code>replace</code> on a <strong>page module</strong>, the path is relative to the address of the <strong>current page module</strong></li>
+            <li>When using <code>goto</code> or <code>replace</code> on the <strong>app instance</strong>, the path is relative to the address of the <strong>current application navigation</strong></li>
+          </ul>
+        </blockquote>
         <h3>goto - Page Navigation</h3>
         <p>Navigate to specified page and add to history:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Navigate to specified page</span>

@@ -93,6 +93,20 @@
         </ul>
         <h2>Navegación programática</h2>
         <p>Además de usar enlaces con el atributo <code>olink</code>, también se pueden invocar métodos de navegación en JavaScript.</p>
+        <blockquote>
+          <p><strong>Nota importante</strong>:</p>
+          <ul>
+            <li>Los métodos <code>goto</code>, <code>replace</code>, <code>back</code> están disponibles tanto en la <strong>instancia de página (page)</strong> como en la <strong>instancia de aplicación (app)</strong></li>
+            <li>El método <code>forward</code> solo está disponible en la <strong>instancia de aplicación (app)</strong></li>
+            <li>En una página, use: <code>this.goto()</code> o <code>this.app.goto()</code></li>
+            <li>En un componente, use: <code>this.app.goto()</code> (es necesario llamarlo a través de la instancia app)</li>
+          </ul>
+          <p><strong>Nota sobre la relatividad de las rutas</strong>:</p>
+          <ul>
+            <li>Al usar <code>goto</code> o <code>replace</code> en un <strong>módulo de página</strong>, la ruta es relativa a la dirección del <strong>módulo de página actual</strong></li>
+            <li>Al usar <code>goto</code> o <code>replace</code> en la <strong>instancia de aplicación (app)</strong>, la ruta es relativa a la dirección de la <strong>navegación de la aplicación actual</strong></li>
+          </ul>
+        </blockquote>
         <h3>goto - Ir a página</h3>
         <p>Ir a la página especificada y añadir al historial:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Saltar a la página especificada</span>

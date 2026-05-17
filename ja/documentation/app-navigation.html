@@ -93,6 +93,20 @@
         </ul>
         <h2>プログラミングによるナビゲーション</h2>
         <p>JavaScript では、<code>olink</code> 属性を持つリンクを使用する以外に、ナビゲーションメソッドを呼び出すこともできます。</p>
+        <blockquote>
+          <p><strong>重要说明</strong>：</p>
+          <ul>
+            <li><code>goto</code>、<code>replace</code>、<code>back</code> メソッドは、<strong>ページインスタンス（page）</strong> と<strong>アプリケーションインスタンス（app）</strong> の両方で使用できます</li>
+            <li><code>forward</code> メソッドは<strong>アプリケーションインスタンス（app）</strong> でのみ使用できます</li>
+            <li>ページ内で使用する場合：<code>this.goto()</code> または <code>this.app.goto()</code></li>
+            <li>コンポーネント内で使用する場合：<code>this.app.goto()</code>（app インスタンスを通じて呼び出す必要があります）</li>
+          </ul>
+          <p><strong>パスの相対性に関する説明</strong>：</p>
+          <ul>
+            <li><strong>ページモジュール</strong>上で <code>goto</code> または <code>replace</code> を使用する場合、パスは<strong>現在のページモジュール</strong>のアドレスを基準とします</li>
+            <li><strong>アプリケーションインスタンス（app）</strong> 上で <code>goto</code> または <code>replace</code> を使用する場合、パスは<strong>現在のアプリケーションのナビゲーション</strong>を基準とします</li>
+          </ul>
+        </blockquote>
         <h3>goto - ページ遷移</h3>
         <p>指定されたページにジャンプし、履歴に追加します：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// 指定ページに移動する</span>

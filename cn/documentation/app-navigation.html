@@ -93,6 +93,20 @@
         </ul>
         <h2>编程式导航</h2>
         <p>除了使用 <code>olink</code> 属性的链接，还可以在 JavaScript 中调用导航方法。</p>
+        <blockquote>
+          <p><strong>重要说明</strong>：</p>
+          <ul>
+            <li><code>goto</code>、<code>replace</code>、<code>back</code> 方法在**页面实例（page）<strong>和</strong>应用实例（app）**上都可用</li>
+            <li><code>forward</code> 方法只在**应用实例（app）**上可用</li>
+            <li>在页面中使用：<code>this.goto()</code> 或 <code>this.app.goto()</code></li>
+            <li>在组件中使用：<code>this.app.goto()</code>（需要通过 app 实例调用）</li>
+          </ul>
+          <p><strong>路径相对性说明</strong>：</p>
+          <ul>
+            <li>在<strong>页面模块</strong>上使用 <code>goto</code> 或 <code>replace</code>，路径是相对于<strong>当前页面模块</strong>的地址</li>
+            <li>在<strong>应用实例（app）<strong>上使用 <code>goto</code> 或 <code>replace</code>，路径是相对于</strong>当前应用导航</strong>的地址</li>
+          </ul>
+        </blockquote>
         <h3>goto - 跳转页面</h3>
         <p>跳转到指定页面，并添加到历史记录：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// 跳转到指定页面</span>

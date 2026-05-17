@@ -93,6 +93,20 @@
         </ul>
         <h2>編程式導航</h2>
         <p>除瞭使用 <code>olink</code> 屬性的鏈接，還可以在 JavaScript 中調用導航方法。</p>
+        <blockquote>
+          <p><strong>重要說明</strong>：</p>
+          <ul>
+            <li><code>goto</code>、<code>replace</code>、<code>back</code> 方法在**頁面實例（page）<strong>和</strong>應用實例（app）**上都可用</li>
+            <li><code>forward</code> 方法隻在**應用實例（app）**上可用</li>
+            <li>在頁面中使用：<code>this.goto()</code> 或 <code>this.app.goto()</code></li>
+            <li>在組件中使用：<code>this.app.goto()</code>（需要通過 app 實例調用）</li>
+          </ul>
+          <p><strong>路徑相對性說明</strong>：</p>
+          <ul>
+            <li>在<strong>頁面模塊</strong>上使用 <code>goto</code> 或 <code>replace</code>，路徑是相對於<strong>當前頁面模塊</strong>的地址</li>
+            <li>在<strong>應用實例（app）<strong>上使用 <code>goto</code> 或 <code>replace</code>，路徑是相對於</strong>當前應用導航</strong>的地址</li>
+          </ul>
+        </blockquote>
         <h3>goto - 跳轉頁面</h3>
         <p>跳轉到指定頁面，並添加到歷史記錄：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// 跳轉到指定頁面</span>

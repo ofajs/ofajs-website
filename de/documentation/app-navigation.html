@@ -93,6 +93,20 @@
         </ul>
         <h2>Programmatische Navigation</h2>
         <p>Neben Links, die das <code>olink</code>-Attribut verwenden, können Navigationsmethoden auch in JavaScript aufgerufen werden.</p>
+        <blockquote>
+          <p><strong>Wichtiger Hinweis</strong>:</p>
+          <ul>
+            <li>Die Methoden <code>goto</code>, <code>replace</code> und <code>back</code> sind sowohl auf der <strong>Seiteninstanz (page)</strong> als auch auf der <strong>App-Instanz (app)</strong> verfügbar.</li>
+            <li>Die Methode <code>forward</code> ist nur auf der <strong>App-Instanz (app)</strong> verfügbar.</li>
+            <li>Verwendung in einer Seite: <code>this.goto()</code> oder <code>this.app.goto()</code></li>
+            <li>Verwendung in einer Komponente: <code>this.app.goto()</code> (Aufruf über die App-Instanz erforderlich)</li>
+          </ul>
+          <p><strong>Hinweise zur Pfadrelativität</strong>:</p>
+          <ul>
+            <li>Bei Verwendung von <code>goto</code> oder <code>replace</code> auf einem <strong>Seitenmodul</strong> ist der Pfad relativ zur Adresse des <strong>aktuellen Seitenmoduls</strong>.</li>
+            <li>Bei Verwendung von <code>goto</code> oder <code>replace</code> auf der <strong>App-Instanz (app)</strong> ist der Pfad relativ zur <strong>aktuellen App-Navigation</strong>.</li>
+          </ul>
+        </blockquote>
         <h3>goto - Seite wechseln</h3>
         <p>Zur angegebenen Seite navigieren und zum Verlauf hinzufügen:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Zur angegebenen Seite springen</span>

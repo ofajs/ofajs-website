@@ -93,6 +93,20 @@
         </ul>
         <h2>Navigation programmatique</h2>
         <p>En plus des liens utilisant l&#39;attribut <code>olink</code>, vous pouvez également appeler des méthodes de navigation en JavaScript.</p>
+        <blockquote>
+          <p><strong>Remarque importante</strong> :</p>
+          <ul>
+            <li>Les méthodes <code>goto</code>, <code>replace</code>, <code>back</code> sont disponibles sur <strong>l&#39;instance de page (page)</strong> et sur <strong>l&#39;instance d&#39;application (app)</strong></li>
+            <li>La méthode <code>forward</code> est disponible uniquement sur <strong>l&#39;instance d&#39;application (app)</strong></li>
+            <li>Dans une page, utilisez : <code>this.goto()</code> ou <code>this.app.goto()</code></li>
+            <li>Dans un composant, utilisez : <code>this.app.goto()</code> (doit être appelé via l&#39;instance app)</li>
+          </ul>
+          <p><strong>Remarque sur la relativité des chemins</strong> :</p>
+          <ul>
+            <li>Lorsque <code>goto</code> ou <code>replace</code> est utilisé sur un <strong>module de page</strong>, le chemin est relatif à l&#39;adresse du <strong>module de page actuel</strong></li>
+            <li>Lorsque <code>goto</code> ou <code>replace</code> est utilisé sur l&#39;<strong>instance d&#39;application (app)</strong>, le chemin est relatif à la <strong>navigation actuelle de l&#39;application</strong></li>
+          </ul>
+        </blockquote>
         <h3>goto - Aller à la page</h3>
         <p>Aller à la page spécifiée et l&#39;ajouter à l&#39;historique :</p>
         <pre><code class="hljs language-javascript"><span class="hljs-comment">// Aller à la page spécifiée</span>
