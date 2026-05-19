@@ -89,7 +89,7 @@
         </blockquote>
         <h2>Generieren des Statusobjekts</h2>
         <p>Erstellen Sie mit <code>$.stanz({})</code> ein reaktives Zustandsobjekt. Diese Methode nimmt ein einfaches Objekt als Ausgangsdaten entgegen und gibt einen reaktiven Zustandsproxy zurück.</p>
-        <h3>Grundlegende Verwendung</h3>
+        <h3>Grundlegende Verwendung (Globaler Status)</h3>
         <o-playground name="Zustandsverwaltungsbeispiel" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -241,35 +241,35 @@
 <span class="hljs-comment">// In der Komponente</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">store</span>: {}
+    <span class="hljs-attr">store</span>: {},
   },
-  <span class="hljs-attr">proto</span>:{
+  <span class="hljs-attr">proto</span>: {
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Alle Komponenten, die store.count referenzieren, werden automatisch aktualisiert</span>
-    }
+      store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Alle Komponenten, die auf store.count verweisen, werden automatisch aktualisiert</span>
+    },
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Direktes Referenzieren der Eigenschaften des Zustandsobjekts</span>
+    <span class="hljs-comment">// Direkt auf die Eigenschaft des Zustandsobjekts verweisen</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
-  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// Beim Zerstören der Komponente die gemounteten Zustandsdaten leeren</span>
-  }
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// Wenn die Komponente zerstört wird, die angehängten Zustandsdaten leeren</span>
+  },
 };</code></pre>
         <h3>2. Tiefe Responsivität</h3>
         <p>Zustandsobjekte unterstützen tiefe Reaktivität, Änderungen in verschachtelten Objekten und Arrays werden ebenfalls überwacht.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;ZhangSan&quot;</span>,
     <span class="hljs-attr">settings</span>: {
-      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
-    }
+      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>,
+    },
   },
-  <span class="hljs-attr">list</span>: []
+  <span class="hljs-attr">list</span>: [],
 });
 
-<span class="hljs-comment">// Das Ändern verschachtelter Eigenschaften löst ebenfalls Aktualisierungen aus</span>
-store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;Li Si&quot;</span>;
+<span class="hljs-comment">// Das Ändern verschachtelter Eigenschaften löst ebenfalls ein Update aus</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;LiSI&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
 store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Neue Aufgabe&quot;</span> });</code></pre>
         <h2>Beste Praktiken</h2>
@@ -277,27 +277,44 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <p>Es wird empfohlen, den gemeinsamen Zustand im <code>attached</code>-Lebenszyklus der Komponente zu mounten.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">list</span>: []
+    <span class="hljs-attr">list</span>: [],
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Den gemeinsamen Zustand in die data der Komponente einhängen</span>
+    <span class="hljs-comment">// Gemeinsamen Zustand an die data-Komponente anhängen</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Beim Zerstören der Komponente den eingehängten Zustand leeren, um Speicherlecks zu verhindern</span>
+    <span class="hljs-comment">// Beim Zerstören der Komponente die angehängten Zustandsdaten leeren, um Speicherverluste zu vermeiden</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
-  }
+  },
 };</code></pre>
         <h3>2. Sinnvolle Verwaltung des Zustandsbereichs</h3>
-        <ul>
-          <li><strong>Globaler Zustand</strong>: Geeignet für Daten, auf die die gesamte Anwendung zugreifen muss (z. B. Benutzerinformationen, globale Konfiguration)</li>
-          <li><strong>Modulzustand</strong>: Geeignet für Daten, die innerhalb eines bestimmten Funktionsmoduls gemeinsam genutzt werden</li>
-        </ul>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Globaler Aufrufzustand</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
+        <p>Der Gültigkeitsbereich des Zustands hängt von der <strong>Definitionsposition und der Exportmethode</strong> ab:</p>
+        <p><strong>In einer eigenständigen JS-Datei exportierter Zustand</strong>:Globaler Zustand, auf den die gesamte Anwendung zugreifen und ihn ändern kann, nach dem Import mit <code>import</code> oder <code>load</code>.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// user-store.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> userStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });</code></pre>
+        <p><strong>Zustand, der innerhalb von Seiten- oder Komponentenmodulen definiert ist</strong>: Modulzustand, der nur innerhalb dieses Moduls verwendet wird.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">const</span> localStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });
 
-<span class="hljs-comment">// Im Modul verwendeter Zustand</span>
-<span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">localStore</span>: {}
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = localStore;
+        },
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-comment">// Beim Zerstören der Komponente die eingehängten Zustandsdaten leeren</span>
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = {};
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Statusverwaltung innerhalb des Moduls</h2>
         <o-playground name="Beispiel für Zustandsverwaltung innerhalb eines Moduls" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
@@ -375,13 +392,13 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <h2>Hinweise</h2>
         <ol>
           <li>
-            <p><strong>Zustandsbereinigung</strong>: Entfernen Sie rechtzeitig Verweise auf Zustandsobjekte im <code>detached</code>-Lebenszyklus der Komponente, um Speicherlecks zu vermeiden.</p>
+            <p><strong>Zustandsbereinigung</strong>: Bereinigen Sie im Lebenszyklus &quot;detached&quot; der Komponente rechtzeitig die Verweise auf Zustandsdaten, um Speicherlecks zu vermeiden.</p>
           </li>
           <li>
-            <p><strong>Vermeidung zirkulärer Abhängigkeiten</strong>: Bilden Sie keine zirkulären Referenzen zwischen Zustandsobjekten, da dies zu Problemen im reaktiven System führen kann.</p>
+            <p><strong>Zirkuläre Abhängigkeiten vermeiden</strong>: Zwischen Zustandsobjekten sollten keine zirkulären Verweise entstehen, da dies zu Problemen im reaktiven System führen kann.</p>
           </li>
           <li>
-            <p><strong>Große Datenstrukturen</strong>: Verwenden Sie für große Datenstrukturen berechnete Eigenschaften oder verwalten Sie diese in Teilen, um unnötige Leistungseinbußen zu vermeiden.</p>
+            <p><strong>Große Datenstrukturen</strong>: Ziehen Sie bei großen Datenstrukturen die Verwendung von berechneten Eigenschaften oder fragmentiertes Management in Betracht, um unnötige Leistungseinbußen zu vermeiden.</p>
           </li>
           <li>
             <p><strong>Zustandskonsistenz</strong>: Achten Sie bei asynchronen Operationen auf die Konsistenz des Zustands und verwenden Sie Transaktionen oder Batch-Updates, um die Datenintegrität zu gewährleisten.</p>

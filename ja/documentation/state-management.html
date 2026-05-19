@@ -89,7 +89,7 @@
         </blockquote>
         <h2>生成状態オブジェクト</h2>
         <p>通过 <code>$.stanz({})</code> を使用して、リアクティブな状態オブジェクトを作成します。このメソッドは、初期データとして通常のオブジェクトを受け取り、リアクティブな状態プロキシを返します。</p>
-        <h3>基本的な使い方</h3>
+        <h3>基本的な使い方（グローバル状態）</h3>
         <o-playground name="状態管理サンプル" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -238,66 +238,83 @@
         <p><code>$.stanz()</code> で作成される状態オブジェクトはリアクティブです。状態データに変更が発生すると、そのデータを参照しているすべてのコンポーネントが自動的に更新されます。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
-<span class="hljs-comment">// コンポーネント内</span>
+<span class="hljs-comment">// コンポーネント内で</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">store</span>: {}
+    <span class="hljs-attr">store</span>: {},
   },
-  <span class="hljs-attr">proto</span>:{
+  <span class="hljs-attr">proto</span>: {
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// store.count を参照しているすべてのコンポーネントが自動的に更新される</span>
-    }
+      store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// store.countを参照しているすべてのコンポーネントが自動更新される</span>
+    },
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// 状態オブジェクトのプロパティを直接参照</span>
+    <span class="hljs-comment">// 状態オブジェクトのプロパティを直接参照する</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
-  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// コンポーネントが破棄される際、マウントされた状態データをクリア</span>
-  }
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// コンポーネントが破棄されたら、マウントされた状態データをクリアする</span>
+  },
 };</code></pre>
         <h3>2. ディープリアクティビティ</h3>
         <p>状態オブジェクトは深いリアクティビティをサポートしており、ネストされたオブジェクトや配列の変更も監視されます。</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;張三&quot;</span>,
     <span class="hljs-attr">settings</span>: {
-      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
-    }
+      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>,
+    },
   },
-  <span class="hljs-attr">list</span>: []
+  <span class="hljs-attr">list</span>: [],
 });
 
-<span class="hljs-comment">// 修改嵌套属性也会触发更新</span>
+<span class="hljs-comment">// ネストされたプロパティの変更も更新をトリガーします</span>
 store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;李四&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
-store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新任务&quot;</span> });</code></pre>
+store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;新しいタスク&quot;</span> });</code></pre>
         <h2>ベストプラクティス</h2>
         <h3>1. コンポーネントの attached フェーズでのマウント状態</h3>
         <p>コンポーネントの <code>attached</code> ライフサイクルで共有状態をマウントすることを推奨します：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">list</span>: []
+    <span class="hljs-attr">list</span>: [],
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// 共有ステータスをコンポーネントの data にマウントする</span>
+    <span class="hljs-comment">// 共有状態をコンポーネントの data にマウントする</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// コンポーネント破棄時に、マウントしたステータスデータをクリアしてメモリリークを防ぐ</span>
+    <span class="hljs-comment">// コンポーネント破棄時に、マウントした状態データをクリアし、メモリリークを防ぐ</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
-  }
+  },
 };</code></pre>
         <h3>2. 状態スコープの適切な管理</h3>
-        <ul>
-          <li><strong>グローバル状態</strong>：アプリケーション全体でアクセスが必要なデータ（ユーザー情報、グローバル設定など）に適しています</li>
-          <li><strong>モジュール状態</strong>：特定の機能モジュール内部で共有されるデータに適しています</li>
-        </ul>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// グローバル呼び出し状態</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
+        <p>ステートのスコープは<strong>定義場所とエクスポート方法</strong>によって決まります：</p>
+        <p><strong>独立した JS ファイル内で <code>export</code> によりエクスポートされた状態</strong>：グローバル状態で、アプリケーション全体からアクセス・変更でき、<code>import</code> または <code>load</code> でインポートして使用します。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// user-store.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> userStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });</code></pre>
+        <p><strong>ページまたはコンポーネントモジュール内部で定義された状態</strong>：モジュール状態。そのモジュール内部でのみ使用されます。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">const</span> localStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });
 
-<span class="hljs-comment">// モジュール内で使用する状態</span>
-<span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">localStore</span>: {}
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = localStore;
+        },
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-comment">// コンポーネント破棄時に、マウントされた状態データをクリアする</span>
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = {};
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>モジュール内の状態管理</h2>
         <o-playground name="モジュール内状態管理サンプル" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
@@ -375,16 +392,16 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <h2>注意事項</h2>
         <ol>
           <li>
-            <p><strong>状態のクリーンアップ</strong>：コンポーネントの <code>detached</code> ライフサイクルにおいて、状態データへの参照を速やかにクリーンアップし、メモリリークを回避する。</p>
+            <p><strong>状態のクリア</strong>：コンポーネントの <code>detached</code> ライフサイクルにおいて、状態データへの参照を適時にクリアし、メモリリークを防ぎます。</p>
           </li>
           <li>
-            <p><strong>循環依存を避ける</strong>：状態オブジェクト間で循環参照を形成しないようにし、これによりリアクティブシステムに問題が生じる可能性がある。</p>
+            <p><strong>循環依存の回避</strong>：状態オブジェクト間に循環参照を作らないようにしてください。これにより、リアクティブシステムに問題が生じる可能性があります。</p>
           </li>
           <li>
-            <p><strong>大規模データ構造</strong>：大規模データ構造については、計算プロパティや分割管理を検討し、不要なパフォーマンスオーバーヘッドを回避する。</p>
+            <p><strong>大規模なデータ構造</strong>：大規模なデータ構造に対しては、算出プロパティやシャーディング管理の使用を検討し、不要なパフォーマンスオーバーヘッドを回避します。</p>
           </li>
           <li>
-            <p><strong>状態の一貫性</strong>：非同期操作において状態の一貫性に注意し、トランザクションやバッチ更新を用いてデータの整合性を保証できる。</p>
+            <p><strong>状態の一貫性</strong>：非同期操作では状態の一貫性に注意し、トランザクションやバッチ更新を用いてデータの完全性を保証します。</p>
           </li>
         </ol>
       </article>

@@ -89,7 +89,7 @@
         </blockquote>
         <h2>Generar objeto de estado</h2>
         <p>Para crear un objeto de estado reactivo mediante <code>$.stanz({})</code>. Este método recibe un objeto normal como datos iniciales y devuelve un proxy de estado reactivo.</p>
-        <h3>Uso básico</h3>
+        <h3>Uso básico (estado global)</h3>
         <o-playground name="Ejemplo de gestión de estado" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -241,63 +241,80 @@
 <span class="hljs-comment">// En el componente</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">store</span>: {}
+    <span class="hljs-attr">store</span>: {},
   },
-  <span class="hljs-attr">proto</span>:{
+  <span class="hljs-attr">proto</span>: {
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Todos los componentes que hacen referencia a store.count se actualizarán automáticamente</span>
-    }
+      store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// Todos los componentes que hacen referencia a store.count se actualizarán automáticamente</span>
+    },
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Hacer referencia directa a la propiedad del objeto de estado</span>
+    <span class="hljs-comment">// Referencia directa a la propiedad del objeto de estado</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
-  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// Al destruir el componente, limpiar los datos de estado montados</span>
-  }
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// Cuando el componente se destruye, limpia los datos de estado montados</span>
+  },
 };</code></pre>
         <h3>2. Respuesta profunda</h3>
         <p>El objeto de estado admite reactividad profunda; los cambios en objetos y arrays anidados también serán detectados.</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> store = $.<span class="hljs-title function_">stanz</span>({
   <span class="hljs-attr">user</span>: {
-    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Zhang San&quot;</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;ZhangSan&quot;</span>,
     <span class="hljs-attr">settings</span>: {
-      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
-    }
+      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>,
+    },
   },
-  <span class="hljs-attr">list</span>: []
+  <span class="hljs-attr">list</span>: [],
 });
 
-<span class="hljs-comment">// Modificar propiedades anidadas también desencadena una actualización</span>
-store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;Li Si&quot;</span>;
+<span class="hljs-comment">// Modificar propiedades anidadas también desencadena actualizaciones</span>
+store.<span class="hljs-property">user</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;LiSi&quot;</span>;
 store.<span class="hljs-property">user</span>.<span class="hljs-property">settings</span>.<span class="hljs-property">theme</span> = <span class="hljs-string">&quot;light&quot;</span>;
-store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;nueva tarea&quot;</span> });</code></pre>
+store.<span class="hljs-property">list</span>.<span class="hljs-title function_">push</span>({ <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Nueva tarea&quot;</span> });</code></pre>
         <h2>Mejores prácticas</h2>
         <h3>1. Montar el estado durante la fase attached del componente</h3>
         <p>Se recomienda montar el estado compartido en el ciclo de vida <code>attached</code> del componente:</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">list</span>: []
+    <span class="hljs-attr">list</span>: [],
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Montar el estado compartido en los datos del componente</span>
+    <span class="hljs-comment">// Monta el estado compartido en los datos del componente</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = data.<span class="hljs-property">list</span>;
   },
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Al destruir el componente, limpiar los datos de estado montados para evitar fugas de memoria</span>
+    <span class="hljs-comment">// Al destruir el componente, limpia los datos de estado montados para evitar fugas de memoria</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
-  }
+  },
 };</code></pre>
         <h3>2. Gestión razonable del ámbito del estado</h3>
-        <ul>
-          <li><strong>Estado global</strong>: adecuado para datos que toda la aplicación necesita acceder (como información del usuario, configuración global)</li>
-          <li><strong>Estado del módulo</strong>: adecuado para datos compartidos dentro de un módulo de funcionalidad específica</li>
-        </ul>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// Estado de llamada global</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
+        <p>El alcance del estado depende de la <strong>ubicación de definición y el método de exportación</strong>:</p>
+        <p><strong>Estado exportado con <code>export</code> en archivos JS independientes</strong>: estado global, accesible y modificable desde toda la aplicación, se utiliza tras importarlo con <code>import</code> o <code>load</code>.</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// user-store.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> userStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });</code></pre>
+        <p><strong>Estado definido internamente en la página o módulo del componente</strong>: estado del módulo, utilizado únicamente dentro de ese módulo.</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">const</span> localStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });
 
-<span class="hljs-comment">// Estado utilizado dentro del módulo</span>
-<span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">localStore</span>: {}
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = localStore;
+        },
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-comment">// Cuando el componente se destruye, limpiar los datos de estado montados</span>
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = {};
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>Gestión de estado dentro del módulo</h2>
         <o-playground name="Ejemplo de gestión de estado dentro del módulo" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
@@ -375,16 +392,16 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <h2>Notas importantes</h2>
         <ol>
           <li>
-            <p><strong>Limpieza de estado</strong>: en el ciclo de vida <code>detached</code> del componente, limpia oportunamente las referencias a los datos de estado para evitar fugas de memoria.</p>
+            <p><strong>Limpieza de estado</strong>: En el ciclo de vida <code>detached</code> del componente, limpie oportunamente las referencias a los datos de estado para evitar fugas de memoria.</p>
           </li>
           <li>
-            <p><strong>Evita dependencias cíclicas</strong>: los objetos de estado no deben formar referencias cíclicas, ya que podrían causar problemas en el sistema reactivo.</p>
+            <p><strong>Evitar dependencias circulares</strong>: No forme referencias circulares entre objetos de estado, ya que esto puede causar problemas en el sistema reactivo.</p>
           </li>
           <li>
-            <p><strong>Estructuras de datos grandes</strong>: para estructuras de datos grandes, considera usar propiedades computadas o gestión por fragmentos para evitar sobrecargas de rendimiento innecesarias.</p>
+            <p><strong>Estructuras de datos grandes</strong>: Para estructuras de datos grandes, considere usar propiedades computadas o gestión por fragmentos para evitar costes de rendimiento innecesarios.</p>
           </li>
           <li>
-            <p><strong>Consistencia del estado</strong>: en operaciones asíncronas, presta atención a la consistencia del estado; puedes usar transacciones o actualizaciones por lotes para garantizar la integridad de los datos.</p>
+            <p><strong>Consistencia del estado</strong>: Preste atención a la consistencia del estado en operaciones asíncronas; puede usar transacciones o actualizaciones por lotes para garantizar la integridad de los datos.</p>
           </li>
         </ol>
       </article>

@@ -89,7 +89,7 @@
         </blockquote>
         <h2>生成狀態對象</h2>
         <p>通過 <code>$.stanz({})</code> 來創建一個響應式的狀態對象。這個方法接收一個普通對象作爲初始數據，返迴一個響應式的狀態代理。</p>
-        <h3>基本用法</h3>
+        <h3>基本用法（全侷狀態）</h3>
         <o-playground name="狀態管理示例" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
     <template>
@@ -241,20 +241,20 @@
 <span class="hljs-comment">// 在組件中</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">store</span>: {}
+    <span class="hljs-attr">store</span>: {},
   },
-  <span class="hljs-attr">proto</span>:{
+  <span class="hljs-attr">proto</span>: {
     <span class="hljs-title function_">increment</span>(<span class="hljs-params"></span>) {
-        store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// 所有引用瞭 store.count 的組件都會自動更新</span>
-    }
+      store.<span class="hljs-property">count</span>++; <span class="hljs-comment">// 所有引用瞭 store.count 的組件都會自動更新</span>
+    },
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
     <span class="hljs-comment">// 直接引用狀態對象的屬性</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = store;
   },
-  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>){
+  <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">store</span> = {}; <span class="hljs-comment">// 組件銷毀時，清空掛載的狀態數據</span>
-  }
+  },
 };</code></pre>
         <h3>2. 深度響應式</h3>
         <p>狀態對象支持深度響應式，嵌套對象和數組的變化也會被監聽。</p>
@@ -262,10 +262,10 @@
   <span class="hljs-attr">user</span>: {
     <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;張三&quot;</span>,
     <span class="hljs-attr">settings</span>: {
-      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>
-    }
+      <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;dark&quot;</span>,
+    },
   },
-  <span class="hljs-attr">list</span>: []
+  <span class="hljs-attr">list</span>: [],
 });
 
 <span class="hljs-comment">// 脩改嵌套屬性也會觸發更新</span>
@@ -277,7 +277,7 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
         <p>推薦在組件的 <code>attached</code> 生命周期中掛載共享狀態：</p>
         <pre><code class="hljs language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">data</span>: {
-    <span class="hljs-attr">list</span>: []
+    <span class="hljs-attr">list</span>: [],
   },
   <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
     <span class="hljs-comment">// 將共享狀態掛載到組件的 data 上</span>
@@ -286,18 +286,35 @@ store.<span class="hljs-property">list</span>.<span class="hljs-title function_"
   <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
     <span class="hljs-comment">// 組件銷毀時，清空掛載的狀態數據，防止內存洩漏</span>
     <span class="hljs-variable language_">this</span>.<span class="hljs-property">list</span> = [];
-  }
+  },
 };</code></pre>
         <h3>2. 閤理管理狀態作用域</h3>
-        <ul>
-          <li><strong>全侷狀態</strong>：適用於整個應用都需要訪問的數據（如用戶信息、全侷配置）</li>
-          <li><strong>模塊狀態</strong>：適用於特定功能模塊內部共享的數據</li>
-        </ul>
-        <pre><code class="hljs language-javascript"><span class="hljs-comment">// 全侷調用狀態</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> globalStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });
+        <p>狀態的作用域取決於<strong>定義位置和導齣方式</strong>：</p>
+        <p><strong>獨立 JS 文件中 <code>export</code> 導齣的狀態</strong>：全侷狀態，整個應用都可以訪問和脩改，通過 <code>import</code> 或 <code>load</code> 導入後使用。</p>
+        <pre><code class="hljs language-javascript"><span class="hljs-comment">// user-store.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> userStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">user</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">theme</span>: <span class="hljs-string">&quot;light&quot;</span> });</code></pre>
+        <p><strong>頁面或組件模塊內部定義的狀態</strong>：模塊狀態，僅在該模塊內部使用。</p>
+        <pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">component</span>&gt;</span>
+  ...
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">const</span> localStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });
 
-<span class="hljs-comment">// 模塊內使用的狀態</span>
-<span class="hljs-keyword">const</span> cartStore = $.<span class="hljs-title function_">stanz</span>({ <span class="hljs-attr">total</span>: <span class="hljs-number">0</span> });</code></pre>
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> () =&gt; {
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">data</span>: {
+          <span class="hljs-attr">localStore</span>: {}
+        },
+        <span class="hljs-title function_">attached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = localStore;
+        },
+        <span class="hljs-title function_">detached</span>(<span class="hljs-params"></span>) {
+          <span class="hljs-comment">// 組件銷毀時，清空掛載的狀態數據</span>
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">localStore</span> = {};
+        }
+      };
+    };
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
         <h2>模塊內狀態管理</h2>
         <o-playground name="模塊內狀態管理示例" style="--editor-height: 500px">
           <code path="demo.html" preview unimportant>
