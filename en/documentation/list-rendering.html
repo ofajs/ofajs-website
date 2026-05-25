@@ -86,11 +86,12 @@
         <p><code>o-fill</code> is a core component in ofa.js for list rendering, it accepts a <code>value</code> property of array type and generates corresponding DOM elements for each item in the array. During rendering, ofa.js automatically tracks changes to the array and efficiently updates the DOM.</p>
         <h3>Main Features:</h3>
         <ul>
-          <li><strong>Efficient Updates</strong>: Track array changes via key values, only update the parts that need to change</li>
+          <li><strong>Efficient Updates</strong>: Tracks array changes via keys, updating only the parts that need to change</li>
           <li><strong>Index Access</strong>: Access the index of the current item via <code>$index</code></li>
           <li><strong>Data Access</strong>: Access the data of the current item via <code>$data</code></li>
-          <li><strong>Host Access</strong>: Access the current component instance via <code>$host</code>, allowing calls to component methods or access to component data</li>
-          <li><strong>Template Reuse</strong>: Support complex list rendering using named templates</li>
+          <li><strong>Host Access</strong>: Access the current component instance via <code>$host</code>, allowing calls to component methods or data</li>
+          <li><strong>Parent Access</strong>: In nested <code>o-fill</code>, access the data of the parent item via <code>$parent</code></li>
+          <li><strong>Template Reuse</strong>: Supports using named templates for complex list rendering</li>
         </ul>
         <h2>Direct Rendering</h2>
         <p>Direct rendering is the simplest way to use it—write the template content directly inside the <code>o-fill</code> tag. When the array changes, <code>o-fill</code> automatically creates the corresponding element for each data item.</p>
@@ -304,6 +305,65 @@
     </template>
   </code>
         </o-playground>
+        <p>The above example demonstrates basic nested list rendering. If you need to access the data of the parent item within the nested <code>o-fill</code>, you can use <code>$parent</code>.</p>
+        <h3>Using $parent to Access Parent Data</h3>
+        <blockquote>
+          <p><strong>Version Requirement</strong>: The <code>$parent</code> feature requires ofa.js v4.7.0 or later.</p>
+        </blockquote>
+        <p>In nested <code>o-fill</code>, you can use <code>$parent</code> to access the data of the parent item. To enable <code>$parent</code>, you need to add the <code>:_$parent=&quot;$data&quot;</code> attribute on the nested <code>o-fill</code>.</p>
+        <p><strong>Important Rules:</strong>- The first layer <code>o-fill</code> does not need <code>_$parent</code>, use <code>$host</code> to access component data</p>
+        <ul>
+          <li>Nested <code>o-fill</code> (starting from the second layer) uses <code>:_$parent=&quot;$data&quot;</code> to pass parent data</li>
+          <li><code>_$parent</code> only accepts <code>$data</code>, ensuring clear data flow direction</li>
+        </ul>
+        <h3>$parent Usage Example</h3>
+        <p>The following example demonstrates how to use <code>$parent</code> in a nested <code>o-fill</code> to access the data of the parent item:</p>
+        <o-playground name="o-fill - $parent usage example" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 20px; }
+        .category { background: #e3f2fd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .item { background: #fff; padding: 8px; margin: 5px 0; border-radius: 4px; border-left: 3px solid #2196f3; }
+      </style>
+      <h3>Category List</h3>
+      <o-fill :value="categories">
+        <div class="category">
+          <h4>Category: {{$data.name}}</h4>
+          <o-fill :value="$data.items" :_$parent="$data">
+            <div class="item">
+              <div>Product: {{$data}}</div>
+              <div>Belongs to Category: {{$parent.name}}</div>
+            </div>
+          </o-fill>
+        </div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "Fruits",
+                  items: ["Apple", "Banana", "Orange"]
+                },
+                {
+                  name: "Vegetables",
+                  items: ["Tomato", "Cucumber", "Eggplant"]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>In this simple example:- <strong>First layer o-fill</strong>: Iterate through the category array, <code>$data.name</code> is the category name</p>
+        <ul>
+          <li><strong>Nested o-fill</strong>: Use <code>:_$parent=&quot;$data&quot;</code> to pass the parent category data</li>
+          <li><strong>$parent access</strong>: In the nested layer, access the parent category name via <code>$parent.name</code></li>
+        </ul>
         <h2>Performance Optimization and Key-Value Management</h2>
         <p>For lists that require frequent updates, you can specify a unique identifier through the <code>fill-key</code> attribute to improve rendering performance.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Use custom key to improve performance --&gt;</span>
@@ -311,14 +371,70 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
         <p>In the example above, <code>fill-key=&quot;id&quot;</code> tells ofa.js to use the <code>id</code> property of each data item as the unique identifier, so that even if the order of the array changes, the corresponding elements can still be correctly identified and updated.</p>
-        <h2>Best Practices for List Rendering</h2>
+        <h2>List Rendering Best Practices</h2>
         <ol>
-          <li><strong>Event Handling</strong>: When using events in list items, note that <code>$host</code> points to the current component instance and <code>$data</code> points to the current item data.</li>
-          <li><strong>Choose the Appropriate Rendering Method</strong>: Use direct rendering for simple lists and template rendering for complex structures.</li>
-          <li><strong>Performance Considerations</strong>: For large lists or lists that update frequently, use <code>fill-key</code> to specify a key value.</li>
-          <li><strong>Data Structure</strong>: Ensure that every item in the array is a valid data object.</li>
+          <li><strong>Event Handling</strong>: When using events in list items, note that <code>$host</code> refers to the current component instance, and <code>$data</code> refers to the current item data.</li>
+          <li><strong>Choose the Appropriate Rendering Method</strong>: Use direct rendering for simple lists, and template rendering for complex structures.</li>
+          <li><strong>Performance Considerations</strong>: For large or frequently updated lists, use <code>fill-key</code> to specify the key value.</li>
+          <li><strong>Data Structure</strong>: Ensure that each item in the array is a valid data object.</li>
           <li><strong>Avoid Deep Nesting</strong>: Although nesting is supported, excessively deep nesting levels should be avoided.</li>
+          <li><strong>Use <code>$parent</code> Correctly</strong>:<ul>
+              <li>Only use <code>$parent</code> in nested <code>o-fill</code> components.</li>
+              <li>You must use <code>:_$parent=&quot;$data&quot;</code> to enable <code>$parent</code>.</li>
+              <li>First-level <code>o-fill</code> uses <code>$host</code> to access component data; do not use <code>$parent</code>.</li>
+              <li><code>_$parent</code> only accepts <code>$data</code>; do not pass other values.</li>
+            </ul>
+          </li>
         </ol>
+        <h2>Summary of Variable Usage</h2>
+        <p>In <code>o-fill</code>, different variables have different purposes and use cases:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Purpose</th>
+              <th>Usage Scenario</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>$host</code></td>
+              <td>Access the data and methods of the component instance</td>
+              <td>First level <code>o-fill</code></td>
+              <td><code>{{$host.totalAmount}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$data</code></td>
+              <td>Data of the current iteration item</td>
+              <td>All levels of <code>o-fill</code></td>
+              <td><code>{{$data.name}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$index</code></td>
+              <td>Index of the current item</td>
+              <td>All levels of <code>o-fill</code></td>
+              <td><code>{{$index + 1}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$parent</code></td>
+              <td>Data of the parent item</td>
+              <td>Nested <code>o-fill</code> (starting from the second level)</td>
+              <td><code>{{$parent.orderName}}</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs"><span class="hljs-type">Component</span> <span class="hljs-class"><span class="hljs-keyword">data</span> (<span class="hljs-title">totalAmount</span>, <span class="hljs-title">orders</span>)</span>
+  │
+  └─ <span class="hljs-type">Layer</span> <span class="hljs-number">1</span> o-fill: :value=<span class="hljs-string">&quot;orders&quot;</span>
+      │  <span class="hljs-type">Access</span> component <span class="hljs-class"><span class="hljs-keyword">data</span> via $host: {{$<span class="hljs-title">host</span>.<span class="hljs-title">totalAmount</span>}}</span>
+      │  <span class="hljs-type">Access</span> current order via $<span class="hljs-class"><span class="hljs-keyword">data</span>: {{$<span class="hljs-title">data</span>.<span class="hljs-title">orderName</span>}}</span>
+      │
+      └─ <span class="hljs-type">Layer</span> <span class="hljs-number">2</span> o-fill: :value=<span class="hljs-string">&quot;$data.items&quot;</span> :_$parent=<span class="hljs-string">&quot;$data&quot;</span>
+          │  $parent points to the order <span class="hljs-class"><span class="hljs-keyword">data</span> from <span class="hljs-type">Layer</span> 1</span>
+          │  $<span class="hljs-class"><span class="hljs-keyword">data</span> is each item of items</span>
+          │  <span class="hljs-type">Accessible</span>: {{$parent.orderName}}, {{$<span class="hljs-class"><span class="hljs-keyword">data</span>.name}}</span></code></pre>
+        <p>By correctly using these variables, you can easily handle complex nested list rendering scenarios.</p>
       </article>
       <div class="footer"></div>
       <script>

@@ -90,6 +90,7 @@
           <li><strong>索引訪問</strong>：通過 <code>$index</code> 訪問當前項的索引</li>
           <li><strong>數據訪問</strong>：通過 <code>$data</code> 訪問當前項的數據</li>
           <li><strong>宿主訪問</strong>：通過 <code>$host</code> 訪問當前組件實例，可調用組件方法或訪問組件數據</li>
+          <li><strong>父級訪問</strong>：在嵌套的 <code>o-fill</code> 中，通過 <code>$parent</code> 訪問父級項的數據</li>
           <li><strong>模闆復用</strong>：支持使用命名模闆進行復雜列錶渲染</li>
         </ul>
         <h2>直接渲染</h2>
@@ -305,6 +306,67 @@
     </template>
   </code>
         </o-playground>
+        <p>上面的示例展示瞭基本的嵌套列錶渲染。如菓妳需要在嵌套的 <code>o-fill</code> 中訪問父級項的數據，可以使用 <code>$parent</code>。</p>
+        <h3>使用 $parent 訪問父級數據</h3>
+        <blockquote>
+          <p><strong>版本要求</strong>：<code>$parent</code> 特性需要 ofa.js v4.7.0 及以上版本支持。</p>
+        </blockquote>
+        <p>在嵌套的 <code>o-fill</code> 中，可以使用 <code>$parent</code> 來訪問父級項的數據。要啓用 <code>$parent</code>，需要在嵌套的 <code>o-fill</code> 上添加 <code>:_$parent=&quot;$data&quot;</code> 屬性。</p>
+        <p><strong>重要規則：</strong></p>
+        <ul>
+          <li>第一層 <code>o-fill</code> 不需要 <code>_$parent</code>，使用 <code>$host</code> 訪問組件數據</li>
+          <li>嵌套的 <code>o-fill</code>（第二層開始）使用 <code>:_$parent=&quot;$data&quot;</code> 傳遞父級數據</li>
+          <li><code>_$parent</code> 隻接受 <code>$data</code>，確保數據流向清晰</li>
+        </ul>
+        <h3>$parent 使用示例</h3>
+        <p>下面的示例展示瞭如何在嵌套的 <code>o-fill</code> 中使用 <code>$parent</code> 訪問父級項的數據：</p>
+        <o-playground name="o-fill - $parent 使用示例" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 20px; }
+        .category { background: #e3f2fd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .item { background: #fff; padding: 8px; margin: 5px 0; border-radius: 4px; border-left: 3px solid #2196f3; }
+      </style>
+      <h3>分類列錶</h3>
+      <o-fill :value="categories">
+        <div class="category">
+          <h4>分類: {{$data.name}}</h4>
+          <o-fill :value="$data.items" :_$parent="$data">
+            <div class="item">
+              <div>商品: {{$data}}</div>
+              <div>所屬分類: {{$parent.name}}</div>
+            </div>
+          </o-fill>
+        </div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "水菓",
+                  items: ["蘋菓", "香蕉", "橙子"]
+                },
+                {
+                  name: "蔬菜",
+                  items: ["西紅柿", "黃瓜", "茄子"]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>在這個簡單的示例中：</p>
+        <ul>
+          <li><strong>第一層 o-fill</strong>：遍歷分類數組，<code>$data.name</code> 是分類名稱</li>
+          <li><strong>嵌套 o-fill</strong>：使用 <code>:_$parent=&quot;$data&quot;</code> 傳遞父級分類數據</li>
+          <li><strong>$parent 訪問</strong>：在嵌套層中，通過 <code>$parent.name</code> 訪問父級分類的名稱</li>
+        </ul>
         <h2>性能優化和鍵值管理</h2>
         <p>對於需要頻繁更新的列錶，可以通過 <code>fill-key</code> 屬性指定唯一標識符，以提高渲染性能。</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- 使用自定義鍵值提升性能 --&gt;</span>
@@ -319,7 +381,64 @@
           <li><strong>性能考慮</strong>：對於大列錶或頻繁更新的列錶，使用 <code>fill-key</code> 指定鍵值</li>
           <li><strong>數據結構</strong>：確保數組中的每一項都是有效的數據對象</li>
           <li><strong>避免深層嵌套</strong>：雖然支持嵌套，但應避免過深的嵌套層級</li>
+          <li><strong>正確使用 $parent</strong>：<ul>
+              <li>隻在嵌套的 <code>o-fill</code> 中使用 <code>$parent</code></li>
+              <li>必須使用 <code>:_$parent=&quot;$data&quot;</code> 來啓用 <code>$parent</code></li>
+              <li>第一層 <code>o-fill</code> 使用 <code>$host</code> 訪問組件數據，不要使用 <code>$parent</code></li>
+              <li><code>_$parent</code> 隻接受 <code>$data</code>，不要傳遞其他值</li>
+            </ul>
+          </li>
         </ol>
+        <h2>變量使用總結</h2>
+        <p>在 <code>o-fill</code> 中，不衕的變量有不衕的用途和使用場景：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>變量</th>
+              <th>用途</th>
+              <th>使用場景</th>
+              <th>示例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>$host</code></td>
+              <td>訪問組件實例的數據和方法</td>
+              <td>第一層 <code>o-fill</code></td>
+              <td><code>{{$host.totalAmount}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$data</code></td>
+              <td>當前迭代項的數據</td>
+              <td>所有層級的 <code>o-fill</code></td>
+              <td><code>{{$data.name}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$index</code></td>
+              <td>當前項的索引</td>
+              <td>所有層級的 <code>o-fill</code></td>
+              <td><code>{{$index + 1}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$parent</code></td>
+              <td>父級項的數據</td>
+              <td>嵌套 <code>o-fill</code>（第二層開始）</td>
+              <td><code>{{$parent.orderName}}</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>數據訪問層級示例</h3>
+        <pre><code class="hljs">組件 data (totalAmount, orders)
+  │
+  └─ 第一層 o-fill: :<span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;orders&quot;</span>
+      │  使用 <span class="hljs-variable">$host</span> 訪問組件數據: {{<span class="hljs-variable">$host</span>.totalAmount}}
+      │  使用 <span class="hljs-variable">$data</span> 訪問當前訂單: {{<span class="hljs-variable">$data</span>.orderName}}
+      │
+      └─ 第二層 o-fill: :<span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>.items&quot;</span> :_<span class="hljs-variable">$parent</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>&quot;</span>
+          │  <span class="hljs-variable">$parent</span> 指向第一層的訂單數據
+          │  <span class="hljs-variable">$data</span> 是 items 的每一項
+          │  可以訪問: {{<span class="hljs-variable">$parent</span>.orderName}}, {{<span class="hljs-variable">$data</span>.name}}</code></pre>
+        <p>通過正確使用這些變量，可以輕鬆處理復雜的嵌套列錶渲染場景。</p>
       </article>
       <div class="footer"></div>
       <script>

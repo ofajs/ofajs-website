@@ -86,11 +86,12 @@
         <p><code>o-fill</code> est le composant central d&#39;ofa.js pour le rendu des listes ; il reçoit une propriété <code>value</code> de type tableau et génère, pour chaque élément de ce tableau, l’élément DOM correspondant. Lors du rendu, ofa.js suit automatiquement les modifications du tableau et met à jour le DOM de manière efficace.</p>
         <h3>Caractéristiques principales :</h3>
         <ul>
-          <li><strong>Mise à jour efficace</strong> : en suivant les changements du tableau par clé-valeur, seules les parties nécessaires sont mises à jour</li>
-          <li><strong>Accès par index</strong> : accéder à l’index de l’élément courant via <code>$index</code></li>
-          <li><strong>Accès aux données</strong> : accéder aux données de l’élément courant via <code>$data</code></li>
-          <li><strong>Accès à l’hôte</strong> : accéder à l’instance du composant courant via <code>$host</code>, permettant d’appeler des méthodes ou d’accéder aux données du composant</li>
-          <li><strong>Réutilisation de modèles</strong> : prend en charge l’utilisation de modèles nommés pour le rendu de listes complexes</li>
+          <li><strong>Mise à jour efficace</strong> : suit les modifications du tableau via une clé et ne met à jour que les parties modifiées</li>
+          <li><strong>Accès à l&#39;index</strong> : utilise <code>$index</code> pour accéder à l&#39;index de l&#39;élément courant</li>
+          <li><strong>Accès aux données</strong> : utilise <code>$data</code> pour accéder aux données de l&#39;élément courant</li>
+          <li><strong>Accès à l&#39;hôte</strong> : utilise <code>$host</code> pour accéder à l&#39;instance du composant courant, permettant d&#39;appeler des méthodes ou d&#39;accéder aux données du composant</li>
+          <li><strong>Accès au parent</strong> : dans un <code>o-fill</code> imbriqué, utilise <code>$parent</code> pour accéder aux données de l&#39;élément parent</li>
+          <li><strong>Réutilisation de template</strong> : prend en charge les templates nommés pour le rendu de listes complexes</li>
         </ul>
         <h2>Rendu direct</h2>
         <p>Le rendu direct est la méthode d&#39;utilisation la plus simple : le contenu du modèle est écrit directement à l&#39;intérieur de la balise <code>o-fill</code>. Lorsque le tableau change, <code>o-fill</code> crée automatiquement un élément correspondant pour chaque donnée.</p>
@@ -304,6 +305,65 @@
     </template>
   </code>
         </o-playground>
+        <p>L&#39;exemple ci-dessus montre le rendu de liste imbriquée de base. Si vous devez accéder aux données de l&#39;élément parent dans un <code>o-fill</code> imbriqué, vous pouvez utiliser <code>$parent</code>.</p>
+        <h3>Utiliser $parent pour accéder aux données du parent</h3>
+        <blockquote>
+          <p><strong>Version requise</strong> : La fonction <code>$parent</code> nécessite ofa.js v4.7.0 ou une version ultérieure.</p>
+        </blockquote>
+        <p>Dans un <code>o-fill</code> imbriqué, vous pouvez utiliser <code>$parent</code> pour accéder aux données de l&#39;élément parent. Pour activer <code>$parent</code>, ajoutez l&#39;attribut <code>:_$parent=&quot;$data&quot;</code> sur le <code>o-fill</code> imbriqué.</p>
+        <p><strong>Règles importantes :</strong>- La première couche <code>o-fill</code> n&#39;a pas besoin de <code>_$parent</code>, utilisez <code>$host</code> pour accéder aux données du composant</p>
+        <ul>
+          <li>Les <code>o-fill</code> imbriqués (à partir de la deuxième couche) utilisent <code>:_$parent=&quot;$data&quot;</code> pour transmettre les données parentes</li>
+          <li><code>_$parent</code> n&#39;accepte que <code>$data</code>, garantissant une clarté dans le flux des données</li>
+        </ul>
+        <h3>Exemple d’utilisation de $parent</h3>
+        <p>L&#39;exemple ci-dessous montre comment utiliser <code>$parent</code> dans un <code>o-fill</code> imbriqué pour accéder aux données de l&#39;élément parent :</p>
+        <o-playground name="o-fill - $parent utilisation exemple" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 20px; }
+        .category { background: #e3f2fd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .item { background: #fff; padding: 8px; margin: 5px 0; border-radius: 4px; border-left: 3px solid #2196f3; }
+      </style>
+      <h3>Liste des catégories</h3>
+      <o-fill :value="categories">
+        <div class="category">
+          <h4>Catégorie: {{$data.name}}</h4>
+          <o-fill :value="$data.items" :_$parent="$data">
+            <div class="item">
+              <div>Produit: {{$data}}</div>
+              <div>Catégorie associée: {{$parent.name}}</div>
+            </div>
+          </o-fill>
+        </div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "Fruits",
+                  items: ["Pomme", "Banane", "Orange"]
+                },
+                {
+                  name: "Légumes",
+                  items: ["Tomate", "Concombre", "Aubergine"]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>Dans cet exemple simple :- <strong>Premier niveau o-fill</strong> : parcourir le tableau de catégories, <code>$data.name</code> est le nom de la catégorie</p>
+        <ul>
+          <li><strong>o-fill imbriqué</strong> : utiliser <code>:_$parent=&quot;$data&quot;</code> pour transmettre les données de la catégorie parente</li>
+          <li><strong>Accès via $parent</strong> : dans le niveau imbriqué, accéder au nom de la catégorie parente via <code>$parent.name</code></li>
+        </ul>
         <h2>Optimisation des performances et gestion des clés-valeurs</h2>
         <p>Pour les listes nécessitant des mises à jour fréquentes, vous pouvez spécifier un identifiant unique via l&#39;attribut <code>fill-key</code> afin d&#39;améliorer les performances de rendu.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Utiliser une clé personnalisée pour améliorer les performances --&gt;</span>
@@ -311,14 +371,70 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
         <p>Dans l&#39;exemple ci-dessus, <code>fill-key=&quot;id&quot;</code> indique à ofa.js d&#39;utiliser la propriété <code>id</code> de chaque élément de données comme identifiant unique, de sorte que même si l&#39;ordre du tableau change, il peut correctement identifier et mettre à jour les éléments correspondants.</p>
-        <h2>Meilleures pratiques pour le rendu de liste</h2>
+        <h2>Meilleures pratiques de rendu de liste</h2>
         <ol>
-          <li><strong>Gestion des événements</strong> : lors de l&#39;utilisation d&#39;événements dans les éléments de liste, notez que <code>$host</code> fait référence à l&#39;instance du composant actuel, et <code>$data</code> fait référence aux données de l&#39;élément actuel.</li>
-          <li><strong>Choisir le mode de rendu approprié</strong> : pour les listes simples, utilisez le rendu direct ; pour les structures complexes, utilisez le rendu par modèle.</li>
+          <li><strong>Gestion des événements</strong> : lors de l&#39;utilisation d&#39;événements dans un élément de liste, notez que <code>$host</code> fait référence à l&#39;instance du composant actuel, et <code>$data</code> aux données de l&#39;élément actuel.</li>
+          <li><strong>Choisir la méthode de rendu appropriée</strong> : pour les listes simples, utilisez le rendu direct ; pour les structures complexes, utilisez le rendu par template.</li>
           <li><strong>Considérations de performance</strong> : pour les grandes listes ou les listes fréquemment mises à jour, utilisez <code>fill-key</code> pour spécifier la clé.</li>
           <li><strong>Structure des données</strong> : assurez-vous que chaque élément du tableau est un objet de données valide.</li>
-          <li><strong>Éviter les imbrications profondes</strong> : bien que l&#39;imbrication soit prise en charge, il faut éviter des niveaux d&#39;imbrication trop profonds.</li>
+          <li><strong>Éviter les imbrications profondes</strong> : bien que l&#39;imbrication soit prise en charge, évitez les niveaux d&#39;imbrication trop profonds.</li>
+          <li><strong>Utiliser correctement <code>$parent</code></strong> :<ul>
+              <li>N&#39;utilisez <code>$parent</code> que dans un <code>o-fill</code> imbriqué.</li>
+              <li>Vous devez utiliser <code>:_$parent=&quot;$data&quot;</code> pour activer <code>$parent</code>.</li>
+              <li>Dans le premier niveau de <code>o-fill</code>, utilisez <code>$host</code> pour accéder aux données du composant, n&#39;utilisez pas <code>$parent</code>.</li>
+              <li><code>_$parent</code> n&#39;accepte que <code>$data</code>, ne passez pas d&#39;autres valeurs.</li>
+            </ul>
+          </li>
         </ol>
+        <h2>Résumé de l&#39;utilisation des variables</h2>
+        <p>Dans <code>o-fill</code>, différentes variables ont des usages et des scénarios d&#39;utilisation distincts :</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Utilisation</th>
+              <th>Scénario d&#39;utilisation</th>
+              <th>Exemple</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>$host</code></td>
+              <td>Accéder aux données et méthodes de l&#39;instance du composant</td>
+              <td>Premier niveau <code>o-fill</code></td>
+              <td><code>{{$host.totalAmount}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$data</code></td>
+              <td>Données de l&#39;élément courant d&#39;itération</td>
+              <td>Tous les niveaux de <code>o-fill</code></td>
+              <td><code>{{$data.name}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$index</code></td>
+              <td>Index de l&#39;élément courant</td>
+              <td>Tous les niveaux de <code>o-fill</code></td>
+              <td><code>{{$index + 1}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$parent</code></td>
+              <td>Données de l&#39;élément parent</td>
+              <td><code>o-fill</code> imbriqué (à partir du deuxième niveau)</td>
+              <td><code>{{$parent.orderName}}</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs">Composant data (totalAmount, orders)
+  │
+  └─ Premier niveau o-fill: :value=<span class="hljs-string">&quot;orders&quot;</span>
+      │  Utiliser <span class="hljs-variable">$host</span> pour accéder aux données <span class="hljs-built_in">du</span> composant: {{<span class="hljs-variable">$host</span>.totalAmount}}
+      │  Utiliser <span class="hljs-variable">$data</span> pour accéder à la commande actuelle: {{<span class="hljs-variable">$data</span>.orderName}}
+      │
+      └─ Deuxième niveau o-fill: :value=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>.items&quot;</span> :_<span class="hljs-variable">$parent</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>&quot;</span>
+          │  <span class="hljs-variable">$parent</span> pointe vers les données de commande <span class="hljs-built_in">du</span> premier niveau
+          │  <span class="hljs-variable">$data</span> est chaque élément de items
+          │  Accessible: {{<span class="hljs-variable">$parent</span>.orderName}}, {{<span class="hljs-variable">$data</span>.name}}</code></pre>
+        <p>En utilisant correctement ces variables, vous pouvez facilement gérer des scénarios complexes de rendu de listes imbriquées.</p>
       </article>
       <div class="footer"></div>
       <script>

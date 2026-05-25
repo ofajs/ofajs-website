@@ -86,11 +86,12 @@
         <p><code>o-fill</code> es el componente principal de ofa.js utilizado para la representación de listas. Recibe un atributo <code>value</code> de tipo array y genera un elemento DOM correspondiente para cada elemento del array. Durante el proceso de representación, ofa.js rastrea automáticamente los cambios en el array y actualiza el DOM de manera eficiente.</p>
         <h3>Características principales:</h3>
         <ul>
-          <li><strong>Actualización eficiente</strong>: rastrea los cambios en la matriz mediante valores clave y actualiza solo las partes que necesitan cambios.</li>
-          <li><strong>Acceso por índice</strong>: accede al índice del elemento actual a través de <code>$index</code>.</li>
-          <li><strong>Acceso a datos</strong>: accede a los datos del elemento actual a través de <code>$data</code>.</li>
-          <li><strong>Acceso al anfitrión</strong>: accede a la instancia del componente actual a través de <code>$host</code>, puede llamar a métodos del componente o acceder a datos del componente.</li>
-          <li><strong>Reutilización de plantillas</strong>: admite el uso de plantillas con nombre para renderizado de listas complejas.</li>
+          <li><strong>Actualización eficiente</strong>: mediante el seguimiento de cambios en el array a través de claves, solo se actualizan las partes que han cambiado</li>
+          <li><strong>Acceso al índice</strong>: se accede al índice del elemento actual mediante <code>$index</code></li>
+          <li><strong>Acceso a datos</strong>: se accede a los datos del elemento actual mediante <code>$data</code></li>
+          <li><strong>Acceso al host</strong>: se accede a la instancia del componente actual mediante <code>$host</code>, pudiendo llamar a métodos del componente o acceder a sus datos</li>
+          <li><strong>Acceso al padre</strong>: en un <code>o-fill</code> anidado, se accede a los datos del elemento padre mediante <code>$parent</code></li>
+          <li><strong>Reutilización de plantillas</strong>: admite el uso de plantillas con nombre para renderizado complejo de listas</li>
         </ul>
         <h2>Renderizado directo</h2>
         <p>La renderización directa es la forma más simple de usar, escribiendo el contenido de la plantilla directamente dentro de la etiqueta <code>o-fill</code>. Cuando el array cambia, <code>o-fill</code> crea automáticamente los elementos correspondientes para cada elemento de datos.</p>
@@ -304,6 +305,65 @@
     </template>
   </code>
         </o-playground>
+        <p>El ejemplo anterior muestra el renderizado básico de lista anidada. Si necesitas acceder a los datos del elemento padre dentro un <code>o-fill</code> anidado, puedes usar <code>$parent</code>.</p>
+        <h3>Usar $parent para acceder a los datos del padre</h3>
+        <blockquote>
+          <p><strong>Requisito de versión</strong>: La funcionalidad <code>$parent</code> necesita ofa.js v4.7.0 o superior.</p>
+        </blockquote>
+        <p>En un <code>o-fill</code> anidado, se puede usar <code>$parent</code> para acceder a los datos del elemento padre. Para habilitar <code>$parent</code>, es necesario añadir el atributo <code>:_$parent=&quot;$data&quot;</code> en el <code>o-fill</code> anidado.</p>
+        <p><strong>Reglas importantes:</strong>- La primera capa <code>o-fill</code> no necesita <code>_$parent</code>, use <code>$host</code> para acceder a los datos del componente</p>
+        <ul>
+          <li>Los <code>o-fill</code> anidados (a partir de la segunda capa) usan <code>:_$parent=&quot;$data&quot;</code> para pasar los datos del padre</li>
+          <li><code>_$parent</code> solo acepta <code>$data</code>, garantizando un flujo de datos claro</li>
+        </ul>
+        <h3>$parent Ejemplo de uso</h3>
+        <p>El siguiente ejemplo muestra cómo usar <code>$parent</code> en un <code>o-fill</code> anidado para acceder a los datos del elemento principal:</p>
+        <o-playground name="o-fill - ejemplo de uso de $parent" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 20px; }
+        .category { background: #e3f2fd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .item { background: #fff; padding: 8px; margin: 5px 0; border-radius: 4px; border-left: 3px solid #2196f3; }
+      </style>
+      <h3>Lista de categorías</h3>
+      <o-fill :value="categories">
+        <div class="category">
+          <h4>Categoría: {{$data.name}}</h4>
+          <o-fill :value="$data.items" :_$parent="$data">
+            <div class="item">
+              <div>Producto: {{$data}}</div>
+              <div>Categoría padre: {{$parent.name}}</div>
+            </div>
+          </o-fill>
+        </div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "Frutas",
+                  items: ["manzana", "plátano", "naranja"]
+                },
+                {
+                  name: "Verduras",
+                  items: ["tomate", "pepino", "berenjena"]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>En este sencillo ejemplo:- <strong>Primera capa o-fill</strong>: recorre el array de categorías, <code>$data.name</code> es el nombre de la categoría</p>
+        <ul>
+          <li><strong>o-fill anidado</strong>: usa <code>:_$parent=&quot;$data&quot;</code> para pasar los datos de la categoría padre</li>
+          <li><strong>Acceso a $parent</strong>: en la capa anidada, accede al nombre de la categoría padre mediante <code>$parent.name</code></li>
+        </ul>
         <h2>Optimización del rendimiento y gestión de claves-valor</h2>
         <p>Para listas que requieren actualizaciones frecuentes, puedes especificar un identificador único mediante el atributo <code>fill-key</code> para mejorar el rendimiento de renderizado.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Usar claves personalizadas para mejorar el rendimiento --&gt;</span>
@@ -311,14 +371,70 @@
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{{$data.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">o-fill</span>&gt;</span></code></pre>
         <p>En el ejemplo anterior, <code>fill-key=&quot;id&quot;</code> le dice a ofa.js que use el atributo <code>id</code> de cada elemento de datos como identificador único, de modo que incluso si el orden de la matriz cambia, pueda identificar y actualizar correctamente los elementos correspondientes.</p>
-        <h2>Mejores prácticas de renderizado de listas</h2>
+        <h2>Mejores prácticas para el renderizado de listas</h2>
         <ol>
-          <li><strong>Manejo de eventos</strong>: Al utilizar eventos en elementos de lista, tenga en cuenta que <code>$host</code> apunta a la instancia del componente actual, y <code>$data</code> apunta a los datos del elemento actual.</li>
-          <li><strong>Seleccione el método de renderizado adecuado</strong>: Para listas simples, use renderizado directo; para estructuras complejas, use renderizado de plantillas.</li>
+          <li><strong>Manejo de eventos</strong>: Al usar eventos en elementos de lista, tenga en cuenta que <code>$host</code> apunta a la instancia del componente actual y <code>$data</code> apunta a los datos del elemento actual.</li>
+          <li><strong>Elija el método de renderizado adecuado</strong>: Para listas simples use renderizado directo, para estructuras complejas use renderizado con plantillas.</li>
           <li><strong>Consideraciones de rendimiento</strong>: Para listas grandes o que se actualizan con frecuencia, use <code>fill-key</code> para especificar el valor clave.</li>
-          <li><strong>Estructura de datos</strong>: Asegúrese de que cada elemento en la matriz sea un objeto de datos válido.</li>
-          <li><strong>Evite anidamientos profundos</strong>: Aunque se admiten anidamientos, evite niveles de anidamiento demasiado profundos.</li>
+          <li><strong>Estructura de datos</strong>: Asegúrese de que cada elemento del array sea un objeto de datos válido.</li>
+          <li><strong>Evite anidamientos profundos</strong>: Aunque se admite el anidamiento, debe evitarse una profundidad excesiva de anidamiento.</li>
+          <li><strong>Uso correcto de $parent</strong>:<ul>
+              <li>Use <code>$parent</code> solo dentro de un <code>o-fill</code> anidado.</li>
+              <li>Debe usar <code>:_$parent=&quot;$data&quot;</code> para habilitar <code>$parent</code>.</li>
+              <li>En el primer nivel de <code>o-fill</code>, use <code>$host</code> para acceder a los datos del componente, no use <code>$parent</code>.</li>
+              <li><code>_$parent</code> solo acepta <code>$data</code>, no pase otros valores.</li>
+            </ul>
+          </li>
         </ol>
+        <h2>Resumen sobre el uso de variables</h2>
+        <p>En <code>o-fill</code>, diferentes variables tienen diferentes usos y escenarios de uso:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Propósito</th>
+              <th>Escenario de uso</th>
+              <th>Ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>$host</code></td>
+              <td>Acceder a los datos y métodos de la instancia del componente</td>
+              <td>Primer nivel de <code>o-fill</code></td>
+              <td><code>{{$host.totalAmount}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$data</code></td>
+              <td>Datos del elemento actual de la iteración</td>
+              <td>Todos los niveles de <code>o-fill</code></td>
+              <td><code>{{$data.name}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$index</code></td>
+              <td>Índice del elemento actual</td>
+              <td>Todos los niveles de <code>o-fill</code></td>
+              <td><code>{{$index + 1}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$parent</code></td>
+              <td>Datos del elemento padre</td>
+              <td><code>o-fill</code> anidado (a partir del segundo nivel)</td>
+              <td><code>{{$parent.orderName}}</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs">componente <span class="hljs-keyword">data</span> (totalAmount, orders)
+  │
+  └─ primer nivel o<span class="hljs-literal">-fill</span>: :value=<span class="hljs-string">&quot;orders&quot;</span>
+      │  usando <span class="hljs-variable">$host</span> para acceder a los datos <span class="hljs-built_in">del</span> componente: {{<span class="hljs-variable">$host</span>.totalAmount}}
+      │  usando <span class="hljs-variable">$data</span> para acceder al pedido actual: {{<span class="hljs-variable">$data</span>.orderName}}
+      │
+      └─ segundo nivel o<span class="hljs-literal">-fill</span>: :value=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>.items&quot;</span> :_<span class="hljs-variable">$parent</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>&quot;</span>
+          │  <span class="hljs-variable">$parent</span> apunta a los datos <span class="hljs-built_in">del</span> pedido <span class="hljs-built_in">del</span> primer nivel
+          │  <span class="hljs-variable">$data</span> es cada elemento de items
+          │  puede acceder a: {{<span class="hljs-variable">$parent</span>.orderName}}, {{<span class="hljs-variable">$data</span>.name}}</code></pre>
+        <p>Al utilizar correctamente estas variables, se pueden manejar fácilmente escenarios complejos de renderizado de listas anidadas.</p>
       </article>
       <div class="footer"></div>
       <script>

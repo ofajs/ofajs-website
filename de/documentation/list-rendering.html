@@ -86,11 +86,12 @@
         <p><code>o-fill</code> ist eine Kernkomponente in ofa.js zur Listen-Rendering. Sie erhält ein Array-Attribut <code>value</code> und erzeugt für jeden Eintrag im Array ein entsprechendes DOM-Element. Während des Renderings verfolgt ofa.js automatisch Änderungen am Array und aktualisiert das DOM effizient.</p>
         <h3>Hauptmerkmale:</h3>
         <ul>
-          <li><strong>Effiziente Aktualisierung</strong>: Verfolgen Sie Array-Änderungen über Schlüssel-Werte-Paare und aktualisieren Sie nur die Teile, die geändert werden müssen.</li>
-          <li><strong>Indexzugriff</strong>: Greifen Sie über <code>$index</code> auf den Index des aktuellen Elements zu.</li>
-          <li><strong>Datenzugriff</strong>: Greifen Sie über <code>$data</code> auf die Daten des aktuellen Elements zu.</li>
-          <li><strong>Hostzugriff</strong>: Greifen Sie über <code>$host</code> auf die aktuelle Komponenteninstanz zu, um Komponentenmethoden aufzurufen oder auf Komponentendaten zuzugreifen.</li>
-          <li><strong>Wiederverwendung von Vorlagen</strong>: Unterstützt die Verwendung benannter Vorlagen für komplexe Listendarstellungen.</li>
+          <li><strong>Effiziente Aktualisierung</strong>: Über Schlüsselwerte werden Array-Änderungen verfolgt und nur die betroffenen Teile aktualisiert</li>
+          <li><strong>Indexzugriff</strong>: Mit <code>$index</code> kann auf den Index des aktuellen Elements zugegriffen werden</li>
+          <li><strong>Datenzugriff</strong>: Mit <code>$data</code> erfolgt der Zugriff auf die Daten des aktuellen Elements</li>
+          <li><strong>Host-Zugriff</strong>: Über <code>$host</code> wird auf die aktuelle Komponenteninstanz zugegriffen, um Komponentenmethoden aufzurufen oder Komponentendaten abzurufen</li>
+          <li><strong>Zugriff auf das übergeordnete Element</strong>: In verschachtelten <code>o-fill</code>-Blöcken kann mit <code>$parent</code> auf die Daten des übergeordneten Elements zugegriffen werden</li>
+          <li><strong>Vorlagenwiederverwendung</strong>: Unterstützt die Nutzung benannter Vorlagen für komplexe Listenwiedergabe</li>
         </ul>
         <h2>Direktes Rendern</h2>
         <p>Die direkte Renderung ist die einfachste Anwendung: Der Template-Inhalt wird direkt innerhalb des <code>o-fill</code>-Tags geschrieben. Wenn sich das Array ändert, erstellt <code>o-fill</code> automatisch für jeden Datensatz das entsprechende Element.</p>
@@ -305,6 +306,65 @@
     </template>
   </code>
         </o-playground>
+        <p>Das obige Beispiel zeigt das grundlegende Rendern von verschachtelten Listen. Wenn Sie in einem verschachtelten <code>o-fill</code> auf die Daten des übergeordneten Elements zugreifen müssen, können Sie <code>$parent</code> verwenden.</p>
+        <h3>Zugriff auf übergeordnete Daten mit $parent</h3>
+        <blockquote>
+          <p><strong>Versionsanforderung</strong>: Die Funktion <code>$parent</code> erfordert ofa.js Version 4.7.0 oder höher.</p>
+        </blockquote>
+        <p>In verschachtelten <code>o-fill</code> können Sie <code>$parent</code> verwenden, um auf die Daten des übergeordneten Elements zuzugreifen. Um <code>$parent</code> zu aktivieren, müssen Sie das Attribut <code>:_$parent=&quot;$data&quot;</code> zum verschachtelten <code>o-fill</code> hinzufügen.</p>
+        <p><strong>Wichtige Regeln:</strong>- Die erste Ebene <code>o-fill</code> benötigt kein <code>_$parent</code>, verwendet <code>$host</code> zum Zugriff auf Komponentendaten</p>
+        <ul>
+          <li>Verschachtelte <code>o-fill</code>（ab der zweiten Ebene）verwenden <code>:_$parent=&quot;$data&quot;</code>, um übergeordnete Daten zu übergeben</li>
+          <li><code>_$parent</code> akzeptiert nur <code>$data</code>, um einen klaren Datenfluss zu gewährleisten</li>
+        </ul>
+        <h3>$parent Anwendungsbeispiel</h3>
+        <p>Das folgende Beispiel zeigt, wie Sie in einem verschachtelten <code>o-fill</code> mit <code>$parent</code> auf die Daten des übergeordneten Elements zugreifen:</p>
+        <o-playground name="o-fill - $parent Verwendungsbeispiel" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 20px; }
+        .category { background: #e3f2fd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .item { background: #fff; padding: 8px; margin: 5px 0; border-radius: 4px; border-left: 3px solid #2196f3; }
+      </style>
+      <h3>Kategorieliste</h3>
+      <o-fill :value="categories">
+        <div class="category">
+          <h4>Kategorie: {{$data.name}}</h4>
+          <o-fill :value="$data.items" :_$parent="$data">
+            <div class="item">
+              <div>Produkt: {{$data}}</div>
+              <div>Zugehörige Kategorie: {{$parent.name}}</div>
+            </div>
+          </o-fill>
+        </div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "Obst",
+                  items: ["Apfel", "Banane", "Orange"]
+                },
+                {
+                  name: "Gemüse",
+                  items: ["Tomate", "Gurke", "Aubergine"]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>In diesem einfachen Beispiel:- <strong>Erste Ebene o-fill</strong>：Durchläuft das Kategorie-Array, <code>$data.name</code> ist der Kategoriename</p>
+        <ul>
+          <li><strong>Verschachtelter o-fill</strong>：Verwendet <code>:_$parent=&quot;$data&quot;</code>, um die übergeordneten Kategoriedaten zu übergeben</li>
+          <li><strong>$parent Zugriff</strong>：In der verschachtelten Ebene wird über <code>$parent.name</code> auf den Namen der übergeordneten Kategorie zugegriffen</li>
+        </ul>
         <h2>Leistungsoptimierung und Schlüssel-Wert-Verwaltung</h2>
         <p>Für Listen, die häufig aktualisiert werden müssen, kann das eindeutige Identifikationsmerkmal über das Attribut <code>fill-key</code> angegeben werden, um die Rendering-Leistung zu verbessern.</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- Verwendung eines benutzerdefinierten Schlüssels zur Leistungssteigerung --&gt;</span>
@@ -314,12 +374,68 @@
         <p>Im obigen Beispiel teilt <code>fill-key=&quot;id&quot;</code> ofa.js mit, die <code>id</code>-Eigenschaft jedes Datensatzes als eindeutigen Identifikator zu verwenden, sodass auch bei einer Änderung der Reihenfolge des Arrays die entsprechenden Elemente korrekt erkannt und aktualisiert werden können.</p>
         <h2>Best Practices für das Rendern von Listen</h2>
         <ol>
-          <li><strong>Ereignisbehandlung</strong>: Bei der Verwendung von Ereignissen in Listenelementen beachten Sie, dass <code>$host</code> auf die aktuelle Komponenteninstanz und <code>$data</code> auf die aktuellen Datenpunkte verweist.</li>
-          <li><strong>Auswahl der geeigneten Darstellungsmethode</strong>: Verwenden Sie für einfache Listen die direkte Darstellung, für komplexe Strukturen die Vorlagendarstellung.</li>
-          <li><strong>Leistungsaspekte</strong>: Verwenden Sie für große oder häufig aktualisierte Listen <code>fill-key</code>, um Schlüsselwerte anzugeben.</li>
-          <li><strong>Datenstruktur</strong>: Stellen Sie sicher, dass jedes Element im Array ein gültiges Datenobjekt ist.</li>
-          <li><strong>Vermeidung tiefer Verschachtelungen</strong>: Obwohl Verschachtelungen unterstützt werden, sollten zu tiefe Verschachtelungsebenen vermieden werden.</li>
+          <li><strong>Ereignisverarbeitung</strong>: Bei der Verwendung von Ereignissen in Listenelementen beachten Sie, dass <code>$host</code> auf die aktuelle Komponenteninstanz und <code>$data</code> auf die aktuellen Elementdaten verweist.</li>
+          <li><strong>Auswahl der geeigneten Rendermethode</strong>: Einfache Listen mit direktem Rendern, komplexe Strukturen mit Template-Rendering.</li>
+          <li><strong>Leistungsaspekte</strong>: Für große oder häufig aktualisierte Listen mit <code>fill-key</code> einen Schlüsselwert angeben.</li>
+          <li><strong>Datenstruktur</strong>: Sicherstellen, dass jedes Element im Array ein gültiges Datenobjekt ist.</li>
+          <li><strong>Übermäßige Verschachtelung vermeiden</strong>: Obwohl Verschachtelung unterstützt wird, sollte eine zu tiefe Verschachtelungsebene vermieden werden.</li>
+          <li><strong>Korrekte Verwendung von $parent</strong>:<ul>
+              <li><code>$parent</code> nur in verschachtelten <code>o-fill</code> verwenden.</li>
+              <li>Muss mit <code>:_$parent=&quot;$data&quot;</code> aktiviert werden, um <code>$parent</code> zu nutzen.</li>
+              <li>Die erste <code>o-fill</code>-Ebene verwendet <code>$host</code> für den Zugriff auf Komponentendaten, nicht <code>$parent</code>.</li>
+              <li><code>_$parent</code> akzeptiert nur <code>$data</code>, keine anderen Werte übergeben.</li>
+            </ul>
+          </li>
         </ol>
+        <h2>Zusammenfassung der Variablenverwendung</h2>
+        <p>In <code>o-fill</code> haben verschiedene Variablen unterschiedliche Verwendungszwecke und Einsatzszenarien:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Verwendung</th>
+              <th>Anwendungsszenario</th>
+              <th>Beispiel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>$host</code></td>
+              <td>Zugriff auf Daten und Methoden der Komponenteninstanz</td>
+              <td>erste Ebene von <code>o-fill</code></td>
+              <td><code>{{$host.totalAmount}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$data</code></td>
+              <td>Daten des aktuellen Iterationselements</td>
+              <td>alle Ebenen von <code>o-fill</code></td>
+              <td><code>{{$data.name}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$index</code></td>
+              <td>Index des aktuellen Elements</td>
+              <td>alle Ebenen von <code>o-fill</code></td>
+              <td><code>{{$index + 1}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$parent</code></td>
+              <td>Daten des übergeordneten Elements</td>
+              <td>verschachteltes <code>o-fill</code> (ab der zweiten Ebene)</td>
+              <td><code>{{$parent.orderName}}</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs">Komponentendaten (totalAmount, orders)
+  │
+  └─ Erste Ebene o-fill: :<span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;orders&quot;</span>
+      │  Zugriff auf Komponentendaten mit <span class="hljs-variable">$host</span>: {{<span class="hljs-variable">$host</span>.totalAmount}}
+      │  Zugriff auf aktuelle Bestellung mit <span class="hljs-variable">$data</span>: {{<span class="hljs-variable">$data</span>.orderName}}
+      │
+      └─ Zweite Ebene o-fill: :<span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>.items&quot;</span> :_<span class="hljs-variable">$parent</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>&quot;</span>
+          │  <span class="hljs-variable">$parent</span> verweist auf die Bestelldaten der ersten Ebene
+          │  <span class="hljs-variable">$data</span> ist jedes Element von items
+          │  Zugriff möglich auf: {{<span class="hljs-variable">$parent</span>.orderName}}, {{<span class="hljs-variable">$data</span>.name}}</code></pre>
+        <p>Durch die korrekte Verwendung dieser Variablen können komplexe Szenarien mit verschachtelten Listen-Renderings problemlos gehandhabt werden.</p>
       </article>
       <div class="footer"></div>
       <script>

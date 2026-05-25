@@ -86,11 +86,12 @@
         <p><code>o-fill</code> は ofa.js でリストレンダリングに使用されるコアコンポーネントであり、配列型の <code>value</code> プロパティを受け取り、配列の各要素に対応する DOM 要素を生成します。レンダリング中、ofa.js は自動的に配列の変更を追跡し、効率的に DOM を更新します。</p>
         <h3>主な特徴：</h3>
         <ul>
-          <li><strong>効率的な更新</strong>：キー値による配列の変更追跡で、変更が必要な部分のみを更新します</li>
-          <li><strong>インデックスアクセス</strong>：<code>$index</code> を介して現在のアイテムのインデックスにアクセスします</li>
-          <li><strong>データアクセス</strong>：<code>$data</code> を介して現在のアイテムのデータにアクセスします</li>
-          <li><strong>ホストアクセス</strong>：<code>$host</code> を介して現在のコンポーネントインスタンスにアクセスし、コンポーネントのメソッドを呼び出したりデータにアクセスしたりできます</li>
-          <li><strong>テンプレートの再利用</strong>：名前付きテンプレートを使用した複雑なリストレンダリングをサポートします</li>
+          <li><strong>効率的な更新</strong>：キーによる配列の変化を追跡し、変更が必要な部分のみを更新します</li>
+          <li><strong>インデックスアクセス</strong>：<code>$index</code> で現在のアイテムのインデックスにアクセスできます</li>
+          <li><strong>データアクセス</strong>：<code>$data</code> で現在のアイテムのデータにアクセスできます</li>
+          <li><strong>ホストアクセス</strong>：<code>$host</code> で現在のコンポーネントインスタンスにアクセスし、コンポーネントメソッドの呼び出しやデータへのアクセスが可能です</li>
+          <li><strong>親アクセス</strong>：ネストされた <code>o-fill</code> 内で、<code>$parent</code> を使って親アイテムのデータにアクセスできます</li>
+          <li><strong>テンプレートの再利用</strong>：名前付きテンプレートを使った複雑なリストレンダリングをサポートします</li>
         </ul>
         <h2>直接レンダリング</h2>
         <p>直接レンダリングは最も簡単な使用方法であり、テンプレートの内容を直接 <code>o-fill</code> タグの内部に記述します。配列が変化すると、<code>o-fill</code> は自動的に各データ項目に対応する要素を作成します。</p>
@@ -304,6 +305,65 @@
     </template>
   </code>
         </o-playground>
+        <p>上の例は、基本的な入れ子リストのレンダリングを示しています。入れ子になった <code>o-fill</code> で親アイテムのデータにアクセスする必要がある場合は、 <code>$parent</code> を使用できます。</p>
+        <h3>$parent を使用して親データにアクセス</h3>
+        <blockquote>
+          <p><strong>バージョン要件</strong>：<code>$parent</code> 機能は ofa.js v4.7.0 以上が必要です。</p>
+        </blockquote>
+        <p>入れ子になった <code>o-fill</code> では、<code>$parent</code> を使用して親アイテムのデータにアクセスできます。<code>$parent</code> を有効にするには、入れ子の <code>o-fill</code> に <code>:_$parent=&quot;$data&quot;</code> 属性を追加する必要があります。</p>
+        <p><strong>重要ルール：</strong>- 第1層の <code>o-fill</code> は <code>_$parent</code> を必要とせず、<code>$host</code> を使用してコンポーネントデータにアクセスします</p>
+        <ul>
+          <li>ネストされた <code>o-fill</code>（第2層以降）は <code>:_$parent=&quot;$data&quot;</code> を使用して親データを渡します</li>
+          <li><code>_$parent</code> は <code>$data</code> のみを受け取り、データフローの明確さを確保します</li>
+        </ul>
+        <h3>$parent の使用例</h3>
+        <p>以下の例では、ネストされた<code>o-fill</code>内で<code>$parent</code>を使用して親項目のデータにアクセスする方法を示します。</p>
+        <o-playground name="o-fill - $parent 使用示例" style="--editor-height: 600px">
+          <code>
+    <template page>
+      <style>
+        :host { display: block; padding: 20px; }
+        .category { background: #e3f2fd; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .item { background: #fff; padding: 8px; margin: 5px 0; border-radius: 4px; border-left: 3px solid #2196f3; }
+      </style>
+      <h3>分類リスト</h3>
+      <o-fill :value="categories">
+        <div class="category">
+          <h4>分類: {{$data.name}}</h4>
+          <o-fill :value="$data.items" :_$parent="$data">
+            <div class="item">
+              <div>商品: {{$data}}</div>
+              <div>所属分類: {{$parent.name}}</div>
+            </div>
+          </o-fill>
+        </div>
+      </o-fill>
+      <script>
+        export default async () => {
+          return {
+            data: {
+              categories: [
+                {
+                  name: "果物",
+                  items: ["リンゴ", "バナナ", "オレンジ"]
+                },
+                {
+                  name: "野菜",
+                  items: ["トマト", "キュウリ", "ナス"]
+                }
+              ]
+            }
+          };
+        };
+      </script>
+    </template>
+  </code>
+        </o-playground>
+        <p>この簡単な例では：- <strong>第一層 o-fill</strong>：分類配列を走査し、<code>$data.name</code> は分類名です</p>
+        <ul>
+          <li><strong>ネストされた o-fill</strong>：<code>:_$parent=&quot;$data&quot;</code> を使って親分類データを渡します</li>
+          <li><strong>$parent アクセス</strong>：ネスト層内で、<code>$parent.name</code> で親分類の名前にアクセスします</li>
+        </ul>
         <h2>性能最適化とキー値管理</h2>
         <p>頻繁に更新が必要なリストに対しては、<code>fill-key</code> 属性で一意の識別子を指定することで、レンダリングパフォーマンスを向上させることができます。</p>
         <pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- カスタムキーを使用してパフォーマンスを向上 --&gt;</span>
@@ -313,12 +373,68 @@
         <p>在上記の例では、<code>fill-key=&quot;id&quot;</code> は ofa.js に対し、各データの <code>id</code> 属性を一意の識別子として使用するように指示します。これにより、配列の順序が変わっても、対応する要素を正しく識別して更新できます。</p>
         <h2>リストレンダリングのベストプラクティス</h2>
         <ol>
-          <li><strong>イベント処理</strong>: リスト項目でイベントを使用する場合、<code>$host</code>は現在のコンポーネントインスタンスを指し、<code>$data</code>は現在の項目のデータを指すことに注意してください。</li>
-          <li><strong>適切なレンダリング方法の選択</strong>: 簡単なリストは直接レンダリング、複雑な構造はテンプレートレンダリングを使用します。</li>
-          <li><strong>パフォーマンスの考慮</strong>: 大きなリストや頻繁に更新されるリストには、<code>fill-key</code>を使用してキー値を指定します。</li>
-          <li><strong>データ構造</strong>: 配列内の各項目が有効なデータオブジェクトであることを確認してください。</li>
-          <li><strong>深いネストの回避</strong>: ネストはサポートされていますが、過度に深いネストレベルは避けるべきです。</li>
+          <li><strong>イベント処理</strong>：リストアイテムでイベントを使用する場合、<code>$host</code> は現在のコンポーネントインスタンスを指し、<code>$data</code> は現在のアイテムデータを指すことに注意してください</li>
+          <li><strong>適切なレンダリング方法の選択</strong>：単純なリストには直接レンダリングを、複雑な構造にはテンプレートレンダリングを使用します</li>
+          <li><strong>パフォーマンスへの配慮</strong>：大規模なリストや頻繁に更新されるリストには、<code>fill-key</code> を使用してキーを指定します</li>
+          <li><strong>データ構造</strong>：配列の各項目が有効なデータオブジェクトであることを確認します</li>
+          <li><strong>深すぎるネストの回避</strong>：ネストはサポートされていますが、深くなりすぎないようにします</li>
+          <li><strong>$parent の正しい使用</strong>：<ul>
+              <li>ネストされた <code>o-fill</code> 内でのみ <code>$parent</code> を使用します</li>
+              <li><code>:_$parent=&quot;$data&quot;</code> を使用して <code>$parent</code> を有効にする必要があります</li>
+              <li>最初の層の <code>o-fill</code> ではコンポーネントデータにアクセスするために <code>$host</code> を使用し、<code>$parent</code> は使用しないでください</li>
+              <li><code>_$parent</code> は <code>$data</code> のみを受け入れ、他の値を渡さないでください</li>
+            </ul>
+          </li>
         </ol>
+        <h2>変数の使用まとめ</h2>
+        <p><code>o-fill</code> では、異なる変数にそれぞれ異なる用途と使用シーンがあります：</p>
+        <table>
+          <thead>
+            <tr>
+              <th>変数</th>
+              <th>用途</th>
+              <th>使用シーン</th>
+              <th>例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>$host</code></td>
+              <td>コンポーネントインスタンスのデータとメソッドにアクセス</td>
+              <td>第一階層の <code>o-fill</code></td>
+              <td><code>{{$host.totalAmount}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$data</code></td>
+              <td>現在の反復項目のデータ</td>
+              <td>すべての階層の <code>o-fill</code></td>
+              <td><code>{{$data.name}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$index</code></td>
+              <td>現在の項目のインデックス</td>
+              <td>すべての階層の <code>o-fill</code></td>
+              <td><code>{{$index + 1}}</code></td>
+            </tr>
+            <tr>
+              <td><code>$parent</code></td>
+              <td>親項目のデータ</td>
+              <td>ネストされた <code>o-fill</code>（第二階層から）</td>
+              <td><code>{{$parent.orderName}}</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code class="hljs">コンポーネント data (totalAmount, orders)
+  │
+  └─ 第一層 o-fill: :<span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;orders&quot;</span>
+      │  <span class="hljs-variable">$host</span> でコンポーネントデータにアクセス: {{<span class="hljs-variable">$host</span>.totalAmount}}
+      │  <span class="hljs-variable">$data</span> で現在の注文にアクセス: {{<span class="hljs-variable">$data</span>.orderName}}
+      │
+      └─ 第二層 o-fill: :<span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>.items&quot;</span> :_<span class="hljs-variable">$parent</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$data</span>&quot;</span>
+          │  <span class="hljs-variable">$parent</span> は第一層の注文データを指す
+          │  <span class="hljs-variable">$data</span> は items の各項目
+          │  アクセス可能: {{<span class="hljs-variable">$parent</span>.orderName}}, {{<span class="hljs-variable">$data</span>.name}}</code></pre>
+        <p>これらの変数を正しく使用することで、複雑なネストされたリストのレンダリングシナリオを簡単に処理できます。</p>
       </article>
       <div class="footer"></div>
       <script>
